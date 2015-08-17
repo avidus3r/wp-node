@@ -1,6 +1,9 @@
 'use strict';
 
-var FeedCategoryController = function($scope, FeedService, $routeParams) {
+var FeedCategoryController = function($scope, FeedService, $route, $routeParams, $location) {
+
+    this.name = 'category';
+    this.params = $routeParams;
 
     $scope.feedItems = [];
     $scope.feedItemElements = [];
@@ -13,46 +16,20 @@ var FeedCategoryController = function($scope, FeedService, $routeParams) {
 
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
-    var isSingle = $routeParams.hasOwnProperty('slug');
-    var postParams = !isSingle ? '&category_name=' + $routeParams.category : '&name=' + $routeParams.slug;
+    //var isSingle = $routeParams.hasOwnProperty('slug');
+    //var postParams = !isSingle ? '&category_name=' + $routeParams.category : '&name=' + $routeParams.slug;
+    var postParams = '&category_name=' + $routeParams.category;
     var posts = null;
 
-    if(!isSingle){
-        posts = FeedService.getPosts(postPath, postParams + pagingParams);
+    console.log('catController');
 
-        posts.then(function(data){
-            angular.forEach(data, function (item, index) {
-                $scope.createFeedItem(item, $scope.feedItems.length);
-            });
+    posts = FeedService.getPosts(postPath, postParams + pagingParams);
+
+    posts.then(function(data){
+        angular.forEach(data, function (item, index) {
+            $scope.createFeedItem(item, $scope.feedItems.length);
         });
-    }else{
-        posts = FeedService.getPosts(postPath, postParams);
-
-        posts.then(function(data){
-            angular.forEach(data, function (item, index) {
-                item.postView = 'single';
-                $scope.createFeedItem(item, $scope.feedItems.length);
-            });
-            $scope.getPosts(postPath, pagingParams);
-        });
-    }
-
-    $scope.getViewClass = function(){
-        var viewClass = isSingle ? 'single' : 'category';
-        return viewClass;
-    };
-
-    $scope.getPosts = function(path, params){
-
-        var posts = FeedService.getPosts(path, params);
-        posts.then(function(data){
-            angular.forEach(data, function (item, index) {
-                item.postView = 'category';
-                $scope.createFeedItem(item, $scope.feedItems.length);
-            });
-            $scope.$emit('list:next');
-        });
-    };
+    });
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);

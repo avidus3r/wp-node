@@ -19,9 +19,9 @@ googletag.cmd = [];*/
 
 angular.module('NewsFeed', ['ngRoute', 'ngSanitize', 'ngResource', 'infinite-scroll']);
 
-angular.module('NewsFeed').controller('FeedSingleController', ['$scope', 'FeedService', '$routeParams', FeedSingleController]);
-angular.module('NewsFeed').controller('FeedCategoryController', ['$scope', 'FeedService', '$routeParams', FeedCategoryController]);
-angular.module('NewsFeed').controller('FeedListController', ['$scope', 'FeedService', FeedListController]);
+angular.module('NewsFeed').controller('FeedSingleController', ['$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', FeedSingleController]);
+angular.module('NewsFeed').controller('FeedCategoryController', ['$scope', 'FeedService', '$route', '$routeParams', '$location', FeedCategoryController]);
+angular.module('NewsFeed').controller('FeedListController', ['$scope', 'FeedService', '$route', '$routeParams', '$location', FeedListController]);
 angular.module('NewsFeed').factory('FeedService', ['$http', '$q', FeedService]);
 
 angular.module('NewsFeed').config(['$routeProvider', '$locationProvider', Router]);

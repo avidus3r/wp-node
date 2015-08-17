@@ -12,10 +12,11 @@ var EXPRESS_PORT = 3000,
 
 app.use(express.static(EXPRESS_ROOT));
 
+
 app.get('*', function(req,res){
-    //res.sendfile(EXPRESS_ROOT+'/index.html');
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
+
 
 var server = app.listen(EXPRESS_PORT, EXPRESS_HOST, 511, function(){
     var host = server.address().address;

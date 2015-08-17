@@ -1,4 +1,4 @@
-<div class="wrapper single" ng-controller="FeedSingleController">
+<div class="wrapper single" ng-controller="FeedSingleController as single">
     <div data-url="{{ item.link }}" class="feed-item">
 
         <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
@@ -8,7 +8,7 @@
             <span class="clearfix"></span>
         </div>
 
-        <div ng-bind-html="renderContent(item.content, 0, false)" class="post-content"></div>
+        <div ng-bind-html="item.content" class="post-content"></div>
 
     </div>
 </div>

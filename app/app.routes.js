@@ -4,15 +4,17 @@ var Router = function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
             controller: 'FeedListController',
-            templateUrl: '/views/feedlist.html'
+            templateUrl: '/views/feedlist.html',
+            controllerAs: 'list'
         })
         .when('/:category', {
             controller: 'FeedCategoryController',
-            templateUrl: '/views/category.html'
+            templateUrl: '/views/category.html',
+            controllerAs: 'category'
         })
         .when('/:category/:slug', {
-            controller: 'FeedCategoryController',
-            templateUrl: '/views/category.html'
+            controller: 'FeedSingleController',
+            templateUrl: '/views/single.html'
         });
     $locationProvider.html5Mode({
         enabled: true,

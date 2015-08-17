@@ -1,35 +1,21 @@
-<div class="wrapper" ng-controller="FeedCategoryController">
-    <div infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next">
+<div class="wrapper" ng-controller="FeedCategoryController as category">
+    <div infinite-scroll="getNext()" infinite-scroll-immediate-check="false">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
+            <div class="post-view-type category">
+                <div ng-switch="item.featured_image_src.medium">
+                    <div ng-switch-when="false" class="post-content no-featured-img" ng-bind-html="renderContent(item.content,$index, false)"></div>
 
-            <div ng-switch="item.postView">
-                <div ng-switch-when="single" class="post-view-type single">
-                    <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
-                    <div class="author-meta">
-                        <p class="left"><span class="light-grey">By</span> {{ item.author.name }}</p>
-                        <p class="right" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
-                        <span class="clearfix"></span>
-                    </div>
-
-                    <div ng-bind-html="renderContent(item.content, $index, false)" class="post-content"></div>
-                </div>
-                <div ng-switch-when="category" class="post-view-type category">
-                    <div ng-switch="item.featured_image_src.medium">
-                        <div ng-switch-when="false" class="post-content no-featured-img" ng-bind-html="renderContent(item.content,$index, false)"></div>
-
-                        <div ng-switch-default class="post-content">
-                            <p><img class="featured-image" ng-click="renderContent(item.content, $index, true)" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></p>
-                            <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
-                            <div class="author-meta">
-                                <p class="left"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-                                <p class="right" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
-                                <span class="clearfix"></span>
-                            </div>
-
+                    <div ng-switch-default class="post-content">
+                        <p><img class="featured-image" ng-click="renderContent(item, $index, true)" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></p>
+                        <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
+                        <div class="author-meta">
+                            <p class="left"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                            <p class="right" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
+                            <span class="clearfix"></span>
                         </div>
+
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

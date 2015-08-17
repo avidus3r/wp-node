@@ -1,4 +1,4 @@
-<div class="wrapper" ng-controller="FeedListController">
+<div class="wrapper" ng-controller="FeedListController as list">
     <div infinite-scroll="getNext()" infinite-scroll-immediate-check="false">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
             <div ng-switch="item.featured_image_src.medium">

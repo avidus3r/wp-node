@@ -1,6 +1,10 @@
 'use strict';
 
-var FeedSingleController = function($scope, FeedService, $routeParams) {
+var FeedSingleController = function($scope, FeedService, $route, $routeParams, $location, $sce) {
+
+    this.name = 'single';
+    this.params = $routeParams;
+
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
@@ -9,7 +13,9 @@ var FeedSingleController = function($scope, FeedService, $routeParams) {
     $scope.postPrefetchAt = 10;
     $scope.postsPerPage = 15;
     $scope.pageNumber = 1;
+    $scope.item = {};
 
+    console.log('single cont');
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
@@ -19,10 +25,18 @@ var FeedSingleController = function($scope, FeedService, $routeParams) {
     var posts = FeedService.getPosts(postPath, postParams);
 
     posts.then(function(data){
-        angular.forEach(data, function (item, index) {
-            $scope.createFeedItem(item, $scope.feedItems.length);
-        });
+        $scope.item = data[0];
+        for(var prop in $scope.item){
+            if(prop === 'content'){
+                $scope.item[prop] = $scope.trustContent($scope.item[prop]);
+            }
+        }
+        //$scope.getPosts(postPath, pagingParams);
     });
+
+    $scope.trustContent = function(content){
+        return $sce.trustAsHtml(content.rendered);
+    };
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
@@ -50,22 +64,10 @@ var FeedSingleController = function($scope, FeedService, $routeParams) {
     };
 
     $scope.renderContent = function(content,index, fromClick){
+        console.log(content);
         var post = angular.element('.feed-item:eq('+ index +')').find('.post-content');
-
-        var videoSrc = angular.element(content.rendered).find('iframe').attr('src');
-        var videoID = videoSrc.substr(videoSrc.lastIndexOf('/')+1, videoSrc.length);
-        post.attr('id', videoID);
-
         post.html(content.rendered);
-        post.css({'height': post.height()+'px'});
-        if(index >= 5){
-            angular.element('.feed-item:eq('+ (index-5) +')').find('iframe').remove();
-        }
-        if(fromClick) {
-            var src = angular.element(post.find('iframe')).attr('src');
-            var autoplay = src.indexOf('?') === -1 ? '?autoplay=1' : '&autoplay=1';
-            angular.element(post.find('iframe')).attr('src', src + autoplay).css({'max-width':'100%'});
-        }
+
     };
 
     $scope.add = function(item){
@@ -79,6 +81,6 @@ var FeedSingleController = function($scope, FeedService, $routeParams) {
         var stateObj = {page: newSlug};
         history.pushState(stateObj, newFeedItem.title, newSlug);
     };
-}
+};
 
 module.exports = FeedSingleController;

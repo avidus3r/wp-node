@@ -1,6 +1,12 @@
 'use strict';
 
-var FeedListController = function($scope, FeedService) {
+var FeedListController = function($scope, FeedService, $route, $routeParams, $location) {
+
+    this.name = 'list';
+    this.$route = $route;
+    this.$routeParams = $routeParams;
+    this.$location = $location;
+
     $scope.package = {
         name: 'newsfeed'
     };

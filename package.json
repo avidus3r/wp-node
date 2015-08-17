@@ -12,14 +12,14 @@
     "angular-route": "^1.4.3",
     "angular-sanitize": "^1.4.3",
     "angular-ui-router": "^0.2.15",
+    "express": "latest",
     "googletagmanager": "^1.0.2",
+    "gulp": "latest",
     "ng-infinite-scroll": "^1.2.0",
-    "underscore": "latest"
+    "underscore": "latest",
+    "webpack": "latest"
   },
   "devDependencies": {
-    "webpack": "latest",
-    "gulp": "latest",
-    "express": "latest",
     "script-loader": "latest",
     "raw-loader": "latest",
     "event-stream": "latest",
