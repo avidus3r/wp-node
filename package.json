@@ -1,0 +1,45 @@
+{
+  "name": "angular-express",
+  "description": "Express and Angular",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "angular": "latest",
+    "angular-resource": "^1.4.3",
+    "angular-route": "^1.4.3",
+    "angular-sanitize": "^1.4.3",
+    "angular-ui-router": "^0.2.15",
+    "express": "latest",
+    "googletagmanager": "^1.0.2",
+    "gulp": "latest",
+    "ng-infinite-scroll": "^1.2.0",
+    "underscore": "latest",
+    "webpack": "latest"
+  },
+  "devDependencies": {
+    "script-loader": "latest",
+    "raw-loader": "latest",
+    "event-stream": "latest",
+    "gulp-sass": "latest",
+    "gulp-util": "latest",
+    "gulp-livereload": "latest",
+    "gulp-clean": "~0.2.4",
+    "run-sequence": "latest",
+    "gulp-exec": "latest",
+    "gulp-jshint": "latest",
+    "gulp-rename": "latest",
+    "gulp-concat": "latest",
+    "gulp-csslint": "latest",
+    "gulp-cssmin": "latest",
+    "gulp-load-plugins": "latest",
+    "gulp-nodemon": "latest",
+    "gulp-uglify": "latest",
+    "connect-livereload": "latest",
+    "tiny-lr": "latest",
+    "require-dir": "latest",
+    "requirejs": "latest"
+  }
+}

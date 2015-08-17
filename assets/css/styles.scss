@@ -1,0 +1,160 @@
+html,body{
+  width: 100%;
+  min-width: 100%;
+}
+body{
+  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial;
+  font-size: 14px;
+}
+
+.wrapper{
+  background: #efefef;
+}
+
+iframe{
+  max-width: 100%;
+}
+
+.view-container{
+
+}
+
+.feed-item {
+  max-width: 640px;
+  margin: 0 auto 1em;
+}
+
+.post-title{
+  max-width: 640px;
+  font-size: 1.25em;
+  color:#444;
+  margin: 0 0 1em;
+  padding: 0 .5em;
+}
+
+.post-content{
+  max-width: 640px;
+  background: #fff;
+  color:#666;
+  box-shadow: 0 1px 5px rgba(0,0,0,.5);
+}
+
+.featured-image{
+  display: block;
+  margin:0 auto;
+  width: 100%;
+  height: auto;
+}
+
+.post-content p iframe{
+  margin: 0 auto 1em;
+  /*width: 640px;
+  height: 360px;*/
+}
+
+.post-content p:not(:first-child){
+  max-width: 95%;
+  line-height: 1.5em;
+  margin-bottom: .5em;
+}
+
+.author-meta{
+  text-transform: uppercase;
+  display: block;
+  font-size: .8em;
+  color:#333;
+  font-weight: bold;
+  padding: 0 1em;
+}
+
+.author-meta p{
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5em;
+}
+
+
+/* single view */
+.wrapper.single{
+  background: #fff;
+}
+
+.category{
+  padding: 0 1.25em;
+}
+
+.single{
+  padding: 1em 0;
+  background: #fff;
+}
+
+.single .post-content {
+  padding: 1.25em;
+}
+
+.single .post-title{
+  font-size: 1.5em;
+  margin-bottom: .5em;
+  padding: 0 1.25em;
+}
+
+.single .author-meta{
+  border-top: 1px solid #bababa;
+  border-bottom: 1px solid #bababa;
+  margin-bottom: 1em;
+  padding: 0 1.25em;
+  p{
+    line-height: 2em;
+  }
+}
+
+.single .post-content{
+  box-shadow: none;
+  font-size: 1.2em;
+  line-height: normal;
+  p{
+    padding:0 .5em;
+    &:first-child{
+      padding: 0;
+    }
+    iframe{
+      margin-bottom: .5em;
+    }
+  }
+}
+
+/* utility classes */
+.light-grey{
+  color: #999999;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.text-right{
+  text-align: right;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float:right;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */

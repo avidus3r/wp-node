@@ -1,0 +1,1963 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Users\\Christiaan\\AppData\\Roaming\\nodejs\\node.exe',
+1 verbose cli   'c:\\Users\\Christiaan\\AppData\\Roaming\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ 'c:\\dev\\node\\expang',
+5 verbose install   [ 'angular',
+5 verbose install     'angular-router',
+5 verbose install     'express',
+5 verbose install     'gulp',
+5 verbose install     'underscore',
+5 verbose install     'lodash',
+5 verbose install     'webpack',
+5 verbose install     'script-loader',
+5 verbose install     'raw-loader',
+5 verbose install     'event-stream',
+5 verbose install     'gulp-sass',
+5 verbose install     'gulp-util',
+5 verbose install     'gulp-livereload',
+5 verbose install     'gulp-clean',
+5 verbose install     'run-sequence',
+5 verbose install     'gulp-exec',
+5 verbose install     'gulp-jshint',
+5 verbose install     'gulp-rename',
+5 verbose install     'gulp-concat',
+5 verbose install     'gulp-csslint',
+5 verbose install     'gulp-cssmin',
+5 verbose install     'gulp-load-plugins',
+5 verbose install     'gulp-nodemon',
+5 verbose install     'gulp-uglify',
+5 verbose install     'connect-livereload',
+5 verbose install     'tiny-lr',
+5 verbose install     'require-dir',
+5 verbose install     'requirejs' ] ]
+6 info preinstall angular-express@0.0.1
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'gulp-rename@latest', null ]
+9 verbose cache add name=undefined spec="gulp-rename@latest" args=["gulp-rename@latest",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'gulp-rename@latest',
+10 verbose parsed url   path: 'gulp-rename@latest',
+10 verbose parsed url   href: 'gulp-rename@latest' }
+11 verbose cache add [ 'gulp-concat@latest', null ]
+12 verbose cache add name=undefined spec="gulp-concat@latest" args=["gulp-concat@latest",null]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'gulp-concat@latest',
+13 verbose parsed url   path: 'gulp-concat@latest',
+13 verbose parsed url   href: 'gulp-concat@latest' }
+14 verbose cache add [ 'gulp-csslint@latest', null ]
+15 verbose cache add name=undefined spec="gulp-csslint@latest" args=["gulp-csslint@latest",null]
+16 verbose parsed url { protocol: null,
+16 verbose parsed url   slashes: null,
+16 verbose parsed url   auth: null,
+16 verbose parsed url   host: null,
+16 verbose parsed url   port: null,
+16 verbose parsed url   hostname: null,
+16 verbose parsed url   hash: null,
+16 verbose parsed url   search: null,
+16 verbose parsed url   query: null,
+16 verbose parsed url   pathname: 'gulp-csslint@latest',
+16 verbose parsed url   path: 'gulp-csslint@latest',
+16 verbose parsed url   href: 'gulp-csslint@latest' }
+17 verbose cache add [ 'gulp-cssmin@latest', null ]
+18 verbose cache add name=undefined spec="gulp-cssmin@latest" args=["gulp-cssmin@latest",null]
+19 verbose parsed url { protocol: null,
+19 verbose parsed url   slashes: null,
+19 verbose parsed url   auth: null,
+19 verbose parsed url   host: null,
+19 verbose parsed url   port: null,
+19 verbose parsed url   hostname: null,
+19 verbose parsed url   hash: null,
+19 verbose parsed url   search: null,
+19 verbose parsed url   query: null,
+19 verbose parsed url   pathname: 'gulp-cssmin@latest',
+19 verbose parsed url   path: 'gulp-cssmin@latest',
+19 verbose parsed url   href: 'gulp-cssmin@latest' }
+20 verbose cache add [ 'gulp-load-plugins@latest', null ]
+21 verbose cache add name=undefined spec="gulp-load-plugins@latest" args=["gulp-load-plugins@latest",null]
+22 verbose parsed url { protocol: null,
+22 verbose parsed url   slashes: null,
+22 verbose parsed url   auth: null,
+22 verbose parsed url   host: null,
+22 verbose parsed url   port: null,
+22 verbose parsed url   hostname: null,
+22 verbose parsed url   hash: null,
+22 verbose parsed url   search: null,
+22 verbose parsed url   query: null,
+22 verbose parsed url   pathname: 'gulp-load-plugins@latest',
+22 verbose parsed url   path: 'gulp-load-plugins@latest',
+22 verbose parsed url   href: 'gulp-load-plugins@latest' }
+23 verbose cache add [ 'gulp-nodemon@latest', null ]
+24 verbose cache add name=undefined spec="gulp-nodemon@latest" args=["gulp-nodemon@latest",null]
+25 verbose parsed url { protocol: null,
+25 verbose parsed url   slashes: null,
+25 verbose parsed url   auth: null,
+25 verbose parsed url   host: null,
+25 verbose parsed url   port: null,
+25 verbose parsed url   hostname: null,
+25 verbose parsed url   hash: null,
+25 verbose parsed url   search: null,
+25 verbose parsed url   query: null,
+25 verbose parsed url   pathname: 'gulp-nodemon@latest',
+25 verbose parsed url   path: 'gulp-nodemon@latest',
+25 verbose parsed url   href: 'gulp-nodemon@latest' }
+26 verbose cache add [ 'gulp-uglify@latest', null ]
+27 verbose cache add name=undefined spec="gulp-uglify@latest" args=["gulp-uglify@latest",null]
+28 verbose parsed url { protocol: null,
+28 verbose parsed url   slashes: null,
+28 verbose parsed url   auth: null,
+28 verbose parsed url   host: null,
+28 verbose parsed url   port: null,
+28 verbose parsed url   hostname: null,
+28 verbose parsed url   hash: null,
+28 verbose parsed url   search: null,
+28 verbose parsed url   query: null,
+28 verbose parsed url   pathname: 'gulp-uglify@latest',
+28 verbose parsed url   path: 'gulp-uglify@latest',
+28 verbose parsed url   href: 'gulp-uglify@latest' }
+29 verbose cache add [ 'connect-livereload@latest', null ]
+30 verbose cache add name=undefined spec="connect-livereload@latest" args=["connect-livereload@latest",null]
+31 verbose parsed url { protocol: null,
+31 verbose parsed url   slashes: null,
+31 verbose parsed url   auth: null,
+31 verbose parsed url   host: null,
+31 verbose parsed url   port: null,
+31 verbose parsed url   hostname: null,
+31 verbose parsed url   hash: null,
+31 verbose parsed url   search: null,
+31 verbose parsed url   query: null,
+31 verbose parsed url   pathname: 'connect-livereload@latest',
+31 verbose parsed url   path: 'connect-livereload@latest',
+31 verbose parsed url   href: 'connect-livereload@latest' }
+32 verbose cache add [ 'tiny-lr@latest', null ]
+33 verbose cache add name=undefined spec="tiny-lr@latest" args=["tiny-lr@latest",null]
+34 verbose parsed url { protocol: null,
+34 verbose parsed url   slashes: null,
+34 verbose parsed url   auth: null,
+34 verbose parsed url   host: null,
+34 verbose parsed url   port: null,
+34 verbose parsed url   hostname: null,
+34 verbose parsed url   hash: null,
+34 verbose parsed url   search: null,
+34 verbose parsed url   query: null,
+34 verbose parsed url   pathname: 'tiny-lr@latest',
+34 verbose parsed url   path: 'tiny-lr@latest',
+34 verbose parsed url   href: 'tiny-lr@latest' }
+35 verbose cache add [ 'require-dir@latest', null ]
+36 verbose cache add name=undefined spec="require-dir@latest" args=["require-dir@latest",null]
+37 verbose parsed url { protocol: null,
+37 verbose parsed url   slashes: null,
+37 verbose parsed url   auth: null,
+37 verbose parsed url   host: null,
+37 verbose parsed url   port: null,
+37 verbose parsed url   hostname: null,
+37 verbose parsed url   hash: null,
+37 verbose parsed url   search: null,
+37 verbose parsed url   query: null,
+37 verbose parsed url   pathname: 'require-dir@latest',
+37 verbose parsed url   path: 'require-dir@latest',
+37 verbose parsed url   href: 'require-dir@latest' }
+38 verbose cache add [ 'requirejs@latest', null ]
+39 verbose cache add name=undefined spec="requirejs@latest" args=["requirejs@latest",null]
+40 verbose parsed url { protocol: null,
+40 verbose parsed url   slashes: null,
+40 verbose parsed url   auth: null,
+40 verbose parsed url   host: null,
+40 verbose parsed url   port: null,
+40 verbose parsed url   hostname: null,
+40 verbose parsed url   hash: null,
+40 verbose parsed url   search: null,
+40 verbose parsed url   query: null,
+40 verbose parsed url   pathname: 'requirejs@latest',
+40 verbose parsed url   path: 'requirejs@latest',
+40 verbose parsed url   href: 'requirejs@latest' }
+41 verbose cache add name="gulp-rename" spec="latest" args=["gulp-rename","latest"]
+42 verbose parsed url { protocol: null,
+42 verbose parsed url   slashes: null,
+42 verbose parsed url   auth: null,
+42 verbose parsed url   host: null,
+42 verbose parsed url   port: null,
+42 verbose parsed url   hostname: null,
+42 verbose parsed url   hash: null,
+42 verbose parsed url   search: null,
+42 verbose parsed url   query: null,
+42 verbose parsed url   pathname: 'latest',
+42 verbose parsed url   path: 'latest',
+42 verbose parsed url   href: 'latest' }
+43 verbose addNamed [ 'gulp-rename', 'latest' ]
+44 verbose addNamed [ null, null ]
+45 verbose cache add name="gulp-concat" spec="latest" args=["gulp-concat","latest"]
+46 verbose parsed url { protocol: null,
+46 verbose parsed url   slashes: null,
+46 verbose parsed url   auth: null,
+46 verbose parsed url   host: null,
+46 verbose parsed url   port: null,
+46 verbose parsed url   hostname: null,
+46 verbose parsed url   hash: null,
+46 verbose parsed url   search: null,
+46 verbose parsed url   query: null,
+46 verbose parsed url   pathname: 'latest',
+46 verbose parsed url   path: 'latest',
+46 verbose parsed url   href: 'latest' }
+47 verbose addNamed [ 'gulp-concat', 'latest' ]
+48 verbose addNamed [ null, null ]
+49 verbose cache add name="gulp-csslint" spec="latest" args=["gulp-csslint","latest"]
+50 verbose parsed url { protocol: null,
+50 verbose parsed url   slashes: null,
+50 verbose parsed url   auth: null,
+50 verbose parsed url   host: null,
+50 verbose parsed url   port: null,
+50 verbose parsed url   hostname: null,
+50 verbose parsed url   hash: null,
+50 verbose parsed url   search: null,
+50 verbose parsed url   query: null,
+50 verbose parsed url   pathname: 'latest',
+50 verbose parsed url   path: 'latest',
+50 verbose parsed url   href: 'latest' }
+51 verbose addNamed [ 'gulp-csslint', 'latest' ]
+52 verbose addNamed [ null, null ]
+53 verbose cache add name="gulp-cssmin" spec="latest" args=["gulp-cssmin","latest"]
+54 verbose parsed url { protocol: null,
+54 verbose parsed url   slashes: null,
+54 verbose parsed url   auth: null,
+54 verbose parsed url   host: null,
+54 verbose parsed url   port: null,
+54 verbose parsed url   hostname: null,
+54 verbose parsed url   hash: null,
+54 verbose parsed url   search: null,
+54 verbose parsed url   query: null,
+54 verbose parsed url   pathname: 'latest',
+54 verbose parsed url   path: 'latest',
+54 verbose parsed url   href: 'latest' }
+55 verbose addNamed [ 'gulp-cssmin', 'latest' ]
+56 verbose addNamed [ null, null ]
+57 verbose cache add name="gulp-load-plugins" spec="latest" args=["gulp-load-plugins","latest"]
+58 verbose parsed url { protocol: null,
+58 verbose parsed url   slashes: null,
+58 verbose parsed url   auth: null,
+58 verbose parsed url   host: null,
+58 verbose parsed url   port: null,
+58 verbose parsed url   hostname: null,
+58 verbose parsed url   hash: null,
+58 verbose parsed url   search: null,
+58 verbose parsed url   query: null,
+58 verbose parsed url   pathname: 'latest',
+58 verbose parsed url   path: 'latest',
+58 verbose parsed url   href: 'latest' }
+59 verbose addNamed [ 'gulp-load-plugins', 'latest' ]
+60 verbose addNamed [ null, null ]
+61 verbose cache add name="gulp-nodemon" spec="latest" args=["gulp-nodemon","latest"]
+62 verbose parsed url { protocol: null,
+62 verbose parsed url   slashes: null,
+62 verbose parsed url   auth: null,
+62 verbose parsed url   host: null,
+62 verbose parsed url   port: null,
+62 verbose parsed url   hostname: null,
+62 verbose parsed url   hash: null,
+62 verbose parsed url   search: null,
+62 verbose parsed url   query: null,
+62 verbose parsed url   pathname: 'latest',
+62 verbose parsed url   path: 'latest',
+62 verbose parsed url   href: 'latest' }
+63 verbose addNamed [ 'gulp-nodemon', 'latest' ]
+64 verbose addNamed [ null, null ]
+65 verbose cache add name="gulp-uglify" spec="latest" args=["gulp-uglify","latest"]
+66 verbose parsed url { protocol: null,
+66 verbose parsed url   slashes: null,
+66 verbose parsed url   auth: null,
+66 verbose parsed url   host: null,
+66 verbose parsed url   port: null,
+66 verbose parsed url   hostname: null,
+66 verbose parsed url   hash: null,
+66 verbose parsed url   search: null,
+66 verbose parsed url   query: null,
+66 verbose parsed url   pathname: 'latest',
+66 verbose parsed url   path: 'latest',
+66 verbose parsed url   href: 'latest' }
+67 verbose addNamed [ 'gulp-uglify', 'latest' ]
+68 verbose addNamed [ null, null ]
+69 verbose cache add name="connect-livereload" spec="latest" args=["connect-livereload","latest"]
+70 verbose parsed url { protocol: null,
+70 verbose parsed url   slashes: null,
+70 verbose parsed url   auth: null,
+70 verbose parsed url   host: null,
+70 verbose parsed url   port: null,
+70 verbose parsed url   hostname: null,
+70 verbose parsed url   hash: null,
+70 verbose parsed url   search: null,
+70 verbose parsed url   query: null,
+70 verbose parsed url   pathname: 'latest',
+70 verbose parsed url   path: 'latest',
+70 verbose parsed url   href: 'latest' }
+71 verbose addNamed [ 'connect-livereload', 'latest' ]
+72 verbose addNamed [ null, null ]
+73 verbose cache add name="tiny-lr" spec="latest" args=["tiny-lr","latest"]
+74 verbose parsed url { protocol: null,
+74 verbose parsed url   slashes: null,
+74 verbose parsed url   auth: null,
+74 verbose parsed url   host: null,
+74 verbose parsed url   port: null,
+74 verbose parsed url   hostname: null,
+74 verbose parsed url   hash: null,
+74 verbose parsed url   search: null,
+74 verbose parsed url   query: null,
+74 verbose parsed url   pathname: 'latest',
+74 verbose parsed url   path: 'latest',
+74 verbose parsed url   href: 'latest' }
+75 verbose addNamed [ 'tiny-lr', 'latest' ]
+76 verbose addNamed [ null, null ]
+77 verbose cache add name="require-dir" spec="latest" args=["require-dir","latest"]
+78 verbose parsed url { protocol: null,
+78 verbose parsed url   slashes: null,
+78 verbose parsed url   auth: null,
+78 verbose parsed url   host: null,
+78 verbose parsed url   port: null,
+78 verbose parsed url   hostname: null,
+78 verbose parsed url   hash: null,
+78 verbose parsed url   search: null,
+78 verbose parsed url   query: null,
+78 verbose parsed url   pathname: 'latest',
+78 verbose parsed url   path: 'latest',
+78 verbose parsed url   href: 'latest' }
+79 verbose addNamed [ 'require-dir', 'latest' ]
+80 verbose addNamed [ null, null ]
+81 verbose cache add [ 'angular@latest', null ]
+82 verbose cache add name=undefined spec="angular@latest" args=["angular@latest",null]
+83 verbose parsed url { protocol: null,
+83 verbose parsed url   slashes: null,
+83 verbose parsed url   auth: null,
+83 verbose parsed url   host: null,
+83 verbose parsed url   port: null,
+83 verbose parsed url   hostname: null,
+83 verbose parsed url   hash: null,
+83 verbose parsed url   search: null,
+83 verbose parsed url   query: null,
+83 verbose parsed url   pathname: 'angular@latest',
+83 verbose parsed url   path: 'angular@latest',
+83 verbose parsed url   href: 'angular@latest' }
+84 verbose cache add [ 'angular-router@latest', null ]
+85 verbose cache add name=undefined spec="angular-router@latest" args=["angular-router@latest",null]
+86 verbose parsed url { protocol: null,
+86 verbose parsed url   slashes: null,
+86 verbose parsed url   auth: null,
+86 verbose parsed url   host: null,
+86 verbose parsed url   port: null,
+86 verbose parsed url   hostname: null,
+86 verbose parsed url   hash: null,
+86 verbose parsed url   search: null,
+86 verbose parsed url   query: null,
+86 verbose parsed url   pathname: 'angular-router@latest',
+86 verbose parsed url   path: 'angular-router@latest',
+86 verbose parsed url   href: 'angular-router@latest' }
+87 verbose cache add [ 'express@latest', null ]
+88 verbose cache add name=undefined spec="express@latest" args=["express@latest",null]
+89 verbose parsed url { protocol: null,
+89 verbose parsed url   slashes: null,
+89 verbose parsed url   auth: null,
+89 verbose parsed url   host: null,
+89 verbose parsed url   port: null,
+89 verbose parsed url   hostname: null,
+89 verbose parsed url   hash: null,
+89 verbose parsed url   search: null,
+89 verbose parsed url   query: null,
+89 verbose parsed url   pathname: 'express@latest',
+89 verbose parsed url   path: 'express@latest',
+89 verbose parsed url   href: 'express@latest' }
+90 verbose cache add [ 'gulp@latest', null ]
+91 verbose cache add name=undefined spec="gulp@latest" args=["gulp@latest",null]
+92 verbose parsed url { protocol: null,
+92 verbose parsed url   slashes: null,
+92 verbose parsed url   auth: null,
+92 verbose parsed url   host: null,
+92 verbose parsed url   port: null,
+92 verbose parsed url   hostname: null,
+92 verbose parsed url   hash: null,
+92 verbose parsed url   search: null,
+92 verbose parsed url   query: null,
+92 verbose parsed url   pathname: 'gulp@latest',
+92 verbose parsed url   path: 'gulp@latest',
+92 verbose parsed url   href: 'gulp@latest' }
+93 verbose cache add name="requirejs" spec="latest" args=["requirejs","latest"]
+94 verbose parsed url { protocol: null,
+94 verbose parsed url   slashes: null,
+94 verbose parsed url   auth: null,
+94 verbose parsed url   host: null,
+94 verbose parsed url   port: null,
+94 verbose parsed url   hostname: null,
+94 verbose parsed url   hash: null,
+94 verbose parsed url   search: null,
+94 verbose parsed url   query: null,
+94 verbose parsed url   pathname: 'latest',
+94 verbose parsed url   path: 'latest',
+94 verbose parsed url   href: 'latest' }
+95 verbose addNamed [ 'requirejs', 'latest' ]
+96 verbose addNamed [ null, null ]
+97 silly lockFile 39e2f56b-gulp-rename-latest gulp-rename@latest
+98 verbose lock gulp-rename@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\39e2f56b-gulp-rename-latest.lock
+99 silly lockFile 8bbbbeeb-gulp-concat-latest gulp-concat@latest
+100 verbose lock gulp-concat@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\8bbbbeeb-gulp-concat-latest.lock
+101 silly lockFile cd564b14-gulp-csslint-latest gulp-csslint@latest
+102 verbose lock gulp-csslint@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\cd564b14-gulp-csslint-latest.lock
+103 silly lockFile cd2d2a6f-gulp-cssmin-latest gulp-cssmin@latest
+104 verbose lock gulp-cssmin@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\cd2d2a6f-gulp-cssmin-latest.lock
+105 silly lockFile 4810b9ab-gulp-load-plugins-latest gulp-load-plugins@latest
+106 verbose lock gulp-load-plugins@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\4810b9ab-gulp-load-plugins-latest.lock
+107 silly lockFile 46dd5a38-gulp-nodemon-latest gulp-nodemon@latest
+108 verbose lock gulp-nodemon@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\46dd5a38-gulp-nodemon-latest.lock
+109 silly lockFile b89f856d-gulp-uglify-latest gulp-uglify@latest
+110 verbose lock gulp-uglify@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\b89f856d-gulp-uglify-latest.lock
+111 silly lockFile 1b5d30d9-connect-livereload-latest connect-livereload@latest
+112 verbose lock connect-livereload@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\1b5d30d9-connect-livereload-latest.lock
+113 silly lockFile a6a5171f-tiny-lr-latest tiny-lr@latest
+114 verbose lock tiny-lr@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\a6a5171f-tiny-lr-latest.lock
+115 silly lockFile 16e79d8a-require-dir-latest require-dir@latest
+116 verbose lock require-dir@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\16e79d8a-require-dir-latest.lock
+117 silly lockFile 27500c20-requirejs-latest requirejs@latest
+118 verbose lock requirejs@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\27500c20-requirejs-latest.lock
+119 verbose cache add name="angular" spec="latest" args=["angular","latest"]
+120 verbose parsed url { protocol: null,
+120 verbose parsed url   slashes: null,
+120 verbose parsed url   auth: null,
+120 verbose parsed url   host: null,
+120 verbose parsed url   port: null,
+120 verbose parsed url   hostname: null,
+120 verbose parsed url   hash: null,
+120 verbose parsed url   search: null,
+120 verbose parsed url   query: null,
+120 verbose parsed url   pathname: 'latest',
+120 verbose parsed url   path: 'latest',
+120 verbose parsed url   href: 'latest' }
+121 verbose addNamed [ 'angular', 'latest' ]
+122 verbose addNamed [ null, null ]
+123 silly lockFile 6c758ed7-angular-latest angular@latest
+124 verbose lock angular@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\6c758ed7-angular-latest.lock
+125 verbose cache add name="angular-router" spec="latest" args=["angular-router","latest"]
+126 verbose parsed url { protocol: null,
+126 verbose parsed url   slashes: null,
+126 verbose parsed url   auth: null,
+126 verbose parsed url   host: null,
+126 verbose parsed url   port: null,
+126 verbose parsed url   hostname: null,
+126 verbose parsed url   hash: null,
+126 verbose parsed url   search: null,
+126 verbose parsed url   query: null,
+126 verbose parsed url   pathname: 'latest',
+126 verbose parsed url   path: 'latest',
+126 verbose parsed url   href: 'latest' }
+127 verbose addNamed [ 'angular-router', 'latest' ]
+128 verbose addNamed [ null, null ]
+129 silly lockFile 6d68b661-angular-router-latest angular-router@latest
+130 verbose lock angular-router@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\6d68b661-angular-router-latest.lock
+131 verbose cache add name="express" spec="latest" args=["express","latest"]
+132 verbose parsed url { protocol: null,
+132 verbose parsed url   slashes: null,
+132 verbose parsed url   auth: null,
+132 verbose parsed url   host: null,
+132 verbose parsed url   port: null,
+132 verbose parsed url   hostname: null,
+132 verbose parsed url   hash: null,
+132 verbose parsed url   search: null,
+132 verbose parsed url   query: null,
+132 verbose parsed url   pathname: 'latest',
+132 verbose parsed url   path: 'latest',
+132 verbose parsed url   href: 'latest' }
+133 verbose addNamed [ 'express', 'latest' ]
+134 verbose addNamed [ null, null ]
+135 silly lockFile c30a01ab-express-latest express@latest
+136 verbose lock express@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\c30a01ab-express-latest.lock
+137 verbose cache add name="gulp" spec="latest" args=["gulp","latest"]
+138 verbose parsed url { protocol: null,
+138 verbose parsed url   slashes: null,
+138 verbose parsed url   auth: null,
+138 verbose parsed url   host: null,
+138 verbose parsed url   port: null,
+138 verbose parsed url   hostname: null,
+138 verbose parsed url   hash: null,
+138 verbose parsed url   search: null,
+138 verbose parsed url   query: null,
+138 verbose parsed url   pathname: 'latest',
+138 verbose parsed url   path: 'latest',
+138 verbose parsed url   href: 'latest' }
+139 verbose addNamed [ 'gulp', 'latest' ]
+140 verbose addNamed [ null, null ]
+141 silly lockFile 429e12c1-gulp-latest gulp@latest
+142 verbose lock gulp@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\429e12c1-gulp-latest.lock
+143 info addNameTag [ 'gulp-csslint', 'latest' ]
+144 info addNameTag [ 'gulp-concat', 'latest' ]
+145 info addNameTag [ 'gulp-load-plugins', 'latest' ]
+146 info addNameTag [ 'gulp-cssmin', 'latest' ]
+147 info addNameTag [ 'gulp-uglify', 'latest' ]
+148 info addNameTag [ 'connect-livereload', 'latest' ]
+149 verbose cache add [ 'underscore@latest', null ]
+150 verbose cache add name=undefined spec="underscore@latest" args=["underscore@latest",null]
+151 verbose parsed url { protocol: null,
+151 verbose parsed url   slashes: null,
+151 verbose parsed url   auth: null,
+151 verbose parsed url   host: null,
+151 verbose parsed url   port: null,
+151 verbose parsed url   hostname: null,
+151 verbose parsed url   hash: null,
+151 verbose parsed url   search: null,
+151 verbose parsed url   query: null,
+151 verbose parsed url   pathname: 'underscore@latest',
+151 verbose parsed url   path: 'underscore@latest',
+151 verbose parsed url   href: 'underscore@latest' }
+152 verbose cache add [ 'lodash@latest', null ]
+153 verbose cache add name=undefined spec="lodash@latest" args=["lodash@latest",null]
+154 verbose parsed url { protocol: null,
+154 verbose parsed url   slashes: null,
+154 verbose parsed url   auth: null,
+154 verbose parsed url   host: null,
+154 verbose parsed url   port: null,
+154 verbose parsed url   hostname: null,
+154 verbose parsed url   hash: null,
+154 verbose parsed url   search: null,
+154 verbose parsed url   query: null,
+154 verbose parsed url   pathname: 'lodash@latest',
+154 verbose parsed url   path: 'lodash@latest',
+154 verbose parsed url   href: 'lodash@latest' }
+155 verbose cache add [ 'webpack@latest', null ]
+156 verbose cache add name=undefined spec="webpack@latest" args=["webpack@latest",null]
+157 verbose parsed url { protocol: null,
+157 verbose parsed url   slashes: null,
+157 verbose parsed url   auth: null,
+157 verbose parsed url   host: null,
+157 verbose parsed url   port: null,
+157 verbose parsed url   hostname: null,
+157 verbose parsed url   hash: null,
+157 verbose parsed url   search: null,
+157 verbose parsed url   query: null,
+157 verbose parsed url   pathname: 'webpack@latest',
+157 verbose parsed url   path: 'webpack@latest',
+157 verbose parsed url   href: 'webpack@latest' }
+158 verbose cache add [ 'script-loader@latest', null ]
+159 verbose cache add name=undefined spec="script-loader@latest" args=["script-loader@latest",null]
+160 verbose parsed url { protocol: null,
+160 verbose parsed url   slashes: null,
+160 verbose parsed url   auth: null,
+160 verbose parsed url   host: null,
+160 verbose parsed url   port: null,
+160 verbose parsed url   hostname: null,
+160 verbose parsed url   hash: null,
+160 verbose parsed url   search: null,
+160 verbose parsed url   query: null,
+160 verbose parsed url   pathname: 'script-loader@latest',
+160 verbose parsed url   path: 'script-loader@latest',
+160 verbose parsed url   href: 'script-loader@latest' }
+161 verbose cache add [ 'raw-loader@latest', null ]
+162 verbose cache add name=undefined spec="raw-loader@latest" args=["raw-loader@latest",null]
+163 verbose parsed url { protocol: null,
+163 verbose parsed url   slashes: null,
+163 verbose parsed url   auth: null,
+163 verbose parsed url   host: null,
+163 verbose parsed url   port: null,
+163 verbose parsed url   hostname: null,
+163 verbose parsed url   hash: null,
+163 verbose parsed url   search: null,
+163 verbose parsed url   query: null,
+163 verbose parsed url   pathname: 'raw-loader@latest',
+163 verbose parsed url   path: 'raw-loader@latest',
+163 verbose parsed url   href: 'raw-loader@latest' }
+164 verbose cache add [ 'event-stream@latest', null ]
+165 verbose cache add name=undefined spec="event-stream@latest" args=["event-stream@latest",null]
+166 verbose parsed url { protocol: null,
+166 verbose parsed url   slashes: null,
+166 verbose parsed url   auth: null,
+166 verbose parsed url   host: null,
+166 verbose parsed url   port: null,
+166 verbose parsed url   hostname: null,
+166 verbose parsed url   hash: null,
+166 verbose parsed url   search: null,
+166 verbose parsed url   query: null,
+166 verbose parsed url   pathname: 'event-stream@latest',
+166 verbose parsed url   path: 'event-stream@latest',
+166 verbose parsed url   href: 'event-stream@latest' }
+167 verbose cache add [ 'gulp-sass@latest', null ]
+168 verbose cache add name=undefined spec="gulp-sass@latest" args=["gulp-sass@latest",null]
+169 verbose parsed url { protocol: null,
+169 verbose parsed url   slashes: null,
+169 verbose parsed url   auth: null,
+169 verbose parsed url   host: null,
+169 verbose parsed url   port: null,
+169 verbose parsed url   hostname: null,
+169 verbose parsed url   hash: null,
+169 verbose parsed url   search: null,
+169 verbose parsed url   query: null,
+169 verbose parsed url   pathname: 'gulp-sass@latest',
+169 verbose parsed url   path: 'gulp-sass@latest',
+169 verbose parsed url   href: 'gulp-sass@latest' }
+170 verbose cache add [ 'gulp-util@latest', null ]
+171 verbose cache add name=undefined spec="gulp-util@latest" args=["gulp-util@latest",null]
+172 verbose parsed url { protocol: null,
+172 verbose parsed url   slashes: null,
+172 verbose parsed url   auth: null,
+172 verbose parsed url   host: null,
+172 verbose parsed url   port: null,
+172 verbose parsed url   hostname: null,
+172 verbose parsed url   hash: null,
+172 verbose parsed url   search: null,
+172 verbose parsed url   query: null,
+172 verbose parsed url   pathname: 'gulp-util@latest',
+172 verbose parsed url   path: 'gulp-util@latest',
+172 verbose parsed url   href: 'gulp-util@latest' }
+173 verbose cache add [ 'gulp-livereload@latest', null ]
+174 verbose cache add name=undefined spec="gulp-livereload@latest" args=["gulp-livereload@latest",null]
+175 verbose parsed url { protocol: null,
+175 verbose parsed url   slashes: null,
+175 verbose parsed url   auth: null,
+175 verbose parsed url   host: null,
+175 verbose parsed url   port: null,
+175 verbose parsed url   hostname: null,
+175 verbose parsed url   hash: null,
+175 verbose parsed url   search: null,
+175 verbose parsed url   query: null,
+175 verbose parsed url   pathname: 'gulp-livereload@latest',
+175 verbose parsed url   path: 'gulp-livereload@latest',
+175 verbose parsed url   href: 'gulp-livereload@latest' }
+176 verbose already installed skipping gulp-clean@~0.2.4 c:\dev\node\expang
+177 verbose cache add [ 'run-sequence@latest', null ]
+178 verbose cache add name=undefined spec="run-sequence@latest" args=["run-sequence@latest",null]
+179 verbose parsed url { protocol: null,
+179 verbose parsed url   slashes: null,
+179 verbose parsed url   auth: null,
+179 verbose parsed url   host: null,
+179 verbose parsed url   port: null,
+179 verbose parsed url   hostname: null,
+179 verbose parsed url   hash: null,
+179 verbose parsed url   search: null,
+179 verbose parsed url   query: null,
+179 verbose parsed url   pathname: 'run-sequence@latest',
+179 verbose parsed url   path: 'run-sequence@latest',
+179 verbose parsed url   href: 'run-sequence@latest' }
+180 verbose cache add [ 'gulp-exec@latest', null ]
+181 verbose cache add name=undefined spec="gulp-exec@latest" args=["gulp-exec@latest",null]
+182 verbose parsed url { protocol: null,
+182 verbose parsed url   slashes: null,
+182 verbose parsed url   auth: null,
+182 verbose parsed url   host: null,
+182 verbose parsed url   port: null,
+182 verbose parsed url   hostname: null,
+182 verbose parsed url   hash: null,
+182 verbose parsed url   search: null,
+182 verbose parsed url   query: null,
+182 verbose parsed url   pathname: 'gulp-exec@latest',
+182 verbose parsed url   path: 'gulp-exec@latest',
+182 verbose parsed url   href: 'gulp-exec@latest' }
+183 verbose cache add [ 'gulp-jshint@latest', null ]
+184 verbose cache add name=undefined spec="gulp-jshint@latest" args=["gulp-jshint@latest",null]
+185 verbose parsed url { protocol: null,
+185 verbose parsed url   slashes: null,
+185 verbose parsed url   auth: null,
+185 verbose parsed url   host: null,
+185 verbose parsed url   port: null,
+185 verbose parsed url   hostname: null,
+185 verbose parsed url   hash: null,
+185 verbose parsed url   search: null,
+185 verbose parsed url   query: null,
+185 verbose parsed url   pathname: 'gulp-jshint@latest',
+185 verbose parsed url   path: 'gulp-jshint@latest',
+185 verbose parsed url   href: 'gulp-jshint@latest' }
+186 info addNameTag [ 'tiny-lr', 'latest' ]
+187 info addNameTag [ 'angular-router', 'latest' ]
+188 info addNameTag [ 'angular', 'latest' ]
+189 info addNameTag [ 'requirejs', 'latest' ]
+190 info addNameTag [ 'gulp', 'latest' ]
+191 verbose cache add name="underscore" spec="latest" args=["underscore","latest"]
+192 verbose parsed url { protocol: null,
+192 verbose parsed url   slashes: null,
+192 verbose parsed url   auth: null,
+192 verbose parsed url   host: null,
+192 verbose parsed url   port: null,
+192 verbose parsed url   hostname: null,
+192 verbose parsed url   hash: null,
+192 verbose parsed url   search: null,
+192 verbose parsed url   query: null,
+192 verbose parsed url   pathname: 'latest',
+192 verbose parsed url   path: 'latest',
+192 verbose parsed url   href: 'latest' }
+193 verbose addNamed [ 'underscore', 'latest' ]
+194 verbose addNamed [ null, null ]
+195 silly lockFile 546e1155-underscore-latest underscore@latest
+196 verbose lock underscore@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\546e1155-underscore-latest.lock
+197 verbose cache add name="lodash" spec="latest" args=["lodash","latest"]
+198 verbose parsed url { protocol: null,
+198 verbose parsed url   slashes: null,
+198 verbose parsed url   auth: null,
+198 verbose parsed url   host: null,
+198 verbose parsed url   port: null,
+198 verbose parsed url   hostname: null,
+198 verbose parsed url   hash: null,
+198 verbose parsed url   search: null,
+198 verbose parsed url   query: null,
+198 verbose parsed url   pathname: 'latest',
+198 verbose parsed url   path: 'latest',
+198 verbose parsed url   href: 'latest' }
+199 verbose addNamed [ 'lodash', 'latest' ]
+200 verbose addNamed [ null, null ]
+201 silly lockFile e74123f1-lodash-latest lodash@latest
+202 verbose lock lodash@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\e74123f1-lodash-latest.lock
+203 verbose cache add name="webpack" spec="latest" args=["webpack","latest"]
+204 verbose parsed url { protocol: null,
+204 verbose parsed url   slashes: null,
+204 verbose parsed url   auth: null,
+204 verbose parsed url   host: null,
+204 verbose parsed url   port: null,
+204 verbose parsed url   hostname: null,
+204 verbose parsed url   hash: null,
+204 verbose parsed url   search: null,
+204 verbose parsed url   query: null,
+204 verbose parsed url   pathname: 'latest',
+204 verbose parsed url   path: 'latest',
+204 verbose parsed url   href: 'latest' }
+205 verbose addNamed [ 'webpack', 'latest' ]
+206 verbose addNamed [ null, null ]
+207 silly lockFile 2f24ae89-webpack-latest webpack@latest
+208 verbose lock webpack@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\2f24ae89-webpack-latest.lock
+209 verbose cache add name="script-loader" spec="latest" args=["script-loader","latest"]
+210 verbose parsed url { protocol: null,
+210 verbose parsed url   slashes: null,
+210 verbose parsed url   auth: null,
+210 verbose parsed url   host: null,
+210 verbose parsed url   port: null,
+210 verbose parsed url   hostname: null,
+210 verbose parsed url   hash: null,
+210 verbose parsed url   search: null,
+210 verbose parsed url   query: null,
+210 verbose parsed url   pathname: 'latest',
+210 verbose parsed url   path: 'latest',
+210 verbose parsed url   href: 'latest' }
+211 verbose addNamed [ 'script-loader', 'latest' ]
+212 verbose addNamed [ null, null ]
+213 silly lockFile 46890273-script-loader-latest script-loader@latest
+214 verbose lock script-loader@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\46890273-script-loader-latest.lock
+215 verbose cache add name="raw-loader" spec="latest" args=["raw-loader","latest"]
+216 verbose parsed url { protocol: null,
+216 verbose parsed url   slashes: null,
+216 verbose parsed url   auth: null,
+216 verbose parsed url   host: null,
+216 verbose parsed url   port: null,
+216 verbose parsed url   hostname: null,
+216 verbose parsed url   hash: null,
+216 verbose parsed url   search: null,
+216 verbose parsed url   query: null,
+216 verbose parsed url   pathname: 'latest',
+216 verbose parsed url   path: 'latest',
+216 verbose parsed url   href: 'latest' }
+217 verbose addNamed [ 'raw-loader', 'latest' ]
+218 verbose addNamed [ null, null ]
+219 silly lockFile 5256a574-raw-loader-latest raw-loader@latest
+220 verbose lock raw-loader@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\5256a574-raw-loader-latest.lock
+221 verbose cache add name="event-stream" spec="latest" args=["event-stream","latest"]
+222 verbose parsed url { protocol: null,
+222 verbose parsed url   slashes: null,
+222 verbose parsed url   auth: null,
+222 verbose parsed url   host: null,
+222 verbose parsed url   port: null,
+222 verbose parsed url   hostname: null,
+222 verbose parsed url   hash: null,
+222 verbose parsed url   search: null,
+222 verbose parsed url   query: null,
+222 verbose parsed url   pathname: 'latest',
+222 verbose parsed url   path: 'latest',
+222 verbose parsed url   href: 'latest' }
+223 verbose addNamed [ 'event-stream', 'latest' ]
+224 verbose addNamed [ null, null ]
+225 silly lockFile c7748770-event-stream-latest event-stream@latest
+226 verbose lock event-stream@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\c7748770-event-stream-latest.lock
+227 verbose cache add name="gulp-sass" spec="latest" args=["gulp-sass","latest"]
+228 verbose parsed url { protocol: null,
+228 verbose parsed url   slashes: null,
+228 verbose parsed url   auth: null,
+228 verbose parsed url   host: null,
+228 verbose parsed url   port: null,
+228 verbose parsed url   hostname: null,
+228 verbose parsed url   hash: null,
+228 verbose parsed url   search: null,
+228 verbose parsed url   query: null,
+228 verbose parsed url   pathname: 'latest',
+228 verbose parsed url   path: 'latest',
+228 verbose parsed url   href: 'latest' }
+229 verbose addNamed [ 'gulp-sass', 'latest' ]
+230 verbose addNamed [ null, null ]
+231 silly lockFile 631ad4b0-gulp-sass-latest gulp-sass@latest
+232 verbose lock gulp-sass@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\631ad4b0-gulp-sass-latest.lock
+233 verbose cache add name="gulp-util" spec="latest" args=["gulp-util","latest"]
+234 verbose parsed url { protocol: null,
+234 verbose parsed url   slashes: null,
+234 verbose parsed url   auth: null,
+234 verbose parsed url   host: null,
+234 verbose parsed url   port: null,
+234 verbose parsed url   hostname: null,
+234 verbose parsed url   hash: null,
+234 verbose parsed url   search: null,
+234 verbose parsed url   query: null,
+234 verbose parsed url   pathname: 'latest',
+234 verbose parsed url   path: 'latest',
+234 verbose parsed url   href: 'latest' }
+235 verbose addNamed [ 'gulp-util', 'latest' ]
+236 verbose addNamed [ null, null ]
+237 silly lockFile baa2251a-gulp-util-latest gulp-util@latest
+238 verbose lock gulp-util@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\baa2251a-gulp-util-latest.lock
+239 verbose cache add name="gulp-livereload" spec="latest" args=["gulp-livereload","latest"]
+240 verbose parsed url { protocol: null,
+240 verbose parsed url   slashes: null,
+240 verbose parsed url   auth: null,
+240 verbose parsed url   host: null,
+240 verbose parsed url   port: null,
+240 verbose parsed url   hostname: null,
+240 verbose parsed url   hash: null,
+240 verbose parsed url   search: null,
+240 verbose parsed url   query: null,
+240 verbose parsed url   pathname: 'latest',
+240 verbose parsed url   path: 'latest',
+240 verbose parsed url   href: 'latest' }
+241 verbose addNamed [ 'gulp-livereload', 'latest' ]
+242 verbose addNamed [ null, null ]
+243 silly lockFile 7a35b16c-gulp-livereload-latest gulp-livereload@latest
+244 verbose lock gulp-livereload@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\7a35b16c-gulp-livereload-latest.lock
+245 verbose cache add name="run-sequence" spec="latest" args=["run-sequence","latest"]
+246 verbose parsed url { protocol: null,
+246 verbose parsed url   slashes: null,
+246 verbose parsed url   auth: null,
+246 verbose parsed url   host: null,
+246 verbose parsed url   port: null,
+246 verbose parsed url   hostname: null,
+246 verbose parsed url   hash: null,
+246 verbose parsed url   search: null,
+246 verbose parsed url   query: null,
+246 verbose parsed url   pathname: 'latest',
+246 verbose parsed url   path: 'latest',
+246 verbose parsed url   href: 'latest' }
+247 verbose addNamed [ 'run-sequence', 'latest' ]
+248 verbose addNamed [ null, null ]
+249 silly lockFile b0e0aac1-run-sequence-latest run-sequence@latest
+250 verbose lock run-sequence@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\b0e0aac1-run-sequence-latest.lock
+251 verbose cache add name="gulp-exec" spec="latest" args=["gulp-exec","latest"]
+252 verbose parsed url { protocol: null,
+252 verbose parsed url   slashes: null,
+252 verbose parsed url   auth: null,
+252 verbose parsed url   host: null,
+252 verbose parsed url   port: null,
+252 verbose parsed url   hostname: null,
+252 verbose parsed url   hash: null,
+252 verbose parsed url   search: null,
+252 verbose parsed url   query: null,
+252 verbose parsed url   pathname: 'latest',
+252 verbose parsed url   path: 'latest',
+252 verbose parsed url   href: 'latest' }
+253 verbose addNamed [ 'gulp-exec', 'latest' ]
+254 verbose addNamed [ null, null ]
+255 silly lockFile 8a93a9cd-gulp-exec-latest gulp-exec@latest
+256 verbose lock gulp-exec@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\8a93a9cd-gulp-exec-latest.lock
+257 verbose cache add name="gulp-jshint" spec="latest" args=["gulp-jshint","latest"]
+258 verbose parsed url { protocol: null,
+258 verbose parsed url   slashes: null,
+258 verbose parsed url   auth: null,
+258 verbose parsed url   host: null,
+258 verbose parsed url   port: null,
+258 verbose parsed url   hostname: null,
+258 verbose parsed url   hash: null,
+258 verbose parsed url   search: null,
+258 verbose parsed url   query: null,
+258 verbose parsed url   pathname: 'latest',
+258 verbose parsed url   path: 'latest',
+258 verbose parsed url   href: 'latest' }
+259 verbose addNamed [ 'gulp-jshint', 'latest' ]
+260 verbose addNamed [ null, null ]
+261 silly lockFile 9d0b7375-gulp-jshint-latest gulp-jshint@latest
+262 verbose lock gulp-jshint@latest C:\Users\Christiaan\AppData\Roaming\npm-cache\9d0b7375-gulp-jshint-latest.lock
+263 verbose request where is /angular-router
+264 verbose request registry https://registry.npmjs.org/
+265 verbose request id 6b0fbef80b9ceeef
+266 verbose url raw /angular-router
+267 verbose url resolving [ 'https://registry.npmjs.org/', './angular-router' ]
+268 verbose url resolved https://registry.npmjs.org/angular-router
+269 verbose request where is https://registry.npmjs.org/angular-router
+270 info trying registry request attempt 1 at 13:25:08
+271 http GET https://registry.npmjs.org/angular-router
+272 verbose request where is /gulp-csslint
+273 verbose request registry https://registry.npmjs.org/
+274 verbose url raw /gulp-csslint
+275 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-csslint' ]
+276 verbose url resolved https://registry.npmjs.org/gulp-csslint
+277 verbose request where is https://registry.npmjs.org/gulp-csslint
+278 info trying registry request attempt 1 at 13:25:08
+279 verbose etag "EF9JI9K88XILVH0O4ZWGUEAOG"
+280 http GET https://registry.npmjs.org/gulp-csslint
+281 verbose request where is /gulp-concat
+282 verbose request registry https://registry.npmjs.org/
+283 verbose url raw /gulp-concat
+284 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-concat' ]
+285 verbose url resolved https://registry.npmjs.org/gulp-concat
+286 verbose request where is https://registry.npmjs.org/gulp-concat
+287 info trying registry request attempt 1 at 13:25:08
+288 verbose etag "DH7UNJXL2X14LAAX75109HS1V"
+289 http GET https://registry.npmjs.org/gulp-concat
+290 verbose request where is /gulp-load-plugins
+291 verbose request registry https://registry.npmjs.org/
+292 verbose url raw /gulp-load-plugins
+293 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-load-plugins' ]
+294 verbose url resolved https://registry.npmjs.org/gulp-load-plugins
+295 verbose request where is https://registry.npmjs.org/gulp-load-plugins
+296 info trying registry request attempt 1 at 13:25:08
+297 verbose etag "9KGKQV4LI1NHMVNVYLUKJDQW3"
+298 http GET https://registry.npmjs.org/gulp-load-plugins
+299 verbose request where is /gulp-cssmin
+300 verbose request registry https://registry.npmjs.org/
+301 verbose url raw /gulp-cssmin
+302 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-cssmin' ]
+303 verbose url resolved https://registry.npmjs.org/gulp-cssmin
+304 verbose request where is https://registry.npmjs.org/gulp-cssmin
+305 info trying registry request attempt 1 at 13:25:08
+306 verbose etag "3NX9GC714JPW80VJRANHN5PHE"
+307 http GET https://registry.npmjs.org/gulp-cssmin
+308 verbose request where is /gulp-uglify
+309 verbose request registry https://registry.npmjs.org/
+310 verbose url raw /gulp-uglify
+311 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-uglify' ]
+312 verbose url resolved https://registry.npmjs.org/gulp-uglify
+313 verbose request where is https://registry.npmjs.org/gulp-uglify
+314 info trying registry request attempt 1 at 13:25:08
+315 verbose etag "D96GCISLWXS987DQOFZ2XPXP4"
+316 http GET https://registry.npmjs.org/gulp-uglify
+317 verbose request where is /connect-livereload
+318 verbose request registry https://registry.npmjs.org/
+319 verbose url raw /connect-livereload
+320 verbose url resolving [ 'https://registry.npmjs.org/', './connect-livereload' ]
+321 verbose url resolved https://registry.npmjs.org/connect-livereload
+322 verbose request where is https://registry.npmjs.org/connect-livereload
+323 info trying registry request attempt 1 at 13:25:08
+324 verbose etag "CCUCMI1DS52UR3VCL0RR4770N"
+325 http GET https://registry.npmjs.org/connect-livereload
+326 verbose request where is /tiny-lr
+327 verbose request registry https://registry.npmjs.org/
+328 verbose url raw /tiny-lr
+329 verbose url resolving [ 'https://registry.npmjs.org/', './tiny-lr' ]
+330 verbose url resolved https://registry.npmjs.org/tiny-lr
+331 verbose request where is https://registry.npmjs.org/tiny-lr
+332 info trying registry request attempt 1 at 13:25:08
+333 verbose etag "8PRWCRWPQB0RBYDCFSWERP2F6"
+334 http GET https://registry.npmjs.org/tiny-lr
+335 verbose request where is /requirejs
+336 verbose request registry https://registry.npmjs.org/
+337 verbose url raw /requirejs
+338 verbose url resolving [ 'https://registry.npmjs.org/', './requirejs' ]
+339 verbose url resolved https://registry.npmjs.org/requirejs
+340 verbose request where is https://registry.npmjs.org/requirejs
+341 info trying registry request attempt 1 at 13:25:08
+342 verbose etag "1HOOUY9HD25D05OPYY1T6ADSV"
+343 http GET https://registry.npmjs.org/requirejs
+344 verbose request where is /gulp
+345 verbose request registry https://registry.npmjs.org/
+346 verbose url raw /gulp
+347 verbose url resolving [ 'https://registry.npmjs.org/', './gulp' ]
+348 verbose url resolved https://registry.npmjs.org/gulp
+349 verbose request where is https://registry.npmjs.org/gulp
+350 info trying registry request attempt 1 at 13:25:08
+351 verbose etag "DC22RRDUIXBU3V2LXMPUG1IGJ"
+352 http GET https://registry.npmjs.org/gulp
+353 info addNameTag [ 'gulp-rename', 'latest' ]
+354 info addNameTag [ 'gulp-nodemon', 'latest' ]
+355 info addNameTag [ 'express', 'latest' ]
+356 info addNameTag [ 'require-dir', 'latest' ]
+357 verbose request where is /angular
+358 verbose request registry https://registry.npmjs.org/
+359 verbose url raw /angular
+360 verbose url resolving [ 'https://registry.npmjs.org/', './angular' ]
+361 verbose url resolved https://registry.npmjs.org/angular
+362 verbose request where is https://registry.npmjs.org/angular
+363 info trying registry request attempt 1 at 13:25:08
+364 verbose etag "JL5OJKIIYX75AFRFZ263WJOI"
+365 http GET https://registry.npmjs.org/angular
+366 info addNameTag [ 'webpack', 'latest' ]
+367 info addNameTag [ 'script-loader', 'latest' ]
+368 info addNameTag [ 'underscore', 'latest' ]
+369 info addNameTag [ 'lodash', 'latest' ]
+370 info addNameTag [ 'event-stream', 'latest' ]
+371 info addNameTag [ 'gulp-util', 'latest' ]
+372 info addNameTag [ 'run-sequence', 'latest' ]
+373 info addNameTag [ 'gulp-sass', 'latest' ]
+374 info addNameTag [ 'raw-loader', 'latest' ]
+375 info addNameTag [ 'gulp-exec', 'latest' ]
+376 info addNameTag [ 'gulp-livereload', 'latest' ]
+377 info addNameTag [ 'gulp-jshint', 'latest' ]
+378 verbose request where is /gulp-rename
+379 verbose request registry https://registry.npmjs.org/
+380 verbose url raw /gulp-rename
+381 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-rename' ]
+382 verbose url resolved https://registry.npmjs.org/gulp-rename
+383 verbose request where is https://registry.npmjs.org/gulp-rename
+384 info trying registry request attempt 1 at 13:25:08
+385 verbose etag "2RUNHPNI5QYFCES19B03KRNA"
+386 http GET https://registry.npmjs.org/gulp-rename
+387 verbose request where is /gulp-nodemon
+388 verbose request registry https://registry.npmjs.org/
+389 verbose url raw /gulp-nodemon
+390 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-nodemon' ]
+391 verbose url resolved https://registry.npmjs.org/gulp-nodemon
+392 verbose request where is https://registry.npmjs.org/gulp-nodemon
+393 info trying registry request attempt 1 at 13:25:08
+394 verbose etag "7NQZFKXOWXRWLF6ERKBE485RK"
+395 http GET https://registry.npmjs.org/gulp-nodemon
+396 verbose request where is /require-dir
+397 verbose request registry https://registry.npmjs.org/
+398 verbose url raw /require-dir
+399 verbose url resolving [ 'https://registry.npmjs.org/', './require-dir' ]
+400 verbose url resolved https://registry.npmjs.org/require-dir
+401 verbose request where is https://registry.npmjs.org/require-dir
+402 info trying registry request attempt 1 at 13:25:08
+403 verbose etag "C8RXVBOAH1DNV2OJC9AXK65QH"
+404 http GET https://registry.npmjs.org/require-dir
+405 verbose request where is /express
+406 verbose request registry https://registry.npmjs.org/
+407 verbose url raw /express
+408 verbose url resolving [ 'https://registry.npmjs.org/', './express' ]
+409 verbose url resolved https://registry.npmjs.org/express
+410 verbose request where is https://registry.npmjs.org/express
+411 info trying registry request attempt 1 at 13:25:08
+412 verbose etag "78EXDMNUEQYFS3MJVO7QT20RG"
+413 http GET https://registry.npmjs.org/express
+414 verbose request where is /script-loader
+415 verbose request registry https://registry.npmjs.org/
+416 verbose url raw /script-loader
+417 verbose url resolving [ 'https://registry.npmjs.org/', './script-loader' ]
+418 verbose url resolved https://registry.npmjs.org/script-loader
+419 verbose request where is https://registry.npmjs.org/script-loader
+420 info trying registry request attempt 1 at 13:25:08
+421 verbose etag "72V9MDAUC4WPJOUN1J0XQSO3T"
+422 http GET https://registry.npmjs.org/script-loader
+423 verbose request where is /underscore
+424 verbose request registry https://registry.npmjs.org/
+425 verbose url raw /underscore
+426 verbose url resolving [ 'https://registry.npmjs.org/', './underscore' ]
+427 verbose url resolved https://registry.npmjs.org/underscore
+428 verbose request where is https://registry.npmjs.org/underscore
+429 info trying registry request attempt 1 at 13:25:08
+430 verbose etag "CPYHO1R3BTUYXNHQ7SZM779E5"
+431 http GET https://registry.npmjs.org/underscore
+432 verbose request where is /lodash
+433 verbose request registry https://registry.npmjs.org/
+434 verbose url raw /lodash
+435 verbose url resolving [ 'https://registry.npmjs.org/', './lodash' ]
+436 verbose url resolved https://registry.npmjs.org/lodash
+437 verbose request where is https://registry.npmjs.org/lodash
+438 info trying registry request attempt 1 at 13:25:08
+439 verbose etag "CZVZVZ42PMXWOXV44M54N3XU9"
+440 http GET https://registry.npmjs.org/lodash
+441 verbose request where is /event-stream
+442 verbose request registry https://registry.npmjs.org/
+443 verbose url raw /event-stream
+444 verbose url resolving [ 'https://registry.npmjs.org/', './event-stream' ]
+445 verbose url resolved https://registry.npmjs.org/event-stream
+446 verbose request where is https://registry.npmjs.org/event-stream
+447 info trying registry request attempt 1 at 13:25:08
+448 verbose etag "4GH2LWR8FUGWWZ217QTNPCAKL"
+449 http GET https://registry.npmjs.org/event-stream
+450 verbose request where is /gulp-util
+451 verbose request registry https://registry.npmjs.org/
+452 verbose url raw /gulp-util
+453 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-util' ]
+454 verbose url resolved https://registry.npmjs.org/gulp-util
+455 verbose request where is https://registry.npmjs.org/gulp-util
+456 info trying registry request attempt 1 at 13:25:08
+457 verbose etag "C5ESNQQFXB8GX4S39L929R0UU"
+458 http GET https://registry.npmjs.org/gulp-util
+459 verbose request where is /gulp-sass
+460 verbose request registry https://registry.npmjs.org/
+461 verbose url raw /gulp-sass
+462 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-sass' ]
+463 verbose url resolved https://registry.npmjs.org/gulp-sass
+464 verbose request where is https://registry.npmjs.org/gulp-sass
+465 info trying registry request attempt 1 at 13:25:08
+466 verbose etag "A867BYF94SZUOR1C2LJTO1J1I"
+467 http GET https://registry.npmjs.org/gulp-sass
+468 verbose request where is /run-sequence
+469 verbose request registry https://registry.npmjs.org/
+470 verbose url raw /run-sequence
+471 verbose url resolving [ 'https://registry.npmjs.org/', './run-sequence' ]
+472 verbose url resolved https://registry.npmjs.org/run-sequence
+473 verbose request where is https://registry.npmjs.org/run-sequence
+474 info trying registry request attempt 1 at 13:25:08
+475 verbose etag "AMYA08XK3JLKKTNW3N6LC9CJT"
+476 http GET https://registry.npmjs.org/run-sequence
+477 verbose request where is /raw-loader
+478 verbose request registry https://registry.npmjs.org/
+479 verbose url raw /raw-loader
+480 verbose url resolving [ 'https://registry.npmjs.org/', './raw-loader' ]
+481 verbose url resolved https://registry.npmjs.org/raw-loader
+482 verbose request where is https://registry.npmjs.org/raw-loader
+483 info trying registry request attempt 1 at 13:25:08
+484 verbose etag "8N8CC755VD1WDOH84PXNHJC7R"
+485 http GET https://registry.npmjs.org/raw-loader
+486 verbose request where is /gulp-exec
+487 verbose request registry https://registry.npmjs.org/
+488 verbose url raw /gulp-exec
+489 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-exec' ]
+490 verbose url resolved https://registry.npmjs.org/gulp-exec
+491 verbose request where is https://registry.npmjs.org/gulp-exec
+492 info trying registry request attempt 1 at 13:25:08
+493 verbose etag "9S1YWVK57I2UCG1AJ0T7Z6RR0"
+494 http GET https://registry.npmjs.org/gulp-exec
+495 verbose request where is /webpack
+496 verbose request registry https://registry.npmjs.org/
+497 verbose url raw /webpack
+498 verbose url resolving [ 'https://registry.npmjs.org/', './webpack' ]
+499 verbose url resolved https://registry.npmjs.org/webpack
+500 verbose request where is https://registry.npmjs.org/webpack
+501 info trying registry request attempt 1 at 13:25:08
+502 verbose etag "AGU8YK4Z6G4WNLZDQEFUVOLPU"
+503 http GET https://registry.npmjs.org/webpack
+504 verbose request where is /gulp-livereload
+505 verbose request registry https://registry.npmjs.org/
+506 verbose url raw /gulp-livereload
+507 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-livereload' ]
+508 verbose url resolved https://registry.npmjs.org/gulp-livereload
+509 verbose request where is https://registry.npmjs.org/gulp-livereload
+510 info trying registry request attempt 1 at 13:25:08
+511 verbose etag "73H1SCMTJF1J3IOR0NO5SP9Y5"
+512 http GET https://registry.npmjs.org/gulp-livereload
+513 verbose request where is /gulp-jshint
+514 verbose request registry https://registry.npmjs.org/
+515 verbose url raw /gulp-jshint
+516 verbose url resolving [ 'https://registry.npmjs.org/', './gulp-jshint' ]
+517 verbose url resolved https://registry.npmjs.org/gulp-jshint
+518 verbose request where is https://registry.npmjs.org/gulp-jshint
+519 info trying registry request attempt 1 at 13:25:08
+520 verbose etag "4SCHQUYLRJJBHEV4RYXT5CF73"
+521 http GET https://registry.npmjs.org/gulp-jshint
+522 http 304 https://registry.npmjs.org/gulp-concat
+523 silly registry.get cb [ 304,
+523 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:08 GMT',
+523 silly registry.get     via: '1.1 varnish',
+523 silly registry.get     'cache-control': 'max-age=60',
+523 silly registry.get     etag: '"DH7UNJXL2X14LAAX75109HS1V"',
+523 silly registry.get     age: '15',
+523 silly registry.get     connection: 'keep-alive',
+523 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+523 silly registry.get     'x-cache': 'HIT',
+523 silly registry.get     'x-cache-hits': '1',
+523 silly registry.get     'x-timer': 'S1438968308.978643,VS0,VE1',
+523 silly registry.get     vary: 'Accept' } ]
+524 verbose etag https://registry.npmjs.org/gulp-concat from cache
+525 verbose addNamed [ 'gulp-concat', '2.6.0' ]
+526 verbose addNamed [ '2.6.0', '2.6.0' ]
+527 silly lockFile 03b8a742-gulp-concat-2-6-0 gulp-concat@2.6.0
+528 verbose lock gulp-concat@2.6.0 C:\Users\Christiaan\AppData\Roaming\npm-cache\03b8a742-gulp-concat-2-6-0.lock
+529 silly lockFile 03b8a742-gulp-concat-2-6-0 gulp-concat@2.6.0
+530 silly lockFile 03b8a742-gulp-concat-2-6-0 gulp-concat@2.6.0
+531 silly lockFile 8bbbbeeb-gulp-concat-latest gulp-concat@latest
+532 silly lockFile 8bbbbeeb-gulp-concat-latest gulp-concat@latest
+533 http 304 https://registry.npmjs.org/gulp-cssmin
+534 silly registry.get cb [ 304,
+534 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:08 GMT',
+534 silly registry.get     via: '1.1 varnish',
+534 silly registry.get     'cache-control': 'max-age=60',
+534 silly registry.get     etag: '"3NX9GC714JPW80VJRANHN5PHE"',
+534 silly registry.get     age: '0',
+534 silly registry.get     connection: 'keep-alive',
+534 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+534 silly registry.get     'x-cache': 'HIT',
+534 silly registry.get     'x-cache-hits': '1',
+534 silly registry.get     'x-timer': 'S1438968308.983038,VS0,VE19',
+534 silly registry.get     vary: 'Accept' } ]
+535 verbose etag https://registry.npmjs.org/gulp-cssmin from cache
+536 info already installed gulp-concat@2.6.0
+537 http 304 https://registry.npmjs.org/gulp-uglify
+538 silly registry.get cb [ 304,
+538 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+538 silly registry.get     via: '1.1 varnish',
+538 silly registry.get     'cache-control': 'max-age=60',
+538 silly registry.get     etag: '"D96GCISLWXS987DQOFZ2XPXP4"',
+538 silly registry.get     age: '15',
+538 silly registry.get     connection: 'keep-alive',
+538 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+538 silly registry.get     'x-cache': 'HIT',
+538 silly registry.get     'x-cache-hits': '1',
+538 silly registry.get     'x-timer': 'S1438968309.007271,VS0,VE0',
+538 silly registry.get     vary: 'Accept' } ]
+539 verbose etag https://registry.npmjs.org/gulp-uglify from cache
+540 verbose addNamed [ 'gulp-cssmin', '0.1.7' ]
+541 verbose addNamed [ '0.1.7', '0.1.7' ]
+542 silly lockFile 385e8602-gulp-cssmin-0-1-7 gulp-cssmin@0.1.7
+543 verbose lock gulp-cssmin@0.1.7 C:\Users\Christiaan\AppData\Roaming\npm-cache\385e8602-gulp-cssmin-0-1-7.lock
+544 silly lockFile 385e8602-gulp-cssmin-0-1-7 gulp-cssmin@0.1.7
+545 silly lockFile 385e8602-gulp-cssmin-0-1-7 gulp-cssmin@0.1.7
+546 silly lockFile cd2d2a6f-gulp-cssmin-latest gulp-cssmin@latest
+547 silly lockFile cd2d2a6f-gulp-cssmin-latest gulp-cssmin@latest
+548 verbose addNamed [ 'gulp-uglify', '1.2.0' ]
+549 verbose addNamed [ '1.2.0', '1.2.0' ]
+550 silly lockFile 9d272576-gulp-uglify-1-2-0 gulp-uglify@1.2.0
+551 verbose lock gulp-uglify@1.2.0 C:\Users\Christiaan\AppData\Roaming\npm-cache\9d272576-gulp-uglify-1-2-0.lock
+552 silly lockFile 9d272576-gulp-uglify-1-2-0 gulp-uglify@1.2.0
+553 silly lockFile 9d272576-gulp-uglify-1-2-0 gulp-uglify@1.2.0
+554 silly lockFile b89f856d-gulp-uglify-latest gulp-uglify@latest
+555 silly lockFile b89f856d-gulp-uglify-latest gulp-uglify@latest
+556 info already installed gulp-cssmin@0.1.7
+557 info already installed gulp-uglify@1.2.0
+558 http 304 https://registry.npmjs.org/connect-livereload
+559 silly registry.get cb [ 304,
+559 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+559 silly registry.get     via: '1.1 varnish',
+559 silly registry.get     'cache-control': 'max-age=60',
+559 silly registry.get     etag: '"CCUCMI1DS52UR3VCL0RR4770N"',
+559 silly registry.get     age: '60',
+559 silly registry.get     connection: 'keep-alive',
+559 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+559 silly registry.get     'x-cache': 'HIT',
+559 silly registry.get     'x-cache-hits': '2',
+559 silly registry.get     'x-timer': 'S1438968309.025674,VS0,VE0',
+559 silly registry.get     vary: 'Accept' } ]
+560 verbose etag https://registry.npmjs.org/connect-livereload from cache
+561 http 304 https://registry.npmjs.org/tiny-lr
+562 silly registry.get cb [ 304,
+562 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+562 silly registry.get     via: '1.1 varnish',
+562 silly registry.get     'cache-control': 'max-age=60',
+562 silly registry.get     etag: '"8PRWCRWPQB0RBYDCFSWERP2F6"',
+562 silly registry.get     age: '33',
+562 silly registry.get     connection: 'keep-alive',
+562 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+562 silly registry.get     'x-cache': 'HIT',
+562 silly registry.get     'x-cache-hits': '1',
+562 silly registry.get     'x-timer': 'S1438968309.030114,VS0,VE1',
+562 silly registry.get     vary: 'Accept' } ]
+563 verbose etag https://registry.npmjs.org/tiny-lr from cache
+564 http 200 https://registry.npmjs.org/angular-router
+565 silly registry.get cb [ 200,
+565 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+565 silly registry.get     etag: '"5GAO2CMASXQH2D8012C6EOHN7"',
+565 silly registry.get     'content-type': 'application/json',
+565 silly registry.get     'cache-control': 'max-age=60',
+565 silly registry.get     'content-length': '3158',
+565 silly registry.get     'accept-ranges': 'bytes',
+565 silly registry.get     date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+565 silly registry.get     via: '1.1 varnish',
+565 silly registry.get     age: '0',
+565 silly registry.get     connection: 'keep-alive',
+565 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+565 silly registry.get     'x-cache': 'MISS',
+565 silly registry.get     'x-cache-hits': '0',
+565 silly registry.get     'x-timer': 'S1438968308.953196,VS0,VE87',
+565 silly registry.get     vary: 'Accept' } ]
+566 verbose addNamed [ 'connect-livereload', '0.5.3' ]
+567 verbose addNamed [ '0.5.3', '0.5.3' ]
+568 silly lockFile cf0a7468-connect-livereload-0-5-3 connect-livereload@0.5.3
+569 verbose lock connect-livereload@0.5.3 C:\Users\Christiaan\AppData\Roaming\npm-cache\cf0a7468-connect-livereload-0-5-3.lock
+570 http 304 https://registry.npmjs.org/gulp
+571 silly registry.get cb [ 304,
+571 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+571 silly registry.get     via: '1.1 varnish',
+571 silly registry.get     'cache-control': 'max-age=60',
+571 silly registry.get     etag: '"DC22RRDUIXBU3V2LXMPUG1IGJ"',
+571 silly registry.get     age: '53',
+571 silly registry.get     connection: 'keep-alive',
+571 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+571 silly registry.get     'x-cache': 'HIT',
+571 silly registry.get     'x-cache-hits': '2',
+571 silly registry.get     'x-timer': 'S1438968309.053096,VS0,VE0',
+571 silly registry.get     vary: 'Accept' } ]
+572 verbose etag https://registry.npmjs.org/gulp from cache
+573 silly lockFile cf0a7468-connect-livereload-0-5-3 connect-livereload@0.5.3
+574 silly lockFile cf0a7468-connect-livereload-0-5-3 connect-livereload@0.5.3
+575 silly lockFile 1b5d30d9-connect-livereload-latest connect-livereload@latest
+576 silly lockFile 1b5d30d9-connect-livereload-latest connect-livereload@latest
+577 verbose addNamed [ 'tiny-lr', '0.1.6' ]
+578 verbose addNamed [ '0.1.6', '0.1.6' ]
+579 silly lockFile c31200c6-tiny-lr-0-1-6 tiny-lr@0.1.6
+580 verbose lock tiny-lr@0.1.6 C:\Users\Christiaan\AppData\Roaming\npm-cache\c31200c6-tiny-lr-0-1-6.lock
+581 verbose addNamed [ 'angular-router', '0.0.2' ]
+582 verbose addNamed [ '0.0.2', '0.0.2' ]
+583 silly lockFile 46a17743-angular-router-0-0-2 angular-router@0.0.2
+584 verbose lock angular-router@0.0.2 C:\Users\Christiaan\AppData\Roaming\npm-cache\46a17743-angular-router-0-0-2.lock
+585 silly lockFile c31200c6-tiny-lr-0-1-6 tiny-lr@0.1.6
+586 silly lockFile c31200c6-tiny-lr-0-1-6 tiny-lr@0.1.6
+587 http 304 https://registry.npmjs.org/gulp-csslint
+588 silly registry.get cb [ 304,
+588 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:08 GMT',
+588 silly registry.get     via: '1.1 varnish',
+588 silly registry.get     'cache-control': 'max-age=60',
+588 silly registry.get     etag: '"EF9JI9K88XILVH0O4ZWGUEAOG"',
+588 silly registry.get     age: '0',
+588 silly registry.get     connection: 'keep-alive',
+588 silly registry.get     'x-served-by': 'cache-jfk1034-JFK',
+588 silly registry.get     'x-cache': 'HIT',
+588 silly registry.get     'x-cache-hits': '1',
+588 silly registry.get     'x-timer': 'S1438968308.971268,VS0,VE95',
+588 silly registry.get     vary: 'Accept' } ]
+589 verbose etag https://registry.npmjs.org/gulp-csslint from cache
+590 silly lockFile 22ff52ae--router-angular-router-0-0-2-tgz https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz
+591 verbose lock https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz C:\Users\Christiaan\AppData\Roaming\npm-cache\22ff52ae--router-angular-router-0-0-2-tgz.lock
+592 silly lockFile a6a5171f-tiny-lr-latest tiny-lr@latest
+593 silly lockFile a6a5171f-tiny-lr-latest tiny-lr@latest
+594 http 304 https://registry.npmjs.org/requirejs
+595 silly registry.get cb [ 304,
+595 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+595 silly registry.get     via: '1.1 varnish',
+595 silly registry.get     'cache-control': 'max-age=60',
+595 silly registry.get     etag: '"1HOOUY9HD25D05OPYY1T6ADSV"',
+595 silly registry.get     age: '0',
+595 silly registry.get     connection: 'keep-alive',
+595 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+595 silly registry.get     'x-cache': 'HIT',
+595 silly registry.get     'x-cache-hits': '1',
+595 silly registry.get     'x-timer': 'S1438968309.049056,VS0,VE19',
+595 silly registry.get     vary: 'Accept' } ]
+596 verbose etag https://registry.npmjs.org/requirejs from cache
+597 http 304 https://registry.npmjs.org/angular
+598 silly registry.get cb [ 304,
+598 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+598 silly registry.get     via: '1.1 varnish',
+598 silly registry.get     'cache-control': 'max-age=60',
+598 silly registry.get     etag: '"JL5OJKIIYX75AFRFZ263WJOI"',
+598 silly registry.get     age: '17',
+598 silly registry.get     connection: 'keep-alive',
+598 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+598 silly registry.get     'x-cache': 'HIT',
+598 silly registry.get     'x-cache-hits': '1',
+598 silly registry.get     'x-timer': 'S1438968309.071448,VS0,VE1',
+598 silly registry.get     vary: 'Accept' } ]
+599 verbose etag https://registry.npmjs.org/angular from cache
+600 verbose addNamed [ 'gulp', '3.9.0' ]
+601 verbose addNamed [ '3.9.0', '3.9.0' ]
+602 silly lockFile c2697a61-gulp-3-9-0 gulp@3.9.0
+603 verbose lock gulp@3.9.0 C:\Users\Christiaan\AppData\Roaming\npm-cache\c2697a61-gulp-3-9-0.lock
+604 verbose addRemoteTarball [ 'https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz',
+604 verbose addRemoteTarball   '50ddd91f43edda87da8335acb21d438a782e22fc' ]
+605 http 304 https://registry.npmjs.org/gulp-rename
+606 silly registry.get cb [ 304,
+606 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+606 silly registry.get     via: '1.1 varnish',
+606 silly registry.get     'cache-control': 'max-age=60',
+606 silly registry.get     etag: '"2RUNHPNI5QYFCES19B03KRNA"',
+606 silly registry.get     age: '17',
+606 silly registry.get     connection: 'keep-alive',
+606 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+606 silly registry.get     'x-cache': 'HIT',
+606 silly registry.get     'x-cache-hits': '265',
+606 silly registry.get     'x-timer': 'S1438968309.076077,VS0,VE0',
+606 silly registry.get     vary: 'Accept' } ]
+607 verbose etag https://registry.npmjs.org/gulp-rename from cache
+608 verbose addNamed [ 'gulp-csslint', '0.1.5' ]
+609 verbose addNamed [ '0.1.5', '0.1.5' ]
+610 silly lockFile a18ac012-gulp-csslint-0-1-5 gulp-csslint@0.1.5
+611 verbose lock gulp-csslint@0.1.5 C:\Users\Christiaan\AppData\Roaming\npm-cache\a18ac012-gulp-csslint-0-1-5.lock
+612 info already installed connect-livereload@0.5.3
+613 info retry fetch attempt 1 at 13:25:08
+614 verbose fetch to= C:\Users\CHRIST~1\AppData\Local\Temp\npm-1508-_U8n3TXK\registry.npmjs.org\angular-router\-\angular-router-0.0.2.tgz
+615 silly lockFile c2697a61-gulp-3-9-0 gulp@3.9.0
+616 silly lockFile c2697a61-gulp-3-9-0 gulp@3.9.0
+617 info already installed tiny-lr@0.1.6
+618 silly lockFile 429e12c1-gulp-latest gulp@latest
+619 silly lockFile 429e12c1-gulp-latest gulp@latest
+620 http GET https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz
+621 http 304 https://registry.npmjs.org/express
+622 silly registry.get cb [ 304,
+622 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+622 silly registry.get     via: '1.1 varnish',
+622 silly registry.get     'cache-control': 'max-age=60',
+622 silly registry.get     etag: '"78EXDMNUEQYFS3MJVO7QT20RG"',
+622 silly registry.get     age: '16',
+622 silly registry.get     connection: 'keep-alive',
+622 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+622 silly registry.get     'x-cache': 'HIT',
+622 silly registry.get     'x-cache-hits': '1',
+622 silly registry.get     'x-timer': 'S1438968309.096288,VS0,VE3',
+622 silly registry.get     vary: 'Accept' } ]
+623 verbose etag https://registry.npmjs.org/express from cache
+624 verbose addNamed [ 'angular', '1.4.3' ]
+625 verbose addNamed [ '1.4.3', '1.4.3' ]
+626 silly lockFile 7c2a7381-angular-1-4-3 angular@1.4.3
+627 verbose lock angular@1.4.3 C:\Users\Christiaan\AppData\Roaming\npm-cache\7c2a7381-angular-1-4-3.lock
+628 verbose addNamed [ 'requirejs', '2.1.20' ]
+629 verbose addNamed [ '2.1.20', '2.1.20' ]
+630 silly lockFile c70073ca-requirejs-2-1-20 requirejs@2.1.20
+631 verbose lock requirejs@2.1.20 C:\Users\Christiaan\AppData\Roaming\npm-cache\c70073ca-requirejs-2-1-20.lock
+632 verbose addNamed [ 'gulp-rename', '1.2.2' ]
+633 verbose addNamed [ '1.2.2', '1.2.2' ]
+634 silly lockFile 36a270fc-gulp-rename-1-2-2 gulp-rename@1.2.2
+635 verbose lock gulp-rename@1.2.2 C:\Users\Christiaan\AppData\Roaming\npm-cache\36a270fc-gulp-rename-1-2-2.lock
+636 silly lockFile a18ac012-gulp-csslint-0-1-5 gulp-csslint@0.1.5
+637 silly lockFile a18ac012-gulp-csslint-0-1-5 gulp-csslint@0.1.5
+638 http 304 https://registry.npmjs.org/require-dir
+639 silly registry.get cb [ 304,
+639 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+639 silly registry.get     via: '1.1 varnish',
+639 silly registry.get     'cache-control': 'max-age=60',
+639 silly registry.get     etag: '"C8RXVBOAH1DNV2OJC9AXK65QH"',
+639 silly registry.get     age: '0',
+639 silly registry.get     connection: 'keep-alive',
+639 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+639 silly registry.get     'x-cache': 'HIT',
+639 silly registry.get     'x-cache-hits': '1',
+639 silly registry.get     'x-timer': 'S1438968309.093983,VS0,VE20',
+639 silly registry.get     vary: 'Accept' } ]
+640 verbose etag https://registry.npmjs.org/require-dir from cache
+641 http 304 https://registry.npmjs.org/underscore
+642 silly registry.get cb [ 304,
+642 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+642 silly registry.get     via: '1.1 varnish',
+642 silly registry.get     'cache-control': 'max-age=60',
+642 silly registry.get     etag: '"CPYHO1R3BTUYXNHQ7SZM779E5"',
+642 silly registry.get     age: '55',
+642 silly registry.get     connection: 'keep-alive',
+642 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+642 silly registry.get     'x-cache': 'HIT',
+642 silly registry.get     'x-cache-hits': '3',
+642 silly registry.get     'x-timer': 'S1438968309.123559,VS0,VE0',
+642 silly registry.get     vary: 'Accept' } ]
+643 verbose etag https://registry.npmjs.org/underscore from cache
+644 silly lockFile cd564b14-gulp-csslint-latest gulp-csslint@latest
+645 silly lockFile cd564b14-gulp-csslint-latest gulp-csslint@latest
+646 silly lockFile c70073ca-requirejs-2-1-20 requirejs@2.1.20
+647 silly lockFile c70073ca-requirejs-2-1-20 requirejs@2.1.20
+648 info already installed gulp@3.9.0
+649 silly lockFile 27500c20-requirejs-latest requirejs@latest
+650 silly lockFile 27500c20-requirejs-latest requirejs@latest
+651 silly lockFile 36a270fc-gulp-rename-1-2-2 gulp-rename@1.2.2
+652 silly lockFile 36a270fc-gulp-rename-1-2-2 gulp-rename@1.2.2
+653 verbose addNamed [ 'require-dir', '0.3.0' ]
+654 verbose addNamed [ '0.3.0', '0.3.0' ]
+655 silly lockFile 709e64d4-require-dir-0-3-0 require-dir@0.3.0
+656 verbose lock require-dir@0.3.0 C:\Users\Christiaan\AppData\Roaming\npm-cache\709e64d4-require-dir-0-3-0.lock
+657 verbose addNamed [ 'express', '4.13.3' ]
+658 verbose addNamed [ '4.13.3', '4.13.3' ]
+659 silly lockFile 51f1744e-express-4-13-3 express@4.13.3
+660 verbose lock express@4.13.3 C:\Users\Christiaan\AppData\Roaming\npm-cache\51f1744e-express-4-13-3.lock
+661 silly lockFile 39e2f56b-gulp-rename-latest gulp-rename@latest
+662 silly lockFile 39e2f56b-gulp-rename-latest gulp-rename@latest
+663 silly lockFile 7c2a7381-angular-1-4-3 angular@1.4.3
+664 silly lockFile 7c2a7381-angular-1-4-3 angular@1.4.3
+665 verbose addNamed [ 'underscore', '1.8.3' ]
+666 verbose addNamed [ '1.8.3', '1.8.3' ]
+667 silly lockFile e5e32fca-underscore-1-8-3 underscore@1.8.3
+668 verbose lock underscore@1.8.3 C:\Users\Christiaan\AppData\Roaming\npm-cache\e5e32fca-underscore-1-8-3.lock
+669 silly lockFile 6c758ed7-angular-latest angular@latest
+670 silly lockFile 6c758ed7-angular-latest angular@latest
+671 http 304 https://registry.npmjs.org/gulp-nodemon
+672 silly registry.get cb [ 304,
+672 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+672 silly registry.get     via: '1.1 varnish',
+672 silly registry.get     'cache-control': 'max-age=60',
+672 silly registry.get     etag: '"7NQZFKXOWXRWLF6ERKBE485RK"',
+672 silly registry.get     age: '0',
+672 silly registry.get     connection: 'keep-alive',
+672 silly registry.get     'x-served-by': 'cache-jfk1034-JFK',
+672 silly registry.get     'x-cache': 'HIT',
+672 silly registry.get     'x-cache-hits': '1',
+672 silly registry.get     'x-timer': 'S1438968309.089774,VS0,VE83',
+672 silly registry.get     vary: 'Accept' } ]
+673 verbose etag https://registry.npmjs.org/gulp-nodemon from cache
+674 http 304 https://registry.npmjs.org/lodash
+675 silly registry.get cb [ 304,
+675 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+675 silly registry.get     via: '1.1 varnish',
+675 silly registry.get     'cache-control': 'max-age=60',
+675 silly registry.get     etag: '"CZVZVZ42PMXWOXV44M54N3XU9"',
+675 silly registry.get     age: '32',
+675 silly registry.get     connection: 'keep-alive',
+675 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+675 silly registry.get     'x-cache': 'HIT',
+675 silly registry.get     'x-cache-hits': '7',
+675 silly registry.get     'x-timer': 'S1438968309.172650,VS0,VE0',
+675 silly registry.get     vary: 'Accept' } ]
+676 verbose etag https://registry.npmjs.org/lodash from cache
+677 http 304 https://registry.npmjs.org/event-stream
+678 silly registry.get cb [ 304,
+678 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+678 silly registry.get     via: '1.1 varnish',
+678 silly registry.get     'cache-control': 'max-age=60',
+678 silly registry.get     etag: '"4GH2LWR8FUGWWZ217QTNPCAKL"',
+678 silly registry.get     age: '28',
+678 silly registry.get     connection: 'keep-alive',
+678 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+678 silly registry.get     'x-cache': 'HIT',
+678 silly registry.get     'x-cache-hits': '1',
+678 silly registry.get     'x-timer': 'S1438968309.174338,VS0,VE1',
+678 silly registry.get     vary: 'Accept' } ]
+679 verbose etag https://registry.npmjs.org/event-stream from cache
+680 info already installed gulp-csslint@0.1.5
+681 info already installed requirejs@2.1.20
+682 http 304 https://registry.npmjs.org/gulp-util
+683 silly registry.get cb [ 304,
+683 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+683 silly registry.get     via: '1.1 varnish',
+683 silly registry.get     'cache-control': 'max-age=60',
+683 silly registry.get     etag: '"C5ESNQQFXB8GX4S39L929R0UU"',
+683 silly registry.get     age: '4',
+683 silly registry.get     connection: 'keep-alive',
+683 silly registry.get     'x-served-by': 'cache-jfk1034-JFK',
+683 silly registry.get     'x-cache': 'HIT',
+683 silly registry.get     'x-cache-hits': '2',
+683 silly registry.get     'x-timer': 'S1438968309.195491,VS0,VE0',
+683 silly registry.get     vary: 'Accept' } ]
+684 verbose etag https://registry.npmjs.org/gulp-util from cache
+685 info already installed gulp-rename@1.2.2
+686 http 304 https://registry.npmjs.org/script-loader
+687 silly registry.get cb [ 304,
+687 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+687 silly registry.get     via: '1.1 varnish',
+687 silly registry.get     'cache-control': 'max-age=60',
+687 silly registry.get     etag: '"72V9MDAUC4WPJOUN1J0XQSO3T"',
+687 silly registry.get     age: '0',
+687 silly registry.get     connection: 'keep-alive',
+687 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+687 silly registry.get     'x-cache': 'HIT',
+687 silly registry.get     'x-cache-hits': '1',
+687 silly registry.get     'x-timer': 'S1438968309.107063,VS0,VE91',
+687 silly registry.get     vary: 'Accept' } ]
+688 verbose etag https://registry.npmjs.org/script-loader from cache
+689 silly lockFile 709e64d4-require-dir-0-3-0 require-dir@0.3.0
+690 silly lockFile 709e64d4-require-dir-0-3-0 require-dir@0.3.0
+691 silly lockFile 51f1744e-express-4-13-3 express@4.13.3
+692 silly lockFile 51f1744e-express-4-13-3 express@4.13.3
+693 verbose addNamed [ 'lodash', '3.10.1' ]
+694 verbose addNamed [ '3.10.1', '3.10.1' ]
+695 silly lockFile 8e3ad7e2-lodash-3-10-1 lodash@3.10.1
+696 verbose lock lodash@3.10.1 C:\Users\Christiaan\AppData\Roaming\npm-cache\8e3ad7e2-lodash-3-10-1.lock
+697 silly lockFile 16e79d8a-require-dir-latest require-dir@latest
+698 silly lockFile 16e79d8a-require-dir-latest require-dir@latest
+699 verbose addNamed [ 'gulp-nodemon', '2.0.3' ]
+700 verbose addNamed [ '2.0.3', '2.0.3' ]
+701 silly lockFile 0cd11ab1-gulp-nodemon-2-0-3 gulp-nodemon@2.0.3
+702 verbose lock gulp-nodemon@2.0.3 C:\Users\Christiaan\AppData\Roaming\npm-cache\0cd11ab1-gulp-nodemon-2-0-3.lock
+703 silly lockFile c30a01ab-express-latest express@latest
+704 silly lockFile c30a01ab-express-latest express@latest
+705 verbose addNamed [ 'event-stream', '3.3.1' ]
+706 verbose addNamed [ '3.3.1', '3.3.1' ]
+707 silly lockFile dce41fb8-event-stream-3-3-1 event-stream@3.3.1
+708 verbose lock event-stream@3.3.1 C:\Users\Christiaan\AppData\Roaming\npm-cache\dce41fb8-event-stream-3-3-1.lock
+709 silly lockFile e5e32fca-underscore-1-8-3 underscore@1.8.3
+710 silly lockFile e5e32fca-underscore-1-8-3 underscore@1.8.3
+711 silly lockFile 546e1155-underscore-latest underscore@latest
+712 silly lockFile 546e1155-underscore-latest underscore@latest
+713 verbose addNamed [ 'gulp-util', '3.0.6' ]
+714 verbose addNamed [ '3.0.6', '3.0.6' ]
+715 silly lockFile d2dca944-gulp-util-3-0-6 gulp-util@3.0.6
+716 verbose lock gulp-util@3.0.6 C:\Users\Christiaan\AppData\Roaming\npm-cache\d2dca944-gulp-util-3-0-6.lock
+717 silly lockFile 0cd11ab1-gulp-nodemon-2-0-3 gulp-nodemon@2.0.3
+718 silly lockFile 0cd11ab1-gulp-nodemon-2-0-3 gulp-nodemon@2.0.3
+719 silly lockFile dce41fb8-event-stream-3-3-1 event-stream@3.3.1
+720 silly lockFile dce41fb8-event-stream-3-3-1 event-stream@3.3.1
+721 silly lockFile 46dd5a38-gulp-nodemon-latest gulp-nodemon@latest
+722 silly lockFile 46dd5a38-gulp-nodemon-latest gulp-nodemon@latest
+723 silly lockFile c7748770-event-stream-latest event-stream@latest
+724 silly lockFile c7748770-event-stream-latest event-stream@latest
+725 info already installed require-dir@0.3.0
+726 silly lockFile d2dca944-gulp-util-3-0-6 gulp-util@3.0.6
+727 silly lockFile d2dca944-gulp-util-3-0-6 gulp-util@3.0.6
+728 verbose addNamed [ 'script-loader', '0.6.1' ]
+729 verbose addNamed [ '0.6.1', '0.6.1' ]
+730 silly lockFile fbfa9f50-script-loader-0-6-1 script-loader@0.6.1
+731 verbose lock script-loader@0.6.1 C:\Users\Christiaan\AppData\Roaming\npm-cache\fbfa9f50-script-loader-0-6-1.lock
+732 info already installed express@4.13.3
+733 silly lockFile baa2251a-gulp-util-latest gulp-util@latest
+734 silly lockFile baa2251a-gulp-util-latest gulp-util@latest
+735 silly lockFile 8e3ad7e2-lodash-3-10-1 lodash@3.10.1
+736 silly lockFile 8e3ad7e2-lodash-3-10-1 lodash@3.10.1
+737 info already installed underscore@1.8.3
+738 silly lockFile e74123f1-lodash-latest lodash@latest
+739 silly lockFile e74123f1-lodash-latest lodash@latest
+740 silly lockFile fbfa9f50-script-loader-0-6-1 script-loader@0.6.1
+741 silly lockFile fbfa9f50-script-loader-0-6-1 script-loader@0.6.1
+742 info already installed event-stream@3.3.1
+743 info already installed gulp-nodemon@2.0.3
+744 silly lockFile 46890273-script-loader-latest script-loader@latest
+745 silly lockFile 46890273-script-loader-latest script-loader@latest
+746 info already installed gulp-util@3.0.6
+747 info already installed lodash@3.10.1
+748 info already installed script-loader@0.6.1
+749 http 304 https://registry.npmjs.org/gulp-load-plugins
+750 silly registry.get cb [ 304,
+750 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:08 GMT',
+750 silly registry.get     via: '1.1 varnish',
+750 silly registry.get     'cache-control': 'max-age=60',
+750 silly registry.get     etag: '"9KGKQV4LI1NHMVNVYLUKJDQW3"',
+750 silly registry.get     age: '0',
+750 silly registry.get     connection: 'keep-alive',
+750 silly registry.get     'x-served-by': 'cache-jfk1033-JFK',
+750 silly registry.get     'x-cache': 'HIT',
+750 silly registry.get     'x-cache-hits': '1',
+750 silly registry.get     'x-timer': 'S1438968308.983602,VS0,VE343',
+750 silly registry.get     vary: 'Accept' } ]
+751 verbose etag https://registry.npmjs.org/gulp-load-plugins from cache
+752 verbose addNamed [ 'gulp-load-plugins', '1.0.0-rc.1' ]
+753 verbose addNamed [ '1.0.0-rc.1', '1.0.0-rc.1' ]
+754 silly lockFile f2c9e9ae-gulp-load-plugins-1-0-0-rc-1 gulp-load-plugins@1.0.0-rc.1
+755 verbose lock gulp-load-plugins@1.0.0-rc.1 C:\Users\Christiaan\AppData\Roaming\npm-cache\f2c9e9ae-gulp-load-plugins-1-0-0-rc-1.lock
+756 silly lockFile f2c9e9ae-gulp-load-plugins-1-0-0-rc-1 gulp-load-plugins@1.0.0-rc.1
+757 silly lockFile f2c9e9ae-gulp-load-plugins-1-0-0-rc-1 gulp-load-plugins@1.0.0-rc.1
+758 silly lockFile 4810b9ab-gulp-load-plugins-latest gulp-load-plugins@latest
+759 silly lockFile 4810b9ab-gulp-load-plugins-latest gulp-load-plugins@latest
+760 info already installed gulp-load-plugins@1.0.0-rc.1
+761 http 304 https://registry.npmjs.org/webpack
+762 silly registry.get cb [ 304,
+762 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+762 silly registry.get     via: '1.1 varnish',
+762 silly registry.get     'cache-control': 'max-age=60',
+762 silly registry.get     etag: '"AGU8YK4Z6G4WNLZDQEFUVOLPU"',
+762 silly registry.get     age: '0',
+762 silly registry.get     connection: 'keep-alive',
+762 silly registry.get     'x-served-by': 'cache-jfk1033-JFK',
+762 silly registry.get     'x-cache': 'HIT',
+762 silly registry.get     'x-cache-hits': '1',
+762 silly registry.get     'x-timer': 'S1438968309.350738,VS0,VE96',
+762 silly registry.get     vary: 'Accept' } ]
+763 verbose etag https://registry.npmjs.org/webpack from cache
+764 verbose addNamed [ 'webpack', '1.11.0' ]
+765 verbose addNamed [ '1.11.0', '1.11.0' ]
+766 silly lockFile dcd36caa-webpack-1-11-0 webpack@1.11.0
+767 verbose lock webpack@1.11.0 C:\Users\Christiaan\AppData\Roaming\npm-cache\dcd36caa-webpack-1-11-0.lock
+768 silly lockFile dcd36caa-webpack-1-11-0 webpack@1.11.0
+769 silly lockFile dcd36caa-webpack-1-11-0 webpack@1.11.0
+770 silly lockFile 2f24ae89-webpack-latest webpack@latest
+771 silly lockFile 2f24ae89-webpack-latest webpack@latest
+772 http 304 https://registry.npmjs.org/gulp-livereload
+773 silly registry.get cb [ 304,
+773 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+773 silly registry.get     via: '1.1 varnish',
+773 silly registry.get     'cache-control': 'max-age=60',
+773 silly registry.get     etag: '"73H1SCMTJF1J3IOR0NO5SP9Y5"',
+773 silly registry.get     age: '23',
+773 silly registry.get     connection: 'keep-alive',
+773 silly registry.get     'x-served-by': 'cache-jfk1033-JFK',
+773 silly registry.get     'x-cache': 'HIT',
+773 silly registry.get     'x-cache-hits': '1',
+773 silly registry.get     'x-timer': 'S1438968309.474611,VS0,VE0',
+773 silly registry.get     vary: 'Accept' } ]
+774 verbose etag https://registry.npmjs.org/gulp-livereload from cache
+775 info already installed webpack@1.11.0
+776 verbose addNamed [ 'gulp-livereload', '3.8.0' ]
+777 verbose addNamed [ '3.8.0', '3.8.0' ]
+778 silly lockFile 0c53bdbd-gulp-livereload-3-8-0 gulp-livereload@3.8.0
+779 verbose lock gulp-livereload@3.8.0 C:\Users\Christiaan\AppData\Roaming\npm-cache\0c53bdbd-gulp-livereload-3-8-0.lock
+780 silly lockFile 0c53bdbd-gulp-livereload-3-8-0 gulp-livereload@3.8.0
+781 silly lockFile 0c53bdbd-gulp-livereload-3-8-0 gulp-livereload@3.8.0
+782 silly lockFile 7a35b16c-gulp-livereload-latest gulp-livereload@latest
+783 silly lockFile 7a35b16c-gulp-livereload-latest gulp-livereload@latest
+784 info already installed gulp-livereload@3.8.0
+785 http 304 https://registry.npmjs.org/gulp-jshint
+786 silly registry.get cb [ 304,
+786 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+786 silly registry.get     via: '1.1 varnish',
+786 silly registry.get     'cache-control': 'max-age=60',
+786 silly registry.get     etag: '"4SCHQUYLRJJBHEV4RYXT5CF73"',
+786 silly registry.get     age: '23',
+786 silly registry.get     connection: 'keep-alive',
+786 silly registry.get     'x-served-by': 'cache-jfk1033-JFK',
+786 silly registry.get     'x-cache': 'HIT',
+786 silly registry.get     'x-cache-hits': '2',
+786 silly registry.get     'x-timer': 'S1438968309.497461,VS0,VE0',
+786 silly registry.get     vary: 'Accept' } ]
+787 verbose etag https://registry.npmjs.org/gulp-jshint from cache
+788 http 304 https://registry.npmjs.org/run-sequence
+789 silly registry.get cb [ 304,
+789 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+789 silly registry.get     via: '1.1 varnish',
+789 silly registry.get     'cache-control': 'max-age=60',
+789 silly registry.get     etag: '"AMYA08XK3JLKKTNW3N6LC9CJT"',
+789 silly registry.get     age: '23',
+789 silly registry.get     connection: 'keep-alive',
+789 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+789 silly registry.get     'x-cache': 'HIT',
+789 silly registry.get     'x-cache-hits': '1',
+789 silly registry.get     'x-timer': 'S1438968309.497466,VS0,VE0',
+789 silly registry.get     vary: 'Accept' } ]
+790 verbose etag https://registry.npmjs.org/run-sequence from cache
+791 verbose addNamed [ 'gulp-jshint', '1.11.2' ]
+792 verbose addNamed [ '1.11.2', '1.11.2' ]
+793 silly lockFile c3710df5-gulp-jshint-1-11-2 gulp-jshint@1.11.2
+794 verbose lock gulp-jshint@1.11.2 C:\Users\Christiaan\AppData\Roaming\npm-cache\c3710df5-gulp-jshint-1-11-2.lock
+795 silly lockFile c3710df5-gulp-jshint-1-11-2 gulp-jshint@1.11.2
+796 silly lockFile c3710df5-gulp-jshint-1-11-2 gulp-jshint@1.11.2
+797 silly lockFile 9d0b7375-gulp-jshint-latest gulp-jshint@latest
+798 silly lockFile 9d0b7375-gulp-jshint-latest gulp-jshint@latest
+799 verbose addNamed [ 'run-sequence', '1.1.2' ]
+800 verbose addNamed [ '1.1.2', '1.1.2' ]
+801 silly lockFile 266e0a54-run-sequence-1-1-2 run-sequence@1.1.2
+802 verbose lock run-sequence@1.1.2 C:\Users\Christiaan\AppData\Roaming\npm-cache\266e0a54-run-sequence-1-1-2.lock
+803 silly lockFile 266e0a54-run-sequence-1-1-2 run-sequence@1.1.2
+804 silly lockFile 266e0a54-run-sequence-1-1-2 run-sequence@1.1.2
+805 silly lockFile b0e0aac1-run-sequence-latest run-sequence@latest
+806 silly lockFile b0e0aac1-run-sequence-latest run-sequence@latest
+807 info already installed gulp-jshint@1.11.2
+808 info already installed run-sequence@1.1.2
+809 http 304 https://registry.npmjs.org/raw-loader
+810 silly registry.get cb [ 304,
+810 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+810 silly registry.get     via: '1.1 varnish',
+810 silly registry.get     'cache-control': 'max-age=60',
+810 silly registry.get     etag: '"8N8CC755VD1WDOH84PXNHJC7R"',
+810 silly registry.get     age: '0',
+810 silly registry.get     connection: 'keep-alive',
+810 silly registry.get     'x-served-by': 'cache-jfk1034-JFK',
+810 silly registry.get     'x-cache': 'HIT',
+810 silly registry.get     'x-cache-hits': '1',
+810 silly registry.get     'x-timer': 'S1438968309.519325,VS0,VE19',
+810 silly registry.get     vary: 'Accept' } ]
+811 verbose etag https://registry.npmjs.org/raw-loader from cache
+812 verbose addNamed [ 'raw-loader', '0.5.1' ]
+813 verbose addNamed [ '0.5.1', '0.5.1' ]
+814 silly lockFile 5d62dda3-raw-loader-0-5-1 raw-loader@0.5.1
+815 verbose lock raw-loader@0.5.1 C:\Users\Christiaan\AppData\Roaming\npm-cache\5d62dda3-raw-loader-0-5-1.lock
+816 silly lockFile 5d62dda3-raw-loader-0-5-1 raw-loader@0.5.1
+817 silly lockFile 5d62dda3-raw-loader-0-5-1 raw-loader@0.5.1
+818 silly lockFile 5256a574-raw-loader-latest raw-loader@latest
+819 silly lockFile 5256a574-raw-loader-latest raw-loader@latest
+820 info already installed raw-loader@0.5.1
+821 http 304 https://registry.npmjs.org/gulp-exec
+822 silly registry.get cb [ 304,
+822 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+822 silly registry.get     via: '1.1 varnish',
+822 silly registry.get     'cache-control': 'max-age=60',
+822 silly registry.get     etag: '"9S1YWVK57I2UCG1AJ0T7Z6RR0"',
+822 silly registry.get     age: '0',
+822 silly registry.get     connection: 'keep-alive',
+822 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
+822 silly registry.get     'x-cache': 'HIT',
+822 silly registry.get     'x-cache-hits': '1',
+822 silly registry.get     'x-timer': 'S1438968309.531760,VS0,VE19',
+822 silly registry.get     vary: 'Accept' } ]
+823 verbose etag https://registry.npmjs.org/gulp-exec from cache
+824 verbose addNamed [ 'gulp-exec', '2.1.1' ]
+825 verbose addNamed [ '2.1.1', '2.1.1' ]
+826 silly lockFile b84df127-gulp-exec-2-1-1 gulp-exec@2.1.1
+827 verbose lock gulp-exec@2.1.1 C:\Users\Christiaan\AppData\Roaming\npm-cache\b84df127-gulp-exec-2-1-1.lock
+828 silly lockFile b84df127-gulp-exec-2-1-1 gulp-exec@2.1.1
+829 silly lockFile b84df127-gulp-exec-2-1-1 gulp-exec@2.1.1
+830 silly lockFile 8a93a9cd-gulp-exec-latest gulp-exec@latest
+831 silly lockFile 8a93a9cd-gulp-exec-latest gulp-exec@latest
+832 info already installed gulp-exec@2.1.1
+833 http 304 https://registry.npmjs.org/gulp-sass
+834 silly registry.get cb [ 304,
+834 silly registry.get   { date: 'Fri, 07 Aug 2015 17:25:09 GMT',
+834 silly registry.get     via: '1.1 varnish',
+834 silly registry.get     'cache-control': 'max-age=60',
+834 silly registry.get     etag: '"A867BYF94SZUOR1C2LJTO1J1I"',
+834 silly registry.get     age: '0',
+834 silly registry.get     connection: 'keep-alive',
+834 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+834 silly registry.get     'x-cache': 'HIT',
+834 silly registry.get     'x-cache-hits': '1',
+834 silly registry.get     'x-timer': 'S1438968309.498052,VS0,VE84',
+834 silly registry.get     vary: 'Accept' } ]
+835 verbose etag https://registry.npmjs.org/gulp-sass from cache
+836 verbose addNamed [ 'gulp-sass', '2.0.4' ]
+837 verbose addNamed [ '2.0.4', '2.0.4' ]
+838 silly lockFile ad0cc6b2-gulp-sass-2-0-4 gulp-sass@2.0.4
+839 verbose lock gulp-sass@2.0.4 C:\Users\Christiaan\AppData\Roaming\npm-cache\ad0cc6b2-gulp-sass-2-0-4.lock
+840 silly lockFile ad0cc6b2-gulp-sass-2-0-4 gulp-sass@2.0.4
+841 silly lockFile ad0cc6b2-gulp-sass-2-0-4 gulp-sass@2.0.4
+842 silly lockFile 631ad4b0-gulp-sass-latest gulp-sass@latest
+843 silly lockFile 631ad4b0-gulp-sass-latest gulp-sass@latest
+844 info already installed gulp-sass@2.0.4
+845 http 200 https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz
+846 silly lockFile 22ff52ae--router-angular-router-0-0-2-tgz https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz
+847 silly lockFile 22ff52ae--router-angular-router-0-0-2-tgz https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz
+848 silly lockFile 46a17743-angular-router-0-0-2 angular-router@0.0.2
+849 silly lockFile 46a17743-angular-router-0-0-2 angular-router@0.0.2
+850 silly lockFile 6d68b661-angular-router-latest angular-router@latest
+851 silly lockFile 6d68b661-angular-router-latest angular-router@latest
+852 silly resolved [ { name: 'angular',
+852 silly resolved     version: '1.4.3',
+852 silly resolved     description: 'HTML enhanced for web apps',
+852 silly resolved     main: 'index.js',
+852 silly resolved     scripts: { test: 'echo "Error: no test specified" && exit 1' },
+852 silly resolved     repository:
+852 silly resolved      { type: 'git',
+852 silly resolved        url: 'https://github.com/angular/angular.js.git' },
+852 silly resolved     keywords: [ 'angular', 'framework', 'browser', 'client-side' ],
+852 silly resolved     author:
+852 silly resolved      { name: 'Angular Core Team',
+852 silly resolved        email: 'angular-core+npm@google.com' },
+852 silly resolved     license: 'MIT',
+852 silly resolved     bugs: { url: 'https://github.com/angular/angular.js/issues' },
+852 silly resolved     homepage: 'http://angularjs.org',
+852 silly resolved     gitHead: 'dbd689e8103a6366e53e1f6786727f7c65ccfd75',
+852 silly resolved     _id: 'angular@1.4.3',
+852 silly resolved     _shasum: '3af723461789bd0b9fad9d96da25769f207dc1e2',
+852 silly resolved     _from: 'angular@latest',
+852 silly resolved     _npmVersion: '2.0.2',
+852 silly resolved     _nodeVersion: '0.10.26',
+852 silly resolved     _npmUser: { name: 'angularcore', email: 'angular-core+npm@google.com' },
+852 silly resolved     maintainers: [ [Object], [Object], [Object] ],
+852 silly resolved     dist:
+852 silly resolved      { shasum: '3af723461789bd0b9fad9d96da25769f207dc1e2',
+852 silly resolved        tarball: 'http://registry.npmjs.org/angular/-/angular-1.4.3.tgz' },
+852 silly resolved     directories: {},
+852 silly resolved     _resolved: 'https://registry.npmjs.org/angular/-/angular-1.4.3.tgz',
+852 silly resolved     readme: 'ERROR: No README data found!' },
+852 silly resolved   { name: 'angular-router',
+852 silly resolved     version: '0.0.2',
+852 silly resolved     description: 'Express router for angular',
+852 silly resolved     main: 'index.js',
+852 silly resolved     scripts: { test: 'NODE_ENV=test node_modules/mocha/bin/mocha' },
+852 silly resolved     repository:
+852 silly resolved      { type: 'git',
+852 silly resolved        url: 'git://github.com/CamShaft/angular-router.git' },
+852 silly resolved     author: { name: 'Cameron Bytheway', email: 'cameron@nujii.com' },
+852 silly resolved     license: 'MIT',
+852 silly resolved     readmeFilename: 'README.md',
+852 silly resolved     gitHead: '36f95b5e9d2c283b2c52a2ea0f56e38975711f0f',
+852 silly resolved     readme: 'angular-router\n==============\n\nExpress router for angular',
+852 silly resolved     _id: 'angular-router@0.0.2',
+852 silly resolved     dist:
+852 silly resolved      { shasum: '50ddd91f43edda87da8335acb21d438a782e22fc',
+852 silly resolved        tarball: 'http://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz' },
+852 silly resolved     _from: 'angular-router@latest',
+852 silly resolved     _npmVersion: '1.2.10',
+852 silly resolved     _npmUser: { name: 'camshaft', email: 'cameron@nujii.com' },
+852 silly resolved     maintainers: [ [Object] ],
+852 silly resolved     directories: {},
+852 silly resolved     _shasum: '50ddd91f43edda87da8335acb21d438a782e22fc',
+852 silly resolved     _resolved: 'https://registry.npmjs.org/angular-router/-/angular-router-0.0.2.tgz' } ]
+853 info install angular@1.4.3 into c:\dev\node\expang
+854 info install angular-router@0.0.2 into c:\dev\node\expang
+855 info installOne angular@1.4.3
+856 info installOne angular-router@0.0.2
+857 verbose node_modules\angular unbuild
+858 verbose tar unpack C:\Users\Christiaan\AppData\Roaming\npm-cache\angular\1.4.3\package.tgz
+859 silly lockFile 0f55e7ac-node-expang-node-modules-angular tar://c:\dev\node\expang\node_modules\angular
+860 verbose lock tar://c:\dev\node\expang\node_modules\angular C:\Users\Christiaan\AppData\Roaming\npm-cache\0f55e7ac-node-expang-node-modules-angular.lock
+861 silly lockFile b88220cb--cache-angular-1-4-3-package-tgz tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular\1.4.3\package.tgz
+862 verbose lock tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular\1.4.3\package.tgz C:\Users\Christiaan\AppData\Roaming\npm-cache\b88220cb--cache-angular-1-4-3-package-tgz.lock
+863 verbose node_modules\angular-router unbuild
+864 silly gunzTarPerm modes [ '777', '666' ]
+865 verbose tar unpack C:\Users\Christiaan\AppData\Roaming\npm-cache\angular-router\0.0.2\package.tgz
+866 silly lockFile f1e38bf6-pang-node-modules-angular-router tar://c:\dev\node\expang\node_modules\angular-router
+867 verbose lock tar://c:\dev\node\expang\node_modules\angular-router C:\Users\Christiaan\AppData\Roaming\npm-cache\f1e38bf6-pang-node-modules-angular-router.lock
+868 silly lockFile 80b4cc04-angular-router-0-0-2-package-tgz tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular-router\0.0.2\package.tgz
+869 verbose lock tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular-router\0.0.2\package.tgz C:\Users\Christiaan\AppData\Roaming\npm-cache\80b4cc04-angular-router-0-0-2-package-tgz.lock
+870 silly gunzTarPerm modes [ '777', '666' ]
+871 silly gunzTarPerm extractEntry package.json
+872 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+873 silly gunzTarPerm extractEntry package.json
+874 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+875 silly gunzTarPerm extractEntry README.md
+876 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+877 silly gunzTarPerm extractEntry index.js
+878 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+879 silly gunzTarPerm extractEntry README.md
+880 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+881 silly gunzTarPerm extractEntry angular.js
+882 silly gunzTarPerm modified mode [ 'angular.js', 420, 438 ]
+883 silly lockFile f1e38bf6-pang-node-modules-angular-router tar://c:\dev\node\expang\node_modules\angular-router
+884 silly lockFile f1e38bf6-pang-node-modules-angular-router tar://c:\dev\node\expang\node_modules\angular-router
+885 silly lockFile 80b4cc04-angular-router-0-0-2-package-tgz tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular-router\0.0.2\package.tgz
+886 silly lockFile 80b4cc04-angular-router-0-0-2-package-tgz tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular-router\0.0.2\package.tgz
+887 info preinstall angular-router@0.0.2
+888 verbose readDependencies using package.json deps
+889 verbose readDependencies using package.json deps
+890 silly resolved []
+891 verbose about to build c:\dev\node\expang\node_modules\angular-router
+892 info build c:\dev\node\expang\node_modules\angular-router
+893 verbose linkStuff [ false, false, false, 'c:\\dev\\node\\expang\\node_modules' ]
+894 info linkStuff angular-router@0.0.2
+895 verbose linkBins angular-router@0.0.2
+896 verbose linkMans angular-router@0.0.2
+897 verbose rebuildBundles angular-router@0.0.2
+898 info install angular-router@0.0.2
+899 info postinstall angular-router@0.0.2
+900 silly gunzTarPerm extractEntry angular.min.js
+901 silly gunzTarPerm modified mode [ 'angular.min.js', 420, 438 ]
+902 silly gunzTarPerm extractEntry index.js
+903 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+904 silly gunzTarPerm extractEntry angular-csp.css
+905 silly gunzTarPerm modified mode [ 'angular-csp.css', 420, 438 ]
+906 silly gunzTarPerm extractEntry angular.min.js.gzip
+907 silly gunzTarPerm modified mode [ 'angular.min.js.gzip', 420, 438 ]
+908 silly gunzTarPerm extractEntry angular.min.js.map
+909 silly gunzTarPerm modified mode [ 'angular.min.js.map', 420, 438 ]
+910 silly gunzTarPerm extractEntry bower.json
+911 silly gunzTarPerm modified mode [ 'bower.json', 420, 438 ]
+912 silly lockFile 0f55e7ac-node-expang-node-modules-angular tar://c:\dev\node\expang\node_modules\angular
+913 silly lockFile 0f55e7ac-node-expang-node-modules-angular tar://c:\dev\node\expang\node_modules\angular
+914 silly lockFile b88220cb--cache-angular-1-4-3-package-tgz tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular\1.4.3\package.tgz
+915 silly lockFile b88220cb--cache-angular-1-4-3-package-tgz tar://C:\Users\Christiaan\AppData\Roaming\npm-cache\angular\1.4.3\package.tgz
+916 info preinstall angular@1.4.3
+917 verbose readDependencies using package.json deps
+918 verbose readDependencies using package.json deps
+919 silly resolved []
+920 verbose about to build c:\dev\node\expang\node_modules\angular
+921 info build c:\dev\node\expang\node_modules\angular
+922 verbose linkStuff [ false, false, false, 'c:\\dev\\node\\expang\\node_modules' ]
+923 info linkStuff angular@1.4.3
+924 verbose linkBins angular@1.4.3
+925 verbose linkMans angular@1.4.3
+926 verbose rebuildBundles angular@1.4.3
+927 info install angular@1.4.3
+928 info postinstall angular@1.4.3
+929 info build c:\dev\node\expang
+930 verbose linkStuff [ false, false, false, 'c:\\dev\\node' ]
+931 info linkStuff angular-express@0.0.1
+932 verbose linkBins angular-express@0.0.1
+933 verbose linkMans angular-express@0.0.1
+934 verbose rebuildBundles angular-express@0.0.1
+935 verbose rebuildBundles [ '.bin',
+935 verbose rebuildBundles   'angular',
+935 verbose rebuildBundles   'angular-router',
+935 verbose rebuildBundles   'connect-livereload',
+935 verbose rebuildBundles   'event-stream',
+935 verbose rebuildBundles   'express',
+935 verbose rebuildBundles   'gulp',
+935 verbose rebuildBundles   'gulp-clean',
+935 verbose rebuildBundles   'gulp-concat',
+935 verbose rebuildBundles   'gulp-csslint',
+935 verbose rebuildBundles   'gulp-cssmin',
+935 verbose rebuildBundles   'gulp-exec',
+935 verbose rebuildBundles   'gulp-jshint',
+935 verbose rebuildBundles   'gulp-livereload',
+935 verbose rebuildBundles   'gulp-load-plugins',
+935 verbose rebuildBundles   'gulp-nodemon',
+935 verbose rebuildBundles   'gulp-rename',
+935 verbose rebuildBundles   'gulp-sass',
+935 verbose rebuildBundles   'gulp-uglify',
+935 verbose rebuildBundles   'gulp-util',
+935 verbose rebuildBundles   'lodash',
+935 verbose rebuildBundles   'raw-loader',
+935 verbose rebuildBundles   'require-dir',
+935 verbose rebuildBundles   'requirejs',
+935 verbose rebuildBundles   'run-sequence',
+935 verbose rebuildBundles   'script-loader',
+935 verbose rebuildBundles   'tiny-lr',
+935 verbose rebuildBundles   'underscore',
+935 verbose rebuildBundles   'webpack' ]
+936 info install angular-express@0.0.1
+937 info postinstall angular-express@0.0.1
+938 verbose unsafe-perm in lifecycle true
+939 info angular-express@0.0.1 Failed to exec postinstall script
+940 error angular-express@0.0.1 postinstall: `node tools/scripts/postinstall.js`
+940 error Exit status 8
+941 error Failed at the angular-express@0.0.1 postinstall script.
+941 error This is most likely a problem with the angular-express package,
+941 error not with npm itself.
+941 error Tell the author that this fails on your system:
+941 error     node tools/scripts/postinstall.js
+941 error You can get their info via:
+941 error     npm owner ls angular-express
+941 error There is likely additional logging output above.
+942 error System Windows_NT 6.2.9200
+943 error command "c:\\Users\\Christiaan\\AppData\\Roaming\\nodejs\\node.exe" "c:\\Users\\Christiaan\\AppData\\Roaming\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+944 error cwd c:\dev\node\expang
+945 error node -v v0.10.33
+946 error npm -v 1.4.28
+947 error code ELIFECYCLE
+948 verbose exit [ 1, true ]

@@ -1,0 +1,3 @@
+test/coverage/**
+vendors/**
+node_modules
