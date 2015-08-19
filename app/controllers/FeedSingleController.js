@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedSingleController = function($scope, FeedService, $route, $routeParams, $location, $sce) {
+var FeedSingleController = function($scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state) {
 
     this.name = 'single';
     this.params = $routeParams;
@@ -15,11 +15,10 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     $scope.pageNumber = 1;
     $scope.item = {};
 
-    console.log('single cont');
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
-    var postParams = '&name=' + $routeParams.slug;
+    var postParams = '&name=' + $stateParams.slug;
 
 
     var posts = FeedService.getPosts(postPath, postParams);

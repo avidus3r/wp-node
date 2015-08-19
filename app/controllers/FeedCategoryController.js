@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($scope, FeedService, $route, $routeParams, $location) {
+var FeedCategoryController = function($scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
 
     this.name = 'category';
     this.params = $routeParams;
@@ -17,9 +17,9 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
 
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
-    var isSingle = $routeParams.hasOwnProperty('slug');
+    var isSingle = $stateParams.hasOwnProperty('slug');
     //var postParams = !isSingle ? '&category_name=' + $routeParams.category : '&name=' + $routeParams.slug;
-    var postParams = '&category_name=' + $routeParams.category;
+    var postParams = '&category_name=' + $stateParams.category;
     var posts = null;
 
     posts = FeedService.getPosts(postPath, postParams + pagingParams);
@@ -46,7 +46,14 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
         }
     };
 
+    $scope.add = function(item){
+        $scope.feedItemElements.push(item);
+        console.log($scope.feedItemPosition);
+        $scope.feedItemPosition += 1;
+    };
+
     $scope.getNext = function(){
+        console.log($scope);
         if($scope.currentView === 'single') return false;
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
@@ -83,14 +90,11 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
 
-        /*var videoSrc = angular.element(content.rendered).find('iframe').attr('src');
-        var videoID = videoSrc.substr(videoSrc.lastIndexOf('/')+1, videoSrc.length);
-        post.attr('id', videoID);*/
         if(!fromClick) post.html(content.rendered);
 
-        if(index >= 5){
+        /*if(index >= 5){
             angular.element('.feed-item:eq('+ (index-5) +')').find('iframe').remove();
-        }
+        }*/
         if(fromClick) {
             var currentY = window.scrollY;
             $scope.currentView = 'single';
@@ -115,6 +119,8 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             if(angular.element(expectedEmbed).find('iframe').length > 0){
                 expectedEmbed.addClass('video-container');
             }
+
+            $scope.changePage(index);
 
             var touchStart = null;
             var bottom = null;
@@ -148,22 +154,22 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
                 }
             };
             window.addEventListener('scroll', onSingleScroll);
-            $scope.changePage(index);
+
         }
 
 
     };
 
-    $scope.add = function(item){
-        $scope.feedItemElements.push(item);
-        $scope.feedItemPosition += 1;
-    };
-
     $scope.changePage = function(index){
-        var newFeedItem = $scope.feedItems[index];
+        $state.go('category.single');
+        /*var newFeedItem = $scope.feedItems[index];
         var newSlug = '/'+ newFeedItem.category[0].slug + '/' + newFeedItem.slug;
         var stateObj = {page: newSlug};
         history.pushState(stateObj, newFeedItem.title, newSlug);
+        var lastRoute = $route.current;
+        $scope.$on('$locationChangeSuccess', function(event) {
+            $route.current = lastRoute;
+        });*/
     };
 
 };

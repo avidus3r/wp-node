@@ -1,6 +1,6 @@
-<div class="wrapper" ng-controller="FeedCategoryController">
+<div ui-view class="wrapper" ng-controller="FeedCategoryController">
     <div infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next">
-        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
+        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" ui-sref="category.single({slug: item.slug})">
             <div class="post-view-type">
                 <div class="category">
                     <div ng-switch="item.featured_image_src.medium">

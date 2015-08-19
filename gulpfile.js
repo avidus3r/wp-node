@@ -120,7 +120,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['webpack']);
-    gulp.watch(paths.sass, ['sass']);
+    gulp.watch(paths.sass, ['css']);
 });
 
 gulp.task('default',['build','devServe','watch']);

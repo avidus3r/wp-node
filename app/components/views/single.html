@@ -1,4 +1,4 @@
-<div class="wrapper single" ng-controller="FeedSingleController as single">
+<div ui-view class="wrapper single" ng-controller="FeedSingleController">
     <div data-url="{{ item.link }}" class="feed-item">
 
         <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
