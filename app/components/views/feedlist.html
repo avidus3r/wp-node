@@ -1,5 +1,5 @@
 <div class="wrapper" ng-controller="FeedListController as list">
-    <div infinite-scroll="getNext()" infinite-scroll-immediate-check="false">
+    <div infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
             <div ng-switch="item.featured_image_src.medium">
                 <div ng-switch-when="false" class="post-content no-featured-img" ng-bind-html="renderContent(item.content,$index, false)"></div>

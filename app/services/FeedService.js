@@ -11,7 +11,7 @@ var FeedService = function($http, $q){
 
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
-        var url = feed.endpoints.url + feed.endpoints.basePath + path + params;
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
 
         $http.jsonp(url)
             .then(function (response) {

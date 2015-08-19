@@ -24,12 +24,20 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
 
     posts = FeedService.getPosts(postPath, postParams + pagingParams);
 
-    posts.then(function(data){
-        angular.forEach(data, function (item, index) {
-            $scope.createFeedItem(item, $scope.feedItems.length);
-        });
-        $scope.$emit('list:next');
-    });
+    posts.then(
+        function(data){ //success
+            angular.forEach(data, function (item, index) {
+                $scope.createFeedItem(item, $scope.feedItems.length);
+            });
+            $scope.$emit('list:next');
+        },
+        function(reason){   //error
+            console.error('Failed: ', reason);
+        },
+        function(update) {  //notification
+            alert('Got notification: ' + update);
+        }
+    );
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
@@ -42,7 +50,21 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
         if($scope.currentView === 'single') return false;
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber);
+            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
+                .then(
+                    function(data){ //success
+                        angular.forEach(data, function (item, index) {
+                            $scope.createFeedItem(item, $scope.feedItems.length);
+                        });
+                        $scope.$emit('list:next');
+                    },
+                    function(reason){   //error
+                        console.error('Failed: ', reason);
+                    },
+                    function(update) {  //notification
+                        alert('Got notification: ' + update);
+                    }
+                );
         }
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
@@ -76,9 +98,6 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             var postTop = post.offset().top;
             window.scrollTo(0,Math.floor(currentY+postTop-20));
 
-            //$scope.changePage(index);
-
-
             post.closest('.post-view-type').find('.category').hide();
 
             var authorMetaEl = '<div class="author-meta"><div class="left"><span class="light-grey">By</span>' + $scope.feedItemElements[index].author_meta.name + '</div><div class="right" ng-bind-html="item.category[0].name">' + $scope.feedItemElements[index].category[0].name + '</div><span class="clearfix"></span></div>';
@@ -96,7 +115,7 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             if(angular.element(expectedEmbed).find('iframe').length > 0){
                 expectedEmbed.addClass('video-container');
             }
-            angular.element('.single').height(window.innerHeight);
+
             var touchStart = null;
             var bottom = null;
 
@@ -129,6 +148,7 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
                 }
             };
             window.addEventListener('scroll', onSingleScroll);
+            $scope.changePage(index);
         }
 
 

@@ -24,3 +24,7 @@ angular.module('NewsFeed').controller('FeedListController', ['$scope', 'FeedServ
 angular.module('NewsFeed').factory('FeedService', ['$http', '$q', FeedService]);
 
 angular.module('NewsFeed').config(['$routeProvider', '$locationProvider', Router]);
+
+window.onerror = function(){
+    console.error(arguments);
+};
