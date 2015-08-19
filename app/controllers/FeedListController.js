@@ -66,11 +66,14 @@ var FeedListController = function($scope, FeedService, $route, $routeParams, $lo
     };
 
     $scope.renderContent = function(content,index, fromClick){
+        console.log(content);
         var post = angular.element('.feed-item:eq('+ index +')').find('.post-content');
 
         var videoSrc = angular.element(content.rendered).find('iframe').attr('src');
-        var videoID = videoSrc.substr(videoSrc.lastIndexOf('/')+1, videoSrc.length);
-        post.attr('id', videoID);
+        if(typeof videoSrc !== 'undefined') {
+            var videoID = videoSrc.substr(videoSrc.lastIndexOf('/') + 1, videoSrc.length);
+            post.attr('id', videoID);
+        }
 
         post.html(content.rendered);
         post.css({'height': post.height()+'px'});

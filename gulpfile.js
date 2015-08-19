@@ -18,11 +18,6 @@ var paths   = {
     templates:['app/components/**/*.html']
 };
 
-
-gulp.task('sass', function(){
-
-});
-
 gulp.task('scripts', ['lint', 'webpack']);
 
 gulp.task('webpack', function(callback) {

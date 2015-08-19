@@ -7,15 +7,14 @@ var Router = function($routeProvider, $locationProvider) {
             templateUrl: '/views/feedlist.html',
             controllerAs: 'list'
         })
-        .when('/:category', {
+        .when('/:category/:slug?', {
             controller: 'FeedCategoryController',
-            templateUrl: '/views/category.html',
-            controllerAs: 'category'
+            templateUrl: '/views/category.html'
         })
-        .when('/:category/:slug', {
+        /*.when('/:category/:slug', {
             controller: 'FeedSingleController',
             templateUrl: '/views/single.html'
-        });
+        })*/;
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false

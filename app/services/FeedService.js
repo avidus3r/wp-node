@@ -4,7 +4,8 @@ var FeedService = function($http, $q){
     var feed = {};
 
     feed.endpoints = {
-        url: 'http://devaltdriver.wpengine.com',
+        url: 'http://local.altdriver.com',
+        remoteUrl: 'http://devaltdriver.wpengine.com',
         basePath: '/wp-json/wp/v2/'
     };
 

@@ -34,6 +34,7 @@ iframe{
 
 .post-content{
   max-width: 640px;
+  min-height: 150px;
   background: #fff;
   color:#666;
   box-shadow: 0 1px 5px rgba(0,0,0,.5);
@@ -48,11 +49,9 @@ iframe{
 
 .post-content p iframe{
   margin: 0 auto 1em;
-  /*width: 640px;
-  height: 360px;*/
 }
 
-.post-content p:not(:first-child){
+.post-content p:not(p:first-child){
   max-width: 95%;
   line-height: 1.5em;
   margin-bottom: .5em;
@@ -87,10 +86,22 @@ iframe{
 .single{
   padding: 1em 0;
   background: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.single.current{
+  margin-bottom: 1em;
 }
 
 .single .post-content {
   padding: 1.25em;
+}
+
+.single .post-content p:nth-child(0n+1){
+  text-align: center;
 }
 
 .single .post-title{
@@ -109,10 +120,15 @@ iframe{
   }
 }
 
+.single .video-container{
+  text-align: center;
+}
+
 .single .post-content{
   box-shadow: none;
   font-size: 1.2em;
   line-height: normal;
+  padding:.5em 1em 3em;
   p{
     padding:0 .5em;
     &:first-child{
