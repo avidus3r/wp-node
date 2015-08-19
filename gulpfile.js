@@ -8,6 +8,8 @@ var gulp    = require('gulp'),
     webpack = require('webpack'),
     runSequence = require('run-sequence'),
     plugins = gulpLoadPlugins(),
+    csslint = require('gulp-csslint'),
+    cssmin = require('gulp-cssmin'),
     LIVERELOAD_PORT = 35729,
     lr;
 
@@ -56,12 +58,22 @@ gulp.task('assets', function() {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('clean', function () {
-    return gulp.src('./dist', { read: false })
-        .pipe(clean());
+gulp.task('css',['css:min']);
+
+gulp.task('css:min', ['css:sass', 'css:lint'], function() {
+    return gulp.src('./dist/css/*.css')
+        .pipe(cssmin())
+        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('sass', function () {
+gulp.task('css:lint', function(){
+    gulp.src('./dist/css/*.css')
+        .pipe(csslint())
+        .pipe(csslint.reporter());
+});
+
+gulp.task('css:sass', function () {
     return gulp.src(paths.sass)
         .pipe(sass({
             paths: [ './assets/css/' ]
@@ -69,8 +81,17 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('./dist'));
 });
 
+gulp.task('clean', function () {
+    return gulp.src('./dist', { read: false })
+        .pipe(clean());
+});
+
 gulp.task('env:development', function () {
     process.env.NODE_ENV = 'development';
+});
+
+gulp.task('env:production', function () {
+    process.env.NODE_ENV = 'production';
 });
 
 gulp.task('devServe', ['env:development'], function () {
@@ -105,5 +126,5 @@ gulp.task('watch', function () {
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'assets', 'sass', 'scripts',  callback);
+    runSequence('clean', 'css', 'assets', 'scripts',  callback);
 });

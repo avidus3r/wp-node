@@ -1,0 +1,59 @@
+## Prerequisite Technologies
+
+### Linux
+* *Node.js* - <a href="http://nodejs.org/download/">Download</a> and Install Node.js, nodeschool has free <a href=" http://nodeschool.io/#workshoppers">node tutorials</a> to get you started.
+
+If you're using ubuntu, this is the preferred repository to use...
+
+```bash
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+sudo apt-get update
+sudo apt-get install nodejs
+```
+
+* *Git* - Get git using a package manager or <a href="http://git-scm.com/downloads">download</a> it.
+
+### Windows
+* *Node.js* - <a href="http://nodejs.org/download/">Download</a> and Install Node.js, nodeschool has free <a href=" http://nodeschool.io/#workshoppers">node tutorials</a> to get you started.
+* *Git* - The easiest way to install git and then run the rest of the commands through the *git bash* application (via command prompt) is by downloading and installing <a href="http://git-scm.com/download/win">Git for Windows</a>
+
+### OSX
+* *Node.js* -  <a href="http://nodejs.org/download/">Download</a> and Install Node.js or use the packages within brew or macports.
+* *git* - Get git <a href="http://git-scm.com/download/mac">from here</a>.
+
+### Installation
+```bash
+cd <your_project_folder>/ && git clone git@github.com:altDriver/feed.git
+npm install
+gulp
+```
+
+## Prerequisite packages
+* *gulp* - if for any reason gulp id not installed properly by executing npm install, you can install gulp globally with the following command
+```bash
+npm install -g gulp
+```
+
+### Available gulp tasks
+
+scripts
+	runs dependency task(s): lint, webpack (webpack may sonn be migrated to browserify)
+clean
+webpack
+lint
+assets
+css
+	runs dependency task(s): css:min
+css:min
+	runs dependency task(s): css:sass, css:lint
+css:lint
+css:sass
+env:development
+env:production
+devServe
+	runs dependency task(s): env:development
+watch
+build
+	runs task sequence: clean, assets, css, scripts, (callback fn)
+default 
+	runs dependency task(s): build, devServe, watch
