@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" ng-app="NewsFeed">
+<html xmlns:ng="http://angularjs.org" xmlns="http://www.w3.org/1999/html" ng-app="NewsFeed">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="/js/index.js"></script>
 
 </head>
-<body>
+<body ng-controller="AppController">
 <!-- Google Tag Manager -->
 <!--<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KGR7N7"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -34,7 +34,7 @@
 
 
 <!-- End Google Tag Manager -->
-<div class="view-container" ui-view></div>
+<section class="view-container" ui-view></section>
 
 </body>
 </html>

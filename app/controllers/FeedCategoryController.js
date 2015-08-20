@@ -15,6 +15,8 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
 
+    console.log($state, $stateParams);
+
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
     var isSingle = $stateParams.hasOwnProperty('slug');
@@ -126,6 +128,7 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             var bottom = null;
 
             var onTouchMove = function (e) {
+                console.log('touchmove');
                 if(touchStart - e.touches[0].clientY >= 30){
 
                     angular.element('.single.current').animate({top:'-100%'}, 500, function(e){
@@ -143,16 +146,19 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             };
 
             var onTouchStart = function(e) {
+                console.log('touch start');
                 touchStart = e.touches[0].clientY;
 
                 window.addEventListener('touchmove', onTouchMove);
             };
 
             var onSingleScroll = function(e){
-                if( (angular.element(document).height()-window.scrollY) === angular.element('.single.current').height() ){
+                console.log('onscroll');
+                if( (angular.element(window).scrollTop()+angular.element(window).height()) === angular.element(document).height() ){
                     window.addEventListener('touchstart', onTouchStart);
                 }
             };
+
             window.addEventListener('scroll', onSingleScroll);
 
         }
@@ -161,15 +167,13 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
     };
 
     $scope.changePage = function(index){
-        $state.go('category.single');
-        /*var newFeedItem = $scope.feedItems[index];
-        var newSlug = '/'+ newFeedItem.category[0].slug + '/' + newFeedItem.slug;
+
+        var newFeedItem = $scope.feedItems[index];
+        /*var newSlug = '/'+ newFeedItem.category[0].slug + '/' + newFeedItem.slug;
         var stateObj = {page: newSlug};
-        history.pushState(stateObj, newFeedItem.title, newSlug);
-        var lastRoute = $route.current;
-        $scope.$on('$locationChangeSuccess', function(event) {
-            $route.current = lastRoute;
-        });*/
+        history.pushState(stateObj, newFeedItem.title, newSlug);*/
+
+        //$state.go('single',{category: newFeedItem.category[0].slug, slug:newFeedItem.slug}, {location:'replace'});
     };
 
 };

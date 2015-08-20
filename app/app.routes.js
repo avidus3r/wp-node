@@ -10,12 +10,12 @@ var Router = function($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('category', {
             controller: 'FeedCategoryController',
-            url: '/:category',
+            url: '/{category:[-a-z]{1,99}}',
             templateUrl: '/views/category.html'
         })
-        .state('category.single', {
+        .state('single', {
             controller: 'FeedSingleController',
-            url: '/:slug',
+            url: '/{category:[-a-z]{1,99}}/{slug:[-a-z]{1,99}}',
             templateUrl: '/views/single.html'
         });
     $locationProvider.html5Mode({
