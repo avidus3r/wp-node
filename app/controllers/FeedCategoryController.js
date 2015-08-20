@@ -98,6 +98,7 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             angular.element('.feed-item:eq('+ (index-5) +')').find('iframe').remove();
         }*/
         if(fromClick) {
+			
             var currentY = window.scrollY;
             $scope.currentView = 'single';
             angular.element('.feed-item:not(.feed-item:eq('+ index +'))').hide();
@@ -116,6 +117,14 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
                 .prepend(singleContentHeaderEl);
 
             var singleEl = angular.element('<div/>').attr({class:'single current'}).append(singleContentEl);
+			
+			var backButton = angular.element('<button/>').attr({class:'btn btn-primary', type: 'button'}).text('back').on('click', function(e){
+				angular.element(e.currentTarget).closest('.single.current').remove();
+				post.closest('.post-view-type').find('.category').show();
+				angular.element('.feed-item').show();
+				window.scrollTo(0,currentY);
+			});
+			singleEl.append(backButton);
             feedItem.append(singleEl);
             var expectedEmbed = singleEl.find('.post-content p').first();
             if(angular.element(expectedEmbed).find('iframe').length > 0){
@@ -130,14 +139,22 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
             var onTouchMove = function (e) {
                 console.log('touchmove');
                 if(touchStart - e.touches[0].clientY >= 30){
-
-                    angular.element('.single.current').animate({top:'-100%'}, 500, function(e){
+					post.closest('.post-view-type').find('.category').show();
+					angular.element('.feed-item').show();
+					
+					
+					
+					angular.element('.single.current').fadeTo('fast',0, function(){
+					
+					});
+					
+                    angular.element('.single.current').animate({height:'0'}, 'fast', function(e){
                         post.closest('.post-view-type').find('.category').show();
                         angular.element('.feed-item').show();
 
 
                         angular.element('.single.current').remove();
-                        window.scrollTo(0,currentY);
+                        
                         window.removeEventListener('scroll', onSingleScroll);
                         window.removeEventListener('touchstart', onTouchStart);
                         window.removeEventListener('touchmove', onTouchMove);
@@ -158,8 +175,10 @@ var FeedCategoryController = function($scope, FeedService, $route, $routeParams,
                     window.addEventListener('touchstart', onTouchStart);
                 }
             };
-
-            window.addEventListener('scroll', onSingleScroll);
+			
+			
+			
+            //window.addEventListener('scroll', onSingleScroll);
 
         }
 

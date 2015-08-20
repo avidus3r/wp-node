@@ -7,7 +7,7 @@ var express = require('express'),
 
 
 var EXPRESS_PORT = 3000,
-    EXPRESS_HOST = '127.0.0.1',
+    EXPRESS_HOST = '192.168.1.88',
     EXPRESS_ROOT = './dist';
 
 app.use(express.static(EXPRESS_ROOT));
