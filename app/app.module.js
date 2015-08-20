@@ -31,7 +31,7 @@ angular.module('NewsFeed').controller(
 
 angular.module('NewsFeed').controller(
     'FeedCategoryController',
-    ['$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedCategoryController]
+    ['$scope', '$rootScope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedCategoryController]
 );
 
 angular.module('NewsFeed').controller(
@@ -50,6 +50,14 @@ angular.module('NewsFeed').run(
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        $rootScope.previousState = null;
+        $rootScope.currentState = null;
+        $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+            $rootScope.$stateParams.previousState = from;
+            $rootScope.$stateParams.previousStateParams = fromParams;
+            $rootScope.$stateParams.currentState = to;
+            $rootScope.$stateParams.currentStateParams = toParams;
+        });
     }]
 );
 

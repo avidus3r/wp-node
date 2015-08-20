@@ -83,6 +83,10 @@ iframe{
   padding: 0 1.25em;
 }
 
+.category .post-content{
+  padding-bottom: .5em;
+}
+
 .single{
   padding: 1em 0;
   background: #fff;
@@ -90,6 +94,13 @@ iframe{
   top: 0;
   left: 0;
   width: 100%;
+}
+
+.single button{
+  margin: .5em auto .5em;
+  display: block;
+  padding: .35em 1em;
+  font-size: 1.25em;
 }
 
 .single.current{
@@ -128,7 +139,7 @@ iframe{
   box-shadow: none;
   font-size: 1.2em;
   line-height: normal;
-  padding:.5em 1em 3em;
+  padding:.5em 1em .5em;
   p{
     padding:0 .5em;
     &:first-child{

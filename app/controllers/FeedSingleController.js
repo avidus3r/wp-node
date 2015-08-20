@@ -62,6 +62,10 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
         }
     };
 
+    $scope.goBack = function(){
+        $state.go('category', {category:$stateParams.previousStateParams.category},{location:true});
+    };
+
     $scope.renderContent = function(content,index, fromClick){
         console.log(content);
         var post = angular.element('.feed-item:eq('+ index +')').find('.post-content');
