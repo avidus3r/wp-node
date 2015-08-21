@@ -158,6 +158,8 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
 
         var wrapper = angular.element('.wrapper');
         var feedItem = angular.element('.feed-item:eq('+ index +')');
+        //angular.element('.feed-item:not(:eq('+ index +'))').hide();
+
         var post = feedItem.find('.post-content');
         $scope.currentY = window.scrollY;
 
@@ -167,8 +169,9 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
 
 
         angular.element('#scroll-container').attr('infinite-scroll-disabled','true');
-        wrapper.css({visibility:'hidden'});
-        angular.element('body').css({ overflow:'hidden' });
+        //wrapper.css({visibility:'hidden'});
+        //angular.element('body').css({ overflow:'hidden' });
+
 
         var authorMetaEl = '<div class="author-meta"><div class="left"><span class="light-grey">By</span>' + $scope.feedItemElements[index].author_meta.name + '</div><div class="right" ng-bind-html="item.category[0].name">' + $scope.feedItemElements[index].category[0].name + '</div><span class="clearfix"></span></div>';
         var shareFooter = '<div class="share-footer"><button type="button" class="btn glyphicon glyphicon-chevron-up"></button><button type="button" class="btn glyphicon glyphicon-chevron-down"></button><button type="button" class="btn glyphicon glyphicon-comment"></button><button type="button" class="btn btn-primary right glyphicon glyphicon-share-alt share"></button></div>';
@@ -192,10 +195,35 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
 
         singleEl.append(backButton);
         wrapper.parent().append(singleEl);
-
+        wrapper.hide();
         var expectedEmbed = singleEl.find('.post-content p').first();
         if(angular.element(expectedEmbed).find('iframe').length > 0){
             expectedEmbed.addClass('video-container');
+            console.log(angular.element(expectedEmbed).find('iframe'));
+            var maxWidth = singleEl.width(); // Max width for the image
+            var maxHeight = 10000;    // Max height for the image
+            var ratio = 0;  // Used for aspect ratio
+            var width = angular.element(expectedEmbed).find('iframe')[0].width;    // Current image width
+            var height = angular.element(expectedEmbed).find('iframe')[0].height;  // Current image height
+            var iframe = angular.element(expectedEmbed).find('iframe')[0];
+            // Check if the current width is larger than the max
+            if(width > maxWidth){
+                console.log(maxWidth, width,height);
+                ratio = maxWidth / width;   // get ratio for scaling image
+                angular.element(iframe).css('width', maxWidth); // Set new width
+                angular.element(iframe).css('height', height * ratio);  // Scale height based on ratio
+                height = height * ratio;    // Reset height to match scaled image
+                width = width * ratio;    // Reset width to match scaled image
+            }
+
+            // Check if current height is larger than max
+            if(height > maxHeight){
+                ratio = maxHeight / height; // get ratio for scaling image
+                angular.element(iframe).css('height', maxHeight);   // Set new height
+                angular.element(iframe).css('width', width * ratio);    // Scale width based on ratio
+                width = width * ratio;    // Reset width to match scaled image
+                height = height * ratio;    // Reset height to match scaled image
+            }
         }
 
         $scope.changePage(index);
@@ -205,12 +233,13 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
         angular.element(e.currentTarget).closest('.single.current').remove();
         $scope.currentView = 'feed';
 
-        angular.element('.wrapper').css({visibility:'visible'});
-        angular.element('body').css({ overflow:'auto' });
+        //angular.element('.wrapper').css({visibility:'visible'});
+        //angular.element('body').css({ overflow:'auto' });
+        angular.element('.wrapper').show();
         angular.element('#scroll-container').attr('infinite-scroll-disabled','false');
         var stateObj = {pagePos: index};
 
-        history.pushState(stateObj, index, '/' + $scope.feedItemElements[index].category[0].slug + '/');
+        history.pushState(stateObj, index, '/' + $scope.feedItemElements[index].category[0].slug);
         window.scrollTo(0,$scope.currentY);
 
     };
