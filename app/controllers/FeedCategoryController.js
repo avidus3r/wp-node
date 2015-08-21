@@ -14,6 +14,7 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
     $scope.postsPerPage = 15;
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
+    $scope.currentY = null;
 
     console.log($state, $stateParams);
 
@@ -92,60 +93,14 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
         var self = this;
+
         if(!fromClick) post.html(content.rendered);
+        history.pushState({page: 'home'}, feedItem.title, '/' + $scope.feedItemElements[index].category[0].slug + '/');
 
-        /*if(index >= 5){
-            angular.element('.feed-item:eq('+ (index-5) +')').find('iframe').remove();
-        }*/
-        //fromClick = false;
-
-        $scope.changePage(index);
 
         if(fromClick) {
-			
-            var currentY = window.scrollY;
-            $scope.currentView = 'single';
-            angular.element('.feed-item:not(.feed-item:eq('+ index +'))').hide();
-            var postTop = post.offset().top;
-            window.scrollTo(0,Math.floor(currentY+postTop-20));
 
-            post.closest('.post-view-type').find('.category').hide();
-
-            var authorMetaEl = '<div class="author-meta"><div class="left"><span class="light-grey">By</span>' + $scope.feedItemElements[index].author_meta.name + '</div><div class="right" ng-bind-html="item.category[0].name">' + $scope.feedItemElements[index].category[0].name + '</div><span class="clearfix"></span></div>';
-
-            var singleContentHeaderEl = angular.element('<h2/>').attr({class:'post-title'}).html($scope.feedItemElements[index].title.rendered);
-            var singleContentEl = angular.element('<div/>')
-                .attr({class:'post-content'})
-                .html(content.rendered)
-                .prepend(authorMetaEl)
-                .prepend(singleContentHeaderEl);
-
-            var singleEl = angular.element('<div/>').attr({class:'single current'}).append(singleContentEl);
-
-			var backButton = angular.element('<button/>').attr({class:'btn btn-primary', type: 'button'}).text('back').on('click', function(e){
-				angular.element(e.currentTarget).closest('.single.current').remove();
-				post.closest('.post-view-type').find('.category').show();
-				angular.element('.feed-item').show();
-
-                var stateObj = {pagePos: index};
-                history.pushState(stateObj, index, '/' + $scope.feedItems[index].category[0].slug + '/');
-                //history.back();
-				window.scrollTo(0,currentY);
-                window.addEventListener('scroll', function(){
-                    if( (angular.element(window).scrollTop()+angular.element(window).height()) === angular.element(document).height() ){
-                        console.log($rootScope);
-                        self.$emit('list:next');
-                    }
-                });
-			});
-			singleEl.append(backButton);
-            feedItem.append(singleEl);
-            var expectedEmbed = singleEl.find('.post-content p').first();
-            if(angular.element(expectedEmbed).find('iframe').length > 0){
-                expectedEmbed.addClass('video-container');
-            }
-
-            $scope.changePage(index);
+            $scope.addSingle(content, index);
 
             var touchStart = null;
             var bottom = null;
@@ -153,22 +108,22 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
             var onTouchMove = function (e) {
                 console.log('touchmove');
                 if(touchStart - e.touches[0].clientY >= 30){
-					post.closest('.post-view-type').find('.category').show();
-					angular.element('.feed-item').show();
-					
-					
-					
-					angular.element('.single.current').fadeTo('fast',0, function(){
-					
-					});
-					
+                    post.closest('.post-view-type').find('.category').show();
+                    angular.element('.feed-item').show();
+
+
+
+                    angular.element('.single.current').fadeTo('fast',0, function(){
+
+                    });
+
                     angular.element('.single.current').animate({height:'0'}, 'fast', function(e){
                         post.closest('.post-view-type').find('.category').show();
                         angular.element('.feed-item').show();
 
 
                         angular.element('.single.current').remove();
-                        
+
                         window.removeEventListener('scroll', onSingleScroll);
                         window.removeEventListener('touchstart', onTouchStart);
                         window.removeEventListener('touchmove', onTouchMove);
@@ -189,9 +144,9 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
                     window.addEventListener('touchstart', onTouchStart);
                 }
             };
-			
-			
-			
+
+
+
             //window.addEventListener('scroll', onSingleScroll);
 
         }
@@ -199,14 +154,72 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
 
     };
 
-    $scope.changePage = function(index){
+    $scope.addSingle = function(content, index){
 
+        var wrapper = angular.element('.wrapper');
+        var feedItem = angular.element('.feed-item:eq('+ index +')');
+        var post = feedItem.find('.post-content');
+        $scope.currentY = window.scrollY;
+
+        $scope.currentView = 'single';
+
+        angular.element(window).scrollTop(0);
+
+
+        angular.element('#scroll-container').attr('infinite-scroll-disabled','true');
+        wrapper.css({visibility:'hidden'});
+        angular.element('body').css({ overflow:'hidden' });
+
+        var authorMetaEl = '<div class="author-meta"><div class="left"><span class="light-grey">By</span>' + $scope.feedItemElements[index].author_meta.name + '</div><div class="right" ng-bind-html="item.category[0].name">' + $scope.feedItemElements[index].category[0].name + '</div><span class="clearfix"></span></div>';
+        var shareFooter = '<div class="share-footer"><button type="button" class="btn glyphicon glyphicon-chevron-up"></button><button type="button" class="btn glyphicon glyphicon-chevron-down"></button><button type="button" class="btn glyphicon glyphicon-comment"></button><button type="button" class="btn btn-primary right glyphicon glyphicon-share-alt share"></button></div>';
+
+        var singleContentHeaderEl = angular.element('<h2/>').attr({class:'post-title'}).html($scope.feedItemElements[index].title.rendered);
+        var singleContentEl = angular.element('<div/>')
+            .attr({class:'post-content'})
+            .css({ overflow:'auto', margin:'0 auto' })
+            .html(content.rendered)
+            .prepend(shareFooter)
+            .prepend(authorMetaEl)
+            .prepend(singleContentHeaderEl);
+
+        var singleEl = angular.element('<div/>')
+            .attr({class:'single current'})
+            .css( {width: post.width()+'px', 'margin-left': -(post.width()/2)+'px'} )
+            .append(singleContentEl);
+
+        var backButton = angular.element('<button/>').attr({class:'btn btn-primary back', type: 'button'}).text('back').on('click', function(e){ $scope.removeSingle(e, index) });
+
+
+        singleEl.append(backButton);
+        wrapper.parent().append(singleEl);
+
+        var expectedEmbed = singleEl.find('.post-content p').first();
+        if(angular.element(expectedEmbed).find('iframe').length > 0){
+            expectedEmbed.addClass('video-container');
+        }
+
+        $scope.changePage(index);
+    };
+
+    $scope.removeSingle = function(e, index){
+        angular.element(e.currentTarget).closest('.single.current').remove();
+        $scope.currentView = 'feed';
+
+        angular.element('.wrapper').css({visibility:'visible'});
+        angular.element('body').css({ overflow:'auto' });
+        angular.element('#scroll-container').attr('infinite-scroll-disabled','false');
+        var stateObj = {pagePos: index};
+
+        history.pushState(stateObj, index, '/' + $scope.feedItemElements[index].category[0].slug + '/');
+        window.scrollTo(0,$scope.currentY);
+
+    };
+
+    $scope.changePage = function(index){
         var newFeedItem = $scope.feedItems[index];
         var newSlug = '/'+ newFeedItem.category[0].slug + '/' + newFeedItem.slug;
-        var stateObj = {pagePos: index};
-        history.replaceState(stateObj, index, newSlug);
-
-        //$state.go('single',{category: newFeedItem.category[0].slug, slug:newFeedItem.slug}, {location:true});
+        var stateObj = {page: newSlug};
+        history.pushState(stateObj, newFeedItem.title, newSlug);
     };
 
 };

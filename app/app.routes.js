@@ -10,7 +10,7 @@ var Router = function($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('category', {
             controller: 'FeedCategoryController',
-            url: '/{category:[-a-z]{1,99}}/',
+            url: '/{category:[-a-z]{1,99}}',
             templateUrl: '/views/category.html'
         })
         .state('single', {

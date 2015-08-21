@@ -28,7 +28,7 @@ iframe{
   max-width: 640px;
   font-size: 1.25em;
   color:#444;
-  margin: 0 0 1em;
+  margin: 0 0 .5em;
   padding: 0 .5em;
 }
 
@@ -75,8 +75,10 @@ iframe{
 
 
 /* single view */
-.wrapper.single{
+.view-container.single{
   background: #fff;
+  max-width: 640px;
+  margin: 0 auto 1em;
 }
 
 .category{
@@ -87,16 +89,33 @@ iframe{
   padding-bottom: .5em;
 }
 
+.share-footer{
+  padding: 0 .5em 1em .5em;
+}
+
+.share-footer button{
+  margin: 0 .25em;
+  padding: .5em 1em;
+  font-size: 13px;
+}
+
+.share-footer button.share{
+  padding: .5em 1.75em;
+}
+
 .single{
   padding: 1em 0;
   background: #fff;
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
 }
 
-.single button{
+.single .share-footer{
+  margin-top: 0;
+}
+
+.single button.back{
   margin: .5em auto .5em;
   display: block;
   padding: .35em 1em;
@@ -118,14 +137,14 @@ iframe{
 .single .post-title{
   font-size: 1.5em;
   margin-bottom: .5em;
-  padding: 0 1.25em;
+  padding: 0 .5em;
 }
 
 .single .author-meta{
   border-top: 1px solid #bababa;
   border-bottom: 1px solid #bababa;
-  margin-bottom: 1em;
-  padding: 0 1.25em;
+  margin-bottom: .5em;
+  padding: 0 .5em;
   p{
     line-height: 2em;
   }
@@ -139,7 +158,7 @@ iframe{
   box-shadow: none;
   font-size: 1.2em;
   line-height: normal;
-  padding:.5em 1em .5em;
+  padding:.5em 0em .5em;
   p{
     padding:0 .5em;
     &:first-child{
