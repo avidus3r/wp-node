@@ -15,9 +15,9 @@ var FeedListController = function($scope, $rootScope, FeedService, $route, $rout
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 3;
+    $scope.feedItemScrollAmount = 5;
     $scope.postPrefetchAt = 10;
-    $scope.postsPerPage = 15;
+    $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
     $scope.currentY = null;
 
@@ -56,30 +56,30 @@ var FeedListController = function($scope, $rootScope, FeedService, $route, $rout
 
     $scope.add = function(item){
         $scope.feedItemElements.push(item);
-        console.log($scope.feedItemPosition);
+        if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
+            $scope.pageNumber += 1;
+            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
+                .then(
+                function(data){ //success
+                    angular.forEach(data, function (item, index) {
+                        $scope.createFeedItem(item, $scope.feedItems.length);
+                    });
+                    $scope.$emit('list:next');
+                },
+                function(reason){   //error
+                    console.error('Failed: ', reason);
+                },
+                function(update) {  //notification
+                    alert('Got notification: ' + update);
+                }
+            );
+        }
         $scope.feedItemPosition += 1;
     };
 
     $scope.getNext = function(){
         console.log($scope.feedItemPosition);
-        if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
-            $scope.pageNumber += 1;
-            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
-                .then(
-                    function(data){ //success
-                        angular.forEach(data, function (item, index) {
-                            $scope.createFeedItem(item, $scope.feedItems.length);
-                        });
-                        $scope.$emit('list:next');
-                    },
-                    function(reason){   //error
-                        console.error('Failed: ', reason);
-                    },
-                    function(update) {  //notification
-                        alert('Got notification: ' + update);
-                    }
-                );
-        }
+
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount;

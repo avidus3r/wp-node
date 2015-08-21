@@ -9,9 +9,9 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 3;
+    $scope.feedItemScrollAmount = 5;
     $scope.postPrefetchAt = 10;
-    $scope.postsPerPage = 15;
+    $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
     $scope.currentY = null;
@@ -51,31 +51,31 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
 
     $scope.add = function(item){
         $scope.feedItemElements.push(item);
-        console.log($scope.feedItemPosition);
-        $scope.feedItemPosition += 1;
-    };
-
-    $scope.getNext = function(){
-        console.log($scope);
-        if($scope.currentView === 'single') return false;
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
             FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
                 .then(
-                    function(data){ //success
-                        angular.forEach(data, function (item, index) {
-                            $scope.createFeedItem(item, $scope.feedItems.length);
-                        });
-                        $scope.$emit('list:next');
-                    },
-                    function(reason){   //error
-                        console.error('Failed: ', reason);
-                    },
-                    function(update) {  //notification
-                        alert('Got notification: ' + update);
-                    }
-                );
+                function(data){ //success
+                    angular.forEach(data, function (item, index) {
+                        $scope.createFeedItem(item, $scope.feedItems.length);
+                    });
+                    $scope.$emit('list:next');
+                },
+                function(reason){   //error
+                    console.error('Failed: ', reason);
+                },
+                function(update) {  //notification
+                    alert('Got notification: ' + update);
+                }
+            );
         }
+        $scope.feedItemPosition += 1;
+    };
+
+    $scope.getNext = function(){
+
+        if($scope.currentView === 'single') return false;
+
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount;
