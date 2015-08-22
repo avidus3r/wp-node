@@ -9,11 +9,10 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 3;
+    $scope.feedItemScrollAmount = 5;
     $scope.postPrefetchAt = 10;
-    $scope.postsPerPage = 15;
+    $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
-    $scope.item = {};
 
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
@@ -24,14 +23,33 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     var posts = FeedService.getPosts(postPath, postParams);
 
     posts.then(function(data){
-        $scope.item = data[0];
-        for(var prop in $scope.item){
+        var item = data[0];
+        for(var prop in item){
             if(prop === 'content'){
-                $scope.item[prop] = $scope.trustContent($scope.item[prop]);
+                item[prop] = $scope.trustContent(item[prop]);
             }
         }
-        //$scope.getPosts(postPath, pagingParams);
+        $scope.createFeedItem(item, $scope.feedItems.length);
+        $scope.getPosts(postPath, pagingParams);
     });
+
+    $scope.getPosts = function(postPath, pagingParams){
+        posts = FeedService.getPosts(postPath, pagingParams);
+        posts.then(
+            function(data){ //success
+                angular.forEach(data, function (item, index) {
+                    $scope.createFeedItem(item, $scope.feedItems.length);
+                });
+                $scope.$emit('list:next');
+            },
+            function(reason){   //error
+                console.error('Failed: ', reason);
+            },
+            function(update) {  //notification
+                alert('Got notification: ' + update);
+            }
+        );
+    };
 
     $scope.trustContent = function(content){
         return $sce.trustAsHtml(content.rendered);

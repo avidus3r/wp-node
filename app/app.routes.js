@@ -15,7 +15,7 @@ var Router = function($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('single', {
             controller: 'FeedSingleController',
-            url: '/{slug:[-a-z]{1,99}}',
+            url: '/{category:[-a-z]{1,99}}/{slug:[-a-z]{1,99}}',
             templateUrl: '/views/single.html'
         });
     $locationProvider.html5Mode({
