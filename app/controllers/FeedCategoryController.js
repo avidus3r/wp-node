@@ -199,34 +199,43 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
         var expectedEmbed = singleEl.find('.post-content p').first();
         if(angular.element(expectedEmbed).find('iframe').length > 0){
             expectedEmbed.addClass('video-container');
-            console.log(angular.element(expectedEmbed).find('iframe'));
-            var maxWidth = singleEl.width(); // Max width for the image
-            var maxHeight = 10000;    // Max height for the image
-            var ratio = 0;  // Used for aspect ratio
-            var width = angular.element(expectedEmbed).find('iframe')[0].width;    // Current image width
-            var height = angular.element(expectedEmbed).find('iframe')[0].height;  // Current image height
-            var iframe = angular.element(expectedEmbed).find('iframe')[0];
-            // Check if the current width is larger than the max
-            if(width > maxWidth){
-                console.log(maxWidth, width,height);
-                ratio = maxWidth / width;   // get ratio for scaling image
-                angular.element(iframe).css('width', maxWidth); // Set new width
-                angular.element(iframe).css('height', height * ratio);  // Scale height based on ratio
-                height = height * ratio;    // Reset height to match scaled image
-                width = width * ratio;    // Reset width to match scaled image
-            }
-
-            // Check if current height is larger than max
-            if(height > maxHeight){
-                ratio = maxHeight / height; // get ratio for scaling image
-                angular.element(iframe).css('height', maxHeight);   // Set new height
-                angular.element(iframe).css('width', width * ratio);    // Scale width based on ratio
-                width = width * ratio;    // Reset width to match scaled image
-                height = height * ratio;    // Reset height to match scaled image
-            }
+            $scope.resizeEmbed(expectedEmbed);
         }
 
         $scope.changePage(index);
+    };
+
+    $scope.resizeEmbed = function(embed){
+
+        var iframe = angular.element(embed).find('iframe')[0];
+
+        var maxWidth = iframe.closest('.single.current').width(); // Max width for the image
+        var maxHeight = 10000;    // Max height for the image
+        var ratio = 0;  // Used for aspect ratio
+
+        var width = iframe.width;    // Current image width
+        var height = iframe.height;  // Current image height
+
+
+        // Check if the current width is larger than the max
+        if(width > maxWidth){
+            console.log(maxWidth, width,height);
+            ratio = maxWidth / width;   // get ratio for scaling image
+            angular.element(iframe).css('width', maxWidth); // Set new width
+            angular.element(iframe).css('height', height * ratio);  // Scale height based on ratio
+            height = height * ratio;    // Reset height to match scaled image
+            width = width * ratio;    // Reset width to match scaled image
+        }
+
+        // Check if current height is larger than max
+        if(height > maxHeight){
+            ratio = maxHeight / height; // get ratio for scaling image
+            angular.element(iframe).css('height', maxHeight);   // Set new height
+            angular.element(iframe).css('width', width * ratio);    // Scale width based on ratio
+            width = width * ratio;    // Reset width to match scaled image
+            height = height * ratio;    // Reset height to match scaled image
+        }
+
     };
 
     $scope.removeSingle = function(e, index){

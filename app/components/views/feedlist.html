@@ -1,5 +1,5 @@
 <!--ui-sref="category.single({category: item.category[0].slug, slug: item.slug})-->
-<div ui-view class="wrapper" ng-controller="FeedListController">
+<div ui-view="feed" class="wrapper" ng-controller="FeedListController">
     <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="1">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" ui-sref="single({category: item.category[0].slug, slug: item.slug})">
             <div class="post-view-type">

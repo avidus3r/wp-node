@@ -22,7 +22,8 @@
   "devDependencies": {
     "clean": "^4.0.1",
     "connect-livereload": "latest",
-    "event-stream": "latest",
+    "event-stream": "^3.3.1",
+    "fs": "0.0.2",
     "gulp-clean": "~0.2.4",
     "gulp-concat": "latest",
     "gulp-csslint": "^0.2.0",
@@ -36,6 +37,8 @@
     "gulp-sass": "latest",
     "gulp-uglify": "latest",
     "gulp-util": "latest",
+    "knox": "^0.9.2",
+    "path": "^0.11.14",
     "raw-loader": "latest",
     "require-dir": "latest",
     "requirejs": "latest",

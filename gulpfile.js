@@ -3,6 +3,10 @@
 var gulp    = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     sass    = require('gulp-sass'),
+    fs      = require('fs'),
+    es      = require('event-stream'),
+    path    = require('path'),
+    knox    = require('knox'),
     gutil   = require('gulp-util'),
     clean   = require('gulp-clean'),
     webpack = require('webpack'),
@@ -21,6 +25,58 @@ var paths   = {
 };
 
 gulp.task('scripts', ['lint', 'webpack']);
+
+function publishToS3 () {
+
+    var aws = JSON.parse(fs.readFileSync('./aws.json'));
+
+   /* if(!options.path){
+        throw "path is a required option"
+    }*/
+
+
+    return es.map(function (file, cb) {
+        var isFile = fs.lstatSync(file.path).isFile();
+
+        if (!isFile) {
+            return false;
+        }
+
+        var uploadPath = file.path.replace(file.base, '');
+        uploadPath = "" + path.join(options.path, uploadPath);
+
+        // Correct path to use forward slash for windows
+        if(path.sep == "\\"){
+            uploadPath = uploadPath.replace(/\\/g,"/");
+        }
+
+        var client = knox.createClient(aws);
+
+        var headers = {
+            'x-amz-acl': 'public-read'
+        };
+
+        client.putFile(file.path, uploadPath, headers, function(err, res) {
+            if (err || res.statusCode !== 200) {
+                console.log("Error Uploading" + res.req.path);
+            } else {
+                console.log("Uploaded " + res.req.path);
+            }
+            cb();
+        });
+
+
+        return true;
+
+    });
+}
+
+gulp.task('publish',function(){
+
+    gulp.src('./dist/**', {read: false})
+        .pipe(publishToS3());
+
+});
 
 gulp.task('webpack', function(callback) {
     webpack({

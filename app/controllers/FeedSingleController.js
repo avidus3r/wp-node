@@ -24,11 +24,6 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
 
     posts.then(function(data){
         var item = data[0];
-        for(var prop in item){
-            if(prop === 'content'){
-                item[prop] = $scope.trustContent(item[prop]);
-            }
-        }
         $scope.createFeedItem(item, $scope.feedItems.length);
         $scope.getPosts(postPath, pagingParams);
     });
@@ -40,6 +35,7 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
+                angular.element('#scroll-container').removeAttr('infinite-scroll-disabled');
                 $scope.$emit('list:next');
             },
             function(reason){   //error
@@ -51,23 +47,17 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
         );
     };
 
-    $scope.trustContent = function(content){
-        return $sce.trustAsHtml(content.rendered);
-    };
-
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
-        if(index < $scope.feedItemScrollAmount){
+        if(index <= $scope.feedItemScrollAmount){
             $scope.add($scope.feedItems[index]);
         }
     };
 
     $scope.getNext = function(){
-        if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
-            $scope.pageNumber += 1;
-            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber);
-        }
-        var itemPosition = $scope.feedItemPosition-1;
+        console.log('getNext');
+
+        var itemPosition = $scope.feedItemPosition-2;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount;
         console.log(itemPosition,i,count);
@@ -85,15 +75,82 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     };
 
     $scope.renderContent = function(content,index, fromClick){
-        console.log(content);
-        var post = angular.element('.feed-item:eq('+ index +')').find('.post-content');
-        post.html(content.rendered);
+
+        var feedItem = angular.element('.feed-item:eq('+ index +')');
+        var post = feedItem.find('.post-content');
+
+        post.html(content);
+
+        var expectedEmbed = post.find('iframe');
+
+
+        if(expectedEmbed.length > 0){
+            expectedEmbed.addClass('video-container');
+            $scope.resizeEmbed(expectedEmbed);
+        }
+    };
+
+    $scope.trustContent = function(content){
+        return $sce.trustAsHtml(content.rendered);
+    };
+
+    $scope.resizeEmbed = function(embed){
+        var iframe = embed;
+
+        var maxWidth = iframe.closest('.post-content').width(); // Max width for the image
+        var maxHeight = 10000;    // Max height for the image
+        var ratio = 0;  // Used for aspect ratio
+
+        var width = iframe[0].width;    // Current image width
+        var height = iframe[0].height;  // Current image height
+
+
+        // Check if the current width is larger than the max
+        if(width > maxWidth){
+            console.log(maxWidth, width,height);
+            ratio = maxWidth / width;   // get ratio for scaling image
+            iframe.css('width', maxWidth); // Set new width
+            iframe.css('height', height * ratio);  // Scale height based on ratio
+            height = height * ratio;    // Reset height to match scaled image
+            width = width * ratio;    // Reset width to match scaled image
+        }
+
+        // Check if current height is larger than max
+        if(height > maxHeight){
+            ratio = maxHeight / height; // get ratio for scaling image
+            iframe.css('height', maxHeight);   // Set new height
+            iframe.css('width', width * ratio);    // Scale width based on ratio
+            width = width * ratio;    // Reset width to match scaled image
+            height = height * ratio;    // Reset height to match scaled image
+        }
 
     };
 
     $scope.add = function(item){
         $scope.feedItemElements.push(item);
+        if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
+            $scope.pageNumber += 1;
+            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
+                .then(
+                function(data){ //success
+                    angular.forEach(data, function (item, index) {
+                        $scope.createFeedItem(item, $scope.feedItems.length);
+                    });
+                    $scope.$emit('list:next');
+                },
+                function(reason){   //error
+                    console.error('Failed: ', reason);
+                },
+                function(update) {  //notification
+                    alert('Got notification: ' + update);
+                }
+            );
+        }
         $scope.feedItemPosition += 1;
+    };
+
+    $scope.changeView = function($stateOptions){
+        $state.go('single', $stateOptions, {reload:true});
     };
 
     $scope.changePage = function(){
