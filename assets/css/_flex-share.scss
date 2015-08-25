@@ -9,7 +9,7 @@
 }
 
 // make it smaller
-.flexshare.flex-small {
+.flexshare.share-small {
   font-size:.7em;
 }
 
@@ -18,52 +18,10 @@
     order: -1;
   }
 
-  .flex-mail {
-    order: 0;
-  }
-
-  .flex-twitter {
-    order: -1;
-  }
-
-// brand colors instead of standard link colors
-.flexshare.brandedcolors 
-  {
-     .flex-facebook a,
-     &:visited {
-      color: $color-facebook;
-    }
-
-     .flex-twitter a,
-     &:visited {
-      color: $color-twitter;
-    }
-
-     .flex-linkedin a,
-     &:visited {
-      color: $color-linkedin;
-    }
-
-     .flex-gplus a,
-     &:visited {
-      color: $color-googleplus;
-    }
-
-     .flex-mail a,
-     &:visited {
-      color: $color-ad-green;
-    }
-
-     .flex-reddit a,
-     &:visited {
-      color: $color-reddit;
-    }
-  }
-
 
 // No rounded squares 
-.flexshare.no-square .fs-item a,
-.flexshare.no-square .fs-item a:visited {
+.flexshare .fs-item a,
+.flexshare .fs-item a:visited {
   color: #fff;
   background-color: #333;
   display: inline-block;
@@ -75,34 +33,34 @@
 }
 
 // no round squares branded
-.flexshare.no-square.brandedcolors {
+.flexshare {
   .flex-facebook a,
-  &:visited {
+  .flex-facebook a:visited {
     background-color: $color-facebook;
   }
 
   .flex-twitter a,
-  &:visited {
+  .flex-twitter a:visited {
     background-color: $color-twitter;
   }
 
   .flex-linkedin a,
-  &:visited {
+  .flex-linkedin a:visited {
     background-color: $color-linkedin;
   }
 
   .flex-gplus a,
-  &:visited {
+  .flex-gplus a:visited {
     background-color: $color-googleplus;
   }
 
   .flex-mail a,
-  &:visited {
+  .flex-mail a:visited {
     background-color: $color-ad-green;
   }
 
   .flex-reddit a,
-  &:visited {
+  .flex-reddit a:visited {
     background-color: $color-reddit;
   }
 
