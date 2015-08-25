@@ -1,3 +1,5 @@
+@import 'globals';
+
 html,body{
   width: 100%;
   min-width: 100%;
@@ -233,3 +235,6 @@ iframe{
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
+
+// load components here
+@import 'flex-share';
