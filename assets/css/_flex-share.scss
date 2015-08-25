@@ -1,0 +1,68 @@
+// flexbox based share buttons
+.flexshare {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.fs-item {
+  margin: .25em; 
+}
+
+// make it smaller
+.flexshare.share-small {
+  font-size:.7em;
+}
+
+// testing classes - rework with something better
+  .flexshare-first {
+    order: -1;
+  }
+
+
+// No rounded squares 
+.flexshare .fs-item a,
+.flexshare .fs-item a:visited {
+  color: #fff;
+  background-color: #333;
+  display: inline-block;
+  padding: .3em .25em .25em;
+  width: 3.5em;
+  height: 3.5em;
+  font-size: .75em;
+  text-align: center;
+}
+
+// no round squares branded
+.flexshare {
+  .flex-facebook a,
+  .flex-facebook a:visited {
+    background-color: $color-facebook;
+  }
+
+  .flex-twitter a,
+  .flex-twitter a:visited {
+    background-color: $color-twitter;
+  }
+
+  .flex-linkedin a,
+  .flex-linkedin a:visited {
+    background-color: $color-linkedin;
+  }
+
+  .flex-gplus a,
+  .flex-gplus a:visited {
+    background-color: $color-googleplus;
+  }
+
+  .flex-mail a,
+  .flex-mail a:visited {
+    background-color: $color-ad-green;
+  }
+
+  .flex-reddit a,
+  .flex-reddit a:visited {
+    background-color: $color-reddit;
+  }
+
+}
+
