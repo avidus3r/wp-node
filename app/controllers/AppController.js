@@ -1,12 +1,10 @@
 'use strict';
 
-var AppController = function($scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var AppController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
     $scope.collapseNav = function(){
-
-            if(!angular.element('.navbar-toggle').hasClass('collapsed')){
-                angular.element('.navbar-toggle').click();
-            }
-
+        if(!angular.element('.navbar-toggle').hasClass('collapsed')){
+            angular.element('.navbar-toggle').click();
+        }
     };
 
     FeedService.getTerms('category').then(
@@ -20,6 +18,10 @@ var AppController = function($scope, FeedService, $route, $routeParams, $locatio
 
         }
     );
+
+    $scope.changeState = function(newState, params, options){
+        $rootScope.$state.go(newState, params, options);
+    };
 };
 
 module.exports = AppController;

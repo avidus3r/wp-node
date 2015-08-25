@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
 
     this.name = 'category';
     this.params = $routeParams;

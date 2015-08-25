@@ -22,7 +22,7 @@
                 </ul>
                 <ul class="nav navbar-nav">
                     <li ng-repeat="category in categories" ng-click="collapseNav()">
-                        <a href="/{{ category.slug}}">{{ category.name }}</a>
+                        <a ng-click="changeState('category',{category: category.slug},{reload:true})" ng-bind-html="category.name"></a>
                     </li>
                 </ul>
             </div>

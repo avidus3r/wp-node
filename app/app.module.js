@@ -21,7 +21,7 @@ angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'
 //Modules
 angular.module('NewsFeed').controller(
     'AppController',
-    ['$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', Controllers.AppController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', Controllers.AppController]
 );
 
 angular.module('NewsFeed').controller(
@@ -31,12 +31,12 @@ angular.module('NewsFeed').controller(
 
 angular.module('NewsFeed').controller(
     'FeedCategoryController',
-    ['$scope', '$rootScope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedCategoryController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedListController',
-    ['$scope', '$rootScope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', Controllers.FeedListController]
 );
 
 angular.module('NewsFeed').factory(
