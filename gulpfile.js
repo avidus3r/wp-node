@@ -1,19 +1,21 @@
 'use strict';
 
-var gulp    = require('gulp'),
+var gulp            = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
-    sass    = require('gulp-sass'),
-    fs      = require('fs'),
-    es      = require('event-stream'),
-    path    = require('path'),
-    knox    = require('knox'),
-    gutil   = require('gulp-util'),
-    clean   = require('gulp-clean'),
-    webpack = require('webpack'),
-    runSequence = require('run-sequence'),
-    plugins = gulpLoadPlugins(),
-    csslint = require('gulp-csslint'),
-    cssmin = require('gulp-cssmin'),
+    sass            = require('gulp-sass'),
+    git             = require('gulp-git'),
+    fs              = require('fs'),
+    es              = require('event-stream'),
+    path            = require('path'),
+    knox            = require('knox'),
+    gutil           = require('gulp-util'),
+    clean           = require('gulp-clean'),
+    webpack         = require('webpack'),
+    runSequence     = require('run-sequence'),
+    pkg             = require('./package.json'),
+    plugins         = gulpLoadPlugins(),
+    csslint         = require('gulp-csslint'),
+    cssmin          = require('gulp-cssmin'),
     LIVERELOAD_PORT = 35729,
     lr;
 
@@ -26,16 +28,16 @@ var paths   = {
 
 gulp.task('scripts', ['lint', 'webpack']);
 
-function publishToS3 () {
+function publishToS3 (options) {
 
     var aws = JSON.parse(fs.readFileSync('./aws.json'));
 
-   /* if(!options.path){
+    if(!options.path){
         throw "path is a required option"
-    }*/
-
+    }
 
     return es.map(function (file, cb) {
+        console.log(file);
         var isFile = fs.lstatSync(file.path).isFile();
 
         if (!isFile) {
@@ -43,15 +45,15 @@ function publishToS3 () {
         }
 
         var uploadPath = file.path.replace(file.base, '');
-        uploadPath = "" + path.join(options.path, uploadPath);
-
+        /*uploadPath = "" + path.join(options.path, uploadPath);
+        console.log('upload path: ', uploadPath);*/
         // Correct path to use forward slash for windows
         if(path.sep == "\\"){
             uploadPath = uploadPath.replace(/\\/g,"/");
         }
 
         var client = knox.createClient(aws);
-
+        console.log('client: ', client);
         var headers = {
             'x-amz-acl': 'public-read'
         };
@@ -73,8 +75,10 @@ function publishToS3 () {
 
 gulp.task('publish',function(){
 
-    gulp.src('./dist/**', {read: false})
-        .pipe(publishToS3());
+    gulp.src('./dist/**/*.*', {read: false})
+        .pipe(publishToS3({
+            path : "/"+pkg.name+"/"
+        }));
 
 });
 
@@ -169,6 +173,26 @@ gulp.task('devServe', ['env:development'], function () {
         this.stderr.pipe(process.stderr);
     });
 });
+
+gulp.task('tag', ['bump'], function (cb) {
+
+    var pkg = require('./package.json');
+    var v = 'v' + pkg.version;
+    var message = '"Release ' + v +'"';
+
+    gulp.src('./')
+        .pipe(git.commit(message));
+
+    git.tag(v, message);
+    git.push('origin', 'master', {args : '--tags'});
+
+    cb();
+});
+
+gulp.task('release', function(callback) {
+    runSequence('tag', 'publish',  callback);
+});
+
 
 gulp.task('watch', function () {
     plugins.livereload.listen({interval:500});

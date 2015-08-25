@@ -98,7 +98,7 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
         history.pushState({page: 'home'}, feedItem.title, '/' + $scope.feedItemElements[index].category[0].slug + '/');
 
 
-        if(fromClick) {
+        /*if(fromClick) {
 
             $scope.addSingle(content, index);
 
@@ -149,9 +149,13 @@ var FeedCategoryController = function($scope, $rootScope, FeedService, $route, $
 
             //window.addEventListener('scroll', onSingleScroll);
 
-        }
+        }*/
 
 
+    };
+
+    $scope.changeView = function($stateOptions){
+        $state.go('single', $stateOptions, {reload:true});
     };
 
     $scope.addSingle = function(content, index){

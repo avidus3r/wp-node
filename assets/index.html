@@ -14,6 +14,7 @@
     <title></title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -22,7 +23,7 @@
     <script type="text/javascript" src="/js/index.js"></script>
 
 </head>
-<body>
+<body ng-controller="AppController">
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KGR7N7"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -33,6 +34,7 @@
 })(window,document,'script','dataLayer','GTM-KGR7N7');</script>
 
 
+<ng-include src="'./shared/header.html'"></ng-include>
 <!-- End Google Tag Manager -->
 <section class="view-container" ui-view></section>
 

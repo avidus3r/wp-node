@@ -1,6 +1,6 @@
 {
-  "name": "angular-express",
-  "description": "Express and Angular",
+  "name": "altdriver-feed",
+  "description": "WordPress Angular feed aggregator",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -29,6 +29,7 @@
     "gulp-csslint": "^0.2.0",
     "gulp-cssmin": "^0.1.7",
     "gulp-exec": "latest",
+    "gulp-git": "^1.2.4",
     "gulp-jshint": "latest",
     "gulp-livereload": "latest",
     "gulp-load-plugins": "latest",
