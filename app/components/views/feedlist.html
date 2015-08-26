@@ -1,5 +1,5 @@
 <!--ui-sref="category.single({category: item.category[0].slug, slug: item.slug})-->
-<div ui-view class="wrapper" ng-controller="FeedListController">
+<div class="wrapper" ng-controller="FeedListController">
     <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="1">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
             <div class="post-view-type">
@@ -8,7 +8,7 @@
                         <div ng-switch-when="false" class="post-content no-featured-img" ng-bind-html="renderContent(item.content,$index, false)"></div>
 
                         <div ng-switch-default class="post-content">
-                            <p><img class="featured-image" ng-click="changeView({category: item.category[0].slug, slug: item.slug})" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></p>
+                            <p><a href="/{{item.category[0].slug + '/' + item.slug}}"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a></p>
                             <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
 
                             <!--<ng-include src="'shared/share-footer.html'"></ng-include>-->

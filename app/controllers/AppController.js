@@ -18,10 +18,6 @@ var AppController = function($rootScope, $scope, FeedService, $route, $routePara
 
         }
     );
-
-    $scope.changeState = function(newState, params, options){
-        $rootScope.$state.go(newState, params, options);
-    };
 };
 
 module.exports = AppController;

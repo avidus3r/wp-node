@@ -24,6 +24,7 @@
     "connect-livereload": "latest",
     "event-stream": "^3.3.1",
     "fs": "0.0.2",
+    "gulp-browserify": "^0.5.1",
     "gulp-clean": "~0.2.4",
     "gulp-concat": "latest",
     "gulp-csslint": "^0.2.0",

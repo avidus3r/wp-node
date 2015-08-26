@@ -1,22 +1,19 @@
 'use strict';
 
-var Router = function($stateProvider, $urlRouterProvider, $locationProvider) {
+var Router = function($routeProvider, $locationProvider) {
     //$urlRouterProvider.otherwise('/');
-    $stateProvider
-        .state('index', {
+    $routeProvider.
+        when('/', {
             controller: 'FeedListController',
-            url: '/',
-            templateUrl: './views/feedlist.html'
+            templateUrl: '/views/feedlist.html'
         })
-        .state('category', {
+        .when('/:category', {
             controller: 'FeedCategoryController',
-            url: '/{category:[-a-z]{1,99}}',
-            templateUrl: './views/category.html'
+            templateUrl: '/views/category.html'
         })
-        .state('single', {
+        .when('/:category/:slug', {
             controller: 'FeedSingleController',
-            url: '/{category:[-a-z]{1,99}}/{slug:[-a-z]{1,99}}',
-            templateUrl: './views/single.html'
+            templateUrl: '/views/single.html'
         });
     $locationProvider.html5Mode({
         enabled: true,

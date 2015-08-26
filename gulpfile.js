@@ -11,6 +11,7 @@ var gulp            = require('gulp'),
     gutil           = require('gulp-util'),
     clean           = require('gulp-clean'),
     webpack         = require('webpack'),
+    browserify      = require('gulp-browserify'),
     runSequence     = require('run-sequence'),
     pkg             = require('./package.json'),
     plugins         = gulpLoadPlugins(),
@@ -26,7 +27,18 @@ var paths   = {
     templates:['app/components/**/*.html']
 };
 
-gulp.task('scripts', ['lint', 'webpack']);
+gulp.task('scripts', ['lint'], function(){
+    return gulp.src('app/app.js')
+        .pipe(browserify({
+            insertGlobals: true
+        }))
+        .pipe(gulp.dest('./dist/js'))
+});
+
+gulp.task('templates', function(){
+    gulp.src(paths.templates)
+        .pipe(gulp.dest('./dist/'));
+});
 
 function publishToS3 (options) {
 
@@ -86,7 +98,7 @@ gulp.task('webpack', function(callback) {
     webpack({
         context: __dirname,
         entry: {
-            index : './app/app.module.js'
+            index : './app/app.js'
         },
         output: {
             path: './dist/js/',
@@ -199,12 +211,12 @@ gulp.task('watch', function () {
 
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
-    gulp.watch(paths.templates, ['webpack']);
+    gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.sass, ['css:sass']);
 });
 
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css', 'assets', 'scripts',  callback);
+    runSequence('clean', 'css', 'assets', 'templates', 'scripts',  callback);
 });

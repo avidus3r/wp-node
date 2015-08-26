@@ -44,7 +44,7 @@ angular.module('NewsFeed').factory(
     ['$http', '$q', FeedService]
 );
 
-angular.module('NewsFeed').run(
+/*angular.module('NewsFeed').run(
     ['$rootScope', '$state', '$stateParams',
     function ($rootScope,   $state,   $stateParams) {
 
@@ -59,10 +59,10 @@ angular.module('NewsFeed').run(
             $rootScope.$stateParams.currentStateParams = toParams;
         });
     }]
-);
+);*/
 
 angular.module('NewsFeed').config(
-    ['$stateProvider', '$urlRouterProvider', '$locationProvider', Router]
+    ['$routeProvider', '$locationProvider', Router]
 );
 
 window.onerror = function(){

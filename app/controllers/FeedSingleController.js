@@ -4,7 +4,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     this.name = 'single';
     this.params = $routeParams;
-
+    //  $scope.reloadPage=$route.reload();
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
@@ -17,7 +17,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
-    var postParams = '&name=' + $stateParams.slug;
+    var postParams = '&name=' + $routeParams.slug;
 
 
     var posts = FeedService.getPosts(postPath, postParams);
@@ -35,7 +35,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
-                angular.element('#scroll-container').removeAttr('infinite-scroll-disabled');
+                angular.element('#scroll-container').attr('infinite-scroll-disabled', 'false');
 
             },
             function(reason){   //error
@@ -53,7 +53,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             $scope.add($scope.feedItems[index]);
         }
         if(index === $scope.feedItemScrollAmount){
-            $scope.$emit('list:next');
+            console.log('next');
+            //$scope.getNext();
         }
     };
 
@@ -134,7 +135,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
             FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
-                .then(
+                .then   (
                 function(data){ //success
                     angular.forEach(data, function (item, index) {
                         $scope.createFeedItem(item, $scope.feedItems.length);
@@ -153,7 +154,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.changeView = function($stateOptions){
-        $rootScope.$state.go('single', $stateOptions, {reload:true});
+        $rootScope.$state.go('single', $stateOptions, {reload:true, location:'replace'});
     };
 
     $scope.changePage = function(){

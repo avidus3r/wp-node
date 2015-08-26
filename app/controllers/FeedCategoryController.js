@@ -22,7 +22,7 @@ var FeedCategoryController = function($rootScope,   $scope, FeedService, $route,
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
     var isSingle = $stateParams.hasOwnProperty('slug');
     //var postParams = !isSingle ? '&category_name=' + $routeParams.category : '&name=' + $routeParams.slug;
-    var postParams = '&category_name=' + $stateParams.category;
+    var postParams = '&category_name=' + $routeParams.category;
     var posts = null;
 
     posts = FeedService.getPosts(postPath, postParams + pagingParams);
