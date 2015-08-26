@@ -52,7 +52,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         if(index <= $scope.feedItemScrollAmount){
             $scope.add($scope.feedItems[index]);
         }
-        if(index == $scope.feedItemScrollAmount){
+        if(index === $scope.feedItemScrollAmount){
             $scope.$emit('list:next');
         }
     };
