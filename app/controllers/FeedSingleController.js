@@ -25,7 +25,7 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     posts.then(function(data){
         var item = data[0];
         $scope.createFeedItem(item, $scope.feedItems.length);
-        $scope.getPosts(postPath, pagingParams);
+        $scope.getPosts('feed/'+ item.id + '?_jsonp=JSON_CALLBACK', pagingParams);
     });
 
     $scope.getPosts = function(postPath, pagingParams){
@@ -57,9 +57,9 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     $scope.getNext = function(){
         console.log('getNext');
 
-        var itemPosition = $scope.feedItemPosition-2;
+        var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
-        var count = $scope.feedItemScrollAmount;
+        var count = $scope.feedItemScrollAmount+1;
         console.log(itemPosition,i,count);
         if(itemPosition % count === 0){
             while(i < (itemPosition+count)){

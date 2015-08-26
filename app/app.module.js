@@ -36,7 +36,7 @@ angular.module('NewsFeed').controller(
 
 angular.module('NewsFeed').controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedListController]
 );
 
 angular.module('NewsFeed').factory(

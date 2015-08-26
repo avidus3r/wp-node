@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location) {
+var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
 
     this.name = 'list';
     this.$route = $route;
@@ -97,7 +97,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         var self = this;
 
         if(!fromClick) post.html(content.rendered);
-        history.pushState({page: 'home'}, feedItem.title, '/');
+        /*history.pushState({page: 'home'}, feedItem.title, '/');
 
 
         if(fromClick) {
@@ -151,9 +151,13 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
 
             //window.addEventListener('scroll', onSingleScroll);
 
-        }
+        }*/
 
 
+    };
+
+    $scope.changeView = function($stateOptions){
+        $state.go('single', $stateOptions, {reload:true});
     };
 
     $scope.addSingle = function(content, index){

@@ -1,4 +1,4 @@
-<div ui-view="single" class="wrapper single-post" ng-controller="FeedSingleController">
+<div ui-view class="wrapper single-post" ng-controller="FeedSingleController">
     <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-disabled="false">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
 
@@ -14,7 +14,7 @@
                         </div>
 
                         <div class="post-content">{{ renderContent(item.content.rendered, $index, false) }}</div>
-                    <ng-include src="'/shared/share-footer.html'"></ng-include>
+                    <!--<ng-include src="'shared/share-footer.html'"></ng-include>-->
 
                 </div>
                 <div ng-switch-default>
