@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedSingleController = function($scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state) {
+var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state) {
 
     this.name = 'single';
     this.params = $routeParams;
