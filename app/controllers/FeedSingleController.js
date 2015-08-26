@@ -36,7 +36,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
                 angular.element('#scroll-container').removeAttr('infinite-scroll-disabled');
-                $scope.$emit('list:next');
+
             },
             function(reason){   //error
                 console.error('Failed: ', reason);
@@ -51,6 +51,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItems.push(item);
         if(index <= $scope.feedItemScrollAmount){
             $scope.add($scope.feedItems[index]);
+        }
+        if(index == $scope.feedItemScrollAmount){
+            $scope.$emit('list:next');
         }
     };
 
