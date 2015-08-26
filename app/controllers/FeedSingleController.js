@@ -150,7 +150,7 @@ var FeedSingleController = function($scope, FeedService, $route, $routeParams, $
     };
 
     $scope.changeView = function($stateOptions){
-        $state.go('single', $stateOptions, {reload:true});
+        $rootScope.$state.go('single', $stateOptions, {reload:true});
     };
 
     $scope.changePage = function(){
