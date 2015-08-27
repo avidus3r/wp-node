@@ -1,41 +1,36 @@
 <!-- Flexbox share bar requires fontawesome -->
 <!-- Add a class of "share-small" to reduce font size -->
-<div class="flexshare">
-    <div class="flex-facebook fs-item">
+<div class="flexshare" ng-controller="FeedSingleController">
+
       <!-- facebook -->
-      <a href="http://www.facebook.com/sharer/sharer.php?u=LINK_GOES_HERE?utm_source=facebook&utm_medium=share&utm_campaign=site-share" title="Share on Facebook">
+      <a class="flex-facebook fs-item" href="https://www.facebook.com/sharer/sharer.php?url={{ getParams('url', false) }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share" title="Share on Facebook" target="_blank">
         <i class="fa fa-3x fa-facebook"></i>
       </a>
-    </div>
-    <div class="flex-mail fs-item">
+
       <!-- email -->
-      <a href="mailto:?subject=Check out this video&body=You have got to see this - LINK_GOES_HERE">
+      <a class="flex-mail fs-item" href="mailto:?subject=Check out this video&body=You have got to see this - {{ getParams('url', true) }}" target="_blank">
         <i class="fa fa-3x fa-envelope"></i>
       </a>
-    </div>
-    <div class="flex-reddit fs-item">
+
       <!-- reddit -->
-      <a href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false">
+      <a class="flex-reddit fs-item" href="//www.reddit.com/submit?url={{ getParams('url', true) }}&title={{ getParams('title', true) }}" target="_blank">
         <i class="fa fa-3x fa-reddit"></i>
       </a>
-    </div>
-    <div class="flex-linkedin fs-item flexshare-first">
-      <a href="http://www.linkedin.com/shareArticle?title=PAGE_TITLE_HERE&amp;url=LINK_GOES_HERE?utm_source=linkedin&utm_medium=share&utm_campaign=site-share" title="Share on LinkedIn">
+
+      <a class="flex-linkedin fs-item flexshare-first" href="http://www.linkedin.com/shareArticle?title={{ getParams('title') }}&url={{ getParams('url', true) }}&utm_source=linkedin&utm_medium=share&utm_campaign=site-share" title="Share on LinkedIn" target="_blank">
         <!-- linkedin -->
         <i class="fa fa-3x fa-linkedin"></i>
       </a>
-    </div>
-    <div class="flex-twitter fs-item">
-      <a href="http://www.twitter.com/share?&text=PAGE_TITLE_HERE&amp;url=LINK_GOES_HERE?utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter">
+
+
+      <a class="flex-twitter fs-item" href="http://www.twitter.com/share?&text={{ getParams('title') }}&url={{ getParams('url', true) }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
         <!-- twitter -->
         <i class="fa fa-3x fa-twitter"></i>
       </a>
-    </div>
-    <div class="flex-gplus fs-item">
-      <a href="https://plus.google.com/share?url=LINK_GOES_HERE?utm_source=google%2B&utm_medium=share&utm_campaign=site-share" title="Share on Google+">
+
+      <a class="flex-gplus fs-item" href="https://plus.google.com/share?url={{ getParams('url', true) }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
         <!-- googleplus -->
         <i class="fa fa-3x fa-google-plus"></i>
       </a>
-    </div>
     
-  </div> 
+  </div>

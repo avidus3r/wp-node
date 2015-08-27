@@ -3,9 +3,14 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  @include flex-justify-content(center);
+  position: fixed;
+  width:100%;
+  bottom:0;
+  left: 0;
 }
 .fs-item {
-  margin: .25em; 
+  flex-grow:1;
 }
 
 // make it smaller
@@ -20,47 +25,50 @@
 
 
 // No rounded squares 
-.flexshare .fs-item a,
-.flexshare .fs-item a:visited {
+.flexshare .fs-item,
+.flexshare .fs-item:visited {
   color: #fff;
   background-color: #333;
   display: inline-block;
   padding: .3em .25em .25em;
-  width: 3.5em;
-  height: 3.5em;
   font-size: .75em;
+  width: 3.5em;
   text-align: center;
+
+  i.fa-3x{
+    line-height: 1.75em;
+  }
 }
 
 // no round squares branded
 .flexshare {
-  .flex-facebook a,
-  .flex-facebook a:visited {
+  .flex-facebook,
+  .flex-facebook:visited {
     background-color: $color-facebook;
   }
 
-  .flex-twitter a,
-  .flex-twitter a:visited {
+  .flex-twitter,
+  .flex-twitter:visited {
     background-color: $color-twitter;
   }
 
-  .flex-linkedin a,
-  .flex-linkedin a:visited {
+  .flex-linkedin,
+  .flex-linkedin:visited {
     background-color: $color-linkedin;
   }
 
-  .flex-gplus a,
-  .flex-gplus a:visited {
+  .flex-gplus,
+  .flex-gplus:visited {
     background-color: $color-googleplus;
   }
 
-  .flex-mail a,
-  .flex-mail a:visited {
+  .flex-mail,
+  .flex-mail:visited {
     background-color: $color-ad-green;
   }
 
-  .flex-reddit a,
-  .flex-reddit a:visited {
+  .flex-reddit,
+  .flex-reddit:visited {
     background-color: $color-reddit;
   }
 

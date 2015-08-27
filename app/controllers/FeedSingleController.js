@@ -13,6 +13,11 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.postPrefetchAt = 10;
     $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
+    $scope.pageTitle = null;
+
+    console.log('location: ', $location);
+    console.log('route: ', $route);
+    console.log('routeParams: ', $routeParams);
 
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
@@ -24,9 +29,25 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     posts.then(function(data){
         var item = data[0];
+        $scope.pageTitle = item.title.rendered;
         $scope.createFeedItem(item, $scope.feedItems.length);
         $scope.getPosts('feed/'+ item.id + '?_jsonp=JSON_CALLBACK', pagingParams);
     });
+
+    $scope.getParams = function(param, encode){
+        var val = null;
+        switch(param){
+            case 'url':
+                val = $location.$$absUrl;
+            break;
+            case 'title':
+                val = $scope.pageTitle;
+            break;
+        }
+
+        val = encode ? encodeURIComponent(val) : val;
+        return val;
+    };
 
     $scope.getPosts = function(postPath, pagingParams){
         posts = FeedService.getPosts(postPath, pagingParams);
