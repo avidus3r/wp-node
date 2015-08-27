@@ -1,10 +1,12 @@
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state, ogMeta) {
+var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state) {
 
     this.name = 'single';
     this.params = $routeParams;
-    //  $scope.reloadPage=$route.reload();
+
+    if(!$routeParams.hasOwnProperty('slug')) return false;
+
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
@@ -29,13 +31,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     posts.then(function(data){
         var item = data[0];
-        $scope.pageTitle = item.title.rendered;
-        console.log(item);
-        ogMeta.type = 'article';
-        ogMeta.title = $scope.pageTitle;
-        ogMeta.description = angular.element(item.excerpt.rendered).text();
-        ogMeta.url = item.link;
-        ogMeta.image = item.featured_image_src.medium[0];
+
+        $rootScope.metatags.fb_type = 'article';
+        $rootScope.metatags.fb_title = item.title.rendered;
+        $rootScope.metatags.fb_description = angular.element(item.excerpt.rendered).text();
+        $rootScope.metatags.fb_url = item.link;
+        $rootScope.metatags.fb_image = item.featured_image_src.medium[0];
 
         $scope.createFeedItem(item, $scope.feedItems.length);
         $scope.getPosts('feed/'+ item.id + '?_jsonp=JSON_CALLBACK', pagingParams);
@@ -185,7 +186,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.changeView = function($stateOptions){
-        $rootScope.$state.go('single', $stateOptions, {reload:true, location:'replace'});
+        $state.go('single', $stateOptions, {reload:true, location:'replace'});
     };
 
     $scope.changePage = function(){

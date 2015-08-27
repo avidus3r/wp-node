@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, ogMeta) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
 
     this.name = 'category';
     this.params = $routeParams;
@@ -17,7 +17,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
     $scope.currentY = null;
     $scope.category = null;
 
-    /*FeedService.getTerms('category').then(
+    FeedService.getTerms('category').then(
         function(data){
             $scope.categories = data;
         },
@@ -27,7 +27,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         function(notification){
 
         }
-    );*/
+    );
 
     $scope.$on('categoriesRetrieved', function(event, categories){
         angular.forEach(categories, function (category, index) {
@@ -41,11 +41,11 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         $scope.category = category;
 
 
-        ogMeta.type = 'object';
-        ogMeta.title = $scope.category.name + ' Archives - alt_driver';
-        ogMeta.description = $scope.category.description;
-        ogMeta.url = $scope.category.link;
-        ogMeta.image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+        $rootScope.metatags.fb_type = 'object';
+        $rootScope.metatags.fb_title = $scope.category.name + ' Archives - alt_driver';
+        $rootScope.metatags.fb_description = $scope.category.description;
+        $rootScope.metatags.fb_url = $scope.category.link;
+        $rootScope.metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
     });
 
