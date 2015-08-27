@@ -1,0 +1,16 @@
+/* utility classes */
+
+// colors
+.light-grey{  color: #999999; }
+
+// floats - extended from bootstrap
+.left{  @extend .pull-left; }
+.right{  @extend .pull-right; }
+
+// display
+.is-hidden    { @extend .hidden; }
+.is-invisible { @extend .invisible; }
+
+.block        { @extend .show }
+.inline       { display: inline       !important; }
+.inline-block { display: inline-block !important; }
