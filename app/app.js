@@ -21,22 +21,22 @@ angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'
 //Modules
 angular.module('NewsFeed').controller(
     'AppController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', Controllers.AppController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', 'ogMeta', Controllers.AppController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', 'ogMeta', Controllers.FeedSingleController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', 'ogMeta', Controllers.FeedCategoryController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', 'ogMeta', Controllers.FeedListController]
 );
 
 angular.module('NewsFeed').factory(
@@ -64,6 +64,27 @@ angular.module('NewsFeed').factory(
 angular.module('NewsFeed').config(
     ['$routeProvider', '$locationProvider', Router]
 );
+
+angular.module('NewsFeed').factory('ogMeta', function() {
+    return {
+        type        : '',
+        title       : '',
+        description : '',
+        url         : '',
+        image       : ''
+    }
+});
+
+angular.module('NewsFeed').directive('ogMeta',function(ogMeta){
+    return {
+        restrict: 'E',
+        template: '<meta property="og:type" content="{{ ogMeta.type }}"><meta property="og:title" content="alt_driver - {{ ogMeta.title }}"><meta property="og:description" content="{{ ogMeta.description }}"><meta property="og:url" content="{{ ogMeta.url }}"><meta property="og:image" content="{{ ogMeta.image }}">',
+        link: function(scope) {
+            scope.ogMeta = ogMeta
+        }
+    }
+
+});
 
 window.onerror = function(){
     console.error(arguments);

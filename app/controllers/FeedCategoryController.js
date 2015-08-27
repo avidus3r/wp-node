@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($rootScope,   $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, ogMeta) {
 
     this.name = 'category';
     this.params = $routeParams;
@@ -15,8 +15,40 @@ var FeedCategoryController = function($rootScope,   $scope, FeedService, $route,
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
     $scope.currentY = null;
+    $scope.category = null;
 
-    console.log($state, $stateParams);
+    /*FeedService.getTerms('category').then(
+        function(data){
+            $scope.categories = data;
+        },
+        function(error){    
+
+        },
+        function(notification){
+
+        }
+    );*/
+
+    $scope.$on('categoriesRetrieved', function(event, categories){
+        angular.forEach(categories, function (category, index) {
+            if(category.slug === $routeParams.category){
+                $rootScope.$broadcast('categoryLoaded', category);
+            }
+        });
+    });
+
+    $scope.$on('categoryLoaded', function(event, category){
+        $scope.category = category;
+
+
+        ogMeta.type = 'object';
+        ogMeta.title = $scope.category.name + ' Archives - alt_driver';
+        ogMeta.description = $scope.category.description;
+        ogMeta.url = $scope.category.link;
+        ogMeta.image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+
+    });
+
 
     var postPath = 'posts?_jsonp=JSON_CALLBACK';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;

@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state) {
+var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state, ogMeta) {
 
     this.name = 'single';
     this.params = $routeParams;
@@ -30,6 +30,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     posts.then(function(data){
         var item = data[0];
         $scope.pageTitle = item.title.rendered;
+        console.log(item);
+        ogMeta.type = 'article';
+        ogMeta.title = $scope.pageTitle;
+        ogMeta.description = angular.element(item.excerpt.rendered).text();
+        ogMeta.url = item.link;
+        ogMeta.image = item.featured_image_src.medium[0];
+
         $scope.createFeedItem(item, $scope.feedItems.length);
         $scope.getPosts('feed/'+ item.id + '?_jsonp=JSON_CALLBACK', pagingParams);
     });
@@ -39,6 +46,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         switch(param){
             case 'url':
                 val = $location.$$absUrl;
+            break;
+            case 'urlPath':
+                val = $location.$$path;
             break;
             case 'title':
                 val = $scope.pageTitle;

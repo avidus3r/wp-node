@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, ogMeta) {
 
     this.name = 'list';
     this.$route = $route;

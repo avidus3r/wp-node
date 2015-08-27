@@ -9,6 +9,8 @@ var FeedService = function($http, $q){
         basePath: '/wp-json/wp/v2/'
     };
 
+    feed.categories = [];
+
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
@@ -31,6 +33,7 @@ var FeedService = function($http, $q){
         $http.jsonp(url)
             .then(function (response) {
                 var res = response.data;
+                feed.categories = response.data;
                 deferred.resolve(res);
             }, function (response) {
                 deferred.reject(response);
