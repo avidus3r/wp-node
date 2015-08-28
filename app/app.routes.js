@@ -41,17 +41,19 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
             tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png'
         })
         // the following views' meta get set in their controller
-        .when('/:category', {
+        .when('/category/:category', {
             robots: 'index, follow',
-            title: '',
-            description: '',
+            title: function(category){
+                return category;
+            },
+            description: 'test description',
             // Facebook
-            fb_title: '',
-            fb_site_name: '',
-            fb_url: '',
-            fb_description: '',
-            fb_type: '',
-            fb_image: '',
+            fb_title: 'test title',
+            fb_site_name: 'test sitename',
+            fb_url: 'test url',
+            fb_description: 'test fb desc',
+            fb_type: 'test type',
+            fb_image: 'test image',
             // Twitter
             tw_card: '',
             tw_description: '',
