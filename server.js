@@ -2,7 +2,10 @@
 
 var express = require('express'),
     app = express(),
-    path = require('path');
+    path = require('path'),
+    phantomjs = require('phantomjs'),
+    phantom = require('phantom'),
+    system = require('system');
 
 
 var EXPRESS_PORT = 3000,
@@ -23,13 +26,43 @@ app.get('/', function(req,res){
 });
 
 app.get('/category/:category', function(req,res){
-    //console.log(req.headers['user-agent']);
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1) && req.url.indexOf('%7B%7B%20') === -1){
+        var reqUrl = 'http://' + req.headers.host + req.url;
+        phantom.create(function (ph) {
+            ph.createPage(function (page) {
+                console.log(reqUrl);
+                page.open(reqUrl, function (status) {
+                    console.log("opened ", status);
+                    page.evaluate(function () { return document; }, function (result) {
+                        res.send(result.all['0'].outerHTML);
+                        ph.exit();
+                    });
+                });
+            });
+        });
+    }else {
+        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+    }
 });
 
 app.get('/:category/:slug', function(req,res, next){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-
+    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1) && req.url.indexOf('%7B%7B%20') === -1){
+        var reqUrl = 'http://' + req.headers.host + req.url;
+        phantom.create(function (ph) {
+            ph.createPage(function (page) {
+                console.log(reqUrl);
+                page.open(reqUrl, function (status) {
+                    console.log("opened ", status);
+                    page.evaluate(function () { return document; }, function (result) {
+                        res.send(result.all['0'].outerHTML);
+                        ph.exit();
+                    });
+                });
+            });
+        });
+    }else {
+        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+    }
 });
 
 var server = app.listen(EXPRESS_PORT, EXPRESS_HOST, 511, function(){
