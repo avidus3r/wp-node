@@ -5,19 +5,19 @@ var express = require('express'),
     path = require('path');
 
 
-var EXPRESS_PORT = 3000,
-    //EXPRESS_HOST = '192.168.1.88',
-    EXPRESS_HOST = '127.0.0.1',
+var EXPRESS_PORT = 80,
+    EXPRESS_HOST = '172.31.8.101',
+    //EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
 
 app.use(express.static(EXPRESS_ROOT));
 //app.use(require('prerender-node'));
 
-/*app.get('*', function(req,res){
+app.get('*', function(req,res){
 
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
- */
+
 app.get('/', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
