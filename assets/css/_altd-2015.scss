@@ -6,6 +6,7 @@ body{
   padding: 0;
 }
 
+<<<<<<< HEAD
 // .author-meta .item-author {
 //   display: none; // hide author in feed view
 // }
@@ -17,6 +18,10 @@ body{
 
 .post-content h2.post-title{
   font-size: 1.5em; // font size controls all magical ems
+=======
+.post-content h2.post-title{
+  font-size: 1.65em; // font size controls all magical ems
+>>>>>>> added fonts some utilities and cleaned up some classes
   position: absolute;
   bottom: 1.61em;
   max-height: 3em;
@@ -46,8 +51,12 @@ body{
 }
 
 .single  .post-title, .single-post .post-title{
+<<<<<<< HEAD
   //font-size: 1.65em;
   font-family: $font-roboto;
+=======
+  font-size: 1.65em;
+>>>>>>> added fonts some utilities and cleaned up some classes
 }
 
 .video-container{
