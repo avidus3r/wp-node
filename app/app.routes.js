@@ -43,13 +43,11 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         // the following views' meta get set in their controller
         .when('/category/:category', {
             robots: 'index, follow',
-            title: function(category){
-                return category;
-            },
+            title: '',
             description: 'test description',
             // Facebook
             fb_title: 'test title',
-            fb_site_name: 'test sitename',
+            fb_site_name: 'alt_driver',
             fb_url: 'test url',
             fb_description: 'test fb desc',
             fb_type: 'test type',

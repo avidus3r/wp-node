@@ -17,9 +17,13 @@
     "gulp": "latest",
     "html": "0.0.10",
     "ng-infinite-scroll": "^1.2.0",
+    "phantom": "^0.7.2",
+    "phantomjs": "^1.9.18",
     "prerender-node": "^2.0.2",
+    "system": "^1.0.4",
     "underscore": "latest",
-    "webpack": "latest"
+    "webpack": "latest",
+    "webpage": "^0.3.0"
   },
   "devDependencies": {
     "clean": "^4.0.1",
