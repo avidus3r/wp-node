@@ -60,6 +60,24 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
 
     };
 
+    $scope.getParams = function(param, encode){
+        var val = null;
+        switch(param){
+            case 'url':
+                val = $location.$$absUrl;
+                break;
+            case 'urlPath':
+                val = $location.$$path;
+                break;
+            case 'title':
+                val = $scope.pageTitle;
+                break;
+        }
+
+        val = encode ? encodeURIComponent(val) : val;
+        return val;
+    };
+
 
     var postPath = 'posts?';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
