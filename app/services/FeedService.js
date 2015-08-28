@@ -15,7 +15,7 @@ var FeedService = function($http, $q){
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
 
-        $http.jsonp(url)
+        $http.get(url)
             .then(function (response) {
                 var res = response.data;
                 deferred.resolve(res);
@@ -28,9 +28,9 @@ var FeedService = function($http, $q){
 
     feed.getTerms = function(taxonomy){
         var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'terms/' + taxonomy + '?_jsonp=JSON_CALLBACK&per_page=0';
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'terms/' + taxonomy + '?per_page=0';
 
-        $http.jsonp(url)
+        $http.get(url)
             .then(function (response) {
                 var res = response.data;
                 feed.categories = response.data;

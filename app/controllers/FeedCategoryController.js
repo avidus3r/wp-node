@@ -39,22 +39,33 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
 
     $scope.$on('categoryLoaded', function(event, category){
         $scope.category = category;
+        // Standard meta
+        $rootScope.metatags.title = $scope.category.name + ' Archives - alt_driver';
+        $rootScope.metatags.description = $scope.category.description;
 
-
+        // Facebook meta
         $rootScope.metatags.fb_type = 'object';
         $rootScope.metatags.fb_title = $scope.category.name + ' Archives - alt_driver';
         $rootScope.metatags.fb_description = $scope.category.description;
         $rootScope.metatags.fb_url = $scope.category.link;
         $rootScope.metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
+        // Twitter meta
+        $rootScope.metatags.tw_card = 'summary_large_image';
+        $rootScope.metatags.tw_title = $scope.category.name + ' Archives - alt_driver';
+        $rootScope.metatags.tw_description = $scope.category.description;
     });
 
+    $scope.initMeta = function(){
 
-    var postPath = 'posts?_jsonp=JSON_CALLBACK';
+    };
+
+
+    var postPath = 'posts?';
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
     var isSingle = $stateParams.hasOwnProperty('slug');
     //var postParams = !isSingle ? '&category_name=' + $routeParams.category : '&name=' + $routeParams.slug;
-    var postParams = '&category_name=' + $routeParams.category;
+    var postParams = 'category_name=' + $routeParams.category;
     var posts = null;
 
     posts = FeedService.getPosts(postPath, postParams + pagingParams);

@@ -27,7 +27,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     };
 
     var postPath = 'posts';
-    var postParams = '?_jsonp=JSON_CALLBACK&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+    var postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
     var posts = FeedService.getPosts(postPath, postParams);
 
@@ -58,7 +58,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
+            FeedService.getPosts(postPath, '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
                 .then(
                 function(data){ //success
                     angular.forEach(data, function (item, index) {

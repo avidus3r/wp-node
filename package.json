@@ -15,7 +15,9 @@
     "express": "latest",
     "googletagmanager": "^1.0.2",
     "gulp": "latest",
+    "html": "0.0.10",
     "ng-infinite-scroll": "^1.2.0",
+    "prerender-node": "^2.0.2",
     "underscore": "latest",
     "webpack": "latest"
   },

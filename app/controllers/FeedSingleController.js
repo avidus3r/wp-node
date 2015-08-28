@@ -5,7 +5,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     this.name = 'single';
     this.params = $routeParams;
 
-    if(!$routeParams.hasOwnProperty('slug')) return false;
+    $scope.renderedOnce = false;
+
+    if(!$routeParams.hasOwnProperty('slug') || $scope.renderedOnce) return false;
 
     $scope.feedItems = [];
     $scope.feedItemElements = [];
@@ -16,15 +18,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
     $scope.pageTitle = null;
+    $scope.renderedOnce = true;
 
-    console.log('location: ', $location);
-    console.log('route: ', $route);
-    console.log('routeParams: ', $routeParams);
+    var postPath = 'posts';
+    var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
-    var postPath = 'posts?_jsonp=JSON_CALLBACK';
-    var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
-
-    var postParams = '&name=' + $routeParams.slug;
+    var postParams = '?name=' + $routeParams.slug;
 
 
     var posts = FeedService.getPosts(postPath, postParams);
@@ -32,15 +31,30 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     posts.then(function(data){
         var item = data[0];
 
-        $rootScope.metatags.fb_type = 'article';
-        $rootScope.metatags.fb_title = item.title.rendered;
-        $rootScope.metatags.fb_description = angular.element(item.excerpt.rendered).text();
-        $rootScope.metatags.fb_url = item.link;
-        $rootScope.metatags.fb_image = item.featured_image_src.medium[0];
+        $scope.initMeta(item);
 
         $scope.createFeedItem(item, $scope.feedItems.length);
-        $scope.getPosts('feed/'+ item.id + '?_jsonp=JSON_CALLBACK', pagingParams);
+        $scope.getPosts('feed/'+ item.id, pagingParams);
     });
+
+    $scope.initMeta = function(post){
+        // Standard meta
+        $rootScope.metatags.title = post.title.rendered;
+        $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
+
+        // Facebook meta
+        $rootScope.metatags.fb_type = 'article';
+        $rootScope.metatags.fb_title = post.title.rendered;
+        $rootScope.metatags.fb_description = angular.element(post.excerpt.rendered).text();
+        $rootScope.metatags.fb_url = post.link;
+        $rootScope.metatags.fb_image = post.featured_image_src.medium[0];
+
+        // Twitter meta
+        $rootScope.metatags.tw_card = 'summary_large_image';
+        $rootScope.metatags.tw_title = post.title.rendered;
+        $rootScope.metatags.tw_description = angular.element(post.excerpt.rendered).text();
+        $rootScope.metatags.tw_image = post.featured_image_src.medium[0];
+    };
 
     $scope.getParams = function(param, encode){
         var val = null;
