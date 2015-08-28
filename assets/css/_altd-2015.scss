@@ -1,0 +1,41 @@
+.post-title{
+  font-size: 1.65em; // font size controls all magical ems
+  position: absolute;
+  bottom: 1.54em;
+  max-height: 3em;
+  width: calc(100% - 30px);
+  overflow: hidden;
+  background-color: rgba(0,0,0,.5);
+  color: white;
+  margin: 0;
+  padding: .25em;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.feed-item {
+  max-width: 640px;
+  margin: 0 auto 1em;
+  position: relative;
+}
+
+.single-post .post-view-full .post-title {
+  position: relative;
+  color: #333;
+  bottom: auto;
+  background-color: transparent;
+}
+
+.single  .post-title, .single-post .post-title{
+  font-size: 1.75em;
+  margin-bottom: .5em;
+  padding: 0 .5em;
+}
+
+.video-container{
+    text-align: center;
+  }
+
+  .flexshare {
+  z-index: 10;
+}
