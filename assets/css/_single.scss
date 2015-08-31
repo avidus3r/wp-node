@@ -7,6 +7,8 @@
 
 .wrapper.single-post{
   background: #fff;
+  // remove padding from singles
+  padding: 0;
 
   .item-author {
     display: inline-block;
@@ -14,16 +16,9 @@
 
 }
 
-.category{
-  padding: 0 1.25em;
-}
-
 .post-view-full{
   margin-bottom: 2em;
-}
-
-.category .post-content{
-  padding-bottom: .5em;
+  padding: 1em; // pad the main story but leave the rest in feed style
 }
 
 .share-footer{
@@ -94,7 +89,7 @@
   padding: 0 .5em;
 }
 
-.single .author-meta, .single-post .author-meta{
+.post-view-full .author-meta{
   border-top: 1px solid #bababa;
   border-bottom: 1px solid #bababa;
   margin-bottom: .5em;
