@@ -94,6 +94,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         );
     };
 
+    $scope.toggleComments = function(){
+        angular.element('.fb-wrapper').toggle();
+        var currentState = angular.element('#commentHook span').text();
+        var newState = currentState === '+ View Responses' ? '- Close Responses' : '+ View Responses';
+        angular.element('#commentHook span').text(newState);
+    };
+
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
         if(index <= $scope.feedItemScrollAmount){
