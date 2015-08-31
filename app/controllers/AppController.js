@@ -25,7 +25,7 @@ var AppController = function($rootScope, $scope, FeedService, $route, $routePara
     FeedService.getNavItems().then(
         function(data){
             angular.forEach(data, function (item, index) {
-                item.slug = item.url.substring(item.url.lastIndexOf('category/')+1, item.url.length).replace('/','');
+                item.slug = item.url.substring(item.url.lastIndexOf('category/')+9, item.url.length).replace('/','');
                 $scope.navItems.push(item);
             });
         },
