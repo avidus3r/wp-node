@@ -1,13 +1,13 @@
 // flexbox based share buttons
 .flexshare {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   @include flex-justify-content(center);
   position: fixed;
   width:100%;
-  bottom:0;
-  left: 0;
+  left: calc(100% - 3.75em);
+  bottom: 30%;
 }
 .fs-item {
   flex-grow:1;
@@ -32,7 +32,7 @@
   display: inline-block;
   padding: .3em .25em .25em;
   font-size: .75em;
-  width: 3.5em;
+  width: 4.75em;
   text-align: center;
 
   i.fa-3x{
@@ -74,3 +74,15 @@
 
 }
 
+@media all and (max-width: 600px) {
+  .flexshare {
+    flex-direction: row;
+    bottom:0;
+    left: 0;
+  }
+
+  .flexshare .fs-item,
+  .flexshare .fs-item:visited {
+    width: 3.5em;
+  }
+}
