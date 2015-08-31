@@ -6,6 +6,15 @@ body{
   padding: 0;
 }
 
+.author-meta .item-author {
+  display: none; // hide author in feed view
+}
+
+// show author on single
+.wrapper.single-post .item-author {
+    display: inline-block;
+}
+
 .post-content h2.post-title{
   font-size: 1.65em; // font size controls all magical ems
   position: absolute;
