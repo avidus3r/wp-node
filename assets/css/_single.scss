@@ -82,7 +82,7 @@
 }
 
 
-
+// ########### I would like to rework the single "expanded" view/state of the stories to be unique. Make styliing a little easier
 
 .single .post-content, .single-post .post-content{
   padding: 1.25em;
@@ -120,6 +120,10 @@
       margin-bottom: .5em;
     }
   }
+}
+
+.single-post .post-view-full .post-content p {
+  padding: 0;
 }
 
 .post-content.feed-view{
