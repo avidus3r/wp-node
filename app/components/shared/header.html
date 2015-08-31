@@ -21,8 +21,8 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li ng-repeat="category in categories" ng-click="collapseNav()">
-                        <a href="/category/{{category.slug}}" ng-bind-html="category.name"></a>
+                    <li ng-repeat="item in navItems" ng-click="collapseNav()">
+                        <a href="/category/{{item.slug}}" ng-bind-html="item.title"></a>
                     </li>
                 </ul>
             </div>

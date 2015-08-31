@@ -7,10 +7,27 @@ var AppController = function($rootScope, $scope, FeedService, $route, $routePara
         }
     };
 
+    $scope.navItems = [];
+
     FeedService.getTerms('category').then(
         function(data){
             $scope.categories = data;
             $rootScope.$broadcast('categoriesRetrieved', $scope.categories);
+        },
+        function(error){
+
+        },
+        function(notification){
+
+        }
+    );
+
+    FeedService.getNavItems().then(
+        function(data){
+            angular.forEach(data, function (item, index) {
+                item.slug = item.url.substring(item.url.lastIndexOf('category/')+1, item.url.length).replace('/','');
+                $scope.navItems.push(item);
+            });
         },
         function(error){
 

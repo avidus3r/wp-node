@@ -34,7 +34,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         var item = data[0];
 
         $scope.initMeta(item);
-        $scope.singlePostID = item.id
+        $scope.singlePostID = item.id;
         $scope.createFeedItem(item, $scope.feedItems.length);
         $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
     });
