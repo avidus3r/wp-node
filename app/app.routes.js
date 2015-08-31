@@ -12,8 +12,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
             templateUrl: '/views/category.html'
         })
         .when('/:category/:slug', {
-            /*controller: 'FeedSingleController',*/
-            templateUrl: '/views/single.html'
+            controller: 'FeedSingleController',
+            templateUrl: '/views/single.html',
+            redirectTo: false
         })
         .otherwise({
             redirectTo: '/'
@@ -43,29 +44,15 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         // the following views' meta get set in their controller
         .when('/category/:category', {
             robots: 'index, follow',
-            title: function(){
-                return window.NewsFeed.metatags.title;
-            },
-            description: function(){
-                return window.NewsFeed.metatags.description;
-            },
+            title: 'alt_driver - Hottest Car Content from Social & the Web',
+            description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
             // Facebook
-            fb_title: function(){
-                return window.NewsFeed.metatags.fb_title;
-            },
+            fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
             fb_site_name: 'alt_driver',
-            fb_url: function(){
-                return window.NewsFeed.metatags.fb_url;
-            },
-            fb_description: function(){
-                return window.NewsFeed.metatags.fb_description;
-            },
-            fb_type: function(){
-                return window.NewsFeed.metatags.fb_type;
-            },
-            fb_image: function(){
-                return window.NewsFeed.metatags.fb_image;
-            },
+            fb_url: 'http://www.altdriver.com/',
+            fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            fb_type: 'website',
+            fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
             // Twitter
             tw_card: '',
             tw_description: '',
@@ -77,29 +64,15 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         })
         .when('/:category/:slug', {
             robots: 'index, follow',
-            title: function(){
-                return window.NewsFeed.metatags.title;
-            },
-            description: function(){
-                return window.NewsFeed.metatags.description;
-            },
+            title: 'alt_driver - Hottest Car Content from Social & the Web',
+            description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
             // Facebook
-            fb_title: function(){
-                return window.NewsFeed.metatags.fb_title;
-            },
+            fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
             fb_site_name: 'alt_driver',
-            fb_url: function(){
-                return window.NewsFeed.metatags.fb_url;
-            },
-            fb_description: function(){
-                return window.NewsFeed.metatags.fb_description;
-            },
-            fb_type: function(){
-                return window.NewsFeed.metatags.fb_type;
-            },
-            fb_image: function(){
-                return window.NewsFeed.metatags.fb_image;
-            },
+            fb_url: 'http://www.altdriver.com/',
+            fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            fb_type: 'website',
+            fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
             // Twitter
             tw_card: '',
             tw_description: '',

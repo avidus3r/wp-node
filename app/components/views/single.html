@@ -1,5 +1,5 @@
-<div class="wrapper single-post" ng-controller="FeedSingleController">
-    <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-disabled="true  ">
+<div class="wrapper single-post">
+    <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="1">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
 
             <div ng-switch="$index">
@@ -12,6 +12,13 @@
                     </div>
 
                     <div class="post-content">{{ renderContent(item.content.rendered, $index, false) }}</div>
+                    <div class="comments">
+                        <p id="commentHook" class="comment-trigger text-right" ng-click="toggleComments()"><span>+ View Responses</span></p>
+                        <div class="fb-wrapper" style="display: none;">
+                            <div class="fb-comments" id="comments" data-href="{{ item.link }}" data-width="100%" data-numposts="5"></div>
+                            <!--<div class="fb-comments" id="comments" data-href="http://www.altdriver.com/crash-burn/brutal-cyclist-crash-into-car-during-downhill-race/" data-width="100%" data-numposts="5"></div>-->
+                        </div>
+                    </div>
                     <ng-include src="'/shared/share-icons.html'"></ng-include>
                 </div>
                 <!-- /ng-switch-when [render the requested post] -->
@@ -22,8 +29,8 @@
                         <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
 
                         <div class="author-meta">
-                            <p class="left"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-                            <p class="right" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
+                            <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                            <p class="item-cat" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
                             <span class="clearfix"></span>
                         </div>
 

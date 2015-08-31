@@ -11,6 +11,12 @@
   background: #efefef;
 }
 
+// submit story button
+.btn-submit-story {
+  @extend .ad-m-r;
+  float: right;
+}
+
 .feed-item {
   max-width: 640px;
   margin: 0 auto 1em;
@@ -18,7 +24,7 @@
 
 .post-title{
   max-width: 640px;
-  font-size: 1.1em;
+  font-size: 1.5em;
   color:#444;
   margin: 0 0 .5em;
   padding: 0 .5em;
@@ -57,13 +63,22 @@
   color:#333;
   font-weight: bold;
   padding: 0 1em;
-}
+  height: 2em;
 
-.author-meta p{
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  line-height: 1.5em;
+  p{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+  }
+
+  .item-author {
+    @extend .left;
+  }
+
+  .item-cat {
+    @extend .right;
+  }
 }
 
 // single post view CSS
@@ -74,3 +89,6 @@
 
 // CSS utility classes
 @import 'utilities';
+
+// themes
+@import 'altd-2015';

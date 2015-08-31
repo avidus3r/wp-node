@@ -12,17 +12,17 @@
                 <a class="navbar-brand" href="/">
                     <img src="http://altdriver.com/wp-content/uploads/logo_alt_driver_250x51.png" style="width:100px;" alt="alt_driver The web's hottest sharable automotive content" />
                 </a>
-                <button type="button" class="btn btn-default navbar-btn visible-xs">Submit Story</button>
+                <button type="button" class="btn btn-default navbar-btn visible-xs btn-submit-story">Submit Story</button>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right hidden-xs">
                     <li>
-                        <button type="button" class="btn btn-default navbar-btn ad-m-r">Submit Story</button>
+                        <button type="button" class="btn btn-default navbar-btn btn-submit-story">Submit Story</button>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li ng-repeat="category in categories" ng-click="collapseNav()">
-                        <a href="/category/{{category.slug}}" ng-bind-html="category.name"></a>
+                    <li ng-repeat="item in navItems" ng-click="collapseNav()">
+                        <a href="/category/{{item.slug}}" ng-bind-html="item.title"></a>
                     </li>
                 </ul>
             </div>
