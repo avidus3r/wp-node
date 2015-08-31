@@ -4,6 +4,7 @@
 
             <div ng-switch="$index">
                 <div class="post-view-full" ng-switch-when="0">
+                    <div id="fb-root"></div>
                     <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
                     <div class="author-meta">
                         <p class="left"><span class="light-grey">By</span> {{ item.author.name }}</p>
@@ -14,7 +15,8 @@
                     <div class="post-content">{{ renderContent(item.content.rendered, $index, false) }}</div>
                     <p id="commentHook" class="comment-trigger text-right"> <span>Responses</span></p>
                     <div class="fb-wrapper">
-                        <div class="fb-comments" id="comments" data-href="{{ item.link }}" data-width="100%"></div>
+                        <!--<div class="fb-comments" id="comments" data-href="{{ item.link }}" data-width="100%"></div>-->
+                        <div class="fb-comments" id="comments" data-href="http://www.altdriver.com/crash-burn/brutal-cyclist-crash-into-car-during-downhill-race/" data-width="100%"></div>
                     </div>
                     <ng-include src="'/shared/share-icons.html'"></ng-include>
                 </div>
