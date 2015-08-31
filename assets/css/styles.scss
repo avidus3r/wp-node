@@ -11,6 +11,12 @@
   background: #efefef;
 }
 
+// submit story button
+.btn-submit-story {
+  @extend .ad-m-r;
+  float: right;
+}
+
 .feed-item {
   max-width: 640px;
   margin: 0 auto 1em;
@@ -18,7 +24,7 @@
 
 .post-title{
   max-width: 640px;
-  font-size: 1.1em;
+  //font-size: 1.1em;
   color:#444;
   margin: 0 0 .5em;
   padding: 0 .5em;
@@ -53,7 +59,7 @@
 .author-meta{
   text-transform: uppercase;
   display: block;
-  font-size: .8em;
+  //font-size: .8em;
   color:#333;
   font-weight: bold;
   padding: 0 1em;
