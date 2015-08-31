@@ -17,9 +17,9 @@ var Router = require('./app.routes');
 
 
 //Main Module
-angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', require('angular-ui-router'), 'metatags']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', require('angular-ui-router'), 'metatags']);
 
-angular.module('NewsFeed').run(function(MetaTags){
+angular.module('NewsFeed').run(function(MetaTags, $rootScope){
     MetaTags.initialize();
 });
 
@@ -56,3 +56,5 @@ angular.module('NewsFeed').config(
 window.onerror = function(){
     console.error(arguments);
 };
+
+window.NewsFeed = NewsFeed;

@@ -54,6 +54,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $rootScope.metatags.tw_title = post.title.rendered;
         $rootScope.metatags.tw_description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.tw_image = post.featured_image_src.medium[0];
+        window.NewsFeed.metatags = $rootScope.metatags;
     };
 
     $scope.getParams = function(param, encode){

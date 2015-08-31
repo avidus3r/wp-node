@@ -54,6 +54,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         $rootScope.metatags.tw_card = 'summary_large_image';
         $rootScope.metatags.tw_title = $scope.category.name + ' Archives - alt_driver';
         $rootScope.metatags.tw_description = $scope.category.description;
+        window.NewsFeed.metatags = $rootScope.metatags;
     });
 
     $scope.initMeta = function(){
