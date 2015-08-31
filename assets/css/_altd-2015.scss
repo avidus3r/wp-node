@@ -6,19 +6,19 @@ body{
   padding: 0;
 }
 
-.author-meta .item-author {
-  display: none; // hide author in feed view
-}
+// .author-meta .item-author {
+//   display: none; // hide author in feed view
+// }
 
-// show author on single
-.single-post .post-view-full .post-content .item-author {
-    display: inline-block;
-}
+// // show author on single
+// .single-post .post-view-full .post-content .item-author {
+//     display: inline-block;
+// }
 
 .post-content h2.post-title{
-  font-size: 1.65em; // font size controls all magical ems
+  font-size: 1.5em; // font size controls all magical ems
   position: absolute;
-  bottom: 1.54em;
+  bottom: 1.61em;
   max-height: 3em;
   width: 100%;
   overflow: hidden;
@@ -26,7 +26,7 @@ body{
   color: white;
   margin: 0;
   padding: .25em;
-  line-height: 1.2;
+  line-height: 1.3;
   pointer-events: none;
   font-family: $font-roboto;
 }
