@@ -11,7 +11,7 @@ body{
 }
 
 // show author on single
-.wrapper.single-post .item-author {
+.single-post .post-view-full .post-content .item-author {
     display: inline-block;
 }
 
@@ -55,4 +55,29 @@ body{
 
   .flexshare {
   z-index: 10;
+}
+
+// set the order for the share icons
+.flex-facebook {
+  order: 0;
+}
+
+.flex-gplus {
+  order: 1;
+}
+
+.flex-twitter {
+  order: 5;
+}
+
+.flex-linkedin {
+  order: 4;
+}
+
+.flex-mail {
+  order: 2;
+}
+
+.flex-reddit {
+  order: 3;
 }
