@@ -9,7 +9,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     if(!$routeParams.hasOwnProperty('slug')) return false;
 
-    console.log($scope.feedItemPosition);
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
@@ -20,12 +19,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.pageNumber = 1;
     $scope.pageTitle = null;
     $scope.renderedOnce = true;
+    $scope.singlePostID = null;
 
-    //$route.reload();
-
-    /*$scope.$on('list:next', function(){
-       $scope.getNext();
-    });*/
 
     var postPath = 'posts';
     var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
@@ -39,9 +34,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         var item = data[0];
 
         $scope.initMeta(item);
-
+        $scope.singlePostID = item.id
         $scope.createFeedItem(item, $scope.feedItems.length);
-        $scope.getPosts('feed/'+ item.id, pagingParams);
+        $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
     });
 
     $scope.initMeta = function(post){
@@ -61,7 +56,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $rootScope.metatags.tw_title = post.title.rendered;
         $rootScope.metatags.tw_description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.tw_image = post.featured_image_src.medium[0];
-        window.NewsFeed.metatags = $rootScope.metatags;
     };
 
     $scope.getParams = function(param, encode){
@@ -89,14 +83,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
-                angular.element('#scroll-container').attr('infinite-scroll-disabled', 'false');
                 $scope.$emit('list:next');
             },
             function(reason){   //error
                 console.error('Failed: ', reason);
             },
             function(update) {  //notification
-                alert('Got notification: ' + update);
+                console.debug('Got notification: ' + update);
             }
         );
     };
@@ -107,28 +100,23 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             $scope.add($scope.feedItems[index]);
         }
         if(index === $scope.feedItemScrollAmount){
-            console.log('next');
+            //console.log('next');
         }
     };
 
     $scope.getNext = function(){
-        console.log('getNext');
         if($scope.feedItemPosition-1 === 0) return false;
+
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount+1;
-        console.log(itemPosition,i,count);
+
         if(itemPosition % count === 0){
             while(i < (itemPosition+count)){
-                console.log(i);
                 $scope.add($scope.feedItems[i]);
                 i += 1;
             }
         }
-    };
-
-    $scope.goBack = function(){
-        $state.go('category', {category:$stateParams.previousStateParams.category},{location:true});
     };
 
     $scope.renderContent = function(content,index, fromClick){
@@ -164,7 +152,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
         // Check if the current width is larger than the max
         if(width > maxWidth){
-            console.log(maxWidth, width,height);
             ratio = maxWidth / width;   // get ratio for scaling image
             iframe.css('width', maxWidth); // Set new width
             iframe.css('height', height * ratio);  // Scale height based on ratio
@@ -187,35 +174,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
-                .then   (
-                function(data){ //success
-                    angular.forEach(data, function (item, index) {
-                        $scope.createFeedItem(item, $scope.feedItems.length);
-                    });
-                    $scope.$emit('list:next');
-                },
-                function(reason){   //error
-                    console.error('Failed: ', reason);
-                },
-                function(update) {  //notification
-                    alert('Got notification: ' + update);
-                }
-            );
+            pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+            $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
         }
         $scope.feedItemPosition += 1;
     };
 
-    $scope.changeView = function($stateOptions){
-        $state.go('single', $stateOptions, {reload:true, location:'replace'});
-    };
-
-    $scope.changePage = function(){
-        var newFeedItem = $scope.feedItems[$scope.feedItemPosition-1];
-        var newSlug = '/'+ newFeedItem.category[0].slug + '/' + newFeedItem.slug;
-        var stateObj = {page: newSlug};
-        history.pushState(stateObj, newFeedItem.title, newSlug);
-    };
 };
 
 module.exports = FeedSingleController;
