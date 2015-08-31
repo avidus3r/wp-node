@@ -7,8 +7,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.renderedOnce = false;
 
-    if(!$routeParams.hasOwnProperty('slug') || $scope.renderedOnce) return false;
+    if(!$routeParams.hasOwnProperty('slug')) return false;
 
+    console.log($scope.feedItemPosition);
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
@@ -19,6 +20,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.pageNumber = 1;
     $scope.pageTitle = null;
     $scope.renderedOnce = true;
+
+    //$route.reload();
+
+    /*$scope.$on('list:next', function(){
+       $scope.getNext();
+    });*/
 
     var postPath = 'posts';
     var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
@@ -83,7 +90,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
                 angular.element('#scroll-container').attr('infinite-scroll-disabled', 'false');
-
+                $scope.$emit('list:next');
             },
             function(reason){   //error
                 console.error('Failed: ', reason);
@@ -101,13 +108,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         }
         if(index === $scope.feedItemScrollAmount){
             console.log('next');
-            //$scope.getNext();
         }
     };
 
     $scope.getNext = function(){
         console.log('getNext');
-
+        if($scope.feedItemPosition-1 === 0) return false;
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount+1;
