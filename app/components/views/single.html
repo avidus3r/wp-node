@@ -12,6 +12,10 @@
                     </div>
 
                     <div class="post-content">{{ renderContent(item.content.rendered, $index, false) }}</div>
+                    <p id="commentHook" class="comment-trigger text-right"> <span>Responses</span></p>
+                    <div class="fb-wrapper">
+                        <div class="fb-comments" id="comments" data-href="{{ item.link }}" data-width="100%"></div>
+                    </div>
                     <ng-include src="'/shared/share-icons.html'"></ng-include>
                 </div>
                 <!-- /ng-switch-when [render the requested post] -->
