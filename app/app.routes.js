@@ -43,15 +43,29 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         // the following views' meta get set in their controller
         .when('/category/:category', {
             robots: 'index, follow',
-            title: '',
-            description: 'test description',
+            title: function(){
+                return window.NewsFeed.metatags.title;
+            },
+            description: function(){
+                return window.NewsFeed.metatags.description;
+            },
             // Facebook
-            fb_title: 'test title',
+            fb_title: function(){
+                return window.NewsFeed.metatags.fb_title;
+            },
             fb_site_name: 'alt_driver',
-            fb_url: 'test url',
-            fb_description: 'test fb desc',
-            fb_type: 'test type',
-            fb_image: 'test image',
+            fb_url: function(){
+                return window.NewsFeed.metatags.fb_url;
+            },
+            fb_description: function(){
+                return window.NewsFeed.metatags.fb_description;
+            },
+            fb_type: function(){
+                return window.NewsFeed.metatags.fb_type;
+            },
+            fb_image: function(){
+                return window.NewsFeed.metatags.fb_image;
+            },
             // Twitter
             tw_card: '',
             tw_description: '',
@@ -63,15 +77,29 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         })
         .when('/:category/:slug', {
             robots: 'index, follow',
-            title: '',
-            description: '',
+            title: function(){
+                return window.NewsFeed.metatags.title;
+            },
+            description: function(){
+                return window.NewsFeed.metatags.description;
+            },
             // Facebook
-            fb_title: '',
-            fb_site_name: '',
-            fb_url: '',
-            fb_description: '',
-            fb_type: '',
-            fb_image: '',
+            fb_title: function(){
+                return window.NewsFeed.metatags.fb_title;
+            },
+            fb_site_name: 'alt_driver',
+            fb_url: function(){
+                return window.NewsFeed.metatags.fb_url;
+            },
+            fb_description: function(){
+                return window.NewsFeed.metatags.fb_description;
+            },
+            fb_type: function(){
+                return window.NewsFeed.metatags.fb_type;
+            },
+            fb_image: function(){
+                return window.NewsFeed.metatags.fb_image;
+            },
             // Twitter
             tw_card: '',
             tw_description: '',

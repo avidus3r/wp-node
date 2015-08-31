@@ -26,7 +26,7 @@ app.get('/', function(req,res){
 });
 
 app.get('/category/:category', function(req,res){
-    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1) && req.url.indexOf('%7B%7B%20') === -1){
+    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1)){
         var reqUrl = 'http://' + req.headers.host + req.url;
         phantom.create(function (ph) {
             ph.createPage(function (page) {
@@ -46,7 +46,7 @@ app.get('/category/:category', function(req,res){
 });
 
 app.get('/:category/:slug', function(req,res, next){
-    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1) && req.url.indexOf('%7B%7B%20') === -1){
+    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1)){
         var reqUrl = 'http://' + req.headers.host + req.url;
         phantom.create(function (ph) {
             ph.createPage(function (page) {
