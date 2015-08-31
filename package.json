@@ -20,6 +20,7 @@
     "phantom": "^0.7.2",
     "phantomjs": "^1.9.18",
     "prerender-node": "^2.0.2",
+    "request": "^2.61.0",
     "system": "^1.0.4",
     "underscore": "latest",
     "webpack": "latest",
