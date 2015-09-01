@@ -19,6 +19,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.postPrefetchAt = 10;
     $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
+    $scope.currentView = 'list';
     $scope.currentY = null;
 
     $scope.isMobile = function(){

@@ -17,6 +17,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.postPrefetchAt = 10;
     $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
+    $scope.currentView = 'post';
     $scope.pageTitle = null;
     $scope.renderedOnce = true;
     $scope.singlePostID = null;

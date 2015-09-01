@@ -135,7 +135,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
     };
 
     $scope.getNext = function(){
-
+        if($scope.feedItemPosition-1 === 0) return false;
         if($scope.currentView === 'single') return false;
 
         var itemPosition = $scope.feedItemPosition-1;
