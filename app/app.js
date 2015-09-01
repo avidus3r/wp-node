@@ -6,6 +6,12 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
+var feedConfig = {
+    url: 'http://local.altdriver.com',
+    remoteUrl: 'http://devaltdriver.wpengine.com',
+    basePath: '/wp-json/wp/v2/'
+};
+
 //Controllers
 var Controllers = require('./app.controllers');
 
@@ -19,9 +25,44 @@ var Router = require('./app.routes');
 //Main Module
 var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', require('angular-ui-router'), 'metatags']);
 
-angular.module('NewsFeed').run(function(MetaTags, $rootScope){
+
+angular.module('NewsFeed').factory(
+    'envConfig',
+    ['$http', '$q',
+        function($http, $q){
+
+            var config = {};
+
+            config.loadConfig = function(){
+                var deferred = $q.defer();
+                var url = 'config.json';
+
+                $http.get(url)
+                    .then(function (response) {
+                        var res = response.data;
+                        deferred.resolve(res);
+                    }, function (response) {
+                        deferred.reject(response);
+                    });
+
+                return deferred.promise;
+            };
+
+            return config;
+        }
+    ]
+);
+
+angular.module('NewsFeed').run(function(MetaTags){
     MetaTags.initialize();
 });
+
+angular.module('NewsFeed').constant('envConfig', feedConfig);
+
+angular.module('NewsFeed').factory(
+    'FeedService',
+    ['envConfig', '$http', '$q', FeedService]
+);
 
 //Modules
 angular.module('NewsFeed').controller(
@@ -44,10 +85,11 @@ angular.module('NewsFeed').controller(
     ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedListController]
 );
 
-angular.module('NewsFeed').factory(
-    'FeedService',
-    ['$http', '$q', FeedService]
-);
+/*angular.module('NewsFeed').provider('envConfig', function EnvConfigProvider(){
+    this.get = [envConfig];
+});*/
+
+
 
 angular.module('NewsFeed').config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', '$rootScopeProvider', Router]

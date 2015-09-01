@@ -1,13 +1,9 @@
 'use strict';
 
-var FeedService = function($http, $q){
+var FeedService = function(envConfig, $http, $q){
     var feed = {};
 
-    feed.endpoints = {
-        url: 'http://local.altdriver.com',
-        remoteUrl: 'http://devaltdriver.wpengine.com',
-        basePath: '/wp-json/wp/v2/'
-    };
+    feed.endpoints = envConfig;
 
     feed.categories = [];
     feed.navItems = [];
