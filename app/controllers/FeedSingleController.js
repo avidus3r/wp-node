@@ -127,11 +127,11 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         }
     };
 
-    $scope.getCategory = function(categories){
+    $scope.getCategory = function(categories, permalink){
         var cat = null;
 
         angular.forEach(categories, function (category, index) {
-            if(category.parent === 0 && category.slug !== 'sites'){
+            if(permalink.indexOf(category.slug) > -1){
                 cat = category;
             }
         });

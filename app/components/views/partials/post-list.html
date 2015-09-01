@@ -1,10 +1,10 @@
 <div class="post-content feed-view">
-    <p><a href="/{{getCategory(item.category).slug + '/' + item.slug}}/"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a></p>
+    <p><a href="/{{getCategory(item.category, item.link).slug + '/' + item.slug}}/"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a></p>
     <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
 
     <div class="author-meta">
         <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-        <p class="item-cat {{ getCategory(item.category).slug }}"><a ng-bind-html="getCategory(item.category).name" href="/{{ getCategory(item.category).taxonomy }}/{{ getCategory(item.category).slug }}">{{ getCategory(item.category).name }}</a></p>
+        <p class="item-cat {{ getCategory(item.category, item.link).slug }}"><a ng-bind-html="getCategory(item.category, item.link).name" href="/{{ getCategory(item.category, item.link).taxonomy }}/{{ getCategory(item.category, item.link).slug }}">{{ getCategory(item.category, item.link).name }}</a></p>
         <span class="clearfix"></span>
     </div>
 
