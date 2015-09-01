@@ -2,8 +2,8 @@
     <div class="post-view-full" ng-switch-when="0">
         <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
         <div class="author-meta">
-            <p class="left"><span class="light-grey">By</span> {{ item.author.name }}</p>
-            <p class="right" ng-bind-html="item.category[0].name">{{ getCategory(item.category, item.link).name }}</p>
+            <p class="item-author"><span class="light-grey">By</span> {{ item.author.name }}</p>
+            <p class="item-cat" ng-bind-html="item.category[0].name">{{ getCategory(item.category, item.link).name }}</p>
             <span class="clearfix"></span>
         </div>
 
