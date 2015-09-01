@@ -66,29 +66,35 @@ body{
   // main cats get different color
 
   //insane stunts
-  .insane {background-color: $color-ad-purple;}
+  &.insane-stunts {background-color: $color-ad-purple;}
 
   // crash and burn
-  .candb {background-color: $color-ad-red;}
+  &.crash-burn {background-color: $color-ad-red;}
 
   // sports car
-  .sports {background-color: red;} //lame
+  &.sports-car {background-color: red;} //lame
 
   // luxury
-  .lux {background-color: $color-ad-yellow;}
+  &.luxury {background-color: $color-ad-yellow;}
 
   // classics
-  .classics {background-color: $color-ad-dk-gray;}
+  &.classics {background-color: $color-ad-dk-gray;}
 
   // motorcycles
-  .moto {background-color: $color-ad-orange;}
+  &.motorcycles {background-color: $color-ad-orange;}
 
   // off road
-  .offroad {background-color: $color-ad-brown;}
+  &.off-road {background-color: $color-ad-brown;}
 
   // technology
-  .tech {background-color: $color-ad-green;}
+  &.technology {background-color: $color-ad-green;}
 
+  // grab bag
+  &.grab-bag {background-color: $color-ad-purple-alt;}
+
+  a{
+    color: #ffffff;
+  }
 }
 
 
