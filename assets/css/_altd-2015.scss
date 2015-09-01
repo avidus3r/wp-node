@@ -1,15 +1,12 @@
 body{
-  font-family: $font-montserrat, Calibri, Helvetica, Arial;
+  font-family: $font-montserrat, Calibri, Helvetica, Arial; // altD fonts
 }
 
-.category {
-  padding: 0;
-}
-
+// display title OVER video screeny
 .post-content h2.post-title{
   font-size: 1.5em; // font size controls all magical ems
   position: absolute;
-  bottom: 1.61em;
+  bottom: 0;
   max-height: 3em;
   width: 100%;
   overflow: hidden;
@@ -22,12 +19,7 @@ body{
   font-family: $font-roboto;
 }
 
-.feed-item {
-  max-width: 640px;
-  margin: 0 auto 1em;
-  position: relative;
-}
-
+// title for "open" post on single view
 .single-post .post-view-full .post-title {
   position: relative;
   color: #333;
@@ -36,11 +28,83 @@ body{
   width: 100%;
 }
 
+// TODO some overrides - refactor these away soon
 .single  .post-title, .single-post .post-title{
-  font-family: $font-roboto;
+  font-family: $font-roboto; // altD font
   font-size: 1.65em;
 }
 
+// hide author for altD theme - almost all are the same
+.item-author {
+  display: none !important;
+}
+
+// reduce footprint
+.author-meta {
+  padding: 0;
+  height: auto;
+  font-size: 1em; // override main theme
+}
+
+// reduce the footprint of each post
+.post-content.feed-view {
+  height: auto;
+  min-height: auto;
+  p {
+      margin-bottom: 0;
+    }
+}
+
+// move the category tags over the videos
+.item-cat {
+  position: absolute;
+  top: 0;
+  padding: 1em;
+  color: white;
+  background-color: $color-ad-blue;
+
+  // main cats get different color
+
+  //insane stunts
+  &.insane-stunts {background-color: $color-ad-purple;}
+
+  // crash and burn
+  &.crash-burn {background-color: $color-ad-red;}
+
+  // sports car
+  &.sports-car {background-color: red;} //lame
+
+  // luxury
+  &.luxury {background-color: $color-ad-yellow;}
+
+  // classics
+  &.classics {background-color: $color-ad-dk-gray;}
+
+  // motorcycles
+  &.motorcycles {background-color: $color-ad-orange;}
+
+  // off road
+  &.off-road {background-color: $color-ad-brown;}
+
+  // technology
+  &.technology {background-color: $color-ad-green;}
+
+  // grab bag
+  &.grab-bag {background-color: $color-ad-purple-alt;}
+
+  a{
+    color: #ffffff;
+  }
+}
+
+
+// tighten display and set position for absolute children
+.feed-item {
+  margin: 0 auto 1em;
+  position: relative;
+}
+
+// TODO - this maybe should go to the main CSS
 .video-container{
     text-align: center;
   }
