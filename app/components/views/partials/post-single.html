@@ -3,7 +3,7 @@
         <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
         <div class="author-meta">
             <p class="left"><span class="light-grey">By</span> {{ item.author.name }}</p>
-            <p class="right" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
+            <p class="right" ng-bind-html="item.category[0].name">{{ getCategory(item.category).name }}</p>
             <span class="clearfix"></span>
         </div>
 
@@ -14,12 +14,12 @@
 
     <div ng-switch-default>
         <div class="post-content feed-view">
-            <p><a href="/{{item.category[0].slug + '/' + item.slug}}/"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a></p>
+            <p><a href="/{{getCategory(item.category).slug + '/' + item.slug}}/"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a></p>
             <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
 
             <div class="author-meta">
                 <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-                <p class="item-cat" ng-bind-html="item.category[0].name">{{ item.category[0].name }}</p>
+                <p class="item-cat" ng-bind-html="getCategory(item.category).name">{{ getCategory(item.category).name }}</p>
                 <span class="clearfix"></span>
             </div>
 

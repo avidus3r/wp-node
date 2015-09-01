@@ -151,6 +151,18 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         }
     };
 
+    $scope.getCategory = function(categories){
+        var cat = null;
+
+        angular.forEach(categories, function (category, index) {
+            if(category.parent === 0 && category.slug !== 'sites'){
+                cat = category;
+            }
+        });
+
+        return cat;
+    };
+
     $scope.renderContent = function(content, index, fromClick){
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
