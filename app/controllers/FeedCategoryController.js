@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, envConfig) {
 
     this.name = 'category';
     this.params = $routeParams;
@@ -153,9 +153,20 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
 
     $scope.getCategory = function(categories, permalink){
         var cat = null;
+        var catParent = null;
 
         angular.forEach(categories, function (category, index) {
-            if(permalink.indexOf(category.slug) > -1){
+            if(category.slug.replace('-','') === envConfig.site){
+                catParent = category.term_id;
+            }
+        });
+        angular.forEach(categories, function (category, index) {
+            if(catParent){
+                if(category.parent === catParent){
+                    cat = category;
+                }
+            }
+            else if(permalink.indexOf(category.slug) > -1){
                 cat = category;
             }
         });

@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, envConfig) {
 
     this.name = 'list';
     this.$route = $route;
@@ -112,8 +112,19 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
 
     $scope.getCategory = function(categories, permalink){
         var cat = null;
+        var catParent = null;
 
         angular.forEach(categories, function (category, index) {
+            if(category.slug.replace('-','') === envConfig.site){
+                catParent = category.term_id;
+            }
+        });
+        angular.forEach(categories, function (category, index) {
+            if(catParent){
+                if(category.parent === catParent){
+                    cat = category;
+                }
+            }
             if(permalink.indexOf(category.slug) > -1){
                 cat = category;
             }
