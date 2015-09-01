@@ -61,33 +61,33 @@ body{
   top: 0;
   padding: 1em;
   color: white;
-  background-color: $color-ad-green;
+  background-color: $color-ad-blue;
 
   // main cats get different color
 
   //insane stunts
-  .insane {}
+  .insane {background-color: $color-ad-purple;}
 
   // crash and burn
-  .candb {}
+  .candb {background-color: $color-ad-red;}
 
   // sports car
-  .sports {}
+  .sports {background-color: red;} //lame
 
   // luxury
-  .lux {}
+  .lux {background-color: $color-ad-yellow;}
 
   // classics
-  .classics {}
+  .classics {background-color: $color-ad-dk-gray;}
 
   // motorcycles
-  .moto {}
+  .moto {background-color: $color-ad-orange;}
 
   // off road
-  .offroad {}
+  .offroad {background-color: $color-ad-brown;}
 
   // technology
-  .tech {}
+  .tech {background-color: $color-ad-green;}
 
 }
 
