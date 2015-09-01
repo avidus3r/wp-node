@@ -4,16 +4,18 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
     //$urlRouterProvider.otherwise('/');
     $routeProvider.
         when('/', {
-            /*controller: 'FeedListController',*/
-            templateUrl: '/views/feedlist.html'
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false
         })
         .when('/category/:category', {
-            /*controller: 'FeedCategoryController',*/
-            templateUrl: '/views/category.html'
+            controller: 'FeedCategoryController',
+            templateUrl: '/views/post.html',
+            redirectTo: false
         })
         .when('/:category/:slug', {
             controller: 'FeedSingleController',
-            templateUrl: '/views/single.html',
+            templateUrl: '/views/post.html',
             redirectTo: false
         })
         .otherwise({
@@ -85,7 +87,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
 
     $locationProvider.html5Mode({
         enabled: true,
-        requireBase: false
+        requireBase: false,
+        rewriteLinks: false
     });
 };
 

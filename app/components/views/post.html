@@ -1,0 +1,20 @@
+<div class="wrapper single-post {{ currentView }}">
+    <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="1">
+        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
+
+            <div ng-switch="currentView">
+
+                <div ng-switch-when="list">
+                    <ng-include src="'/views/partials/post-list.html'"></ng-include>
+                </div>
+
+                <div ng-switch-when="post">
+                    <ng-include src="'/views/partials/post-single.html'"></ng-include>
+                </div>
+
+            </div>
+
+        </div><!-- /ng-repeat -->
+    </div>
+    <ng-include src="'/shared/share-icons.html'"></ng-include>
+</div>
