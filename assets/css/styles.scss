@@ -15,6 +15,19 @@
 .btn-submit-story {
   @extend .ad-m-r;
   float: right;
+  cursor: pointer;
+}
+
+// HACKITY HACK HACK
+// Need to rework bootstraps responsive utilities
+.visible-md-altd {
+  display: none;
+}
+
+@media all and (max-width: $nav-switch - 1px) {
+  .visible-md-altd {
+    display: block !important;
+  }
 }
 
 .feed-item {
@@ -92,3 +105,9 @@
 
 // themes
 @import 'altd-2015';
+
+@import 'vendor/bootstrap.css';
+
+// bootstrap overrides
+// change breakpoint for Menu
+@import 'bootstrap_menu_overrides';
