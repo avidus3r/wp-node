@@ -18,6 +18,12 @@
   cursor: pointer;
 }
 
+.collapse, .collapsing{
+  .btn-submit-story {
+      display: none;
+  }
+}
+
 // HACKITY HACK HACK
 // Need to rework bootstraps responsive utilities
 .visible-md-altd {
