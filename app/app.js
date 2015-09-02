@@ -9,7 +9,8 @@ require('../assets/js/angular-metatags.min');
 var feedConfig = {
     url: 'http://local.altdriver.com',
     remoteUrl: 'http://devaltdriver.wpengine.com',
-    basePath: '/wp-json/wp/v2/'
+    basePath: '/wp-json/wp/v2/',
+    site: 'altdriver'
 };
 
 //Controllers
@@ -72,17 +73,17 @@ angular.module('NewsFeed').controller(
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state','envConfig', Controllers.FeedSingleController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', 'envConfig', Controllers.FeedCategoryController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', 'envConfig', Controllers.FeedListController]
 );
 
 /*angular.module('NewsFeed').provider('envConfig', function EnvConfigProvider(){

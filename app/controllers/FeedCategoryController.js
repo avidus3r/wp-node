@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, envConfig) {
 
     this.name = 'category';
     this.params = $routeParams;
@@ -149,6 +149,31 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
                 i += 1;
             }
         }
+    };
+
+    $scope.getCategory = function(categories, permalink){
+        var cat = null;
+        var catParent = null;
+
+        angular.forEach(categories, function (category, index) {
+            if(category.slug.replace('-','') === envConfig.site){
+                catParent = category.term_id;
+            }
+        });
+        angular.forEach(categories, function (category, index) {
+            if(catParent){
+                if(category.parent === catParent){
+                    cat = category;
+                }
+            }
+
+            if($location.$$path.indexOf(category.slug) > -1){
+                cat = category;
+            }
+
+        });
+
+        return cat;
     };
 
     $scope.renderContent = function(content, index, fromClick){
