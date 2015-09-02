@@ -142,7 +142,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
                     cat = category;
                 }
             }
-            else if(permalink.indexOf(category.slug) > -1){
+            if(permalink.indexOf(category.slug) > -1){
                 cat = category;
             }
         });

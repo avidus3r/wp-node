@@ -166,7 +166,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
                     cat = category;
                 }
             }
-            else if(permalink.indexOf(category.slug) > -1){
+            if(permalink.indexOf(category.slug) > -1){
                 cat = category;
             }
         });
