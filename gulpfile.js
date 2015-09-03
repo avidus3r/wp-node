@@ -10,7 +10,6 @@ var gulp            = require('gulp'),
     knox            = require('knox'),
     gutil           = require('gulp-util'),
     clean           = require('gulp-clean'),
-    webpack         = require('webpack'),
     browserify      = require('gulp-browserify'),
     runSequence     = require('run-sequence'),
     pkg             = require('./package.json'),
@@ -98,30 +97,6 @@ gulp.task('publish',function(){
             path : "/"+pkg.name+"/"
         }));
 
-});
-
-gulp.task('webpack', function(callback) {
-    webpack({
-        context: __dirname,
-        entry: {
-            index : './app/app.js'
-        },
-        output: {
-            path: './dist/js/',
-            filename: '[name].js'
-        }
-    }, function(err, stats){
-        if(err) throw new gutil.PluginError('webpack', err);
-        if(stats.hasErrors() || stats.hasWarnings()){
-            gutil.log('[webpack]', stats.toString({
-                colors : true
-            }));
-        }
-        callback();
-    });
-
-    gulp.src(paths.templates)
-        .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('lint', function() {

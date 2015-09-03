@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, $stateParams, $state, envConfig) {
+var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
 
     this.name = 'single';
     this.params = $routeParams;
@@ -26,7 +26,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     var postPath = 'posts';
 
-    var offset = $scope.lastOffset ? '&offset=' + $scope.lastOffset : '';
+    var offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
 
     var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + offset;
 
@@ -168,10 +168,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             expectedEmbed.addClass('video-container');
             $scope.resizeEmbed(expectedEmbed);
         }
-    };
-
-    $scope.trustContent = function(content){
-        return $sce.trustAsHtml(content.rendered);
     };
 
     $scope.resizeEmbed = function(embed){

@@ -1,6 +1,7 @@
 'use strict';
 
-var AppController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, ogMeta) {
+
+var AppController = function($rootScope, $scope, FeedService) {
 
     this.name = 'app';
 

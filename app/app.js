@@ -24,35 +24,12 @@ var Router = require('./app.routes');
 
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', require('angular-ui-router'), 'metatags']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
 
 
-angular.module('NewsFeed').factory(
-    'envConfig',
-    ['$http', '$q',
-        function($http, $q){
-
-            var config = {};
-
-            config.loadConfig = function(){
-                var deferred = $q.defer();
-                var url = 'config.json';
-
-                $http.get(url)
-                    .then(function (response) {
-                        var res = response.data;
-                        deferred.resolve(res);
-                    }, function (response) {
-                        deferred.reject(response);
-                    });
-
-                return deferred.promise;
-            };
-
-            return config;
-        }
-    ]
-);
+/*
+ * Module Configuration
+ */
 
 angular.module('NewsFeed').run(function(MetaTags){
     MetaTags.initialize();
@@ -65,32 +42,30 @@ angular.module('NewsFeed').factory(
     ['envConfig', '$http', '$q', FeedService]
 );
 
-//Modules
+/*
+ * Module Configuration
+ */
+
+//Controller Modules
 angular.module('NewsFeed').controller(
     'AppController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state', Controllers.AppController]
+    ['$rootScope', '$scope', 'FeedService', Controllers.AppController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', '$stateParams', '$state','envConfig', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedSingleController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', 'envConfig', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedCategoryController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$stateParams', '$state', 'envConfig', Controllers.FeedListController]
+    ['$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
 );
-
-/*angular.module('NewsFeed').provider('envConfig', function EnvConfigProvider(){
-    this.get = [envConfig];
-});*/
-
-
 
 angular.module('NewsFeed').config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', '$rootScopeProvider', Router]
