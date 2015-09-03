@@ -3,11 +3,7 @@
 var express = require('express'),
     app = express(),
     path = require('path'),
-    phantomjs = require('phantomjs'),
-    phantom = require('phantom'),
-    system = require('system'),
     request = require('request');
-
 
 var EXPRESS_PORT = 3000,
     //EXPRESS_HOST = '192.168.1.88',
@@ -15,13 +11,6 @@ var EXPRESS_PORT = 3000,
     EXPRESS_ROOT = './dist';
 
 app.use(express.static(EXPRESS_ROOT));
-//app.use(require('prerender-node'));
-
-/*app.get('*', function(req,res){
-
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});
- */
 
 app.get('/', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
@@ -29,8 +18,6 @@ app.get('/', function(req,res){
 
 app.get('/category/:category', function(req,res){
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
-        var reqUrl = 'http://' + req.headers.host + req.url;
-
         var feed = {};
 
         feed.endpoints = {
@@ -38,9 +25,10 @@ app.get('/category/:category', function(req,res){
             remoteUrl: 'http://devaltdriver.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
+
         var catName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
         var endpoint = 'terms/category?name=' + catName;
-        console.log(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint);
+
         request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
                 var category = {};
@@ -64,21 +52,9 @@ app.get('/category/:category', function(req,res){
                 metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
-
-                /*phantom.create(function (ph) {
-                    ph.createPage(function (page) {
-                        console.log(reqUrl);
-                        page.open(reqUrl, function (status) {
-                            console.log("opened ", status);
-                            page.evaluate(function () { return document; }, function (result) {
-                                res.send(result.all['0'].outerHTML);
-                                ph.exit();
-                            });
-                        });
-                    });
-                });*/
             }
         });
+
     }else {
         res.sendFile('index.html', {root: path.join(__dirname, './dist')});
     }
@@ -86,7 +62,6 @@ app.get('/category/:category', function(req,res){
 
 app.get('/:category/:slug', function(req,res, next){
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
-        var reqUrl = 'http://' + req.headers.host + req.url;
 
         var feed = {};
 
@@ -95,9 +70,10 @@ app.get('/:category/:slug', function(req,res, next){
             remoteUrl: 'http://devaltdriver.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
+
         var postName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
         var endpoint = 'posts?name=' + postName;
-        //console.log(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint);
+
         request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
                 var metatags = {};
@@ -120,20 +96,8 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_image = post.featured_image_src.medium[0];
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
-
-                /*phantom.create(function (ph) {
-                 ph.createPage(function (page) {
-                 console.log(reqUrl);
-                 page.open(reqUrl, function (status) {
-                 console.log("opened ", status);
-                 page.evaluate(function () { return document; }, function (result) {
-                 res.send(result.all['0'].outerHTML);
-                 ph.exit();
-                 });
-                 });
-                 });
-                 });*/
             }
+
         });
     }else {
         res.sendFile('index.html', {root: path.join(__dirname, './dist')});
