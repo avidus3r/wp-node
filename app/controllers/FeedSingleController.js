@@ -21,10 +21,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.pageTitle = null;
     $scope.renderedOnce = true;
     $scope.singlePostID = null;
+    $scope.lastOffset = $scope.$parent.lastOffset || null;
 
 
     var postPath = 'posts';
-    var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+
+    var offset = $scope.lastOffset ? '&offset=' + $scope.lastOffset : '';
+
+    var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + offset;
 
     var postParams = '?name=' + $routeParams.slug;
 
@@ -209,6 +213,11 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
         }
         $scope.feedItemPosition += 1;
+    };
+
+    $scope.goToPage = function(e, lastIndex, linkParams){
+        $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
+        $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
 };

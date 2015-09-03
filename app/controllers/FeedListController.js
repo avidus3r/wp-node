@@ -22,11 +22,6 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.currentView = 'list';
     $scope.currentY = null;
 
-    $scope.isMobile = function(){
-        return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) );
-        //return true;
-    };
-
     $scope.getParams = function(param, encode){
         var val = null;
         switch(param){
