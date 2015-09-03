@@ -15,16 +15,13 @@ var gulp            = require('gulp'),
     pkg             = require('./package.json'),
     plugins         = gulpLoadPlugins(),
     csslint         = require('gulp-csslint'),
-    cssmin          = require('gulp-cssmin'),
-    LIVERELOAD_PORT = 35729,
-    lr;
+    cssmin          = require('gulp-cssmin');
 
 var paths   = {
     js: ['app/**/*.js'],
     sass: ['assets/**/*.scss'],
     assets:['assets/**/*.*', 'vendors/**/*.*', '!assets/**/*.scss'],
-    templates:['app/components/**/*.html'],
-    config:['app/config.json']
+    templates:['app/components/**/*.html']
 };
 
 gulp.task('scripts', ['lint'], function(){
@@ -37,11 +34,6 @@ gulp.task('scripts', ['lint'], function(){
 
 gulp.task('templates', function(){
     gulp.src(paths.templates)
-        .pipe(gulp.dest('./dist/'));
-});
-
-gulp.task('config', function(){
-    gulp.src(paths.config)
         .pipe(gulp.dest('./dist/'));
 });
 
@@ -113,8 +105,8 @@ gulp.task('assets', function() {
 
 gulp.task('css',['css:min']);
 
-gulp.task('css:min', ['css:sass', 'css:lint'], function() {
-    return gulp.src('./dist/css/*.css')
+gulp.task('css:min', function() {
+    return gulp.src('./dist/css/styles.css')
         .pipe(cssmin())
         .pipe(plugins.rename({suffix: '.min'}))
         .pipe(gulp.dest('./dist/css'));
@@ -159,7 +151,7 @@ gulp.task('devServe', ['env:development'], function () {
         this.stdout.on('data', function(chunk) {
             if(/app listening/.test(chunk)) {
 
-                setTimeout(function(){ plugins.livereload.reload(); }, 500);
+                //setTimeout(function(){ plugins.livereload.reload(); }, 500);
             }
             process.stdout.write(chunk);
         });
@@ -188,17 +180,16 @@ gulp.task('release', function(callback) {
 
 
 gulp.task('watch', function () {
-    plugins.livereload.listen({interval:500});
+    //plugins.livereload.listen({interval:500});
 
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.sass, ['css:sass']);
-    gulp.watch(paths.config, ['config']);
 });
 
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css', 'assets', 'templates', 'scripts', 'config',  callback);
+    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts',  callback);
 });
