@@ -7,6 +7,7 @@ var FeedService = function(envConfig, $http, $q){
 
     feed.categories = [];
     feed.navItems = [];
+    feed.lastOffset = null;
 
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();

@@ -1,6 +1,9 @@
 'use strict';
 
 var AppController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $stateParams, $state, ogMeta) {
+
+    this.name = 'app';
+
     $scope.collapseNav = function(){
         if(!angular.element('.navbar-toggle').hasClass('collapsed')){
             angular.element('.navbar-toggle').click();
