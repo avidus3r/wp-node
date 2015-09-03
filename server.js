@@ -28,7 +28,7 @@ app.get('/', function(req,res){
 });
 
 app.get('/category/:category', function(req,res){
-    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1)){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
         var reqUrl = 'http://' + req.headers.host + req.url;
 
         var feed = {};
@@ -85,7 +85,7 @@ app.get('/category/:category', function(req,res){
 });
 
 app.get('/:category/:slug', function(req,res, next){
-    if((req.headers['user-agent'].indexOf('facebookexternalhit') != -1 || req.headers['user-agent'].indexOf('twitterbot') != -1)){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
         var reqUrl = 'http://' + req.headers.host + req.url;
 
         var feed = {};
