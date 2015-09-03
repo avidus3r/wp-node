@@ -9,6 +9,15 @@ var AppController = function($rootScope, $scope, FeedService, $route, $routePara
 
     $scope.navItems = [];
 
+    $scope.isMobile = function(){
+        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
+            return 'mobile';
+        }else{
+            return 'desktop';
+        }
+        //return true;
+    };
+
     FeedService.getTerms('category').then(
         function(data){
             $scope.categories = data;
