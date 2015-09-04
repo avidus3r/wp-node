@@ -39,7 +39,6 @@ npm install -g gulp
 scripts
 	runs dependency task(s): lint, browserify
 clean
-webpack
 lint
 assets
 css

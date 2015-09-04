@@ -14,8 +14,11 @@ var AppController = function($rootScope, $scope, FeedService) {
     $scope.navItems = [];
 
     $scope.isMobile = function(){
-        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
-            return 'mobile';
+        var uaStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+        if ( uaStr.test(navigator.userAgent) ){
+            var result = uaStr.exec(navigator.userAgent);
+            return 'mobile ' + result[0].toLowerCase();
         }else{
             return 'desktop';
         }
