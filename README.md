@@ -37,9 +37,8 @@ npm install -g gulp
 ### Available gulp tasks
 
 scripts
-	runs dependency task(s): lint, webpack (webpack may sonn be migrated to browserify)
+	runs dependency task(s): lint, browserify
 clean
-webpack
 lint
 assets
 css
@@ -57,3 +56,22 @@ build
 	runs task sequence: clean, assets, css, scripts, (callback fn)
 default 
 	runs dependency task(s): build, devServe, watch
+
+
+### Running on ec2
+
+#ssh into the ec2 host (check ec2 console for host ip address <HOST_ADDRESS>)
+ssh -i "<path/to/your_pem_file.pem>" ec2-user@<HOST_ADDRESS>
+
+#change directory to the 'feed' directory'
+cd feed/
+
+** run npm install - only if new packages were added **
+
+#start server
+sudo PORT 80 = npm start
+
+#stop server
+sudo PORT 80 = npm stop
+
+* npm start will run the gulp:build task and then user forever to start the server
