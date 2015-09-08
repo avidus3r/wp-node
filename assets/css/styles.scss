@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.collapse, .collapsing{
+.collapse.in, .collapsing{
   .btn-submit-story {
       display: none;
   }
@@ -37,12 +37,16 @@
 }
 
 .feed-item {
-  max-width: 640px;
   margin: 0 auto 1em;
 }
 
+.view-container {
+  max-width: $main-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .post-title{
-  max-width: 640px;
   font-size: 1.5em;
   color:#444;
   margin: 0 0 .5em;
@@ -50,8 +54,6 @@
 }
 
 .post-content{
-  max-width: 640px;
-  min-height: 230px;
   background: #fff;
   color:#666;
   box-shadow: 0 1px 5px rgba(0,0,0,.5);
