@@ -190,6 +190,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             width = width * ratio;    // Reset width to match scaled image
         }
 
+        if(width < maxWidth){
+            ratio = maxWidth / width;   // get ratio for scaling image
+            iframe.css('width', maxWidth); // Set new width
+            iframe.css('height', height * ratio);  // Scale height based on ratio
+            height = height * ratio;    // Reset height to match scaled image
+            width = width * ratio;    // Reset width to match scaled image
+        }
+
         // Check if current height is larger than max
         if(height > maxHeight){
             ratio = maxHeight / height; // get ratio for scaling image
