@@ -48,6 +48,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         // Standard meta
         $rootScope.metatags.title = post.title.rendered;
         $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
+        //$rootScope.metatags.section = post.category.slug;
+        $rootScope.metatags.published_time = post.date;
 
         // Facebook meta
         $rootScope.metatags.fb_type = 'article';

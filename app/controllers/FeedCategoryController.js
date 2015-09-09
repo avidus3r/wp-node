@@ -42,6 +42,8 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         // Standard meta
         $rootScope.metatags.title = $scope.category.name + ' Archives - alt_driver';
         $rootScope.metatags.description = $scope.category.description;
+        $rootScope.metatags.section = $scope.category.name;
+        //$rootScope.metatags.published_time = post.date;
 
         // Facebook meta
         $rootScope.metatags.fb_type = 'object';
