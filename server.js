@@ -11,6 +11,11 @@ var EXPRESS_PORT = 3000,
     EXPRESS_ROOT = './dist';
 
 app.use(express.static(EXPRESS_ROOT));
+app.use(express.static(__dirname + '/tests'));
+
+app.get('/tests', function(req, res){
+    res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
+});
 
 app.get('/', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });

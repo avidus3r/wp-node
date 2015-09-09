@@ -21,7 +21,8 @@ var paths   = {
     js: ['app/**/*.js'],
     sass: ['assets/**/*.scss'],
     assets:['assets/**/*.*', 'vendors/**/*.*', '!assets/**/*.scss'],
-    templates:['app/components/**/*.html']
+    templates: ['app/components/**/*.html'],
+    tests: ['tests/spec/**/*.js']
 };
 
 gulp.task('scripts', ['lint'], function(){
@@ -35,6 +36,14 @@ gulp.task('scripts', ['lint'], function(){
 gulp.task('templates', function(){
     gulp.src(paths.templates)
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('tests', function(){
+    gulp.src('app/app.mock.js')
+        .pipe(browserify({
+            insertGlobals: true
+        }))
+        .pipe(gulp.dest('./tests/src'))
 });
 
 function publishToS3 (options) {
@@ -186,10 +195,11 @@ gulp.task('watch', function () {
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.sass, ['css:sass']);
+    gulp.watch(paths.tests, ['tests']);
 });
 
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts',  callback);
+    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts', 'tests',  callback);
 });

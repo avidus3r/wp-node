@@ -29,34 +29,6 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         }
     );
 
-    $scope.$on('categoriesRetrieved', function(event, categories){
-        angular.forEach(categories, function (category, index) {
-            if(category.slug === $routeParams.category){
-                $rootScope.$broadcast('categoryLoaded', category);
-            }
-        });
-    });
-
-    $scope.$on('categoryLoaded', function(event, category){
-        $scope.category = category;
-        // Standard meta
-        $rootScope.metatags.title = $scope.category.name + ' Archives - alt_driver';
-        $rootScope.metatags.description = $scope.category.description;
-
-        // Facebook meta
-        $rootScope.metatags.fb_type = 'object';
-        $rootScope.metatags.fb_title = $scope.category.name + ' Archives - alt_driver';
-        $rootScope.metatags.fb_description = $scope.category.description;
-        $rootScope.metatags.fb_url = $scope.category.link;
-        $rootScope.metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
-
-        // Twitter meta
-        $rootScope.metatags.tw_card = 'summary_large_image';
-        $rootScope.metatags.tw_title = $scope.category.name + ' Archives - alt_driver';
-        $rootScope.metatags.tw_description = $scope.category.description;
-        window.NewsFeed.metatags = $rootScope.metatags;
-    });
-
     $scope.getParams = function(param, encode){
         var val = null;
         switch(param){
@@ -80,22 +52,53 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
     var pagingParams = '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
     var postParams = 'category_name=' + $routeParams.category;
 
-    var posts = FeedService.getPosts(postPath, postParams + pagingParams);
+    $scope.getPosts = function(){
+        return FeedService.getPosts(postPath, postParams + pagingParams).then(
+            function(data){ //success
+                angular.forEach(data, function (item, index) {
+                    $scope.createFeedItem(item, $scope.feedItems.length);
+                });
+                $scope.$emit('list:next');
+            },
+            function(reason){   //error
+                console.error('Failed: ', reason);
+            },
+            function(update) {  //notification
+                alert('Got notification: ' + update);
+            }
+        );
+    };
 
-    posts.then(
-        function(data){ //success
-            angular.forEach(data, function (item, index) {
-                $scope.createFeedItem(item, $scope.feedItems.length);
+    $scope.getPosts();
+    if(typeof $scope.$on === 'function') {
+        $scope.$on('categoriesRetrieved', function (event, categories) {
+            angular.forEach(categories, function (category, index) {
+                if (category.slug === $routeParams.category) {
+                    $rootScope.$broadcast('categoryLoaded', category);
+                }
             });
-            $scope.$emit('list:next');
-        },
-        function(reason){   //error
-            console.error('Failed: ', reason);
-        },
-        function(update) {  //notification
-            alert('Got notification: ' + update);
-        }
-    );
+        });
+
+        $scope.$on('categoryLoaded', function (event, category) {
+            $scope.category = category;
+            // Standard meta
+            $rootScope.metatags.title = $scope.category.name + ' Archives - alt_driver';
+            $rootScope.metatags.description = $scope.category.description;
+
+            // Facebook meta
+            $rootScope.metatags.fb_type = 'object';
+            $rootScope.metatags.fb_title = $scope.category.name + ' Archives - alt_driver';
+            $rootScope.metatags.fb_description = $scope.category.description;
+            $rootScope.metatags.fb_url = $scope.category.link;
+            $rootScope.metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+
+            // Twitter meta
+            $rootScope.metatags.tw_card = 'summary_large_image';
+            $rootScope.metatags.tw_title = $scope.category.name + ' Archives - alt_driver';
+            $rootScope.metatags.tw_description = $scope.category.description;
+            window.NewsFeed.metatags = $rootScope.metatags;
+        });
+    }
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
@@ -109,7 +112,6 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
 
             $scope.pageNumber += 1;
-
             FeedService.getPosts(postPath, postParams + '&per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
                 .then(
                 function(data){ //success
@@ -126,7 +128,6 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
                 }
             );
         }
-
         $scope.feedItemPosition += 1;
     };
 
@@ -136,7 +137,6 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount;
-
         if(itemPosition % count === 0){
             while(i < (itemPosition+count)){
                 $scope.add($scope.feedItems[i]);
@@ -160,12 +160,11 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
                     cat = category;
                 }
             }
-
             if($location.$$path.indexOf(category.slug) > -1){
                 cat = category;
             }
-
         });
+
         return cat;
     };
 

@@ -33,16 +33,16 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     var postParams = '?name=' + $routeParams.slug;
 
 
-    var posts = FeedService.getPosts(postPath, postParams);
+    $scope.getPost = function(){
+        return FeedService.getPosts(postPath, postParams).then(function(data){
+            var item = data[0];
 
-    posts.then(function(data){
-        var item = data[0];
-
-        $scope.initMeta(item);
-        $scope.singlePostID = item.id;
-        $scope.createFeedItem(item, $scope.feedItems.length);
-        $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
-    });
+            $scope.initMeta(item);
+            $scope.singlePostID = item.id;
+            $scope.createFeedItem(item, $scope.feedItems.length);
+            $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
+        });
+    }
 
     $scope.initMeta = function(post){
         // Standard meta
@@ -82,8 +82,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        posts = FeedService.getPosts(postPath, pagingParams);
-        posts.then(
+        FeedService.getPosts(postPath, pagingParams).then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
