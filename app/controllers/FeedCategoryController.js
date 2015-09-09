@@ -28,7 +28,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
 
         }
     );
-    
+
     $scope.getParams = function(param, encode){
         var val = null;
         switch(param){
