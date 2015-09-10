@@ -92,8 +92,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        posts = FeedService.getPosts(postPath, pagingParams);
-        posts.then(
+        FeedService.getPosts(postPath, pagingParams).then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
