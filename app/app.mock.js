@@ -5,6 +5,7 @@ var angular = require('angular');
 //Angular Dependencies
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
+require('angular-mocks/ngMock');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
@@ -24,7 +25,7 @@ var Router = require('./app.routes');
 
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', require('angular-mocks/ngMock')]);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
 
 
 /*

@@ -548,6 +548,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         // Standard meta
         $rootScope.metatags.title = post.title.rendered;
         $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
+        //$rootScope.metatags.section = post.category.slug;
+        $rootScope.metatags.published_time = post.date;
 
         // Facebook meta
         $rootScope.metatags.fb_type = 'article';
@@ -736,6 +738,7 @@ var angular = require('angular');
 //Angular Dependencies
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
+require('angular-mocks/ngMock');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
@@ -755,7 +758,7 @@ var Router = require('./app.routes');
 
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', require('angular-mocks/ngMock')]);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
 
 
 /*
@@ -808,7 +811,7 @@ window.onerror = function(){
 
 window.NewsFeed = NewsFeed;
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b74bff82.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_529c9002.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":23,"angular":19,"angular-mocks/ngMock":11,"angular-resource":13,"angular-route":15,"angular-sanitize":17,"buffer":20,"ng-infinite-scroll":24}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';

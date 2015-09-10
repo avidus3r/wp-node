@@ -39,7 +39,7 @@ gulp.task('templates', function(){
 });
 
 gulp.task('tests', function(){
-    gulp.src('app/app.mock.js')
+    gulp.src('app/app.js')
         .pipe(browserify({
             insertGlobals: true
         }))

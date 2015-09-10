@@ -4,6 +4,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     this.name = 'single';
     this.params = $routeParams;
+    this.rootScope = $rootScope;
+    this.FeedService = FeedService;
+    this.route = $route;
+    this.location = $location;
+    this.envConfig = envConfig;
+    this.scope = $scope;
 
     $scope.renderedOnce = false;
 
@@ -24,25 +30,28 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.lastOffset = $scope.$parent.lastOffset || null;
 
 
-    var postPath = 'posts';
+    $scope.postPath = 'posts';
 
-    var offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
+    $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
 
-    var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + offset;
+    $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
 
-    var postParams = '?name=' + $routeParams.slug;
+    $scope.postParams = '?name=' + $routeParams.slug;
 
 
     $scope.getPost = function(){
-        return FeedService.getPosts(postPath, postParams).then(function(data){
+        return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
             var item = data[0];
 
             $scope.initMeta(item);
             $scope.singlePostID = item.id;
             $scope.createFeedItem(item, $scope.feedItems.length);
-            $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
+            $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
+            return item;
         });
-    }
+    };
+
+    $scope.getPost();
 
     $scope.initMeta = function(post){
         // Standard meta
@@ -214,8 +223,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
-            $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
+            $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+            $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
         }
         $scope.feedItemPosition += 1;
     };

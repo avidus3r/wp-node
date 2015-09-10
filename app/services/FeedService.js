@@ -2,8 +2,12 @@
 
 var FeedService = function(envConfig, $http, $q){
     var feed = {};
-
-    feed.endpoints = envConfig;
+    feed.endpoints = {
+        url: 'http://local.altdriver.com',
+        remoteUrl: 'http://devaltdriver.wpengine.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    };
 
     feed.categories = [];
     feed.navItems = [];
@@ -12,7 +16,6 @@ var FeedService = function(envConfig, $http, $q){
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
-
         $http.get(url)
             .then(function (response) {
                 var res = response.data;
@@ -21,6 +24,12 @@ var FeedService = function(envConfig, $http, $q){
                 deferred.reject(response);
             });
 
+        return deferred.promise;
+    };
+
+    feed.getData = function(){
+        var deferred = $q.defer();
+        deferred.resolve('data');
         return deferred.promise;
     };
 

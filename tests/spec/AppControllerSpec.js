@@ -1,5 +1,5 @@
 describe('AppController', function(){
-    beforeEach(module('NewsFeed'));
+    beforeEach(angular.mock.module('NewsFeed'));
 
     var $controller;
 
@@ -8,7 +8,7 @@ describe('AppController', function(){
     }));
 
     describe('$scope.isMobile', function(){
-        var $scope, controller;
+        var $scope, controller, $route;
         var count = 0;
         var userAgentStrings = [
             'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
@@ -27,11 +27,9 @@ describe('AppController', function(){
         ];
 
         beforeEach(function() {
-            navigator.__defineGetter__('userAgent', function(){
-                return userAgentStrings[count];
-            });
             $scope = {};
-            controller = $controller('AppController', { $scope: $scope });
+            $route = {};
+            controller = $controller('AppController', { $scope: $scope, $route: $route });
         });
 
         afterEach(function(){
@@ -39,42 +37,56 @@ describe('AppController', function(){
         });
 
         it('should equal mobile iphone', function(){
+            console.log($route);
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[0];});
             expect($scope.isMobile()).toEqual('mobile iphone');
         });
         it('should equal mobile ipad', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[1];});
             expect($scope.isMobile()).toEqual('mobile ipad');
         });
         it('should equal mobile ipod', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[2];});
             expect($scope.isMobile()).toEqual('mobile ipod');
         });
         it('should equal mobile android', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[3];});
             expect($scope.isMobile()).toEqual('mobile android');
         });
         it('should equal mobile iemobile', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[4];});
             expect($scope.isMobile()).toEqual('mobile iemobile');
         });
         it('should equal mobile blackberry', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[5];});
             expect($scope.isMobile()).toEqual('mobile blackberry');
         });
         it('should equal mobile webos', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[6];});
             expect($scope.isMobile()).toEqual('mobile webos');
         });
         it('should equal mobile opera-mini', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[7];});
             expect($scope.isMobile()).toEqual('mobile opera-mini');
         });
         it('should equal desktop safari', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[8];});
             expect($scope.isMobile()).toEqual('desktop safari');
         });
         it('should equal desktop chrome', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[9];});
             expect($scope.isMobile()).toEqual('desktop chrome');
         });
         it('should equal desktop msie', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[10];});
             expect($scope.isMobile()).toEqual('desktop msie');
         });
         it('should equal desktop firefox', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[11];});
             expect($scope.isMobile()).toEqual('desktop firefox');
         });
         it('should equal desktop opera', function(){
+            navigator.__defineGetter__('userAgent', function(){return userAgentStrings[12];});
             expect($scope.isMobile()).toEqual('desktop opera');
         });
     });

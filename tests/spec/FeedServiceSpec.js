@@ -1,48 +1,31 @@
 describe('FeedService', function(){
+    var $feedService;
     beforeEach(module('NewsFeed'));
 
-    var $feedService;
+    beforeEach(function(){
+        inject(function($injector) {
+            $feedService = $injector.get('FeedService');
+        })
+    });
 
-    beforeEach(inject(function(FeedService){
-        $feedService = FeedService;
-    }));
+    it('getPosts should return a promise', function(){
+        var postPath = 'posts';
+        var postParams = '?per_page=10&page=1';
+        var posts = $feedService.getPosts(postPath, postParams);
+        expect(typeof posts).toBe('object');
+        expect(posts.hasOwnProperty('$$state')).toBe(true);
+    });
 
-    describe('FeedService', function(){
+    it('getTerms should return a promise', function(){
+        var categories = $feedService.getTerms('category');
+        expect(typeof categories).toBe('object');
+        expect(categories.hasOwnProperty('$$state')).toBe(true);
+    });
 
-        beforeEach(function() {
-            var feedConfig = {
-                url: 'http://local.altdriver.com',
-                remoteUrl: 'http://devaltdriver.wpengine.com',
-                basePath: '/wp-json/wp/v2/',
-                site: 'altdriver'
-            };
-            $feedService.enpoints = feedConfig;
-        });
-
-        afterEach(function(){
-
-        });
-
-        it('should fetch posts', function(){
-            var postPath = 'posts';
-            var postParams = '?per_page=10&page=1';
-            var posts = $feedService.getPosts(postPath, postParams);
-            expect(typeof posts).toBe('object');
-            expect(posts.hasOwnProperty('$$state')).toBe(true);
-        });
-
-        it('should fetch terms', function(){
-            var posts = $feedService.getTerms('category');
-            expect(typeof posts).toBe('object');
-            expect(posts.hasOwnProperty('$$state')).toBe(true);
-        });
-
-        it('should fetch nav items', function(){
-            var posts = $feedService.getNavItems();
-            expect(typeof posts).toBe('object');
-            expect(posts.hasOwnProperty('$$state')).toBe(true);
-        });
-
+    it('getNavItems should return a promise', function(){
+        var navItems = $feedService.getNavItems();
+        expect(typeof navItems).toBe('object');
+        expect(navItems.hasOwnProperty('$$state')).toBe(true);
     });
 
 });

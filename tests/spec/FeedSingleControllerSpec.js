@@ -1,15 +1,16 @@
 describe('FeedSingleController', function(){
-    beforeEach(module('NewsFeed'));
-
     var $controller;
 
-    beforeEach(inject(function(_$controller_){
-        $controller = _$controller_;
-    }));
+    beforeEach(function() {
+        beforeEach(module('NewsFeed'));
+        inject(function (_$controller_) {
+            $controller = _$controller_;
+        });
+    });
 
     describe('$scope.getPosts', function(){
-        var $scope, controller;
         var posts = null;
+        var $scope, controller;
 
         beforeEach(function() {
             $scope = {};
@@ -23,9 +24,6 @@ describe('FeedSingleController', function(){
 
         });
 
-        it('should have a defined response', function(){
-            expect($scope.getPost()).toBeDefined();
-        });
 
         it('should have posts', function(){
             expect($scope.feedItems).toBeDefined();
