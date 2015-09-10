@@ -2,6 +2,10 @@ body{
   font-family: $font-montserrat, Calibri, Helvetica, Arial; // altD fonts
 }
 
+.btn-primary {
+  background-color: $color-ad-green;
+}
+
 
 // display title OVER video screeny
 .post-content h2.post-title{

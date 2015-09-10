@@ -38,7 +38,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.postParams = '?name=' + $routeParams.slug;
 
-
     $scope.getPost = function(){
         return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
             var item = data[0];
@@ -57,7 +56,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         // Standard meta
         $rootScope.metatags.title = post.title.rendered;
         $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
-        //$rootScope.metatags.section = post.category.slug;
+        $rootScope.metatags.section = $routeParams.category;
         $rootScope.metatags.published_time = post.date;
 
         // Facebook meta
@@ -93,7 +92,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        FeedService.getPosts(postPath, pagingParams).then(
+        posts = FeedService.getPosts(postPath, pagingParams);
+        posts.then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);

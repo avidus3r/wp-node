@@ -1,4 +1,5 @@
-/* utility classes */
+// utility classes 
+// use bootstrap utilities when possible
 
 // colors
 .light-grey{  color: #999999; }
@@ -15,5 +16,16 @@
 .ad-m {margin: 1em;}
 .ad-m-r {margin-right: 1em;}
 .ad-m-l {margin-left: 1em;}
+.ad-m-lr {margin-left: 1em; margin-right: 1em;}
 .ad-m-t {margin-top: 1em;}
 .ad-m-b {margin-bottom: 1em;}
+.ad-m-tb {margin-top: 1em; margin-bottom: 1em;}
+
+// padding
+.ad-p {padding: 1em;}
+.ad-p-r {padding-right: 1em;}
+.ad-p-l {padding-left: 1em;}
+.ad-p-lr {padding-left: 1em; padding-right: 1em;}
+.ad-p-t {padding-top: 1em;}
+.ad-p-b {padding-bottom: 1em;}
+.ad-p-tb {padding-top: 1em; padding-bottom: 1em;}

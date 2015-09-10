@@ -166,7 +166,7 @@ describe('RestApiSpec', function() {
                 var result = this.responseText;
                 post = JSON.parse(result);
                 singlePostID = post[0].id;
-                
+
                 var url = endpoint + 'feed/' + singlePostID + '?per_page=10';
 
                 var oReq = new XMLHttpRequest();
