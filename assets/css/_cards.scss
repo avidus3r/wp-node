@@ -1,0 +1,21 @@
+// css for all the other cards not posts
+
+// NON POST cards
+.card {
+  @extend .post-content;
+}
+
+.card-email {
+  // temp stuff
+  padding: 1em;
+  //max-width: 640px;
+  margin: 100px auto 1em;
+
+  // spacing
+  @extend .ad-p;
+
+  // make the button text larger
+  .btn-primary {
+    font-size: 2em;
+  }
+}
