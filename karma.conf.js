@@ -4,7 +4,7 @@ module.exports = function(config) {
 
         files: [
             '*.js',
-            '**/!vendors',
+            '**/!vendor',
             '**/!dist',
             '**/!assets'
         ]
