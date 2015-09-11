@@ -236,8 +236,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.vote = function(item, vote, $event){
         $event.preventDefault();
         $event.cancelBubble = true;
-        console.log(item, vote, $event);
-        return false;
+        FeedService.vote(item.id, vote).then(function(res){
+            console.log(res);
+        });
     };
 
 };

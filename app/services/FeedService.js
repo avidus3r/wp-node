@@ -33,6 +33,22 @@ var FeedService = function(envConfig, $http, $q){
         return deferred.promise;
     };
 
+    feed.vote = function(postID, voteVal){
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
+
+        $http.post(url, {vote: voteVal})
+            .then(function (response) {
+                var res = response.data;
+                feed.categories = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     feed.getTerms = function(taxonomy){
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'terms/' + taxonomy + '?per_page=0';
