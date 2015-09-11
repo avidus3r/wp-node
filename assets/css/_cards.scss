@@ -5,21 +5,28 @@
   @extend .post-content;
 }
 
-.card-email {
-  // dark
-  background-color: rgba(0,0,0,.7);
-  color: #fff;
+
+// all modifier cards - everything that is not a post
+.card[class*="card-"] {
   padding: 1em;
   
-  margin: 100px auto 1em;
+  margin: 1em auto 1em;
 
   // spacing
   @extend .ad-p;
 
   // tighten header
-  h2 {
+  .card-header {
     margin-top: 0;
   }
+}
+
+// email joint call to action
+.card-email {
+  // dark
+  background-color: rgba(0,0,0,.7);
+  color: #fff;
+  
 
   // make the button text larger
   .btn-primary {
@@ -33,5 +40,29 @@
   // make the errors look a little better
   .mce_inline_error {
     border: 1px solid #fff;
+  }
+}
+// smaller button text on small devices
+@media all and (max-width:480px) {
+  .card-email {
+    .card-header {font-size: 1.5em;}
+    .btn-primary {font-size: 1em;}
+  }
+}
+
+// social media follow card
+.card-follow {
+
+  .card-header {
+    color: $color-ad-orange;
+  }
+
+  background-color: #fff;
+  text-align: center;
+  // spacing
+  @extend .ad-p;
+
+  [class*="col-"] {
+    min-height: 80px;
   }
 }
