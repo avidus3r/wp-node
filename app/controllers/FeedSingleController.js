@@ -233,6 +233,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
+    $scope.vote = function(item, vote, $event){
+        $event.preventDefault();
+        $event.cancelBubble = true;
+        console.log(item, vote, $event);
+        return false;
+    };
+
 };
 
 module.exports = FeedSingleController;

@@ -93,6 +93,22 @@
     line-height: 1.5em;
   }
 
+  .votes{
+    a{
+      background: none;
+      border: none;
+      &[name="up"]{
+        color:$color-ad-green;
+      }
+      &[name="down"]{
+        color:$color-ad-red;
+      }
+    }
+    .fa{
+      font-size: 1.25em;
+    }
+  }
+
   .item-author {
     @extend .left;
   }

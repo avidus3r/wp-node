@@ -732,6 +732,11 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
+    $scope.vote = function(item, vote, $event){
+        console.log(item, vote, $event);
+        return false;
+    };
+
 };
 
 module.exports = FeedSingleController;
@@ -817,7 +822,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c64ca324.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_55069b4a.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":23,"angular":19,"angular-mocks/ngMock":11,"angular-resource":13,"angular-route":15,"angular-sanitize":17,"buffer":20,"ng-infinite-scroll":24}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
