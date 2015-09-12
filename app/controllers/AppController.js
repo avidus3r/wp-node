@@ -14,44 +14,56 @@ var AppController = function($rootScope, $scope, FeedService) {
     $scope.navItems = [];
 
     $scope.isMobile = function(){
-        var uaStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
+        var result = null;
 
-        if ( uaStr.test(navigator.userAgent) ){
-            var result = uaStr.exec(navigator.userAgent);
-            return 'mobile ' + result[0].toLowerCase();
+        if ( mobileUAStr.test(navigator.userAgent) ){
+            result = mobileUAStr.exec(navigator.userAgent);
+            return 'mobile ' + result[0].toLowerCase().replace(' ','-');
+        }else if( desktopUAStr.test(navigator.userAgent) ){
+            result = desktopUAStr.exec(navigator.userAgent);
+            return 'desktop ' + result[0].toLowerCase().replace(' ','-');
         }else{
-            return 'desktop';
+            return 'unknown';
         }
-        //return true;
     };
 
-    FeedService.getTerms('category').then(
-        function(data){
-            $scope.categories = data;
-            $rootScope.$broadcast('categoriesRetrieved', $scope.categories);
-        },
-        function(error){
+    $scope.getTerms = function(){
+        return FeedService.getTerms('category').then(
+            function(data){
+                $scope.categories = data;
+                $rootScope.$broadcast('categoriesRetrieved', $scope.categories);
 
-        },
-        function(notification){
+            },
+            function(error){
 
-        }
-    );
+            },
+            function(notification){
 
-    FeedService.getNavItems().then(
-        function(data){
-            angular.forEach(data, function (item, index) {
-                item.slug = item.url.substring(item.url.lastIndexOf('category/')+9, item.url.length).replace('/','');
-                $scope.navItems.push(item);
-            });
-        },
-        function(error){
+            }
+        );
+    };
 
-        },
-        function(notification){
+    $scope.getNavItems = function(){
+        return FeedService.getNavItems().then(
+            function(data){
+                angular.forEach(data, function (item, index) {
+                    item.slug = item.url.substring(item.url.lastIndexOf('category/')+9, item.url.length).replace('/','');
+                    $scope.navItems.push(item);
+                });
+            },
+            function(error){
 
-        }
-    );
+            },
+            function(notification){
+
+            }
+        );
+    };
+
+    $scope.getTerms();
+    $scope.getNavItems();
 
     $scope.addUploadBtn = function(){
 

@@ -40,25 +40,26 @@ var FeedListController = function($scope, FeedService, $route, $routeParams, $lo
         return val;
     };
 
-    var postPath = 'posts';
-    var postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+    $scope.postPath = 'posts';
+    $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
-    var posts = FeedService.getPosts(postPath, postParams);
+    $scope.getPosts = function(){
+        return FeedService.getPosts($scope.postPath, $scope.postParams).then(
+            function(data){ //success
+                angular.forEach(data, function (item, index) {
+                    $scope.createFeedItem(item, $scope.feedItems.length);
+                });
+            },
+            function(reason){   //error
+                console.error('Failed: ', reason);
+            },
+            function(update) {  //notification
+                alert('Got notification: ' + update);
+            }
+        );
+    };
 
-    posts.then(
-        function(data){ //success
-            angular.forEach(data, function (item, index) {
-                $scope.createFeedItem(item, $scope.feedItems.length);
-            });
-            //$scope.$emit('list:next');
-        },
-        function(reason){   //error
-            console.error('Failed: ', reason);
-        },
-        function(update) {  //notification
-            alert('Got notification: ' + update);
-        }
-    );
+    $scope.posts = $scope.getPosts();
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
@@ -72,7 +73,7 @@ var FeedListController = function($scope, FeedService, $route, $routeParams, $lo
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            FeedService.getPosts(postPath, '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
+            FeedService.getPosts($scope.postPath, '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber)
                 .then(
                 function(data){ //success
                     angular.forEach(data, function (item, index) {
@@ -92,8 +93,6 @@ var FeedListController = function($scope, FeedService, $route, $routeParams, $lo
     };
 
     $scope.getNext = function(){
-        console.log($scope.feedItemPosition);
-
         var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount;
@@ -128,8 +127,6 @@ var FeedListController = function($scope, FeedService, $route, $routeParams, $lo
         return cat;
     };
 
-    window.addEventListener('hashchange', function(){
-        console.log('hashchange', arguments);
-    });
 };
+
 module.exports = FeedListController;

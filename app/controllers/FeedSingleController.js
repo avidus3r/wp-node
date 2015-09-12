@@ -4,6 +4,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     this.name = 'single';
     this.params = $routeParams;
+    this.rootScope = $rootScope;
+    this.FeedService = FeedService;
+    this.route = $route;
+    this.location = $location;
+    this.envConfig = envConfig;
+    this.scope = $scope;
 
     $scope.renderedOnce = false;
 
@@ -24,30 +30,34 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.lastOffset = $scope.$parent.lastOffset || null;
 
 
-    var postPath = 'posts';
+    $scope.postPath = 'posts';
 
-    var offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
+    $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
 
-    var pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + offset;
+    $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
 
-    var postParams = '?name=' + $routeParams.slug;
+    $scope.postParams = '?name=' + $routeParams.slug;
 
+    $scope.getPost = function(){
+        return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
+            var item = data[0];
 
-    var posts = FeedService.getPosts(postPath, postParams);
+            $scope.initMeta(item);
+            $scope.singlePostID = item.id;
+            $scope.createFeedItem(item, $scope.feedItems.length);
+            $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
+            return item;
+        });
+    };
 
-    posts.then(function(data){
-        var item = data[0];
-
-        $scope.initMeta(item);
-        $scope.singlePostID = item.id;
-        $scope.createFeedItem(item, $scope.feedItems.length);
-        $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
-    });
+    $scope.getPost();
 
     $scope.initMeta = function(post){
         // Standard meta
         $rootScope.metatags.title = post.title.rendered;
         $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
+        $rootScope.metatags.section = $routeParams.category;
+        $rootScope.metatags.published_time = post.date;
 
         // Facebook meta
         $rootScope.metatags.fb_type = 'article';
@@ -82,8 +92,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        posts = FeedService.getPosts(postPath, pagingParams);
-        posts.then(
+        FeedService.getPosts(postPath, pagingParams).then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
@@ -213,8 +222,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
-            $scope.getPosts('feed/'+ $scope.singlePostID, pagingParams);
+            $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+            $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
         }
         $scope.feedItemPosition += 1;
     };
@@ -222,6 +231,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
+    };
+
+    $scope.vote = function(item, vote, $event){
+        $event.preventDefault();
+        $event.cancelBubble = true;
+        FeedService.vote(item.id, vote).then(function(res){
+            console.log(res);
+        });
     };
 
 };

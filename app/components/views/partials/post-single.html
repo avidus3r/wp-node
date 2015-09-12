@@ -4,6 +4,7 @@
         <div class="author-meta">
             <p class="item-author"><span class="light-grey">By</span> {{ item.author.name }}</p>
             <p class="item-cat" ng-bind-html="item.category[0].name">{{ getCategory(item.category, item.link).name }}</p>
+            <ng-include src="'/views/partials/voting.html'">    </ng-include>
             <span class="clearfix"></span>
         </div>
 

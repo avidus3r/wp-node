@@ -20,8 +20,9 @@ var gulp            = require('gulp'),
 var paths   = {
     js: ['app/**/*.js'],
     sass: ['assets/**/*.scss'],
-    assets:['assets/**/*.*', 'vendors/**/*.*', '!assets/**/*.scss'],
-    templates:['app/components/**/*.html']
+    assets:['assets/**/*.*', '!assets/**/*.scss'],
+    templates: ['app/components/**/*.html'],
+    tests: ['tests/spec/**/*.js']
 };
 
 gulp.task('scripts', ['lint'], function(){
@@ -37,8 +38,15 @@ gulp.task('templates', function(){
         .pipe(gulp.dest('./dist/'));
 });
 
-function publishToS3 (options) {
+gulp.task('tests', function(){
+    gulp.src('app/app.js')
+        .pipe(browserify({
+            insertGlobals: true
+        }))
+        .pipe(gulp.dest('./tests/src'))
+});
 
+function publishToS3 (options) {
     var aws = JSON.parse(fs.readFileSync('./aws.json'));
 
     if(!options.path){
@@ -46,7 +54,7 @@ function publishToS3 (options) {
     }
 
     return es.map(function (file, cb) {
-        console.log(file);
+
         var isFile = fs.lstatSync(file.path).isFile();
 
         if (!isFile) {
@@ -54,19 +62,16 @@ function publishToS3 (options) {
         }
 
         var uploadPath = file.path.replace(file.base, '');
-        /*uploadPath = "" + path.join(options.path, uploadPath);
-        console.log('upload path: ', uploadPath);*/
+
         // Correct path to use forward slash for windows
         if(path.sep == "\\"){
             uploadPath = uploadPath.replace(/\\/g,"/");
         }
-
         var client = knox.createClient(aws);
         console.log('client: ', client);
         var headers = {
             'x-amz-acl': 'public-read'
         };
-
         client.putFile(file.path, uploadPath, headers, function(err, res) {
             if (err || res.statusCode !== 200) {
                 console.log("Error Uploading" + res.req.path);
@@ -75,10 +80,7 @@ function publishToS3 (options) {
             }
             cb();
         });
-
-
         return true;
-
     });
 }
 
@@ -186,10 +188,11 @@ gulp.task('watch', function () {
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.sass, ['css:sass']);
+    gulp.watch(paths.tests, ['tests']);
 });
 
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts',  callback);
+    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts', 'tests',  callback);
 });
