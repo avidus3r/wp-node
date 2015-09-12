@@ -28,6 +28,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.renderedOnce = true;
     $scope.singlePostID = null;
     $scope.lastOffset = $scope.$parent.lastOffset || null;
+    $scope.voteTally = 0;
 
 
     $scope.postPath = 'posts';
@@ -233,11 +234,15 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
+    $scope.getVoteTally = function(){
+        return $scope.voteTally;
+    };
+
     $scope.vote = function(item, vote, $event){
         $event.preventDefault();
         $event.cancelBubble = true;
         FeedService.vote(item.id, vote).then(function(res){
-            console.log(res);
+            $scope.voteTally = res;
         });
     };
 

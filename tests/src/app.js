@@ -735,8 +735,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.vote = function(item, vote, $event){
         $event.preventDefault();
         $event.cancelBubble = true;
-        console.log(item, vote, $event);
-        return false;
+        FeedService.vote(item.id, vote).then(function(res){
+            console.log(res);
+        });
     };
 
 };
@@ -824,7 +825,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_783de2e7.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d46fd900.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":23,"angular":19,"angular-mocks/ngMock":11,"angular-resource":13,"angular-route":15,"angular-sanitize":17,"buffer":20,"ng-infinite-scroll":24}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -859,6 +860,22 @@ var FeedService = function(envConfig, $http, $q){
     feed.getData = function(){
         var deferred = $q.defer();
         deferred.resolve('data');
+        return deferred.promise;
+    };
+
+    feed.vote = function(postID, voteVal){
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
+
+        $http.post(url, {vote: voteVal})
+            .then(function (response) {
+                var res = response.data;
+                feed.categories = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
         return deferred.promise;
     };
 
