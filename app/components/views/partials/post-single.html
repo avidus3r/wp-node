@@ -9,7 +9,7 @@
         </div>
 
         <div class="post-content">{{ renderContent(item.content.rendered, $index, false) }}</div>
-        <ng-include src="'/views/partials/comments.html'"></ng-include>
+        <ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>
     </div>
     <!-- /ng-switch-when [render the requested post] -->
 

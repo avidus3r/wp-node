@@ -5,11 +5,10 @@ var angular = require('angular');
 //Angular Dependencies
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
-require('angular-mocks/ngMock');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
-    remoteUrl: 'http://devaltdriver.wpengine.com',
+    remoteUrl: 'http://altdriver.staging.wpengine.com',
     basePath: '/wp-json/wp/v2/',
     site: 'altdriver'
 };

@@ -34,19 +34,13 @@ var FeedService = function(envConfig, $http, $q){
     };
 
     feed.vote = function(postID, voteVal){
-        var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID + '/' + voteVal;
 
-        $http.post(url, {vote: voteVal})
-            .then(function (response) {
-                var res = response.data;
-                feed.categories = response.data;
-                deferred.resolve(res);
-            }, function (response) {
-                deferred.reject(response);
-            });
+        var oReq = new XMLHttpRequest();
 
-        return deferred.promise;
+        oReq.open('GET', url, true);
+        oReq.send();
+        return oReq;
     };
 
     feed.getTerms = function(taxonomy){

@@ -68,6 +68,7 @@ var AppController = function($rootScope, $scope, FeedService) {
     $scope.addUploadBtn = function(){
 
     };
+
 };
 
 module.exports = AppController;
