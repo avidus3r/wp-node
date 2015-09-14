@@ -246,55 +246,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         return $scope.voteTally;
     };
 
-    $scope.attachVotingHandler = function(postID){
-        var voteButtons = angular.element('.votes button');
-        var votedHistory = null;
-
-        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
-            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-            angular.forEach(votedHistory, function (item, index) {
-                if(item.postID === postID){
-                    var userVoted = item.voted;
-                    console.log(userVoted);
-                    voteButtons.parent().find('button[name="' + userVoted + '"]').addClass('voted');
-                    voteButtons.attr('disabled','disabled');
-                    return false;
-                }
-            });
-        }
-        voteButtons.on('click', function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            var button = angular.element(e.currentTarget);
-            button.addClass('voted');
-            var postID = button.data('post-id');
-            var upOrDown = button.attr('name');
-            var vote = upOrDown === 'up' ? 2 : 1;
-            console.log('click', vote);
-            var ls = [];
-            var userLS = null;
-            if(votedHistory){
-                var items = JSON.parse(localStorage.getItem('user_voted'));
-                items.push({postID:postID, voted:upOrDown});
-                userLS = JSON.stringify(items);
-            }else{
-                ls.push({postID:postID, voted:upOrDown});
-                userLS = JSON.stringify(ls);
-            }
-            localStorage.setItem('user_voted', userLS);
-            var voteCount = button.parent().find('.vote-count').text();
-            var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
-            button.parent().find('.vote-count').text(count);
-            button.parent().find('button').attr('disabled','disabled');
-
-            var req = FeedService.vote(postID, vote);
-            req.addEventListener('load', function () {
-                var result = this.responseText;
-                console.log(result);
-            });
-        });
-    };
-
 };
 
 module.exports = FeedSingleController;

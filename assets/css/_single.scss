@@ -16,7 +16,8 @@
 
 }
 
-.post-view-full{
+//!post-view
+.post-view.full{
   margin-bottom: 2em;
   padding: 1em; // pad the main story but leave the rest in feed style
 }
@@ -89,7 +90,7 @@
   padding: 0 .5em;
 }
 
-.post-view-full .author-meta{
+.post-view.full .author-meta{
   border-top: 1px solid #bababa;
   border-bottom: 1px solid #bababa;
   margin-bottom: .5em;
@@ -116,7 +117,7 @@
   }
 }
 
-.single-post .post-view-full .post-content p {
+.single-post .post-view.full .post-content p {
   padding: 0;
 }
 
@@ -127,4 +128,8 @@
   color:#666;
   box-shadow: 0 1px 5px rgba(0,0,0,.5);
   padding: 0;
+}
+
+.post-view.full .item-cat{
+  display: none;
 }

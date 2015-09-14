@@ -37,7 +37,8 @@ body{
 }
 
 // title for "open" post on single view
-.single-post .post-view-full .post-title {
+//!post-view
+.single-post .post-view.full .post-title {
   position: relative;
   color: #333;
   bottom: auto;
@@ -52,8 +53,8 @@ body{
 }
 
 // hide author for altD theme - almost all are the same
-.item-author {
-  display: none !important;
+.post-view.feed .item-author {
+    display: none !important;
 }
 
 // reduce footprint
@@ -113,8 +114,8 @@ body{
     color: #ffffff;
   }
 }
-
-.post-view-full .item-cat {
+//!post-view
+.post-view.full .item-cat {
   float:none;
 }
 

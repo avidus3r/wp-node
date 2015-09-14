@@ -181,6 +181,58 @@ var AppController = function($rootScope, $scope, FeedService) {
 
     };
 
+    $scope.voteLoad = function(postID, index){
+        var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
+        var votedHistory = null;
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+            angular.forEach(votedHistory, function (item, index) {
+                if(item.postID === postID){
+                    var userVoted = item.voted;
+                    console.log(userVoted);
+                    voteButton.parent().find('button[name="' + userVoted + '"]').addClass('voted');
+                    voteButton.attr('disabled','disabled');
+                    return false;
+                }
+            });
+        }
+    };
+
+    $scope.vote = function(postID, vote, $event){
+        $event.preventDefault();
+        var voteButton = angular.element($event.currentTarget);
+        var votedHistory = null;
+
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+        }
+        voteButton.addClass('voted');
+        var upOrDown = voteButton.attr('name');
+        var voteVal = upOrDown === 'up' ? 2 : 1;
+
+        var ls = [];
+        var userLS = null;
+        if(votedHistory){
+            var items = JSON.parse(localStorage.getItem('user_voted'));
+            items.push({postID:postID, voted:upOrDown});
+            userLS = JSON.stringify(items);
+        }else{
+            ls.push({postID:postID, voted:upOrDown});
+            userLS = JSON.stringify(ls);
+        }
+        localStorage.setItem('user_voted', userLS);
+        var voteCount = voteButton.parent().find('.vote-count').text();
+        var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
+        voteButton.parent().find('.vote-count').text(count);
+        voteButton.parent().find('button').attr('disabled','disabled');
+
+        var req = FeedService.vote(postID, voteVal);
+        req.addEventListener('load', function () {
+            var result = this.responseText;
+            console.log(result);
+        });
+    };
+
 };
 
 module.exports = AppController;
@@ -746,67 +798,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         return $scope.voteTally;
     };
 
-    $scope.attachVotingHandler = function(postID){
-        var voteButtons = angular.element('.votes button');
-        var votedHistory = null;
-
-        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
-            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-            angular.forEach(votedHistory, function (item, index) {
-                if(item.postID === postID){
-                    var userVoted = item.voted;
-                    console.log(userVoted);
-                    voteButtons.parent().find('button[name="' + userVoted + '"]').addClass('voted');
-                    voteButtons.attr('disabled','disabled');
-                    return false;
-                }
-            });
-        }
-        voteButtons.on('click', function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            var button = angular.element(e.currentTarget);
-            button.addClass('voted');
-            var postID = button.data('post-id');
-            var upOrDown = button.attr('name');
-            var vote = upOrDown === 'up' ? 2 : 1;
-            console.log('click', vote);
-            var ls = [];
-            var userLS = null;
-            if(votedHistory){
-                var items = JSON.parse(localStorage.getItem('user_voted'));
-                items.push({postID:postID, voted:upOrDown});
-                userLS = JSON.stringify(items);
-            }else{
-                ls.push({postID:postID, voted:upOrDown});
-                userLS = JSON.stringify(ls);
-            }
-            localStorage.setItem('user_voted', userLS);
-            var voteCount = button.parent().find('.vote-count').text();
-            var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
-            button.parent().find('.vote-count').text(count);
-            button.parent().find('button').attr('disabled','disabled');
-            $scope.$emit('vote', postID, vote);
-        });
-    };
-
-    $scope.$on('vote', function($event,postID,vote){
-        $event.preventDefault();
-        $event.stopPropagation();
-        console.log($event);
-        $scope.vote(postID,vote);
-    });
-
-    $scope.vote = function(postID, vote){
-
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener('load', function () {
-            var result = this.responseText;
-        });
-        oReq.open('GET', envConfig.remoteUrl+envConfig.basePath + 'feed/vote/'+postID+'/'+vote, true);
-        oReq.send();
-    };
-
 };
 
 module.exports = FeedSingleController;
@@ -823,7 +814,7 @@ require('../assets/js/angular-metatags.min');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
-    remoteUrl: 'http://devaltdriver.wpengine.com',
+    remoteUrl: 'http://altdriver.staging.wpengine.com',
     basePath: '/wp-json/wp/v2/',
     site: 'altdriver'
 };
@@ -891,7 +882,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_1f7b08f3.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_560c6db5.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":21,"angular":17,"angular-resource":11,"angular-route":13,"angular-sanitize":15,"buffer":18,"ng-infinite-scroll":22}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -930,19 +921,13 @@ var FeedService = function(envConfig, $http, $q){
     };
 
     feed.vote = function(postID, voteVal){
-        var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID + '/' + voteVal;
 
-        $http.get(url)
-            .then(function (response) {
-                var res = response.data;
-                feed.categories = response.data;
-                deferred.resolve(res);
-            }, function (response) {
-                deferred.reject(response);
-            });
+        var oReq = new XMLHttpRequest();
 
-        return deferred.promise;
+        oReq.open('GET', url, true);
+        oReq.send();
+        return oReq;
     };
 
     feed.getTerms = function(taxonomy){
