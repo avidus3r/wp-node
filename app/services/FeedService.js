@@ -4,7 +4,7 @@ var FeedService = function(envConfig, $http, $q){
     var feed = {};
     feed.endpoints = {
         url: 'http://local.altdriver.com',
-        remoteUrl: 'http://devaltdriver.wpengine.com',
+        remoteUrl: 'http://altdriver.staging.wpengine.com',
         basePath: '/wp-json/wp/v2/',
         site: 'altdriver'
     };

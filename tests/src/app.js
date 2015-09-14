@@ -527,6 +527,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.renderedOnce = true;
     $scope.singlePostID = null;
     $scope.lastOffset = $scope.$parent.lastOffset || null;
+    $scope.voteTally = 0;
 
 
     $scope.postPath = 'posts';
@@ -732,11 +733,41 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
-    $scope.vote = function(item, vote, $event){
-        $event.preventDefault();
-        $event.cancelBubble = true;
-        FeedService.vote(item.id, vote).then(function(res){
-            console.log(res);
+    $scope.getVoteTally = function(){
+        return $scope.voteTally;
+    };
+
+    $scope.attachVotingHandler = function(postID){
+        console.log(postID);
+        var voteButtons = angular.element('.votes button');
+        var votedHistory = null;
+
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+
+            if(votedHistory.postID === postID){
+                var userVoted = votedHistory.voted;
+                console.log(userVoted);
+                voteButtons.parent().find('button[name="' + userVoted + '"').addClass('voted');
+                voteButtons.attr('disabled','disabled');
+                return false;
+            }
+        }
+        voteButtons.on('click', function(e){
+            var button = angular.element(e.currentTarget);
+            button.addClass('voted');
+            var postID = button.data('post-id');
+            var upOrDown = button.attr('name');
+            var vote = upOrDown === 'up' ? 1 : -1;
+            console.log('click', vote);
+            FeedService.vote(postID, vote).then(function(res){
+                $scope.voteTally = res;
+                localStorage.setItem('user_voted', JSON.stringify({postID:postID, voted:upOrDown}));
+                var voteCount = button.parent().find('.vote-count').text();
+                button.parent().find('.vote-count').text(parseInt(voteCount)+1);
+                button.parent().find('button').attr('disabled','disabled');
+            });
+
         });
     };
 
@@ -825,7 +856,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d46fd900.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6d1a2683.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":23,"angular":19,"angular-mocks/ngMock":11,"angular-resource":13,"angular-route":15,"angular-sanitize":17,"buffer":20,"ng-infinite-scroll":24}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -834,7 +865,7 @@ var FeedService = function(envConfig, $http, $q){
     var feed = {};
     feed.endpoints = {
         url: 'http://local.altdriver.com',
-        remoteUrl: 'http://devaltdriver.wpengine.com',
+        remoteUrl: 'http://altdriver.staging.wpengine.com',
         basePath: '/wp-json/wp/v2/',
         site: 'altdriver'
     };
