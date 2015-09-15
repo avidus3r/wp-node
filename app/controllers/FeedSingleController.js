@@ -111,13 +111,15 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
-            angular.element('#commentHook').on('click', function(){
-                $scope.toggleComments();
+            angular.element('#commentHook').on('click', function(e){
+                $scope.toggleComments(e);
             });
         });
     };
 
-    $scope.toggleComments = function(){
+    $scope.toggleComments = function(event){
+        event.preventDefault();
+        event.stopPropagation();
         angular.element('.fb-wrapper').toggle();
         var currentState = angular.element('#commentHook span').text();
         var newState = currentState === '+ View Responses' ? '- Close Responses' : '+ View Responses';
