@@ -8,7 +8,7 @@ require('../assets/js/angular-metatags.min');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
-    remoteUrl: 'http://altdriver.staging.wpengine.com',
+    remoteUrl: 'http://devaltdriver.wpengine.com',
     basePath: '/wp-json/wp/v2/',
     site: 'altdriver'
 };
@@ -49,7 +49,7 @@ angular.module('NewsFeed').factory(
 //Controller Modules
 angular.module('NewsFeed').controller(
     'AppController',
-    ['$rootScope', '$scope', 'FeedService', Controllers.AppController]
+    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.AppController]
 );
 
 angular.module('NewsFeed').controller(
