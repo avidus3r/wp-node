@@ -116,7 +116,7 @@ module.exports = Router;
 'use strict';
 
 
-var AppController = function($rootScope, $scope, FeedService) {
+var AppController = function($rootScope, $scope, FeedService, envConfig) {
 
     this.name = 'app';
 
@@ -163,6 +163,8 @@ var AppController = function($rootScope, $scope, FeedService) {
     $scope.getSubmit = function(){
         FeedService.getPage('submit').then(function(res){
             angular.element('#submitPage').find('.content').html(res[0].content.rendered);
+            angular.element('#submitPage').find('.content').find('form').attr('action','/submit');
+            angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
         });
     };
 
@@ -561,15 +563,10 @@ module.exports = FeedListController;
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
+var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig, $sce) {
 
     this.name = 'single';
     this.params = $routeParams;
-    this.rootScope = $rootScope;
-    this.FeedService = FeedService;
-    this.route = $route;
-    this.location = $location;
-    this.envConfig = envConfig;
     this.scope = $scope;
 
     $scope.renderedOnce = false;
@@ -608,7 +605,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             $scope.singlePostID = item.id;
             $scope.createFeedItem(item, $scope.feedItems.length);
             $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
-            return item;
         });
     };
 
@@ -737,11 +733,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.renderContent = function(content,index, fromClick){
 
+        //post.html(content);
+
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
-
-        post.html(content);
-
         var expectedEmbed = post.find('iframe');
 
 
@@ -749,6 +744,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             expectedEmbed.addClass('video-container');
             $scope.resizeEmbed(expectedEmbed);
         }
+        return $sce.trustAsHtml(content);
     };
 
     $scope.resizeEmbed = function(embed){
@@ -800,10 +796,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemPosition += 1;
     };
 
-    $scope.goToPage = function(e, lastIndex, linkParams){
+    /*$scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
-    };
+    };*/
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
@@ -825,7 +821,7 @@ require('../assets/js/angular-metatags.min');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
-    remoteUrl: 'http://altdriver.staging.wpengine.com',
+    remoteUrl: 'http://devaltdriver.wpengine.com',
     basePath: '/wp-json/wp/v2/',
     site: 'altdriver'
 };
@@ -866,12 +862,12 @@ angular.module('NewsFeed').factory(
 //Controller Modules
 angular.module('NewsFeed').controller(
     'AppController',
-    ['$rootScope', '$scope', 'FeedService', Controllers.AppController]
+    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.AppController]
 );
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
 );
 
 angular.module('NewsFeed').controller(
@@ -893,7 +889,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_1035e4bd.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ce25f36a.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":21,"angular":17,"angular-resource":11,"angular-route":13,"angular-sanitize":15,"buffer":18,"ng-infinite-scroll":22}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';

@@ -1,7 +1,7 @@
 'use strict';
 
 
-var AppController = function($rootScope, $scope, FeedService) {
+var AppController = function($rootScope, $scope, FeedService, envConfig) {
 
     this.name = 'app';
 
@@ -48,6 +48,8 @@ var AppController = function($rootScope, $scope, FeedService) {
     $scope.getSubmit = function(){
         FeedService.getPage('submit').then(function(res){
             angular.element('#submitPage').find('.content').html(res[0].content.rendered);
+            angular.element('#submitPage').find('.content').find('form').attr('action','/submit');
+            angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
         });
     };
 

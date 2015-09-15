@@ -4,7 +4,9 @@ var express = require('express'),
     app = express(),
     path = require('path'),
     request = require('request'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    util = require('util'),
+    multiparty = require('multiparty');
 
 var EXPRESS_PORT = 80,
     EXPRESS_HOST = '172.31.8.101',
@@ -13,7 +15,7 @@ var EXPRESS_PORT = 80,
 
 app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + '/tests'));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.raw({extended:true}));
 
 app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
@@ -28,7 +30,20 @@ app.get('/submit', function(req,res){
 });
 
 app.post('/submit', function(req,res){
-    console.log(req.headers);
+    var form = new multiparty.Form();
+
+    form.parse(req, function(err, fields, files) {
+        var uri = fields['remoteHost'];
+        /*res.writeHead(200, {'content-type': 'text/plain'});
+        res.write('received upload:\n\n');
+        res.end(util.inspect({fields: fields, files: files}));*/
+        request.post({url:'http://devaltdriver.wpengine.com/wp-admin/admin-ajax.php?action=ninja_forms_ajax_submit', form:fields.fields}, function(error, response, body){
+            console.log('error: ', error,'body: ',body,'response: ',response);
+            res.writeHead(200, {'content-type': 'text/plain'});
+            res.write(body);
+            res.end();
+        });
+    });
 });
 
 app.get('/category/:category', function(req,res){
