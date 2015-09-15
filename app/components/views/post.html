@@ -4,16 +4,16 @@
 
             <div ng-switch="currentView">
 
-                <div ng-switch-when="list">
+                <div ng-switch-when="list" class="list-view">
                     <ng-include src="'/views/partials/post-list.html'"></ng-include>
                 </div>
 
-                <div ng-switch-when="post">
+                <div ng-switch-when="post" class="single-view">
                     <ng-include src="'/views/partials/post-single.html'"></ng-include>
                 </div>
 
             </div>
-            <ng-include src="'/shared/share-icons.html'"></ng-include>
+            <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>
         </div><!-- /ng-repeat -->
     </div>
 

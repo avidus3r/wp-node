@@ -123,7 +123,11 @@ body{
 // tighten display and set position for absolute children
 .feed-item {
   margin: 0 auto 1em;
-  position: relative;
+  
+  // the inner div for the angular switch
+  & > div {
+    position: relative;
+  }
 }
 
 // TODO - this maybe should go to the main CSS
