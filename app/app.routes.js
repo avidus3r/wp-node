@@ -18,6 +18,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
             templateUrl: '/views/post.html',
             redirectTo: false
         })
+        .when('/submit',{
+            templateUrl: '/views/submit.html'
+        })
         .otherwise({
             redirectTo: '/'
         });

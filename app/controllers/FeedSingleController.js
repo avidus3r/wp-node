@@ -109,6 +109,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         );
     };
 
+    $scope.attachCommentsHandler = function(){
+        $scope.$watch('$viewContentLoaded', function(){
+            angular.element('#commentHook').on('click', function(){
+                $scope.toggleComments();
+            });
+        });
+    };
+
     $scope.toggleComments = function(){
         angular.element('.fb-wrapper').toggle();
         var currentState = angular.element('#commentHook span').text();
@@ -236,14 +244,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
-    };
-
-    $scope.vote = function(item, vote, $event){
-        $event.preventDefault();
-        $event.cancelBubble = true;
-        FeedService.vote(item.id, vote).then(function(res){
-            $scope.voteTally = res;
-        });
     };
 
 };

@@ -1,5 +1,5 @@
-<p class="votes right">
-    <button type="button" ng-click="vote(item,'1', $event)" name="up"><i class="fa fa-thumbs-o-up"></i></button>
-    <button type="button" ng-click="vote(item,'-1', $event)" name="down"><i class="fa fa-thumbs-o-down"></i></button>
-    {{ item.votes.votes_tally }}
+<p id="votes-{{ item.id }}" class="votes right" ng-init="voteLoad(item.id, $index)">
+    <button type="button" ng-click="vote(item.id, 'up', $event)" data-post-id="{{ item.id }}" class="up" name="up"><i class="fa fa-thumbs-up"></i></button>
+    <button type="button" ng-click="vote(item.id, 'down', $event)" data-post-id="{{ item.id }}" class="down" name="down"><i class="fa fa-thumbs-down"></i></button>
+    <span class="vote-count">{{ item.votes.total_votes }}</span>
 </p>

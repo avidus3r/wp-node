@@ -92,9 +92,9 @@
     padding: 0;
     line-height: 1.5em;
   }
-
+  
   .votes{
-    a{
+    button{
       background: none;
       border: none;
       &[name="up"]{
@@ -103,9 +103,13 @@
       &[name="down"]{
         color:$color-ad-red;
       }
-    }
-    .fa{
-      font-size: 1.25em;
+      .fa{
+        font-size: 1.25em;
+      }
+
+      &[disabled="disabled"]{
+        color:grey;
+      }
     }
   }
 
@@ -116,6 +120,18 @@
   .item-cat {
     @extend .right;
   }
+}
+
+.post-view.feed{
+  .votes{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+#submitPage{
+  padding:0 1em;
 }
 
 // single post view CSS
