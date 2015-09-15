@@ -5,7 +5,7 @@
         </div>
         <div class="ad-m-lr left pa-comments">
             <!-- take me to single with comments open -->
-            <button class="btn"><i class="fa fa-comment"></i></button>
+            <a href="/{{getCategory(item.category, item.link).slug + '/' + item.slug}}/" class="btn"><i class="fa fa-comment"></i></a>
         </div>
         <div class="right pa-share">
             <button type="button" ng-click="shareVisible = !shareVisible" class="btn">
