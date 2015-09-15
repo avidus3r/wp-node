@@ -7,7 +7,7 @@
             <span class="clearfix"></span>
         </div>
 
-        <div class="post-content">{{ renderContent(item.content.rendered, $index, false) }}</div>
+        <div class="post-content" ng-bind-html="renderContent(item.content.rendered, $index, false)"></div>
         <ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>
     </div>
     <!-- /ng-switch-when [render the requested post] -->

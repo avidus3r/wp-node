@@ -1,14 +1,9 @@
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
+var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig, $sce) {
 
     this.name = 'single';
     this.params = $routeParams;
-    this.rootScope = $rootScope;
-    this.FeedService = FeedService;
-    this.route = $route;
-    this.location = $location;
-    this.envConfig = envConfig;
     this.scope = $scope;
 
     $scope.renderedOnce = false;
@@ -47,7 +42,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             $scope.singlePostID = item.id;
             $scope.createFeedItem(item, $scope.feedItems.length);
             $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
-            return item;
         });
     };
 
@@ -176,11 +170,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.renderContent = function(content,index, fromClick){
 
+        //post.html(content);
+
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
-
-        post.html(content);
-
         var expectedEmbed = post.find('iframe');
 
 
@@ -188,6 +181,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             expectedEmbed.addClass('video-container');
             $scope.resizeEmbed(expectedEmbed);
         }
+        return $sce.trustAsHtml(content);
     };
 
     $scope.resizeEmbed = function(embed){
@@ -239,10 +233,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemPosition += 1;
     };
 
-    $scope.goToPage = function(e, lastIndex, linkParams){
+    /*$scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
-    };
+    };*/
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;

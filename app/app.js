@@ -54,7 +54,7 @@ angular.module('NewsFeed').controller(
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
 );
 
 angular.module('NewsFeed').controller(
