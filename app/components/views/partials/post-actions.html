@@ -1,0 +1,19 @@
+<div class="post-actions clearfix">
+    <div class="ad-m">
+        <div class="left pa-voting">
+            <ng-include src="'/views/partials/voting.html'"></ng-include>
+        </div>
+        <div class="ad-m-lr left pa-comments">
+            <!-- take me to single with comments open -->
+            <a href="/{{getCategory(item.category, item.link).slug + '/' + item.slug}}/" class="btn"><i class="fa fa-comment"></i></a>
+        </div>
+        <div class="right pa-share">
+            <button type="button" ng-click="shareVisible = !shareVisible" class="btn">
+                Share
+            </button>
+        </div>
+    </div>
+    <div class="share-icon-wrapper ng-hide" ng-show="shareVisible">
+        <ng-include src="'/shared/share-icons.html'"></ng-include>
+    </div>
+</div>
