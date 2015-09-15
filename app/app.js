@@ -8,7 +8,7 @@ require('../assets/js/angular-metatags.min');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
-    remoteUrl: 'http://altdriver.staging.wpengine.com',
+    remoteUrl: 'http://www.altdriver.com',
     basePath: '/wp-json/wp/v2/',
     site: 'altdriver'
 };

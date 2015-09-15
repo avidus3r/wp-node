@@ -21,6 +21,10 @@ app.get('/', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
+app.get('/submit', function(req,res){
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
 app.get('/category/:category', function(req,res){
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
         var feed = {};

@@ -45,6 +45,12 @@ var AppController = function($rootScope, $scope, FeedService) {
         );
     };
 
+    $scope.getSubmit = function(){
+        FeedService.getPage('submit').then(function(res){
+            angular.element('#submitPage').find('.content').html(res[0].content.rendered);
+        });
+    };
+
     $scope.getNavItems = function(){
         return FeedService.getNavItems().then(
             function(data){

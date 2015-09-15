@@ -4,7 +4,7 @@ var FeedService = function(envConfig, $http, $q){
     var feed = {};
     feed.endpoints = {
         url: 'http://local.altdriver.com',
-        remoteUrl: 'http://altdriver.staging.wpengine.com',
+        remoteUrl: 'http://www.altdriver.com',
         basePath: '/wp-json/wp/v2/',
         site: 'altdriver'
     };
@@ -38,9 +38,24 @@ var FeedService = function(envConfig, $http, $q){
 
         var oReq = new XMLHttpRequest();
 
-        oReq.open('GET', url, true);
-        oReq.send();
+        oReq.open('POST', url, true);
+        oReq.send('vote='+voteVal);
         return oReq;
+    };
+
+    feed.getPage = function(page){
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'pages?name=' + page;
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
     };
 
     feed.getTerms = function(taxonomy){

@@ -32,6 +32,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
             templateUrl: '/views/post.html',
             redirectTo: false
         })
+        .when('/submit',{
+            templateUrl: '/views/submit.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -155,6 +158,12 @@ var AppController = function($rootScope, $scope, FeedService) {
 
             }
         );
+    };
+
+    $scope.getSubmit = function(){
+        FeedService.getPage('submit').then(function(res){
+            console.log(res);
+        });
     };
 
     $scope.getNavItems = function(){
@@ -882,7 +891,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_560c6db5.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2270f9b1.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":21,"angular":17,"angular-resource":11,"angular-route":13,"angular-sanitize":15,"buffer":18,"ng-infinite-scroll":22}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -928,6 +937,21 @@ var FeedService = function(envConfig, $http, $q){
         oReq.open('GET', url, true);
         oReq.send();
         return oReq;
+    };
+
+    feed.getPage = function(page){
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'pages?name=' + page;
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
     };
 
     feed.getTerms = function(taxonomy){
