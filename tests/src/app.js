@@ -601,13 +601,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.postParams = '?name=' + $routeParams.slug;
 
     $scope.getPost = function(){
-        //var req = FeedService.vote($scope.postPath, $scope.postParams);
-        var oReq = new XMLHttpRequest();
-        var url = envConfig.remoteUrl + envConfig.basePath + $scope.postPath + $scope.postParams;
-        oReq.open('GET', url, true);
-        oReq.send();
-        oReq.addEventListener('load', function () {
-            var data = JSON.parse(this.responseText);
+        return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
             var item = data[0];
 
             $scope.initMeta(item);
@@ -616,9 +610,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
             return item;
         });
-        /*return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
-
-        });*/
     };
 
     $scope.getPost();
@@ -663,18 +654,20 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        //var req = FeedService.vote($scope.postPath, $scope.postParams);
-        var oReq = new XMLHttpRequest();
-        var url = envConfig.remoteUrl + envConfig.basePath + postPath + pagingParams;
-        oReq.open('GET', url, true);
-        oReq.send();
-        oReq.addEventListener('load', function () {
-            var data = this.responseText;
-            angular.forEach(data, function (item, index) {
-                $scope.createFeedItem(item, $scope.feedItems.length);
-            });
-            $scope.$emit('list:next');
-        });
+        FeedService.getPosts(postPath, pagingParams).then(
+            function(data){ //success
+                angular.forEach(data, function (item, index) {
+                    $scope.createFeedItem(item, $scope.feedItems.length);
+                });
+                $scope.$emit('list:next');
+            },
+            function(reason){   //error
+                console.error('Failed: ', reason);
+            },
+            function(update) {  //notification
+                console.debug('Got notification: ' + update);
+            }
+        );
     };
 
     $scope.attachCommentsHandler = function(){
@@ -900,7 +893,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f644efb6.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_1035e4bd.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":21,"angular":17,"angular-resource":11,"angular-route":13,"angular-sanitize":15,"buffer":18,"ng-infinite-scroll":22}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -909,7 +902,7 @@ var FeedService = function(envConfig, $http, $q){
     var feed = {};
     feed.endpoints = {
         url: 'http://local.altdriver.com',
-        remoteUrl: 'http://www.altdriver.com',
+        remoteUrl: 'http://devaltdriver.wpengine.com',
         basePath: '/wp-json/wp/v2/',
         site: 'altdriver'
     };
@@ -919,10 +912,9 @@ var FeedService = function(envConfig, $http, $q){
     feed.lastOffset = null;
 
     feed.getPosts = function(path, params) {
-        //var deferred = $q.defer();
-        console.log(path);
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'post' + params;
-        /*$http.get(url)
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
+        $http.get(url)
             .then(function (response) {
                 var res = response.data;
                 deferred.resolve(res);
@@ -930,13 +922,7 @@ var FeedService = function(envConfig, $http, $q){
                 deferred.reject(response);
             });
 
-        return deferred.promise;*/
-
-        var oReq = new XMLHttpRequest();
-
-        oReq.open('GET', url, true);
-        oReq.send();
-        return oReq;
+        return deferred.promise;
     };
 
     feed.getData = function(){

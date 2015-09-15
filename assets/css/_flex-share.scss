@@ -5,6 +5,7 @@
   flex-wrap: nowrap;
   @include flex-justify-content(center);
   position: fixed;
+  position: relative;
   width:100%;
   left: calc(100% - 3.75em);
   bottom: 30%;

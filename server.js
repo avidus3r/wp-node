@@ -3,7 +3,8 @@
 var express = require('express'),
     app = express(),
     path = require('path'),
-    request = require('request');
+    request = require('request'),
+    bodyParser = require('body-parser');
 
 var EXPRESS_PORT = 3000,
     //EXPRESS_HOST = '192.168.1.88',
@@ -12,6 +13,7 @@ var EXPRESS_PORT = 3000,
 
 app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + '/tests'));
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
@@ -23,6 +25,10 @@ app.get('/', function(req,res){
 
 app.get('/submit', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
+app.post('/submit', function(req,res){
+    console.log(req.headers);
 });
 
 app.get('/category/:category', function(req,res){
