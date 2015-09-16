@@ -1,5 +1,5 @@
 describe('FeedListController', function(){
-    beforeEach(module('NewsFeed'));
+    beforeEach(angular.mock.module('NewsFeed'));
 
     var $controller;
 
