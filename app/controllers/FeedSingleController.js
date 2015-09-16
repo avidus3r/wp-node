@@ -233,10 +233,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemPosition += 1;
     };
 
-    /*$scope.goToPage = function(e, lastIndex, linkParams){
+    $scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
         $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
-    };*/
+    };
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
