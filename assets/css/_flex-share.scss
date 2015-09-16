@@ -6,6 +6,7 @@
   @include flex-justify-content(center);
   position: relative;
   width:100%;
+  clear: left;
 }
 .fs-item {
   flex-grow:1;
@@ -32,9 +33,21 @@
   font-size: .75em;
   width: 4.75em;
   text-align: center;
+  border: 0;
 
   i.fa-3x{
     line-height: 1.75em;
+  }
+}
+
+// ios specific flexbox reverts
+.ios .flexshare {
+  display: block;
+  .fs-item,
+  .fs-item:visited {
+    display: block;
+    float: left;
+    width: percentage(1/6);
   }
 }
 
