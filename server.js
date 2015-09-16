@@ -37,7 +37,7 @@ app.post('/submit', function(req,res){
         /*res.writeHead(200, {'content-type': 'text/plain'});
         res.write('received upload:\n\n');
         res.end(util.inspect({fields: fields, files: files}));*/
-        request.post({url:'http://devaltdriver.wpengine.com/wp-admin/admin-ajax.php?action=ninja_forms_ajax_submit', form:fields.fields}, function(error, response, body){
+        request.post({url:'http://devaltdriver.wpengine.com/submit', form:fields.fields}, function(error, response, body){
             console.log('error: ', error,'body: ',body,'response: ',response);
             res.writeHead(200, {'content-type': 'text/plain'});
             res.write(body);
