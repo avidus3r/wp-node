@@ -42,6 +42,13 @@
   }
 }
 
+// hackity hack hide when nav changes
+@media all and (min-width: $nav-switch + 1px) {
+  .hidden-md-altd {
+    display: none !important;
+  }
+}
+
 .feed-item {
   background: #fff;
   color:#666;
