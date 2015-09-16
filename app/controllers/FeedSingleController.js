@@ -105,6 +105,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
+            angular.element('.fb-wrapper').hide();
             angular.element('#commentHook').on('click', function(e){
                 $scope.toggleComments(e);
             });
