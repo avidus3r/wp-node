@@ -14,12 +14,14 @@
 // submit story button
 .btn-submit-story {
   @extend .ad-m-r;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
   float: right;
   cursor: pointer;
 }
 
 .collapse.in, .collapsing{
-  .btn-submit-story {
+  .nav-submit {
       display: none;
   }
 }
