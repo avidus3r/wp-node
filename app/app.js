@@ -16,6 +16,9 @@ var feedConfig = {
 //Controllers
 var Controllers = require('./app.controllers');
 
+//Directives
+var Directives = require('./app.directives');
+
 //Services
 var FeedService = require('./services/FeedService');
 
@@ -26,27 +29,10 @@ var Router = require('./app.routes');
 //Main Module
 var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
 
-
 /*
- * Module Configuration
+ * Module Controllers
  */
 
-angular.module('NewsFeed').run(function(MetaTags){
-    MetaTags.initialize();
-});
-
-angular.module('NewsFeed').constant('envConfig', feedConfig);
-
-angular.module('NewsFeed').factory(
-    'FeedService',
-    ['envConfig', '$http', '$q', FeedService]
-);
-
-/*
- * Module Configuration
- */
-
-//Controller Modules
 angular.module('NewsFeed').controller(
     'AppController',
     ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.AppController]
@@ -67,9 +53,45 @@ angular.module('NewsFeed').controller(
     ['$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
 );
 
+/*
+ * Module Controllers
+ */
+
+
+/*
+ * Module Directives
+ */
+
+angular.module('NewsFeed').directive('card', Directives.card);
+
+/*
+ * Module Directives
+ */
+
+
+/*
+ * Module Configuration
+ */
+
+angular.module('NewsFeed').run(function(MetaTags){
+    MetaTags.initialize();
+});
+
 angular.module('NewsFeed').config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', '$rootScopeProvider', Router]
 );
+
+angular.module('NewsFeed').constant('envConfig', feedConfig);
+
+angular.module('NewsFeed').factory(
+    'FeedService',
+    ['envConfig', '$http', '$q', FeedService]
+);
+
+/*
+ * Module Configuration
+ */
+
 
 window.onerror = function(){
     console.error(arguments);

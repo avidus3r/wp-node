@@ -18,8 +18,14 @@
   cursor: pointer;
 }
 
+// navigation submit button wide view
+.navbar-nav > li > a.btn-submit-story {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
 .collapse.in, .collapsing{
-  .btn-submit-story {
+  .nav-submit {
       display: none;
   }
 }
@@ -33,6 +39,13 @@
 @media all and (max-width: $nav-switch - 1px) {
   .visible-md-altd {
     display: block !important;
+  }
+}
+
+// hackity hack hide when nav changes
+@media all and (min-width: $nav-switch + 1px) {
+  .hidden-md-altd {
+    display: none !important;
   }
 }
 

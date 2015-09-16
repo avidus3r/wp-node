@@ -15,7 +15,7 @@
                 <a href="/submit" class="btn btn-default navbar-btn visible-md-altd btn-submit-story">Upload</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right nav-submit">
                     <li>
                         <a href="/submit" type="button" class="btn btn-default navbar-btn btn-submit-story">Upload</a>
                     </li>
@@ -24,6 +24,10 @@
                     <li ng-repeat="item in navItems" ng-click="collapseNav()">
                         <a href="/category/{{item.slug}}" ng-bind-html="item.title"></a>
                     </li>
+                    <!-- these are in altdriver main wordpress as menu>legal -->
+                    <li class="hidden-md-altd"><a href="#">Contact</a></li>
+                    <li class="hidden-md-altd"><a href="#">Privacy Policy</a></li>
+                    <li class="hidden-md-altd"><a href="#">Visitor Agreement</a></li>
                 </ul>
             </div>
         </div>
