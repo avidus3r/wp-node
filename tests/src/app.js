@@ -161,11 +161,27 @@ var AppController = function($rootScope, $scope, FeedService, envConfig) {
     };
 
     $scope.getSubmit = function(){
-        FeedService.getPage('submit').then(function(res){
+
+
+        setTimeout(function(){
+            //jQuery.support.cors = true;
+            var contents = angular.element('#submitPage').find('iframe').contents().height();
+            console.log(contents);
+            debugger;
+
+        },2000);
+        angular.element('html').css({'height':'100%'});
+        angular.element('body').css({'height':'100%'});
+        angular.element('.view-container').css({'height':'100%'});
+        angular.element('#submitPage').css({'height':'100%', 'padding':'0'});
+        angular.element('#submitPage').find('iframe').contents().find('#wpadminbar').hide();
+        angular.element('#submitPage').find('iframe').contents().find('#main-head').hide();
+
+        /*FeedService.getPage('submit').then(function(res){
             angular.element('#submitPage').find('.content').html(res[0].content.rendered);
             angular.element('#submitPage').find('.content').find('form').attr('action','/submit');
             angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
-        });
+        });*/
     };
 
     $scope.getNavItems = function(){
@@ -821,7 +837,7 @@ require('../assets/js/angular-metatags.min');
 
 var feedConfig = {
     url: 'http://local.altdriver.com',
-    remoteUrl: 'http://devaltdriver.wpengine.com',
+    remoteUrl: 'http://www.altdriver.com',
     basePath: '/wp-json/wp/v2/',
     site: 'altdriver'
 };
@@ -889,7 +905,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2e86397c.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_fdeffc8f.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":21,"angular":17,"angular-resource":11,"angular-route":13,"angular-sanitize":15,"buffer":18,"ng-infinite-scroll":22}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -898,7 +914,7 @@ var FeedService = function(envConfig, $http, $q){
     var feed = {};
     feed.endpoints = {
         url: 'http://local.altdriver.com',
-        remoteUrl: 'http://devaltdriver.wpengine.com',
+        remoteUrl: 'http://www.altdriver.com',
         basePath: '/wp-json/wp/v2/',
         site: 'altdriver'
     };
