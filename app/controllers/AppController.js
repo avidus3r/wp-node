@@ -21,7 +21,7 @@ var AppController = function($rootScope, $scope, FeedService, envConfig) {
         if ( mobileUAStr.test(navigator.userAgent) ){
             result = mobileUAStr.exec(navigator.userAgent);
             var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
-            return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
+            return iso + 'mobile ' + result[0].toLowerCase().replace(' ','-');
         }else if( desktopUAStr.test(navigator.userAgent) ){
             result = desktopUAStr.exec(navigator.userAgent);
             return 'desktop ' + result[0].toLowerCase().replace(' ','-');
