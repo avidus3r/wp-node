@@ -162,18 +162,23 @@ var AppController = function($rootScope, $scope, FeedService, envConfig) {
 
     $scope.getSubmit = function(){
 
+        angular.element('#submitPage').css({'overflow':'hidden'});
+        var iframeEl = angular.element('#submitPage').find('iframe');
+        iframeEl.css({'margin-top':'-50px', 'border':'none'});
+        var iframe = document.querySelector('#submitIframe');
 
         setTimeout(function(){
-            //jQuery.support.cors = true;
-            var contents = angular.element('#submitPage').find('iframe').contents().height();
-            console.log(contents);
-            debugger;
 
-        },2000);
-        angular.element('html').css({'height':'100%'});
-        angular.element('body').css({'height':'100%'});
+            //iframe.contentWindow.postMessage('hi','http://devaltdriver.wpengine.com');
+            iframeEl.css({'margin-top':'0px'});
+            angular.element('.view-container').height(angular.element(iframe).height());
+        },3000);
+
         angular.element('.view-container').css({'height':'100%'});
         angular.element('#submitPage').css({'height':'100%', 'padding':'0'});
+        angular.element('html').css({'height':'100%'});
+        angular.element('body').css({'height':'100%'});
+
         angular.element('#submitPage').find('iframe').contents().find('#wpadminbar').hide();
         angular.element('#submitPage').find('iframe').contents().find('#main-head').hide();
 
@@ -905,7 +910,7 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_fdeffc8f.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_acaad2de.js","/")
 },{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":21,"angular":17,"angular-resource":11,"angular-route":13,"angular-sanitize":15,"buffer":18,"ng-infinite-scroll":22}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
