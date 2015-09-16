@@ -11,6 +11,10 @@
   background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-9 */
 
+  // icons increase font -size
+  .ad-m i.fa {
+    font-size: 1.4em;
+  }
 
   button {
     height: 2.5em;
@@ -22,7 +26,7 @@
     background: #fff;
     border: 1px solid #ccc;
     color: #666;
-    opacity: 0.65;
+    opacity: 1;
   }
 
   // space the comments out a bit
