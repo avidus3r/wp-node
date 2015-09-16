@@ -16,4 +16,4 @@ node_modules/
 tmp/
 dist/
 build/
-tests/src/app.mock.js
+tests/src/
