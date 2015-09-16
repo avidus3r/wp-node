@@ -2,10 +2,57 @@ body{
   font-family: $font-montserrat, Calibri, Helvetica, Arial; // altD fonts
 }
 
+    // custom navigation styles Bootstrap overrides
+    @media all and (max-width:1024px) {
+      .navbar-nav {
+        background: #666;
+      }
+
+      // make the expandable nav colors different
+      .nav > li {
+        display: inline-block;
+
+        color: #fff;
+
+        a,
+        a:visited {
+          color: #fff !important;
+        }
+      }
+    }
+
+    // two columns in nav
+    @media all and (max-width: 399px) {
+      .nav > li {
+        display: inline-block;
+        width: 50%;
+
+        color: #fff;
+
+        a,
+        a:visited {
+          color: #fff !important;
+        }
+      }
+    }
+
+    @media all and (min-width: 400px ) and (max-width: 669px) {
+      // 3 columns nav
+      .nav > li {
+        width: 33.3333%;
+      }
+    }
+
+    @media all and (min-width: 670px ) and (max-width:1024px) {
+      // 4 columns nav
+      .nav > li {
+        width: 25%;
+      }
+    }
+
 .btn-primary {
   background-color: $color-ad-green;
 }
-
 
 // display title OVER video screeny
 .post-content h2.post-title{
@@ -123,7 +170,7 @@ body{
 // tighten display and set position for absolute children
 .feed-item {
   margin: 0 auto 1em;
-  
+
   // the inner div for the angular switch
   & > div {
     position: relative;
