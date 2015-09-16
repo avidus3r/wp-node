@@ -41,6 +41,7 @@
 }
 
 // ios specific flexbox reverts
+// ios imporoperly supports flexbox - revert to floats for now.
 .ios .flexshare {
   display: block;
   .fs-item,
