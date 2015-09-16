@@ -39,15 +39,15 @@ describe('AppController', function(){
         it('should equal mobile iphone', function(){
             console.log($route);
             navigator.__defineGetter__('userAgent', function(){return userAgentStrings[0];});
-            expect($scope.isMobile()).toEqual('mobile iphone');
+            expect($scope.isMobile()).toEqual('ios mobile iphone');
         });
         it('should equal mobile ipad', function(){
             navigator.__defineGetter__('userAgent', function(){return userAgentStrings[1];});
-            expect($scope.isMobile()).toEqual('mobile ipad');
+            expect($scope.isMobile()).toEqual('ios mobile ipad');
         });
         it('should equal mobile ipod', function(){
             navigator.__defineGetter__('userAgent', function(){return userAgentStrings[2];});
-            expect($scope.isMobile()).toEqual('mobile ipod');
+            expect($scope.isMobile()).toEqual('ios mobile ipod');
         });
         it('should equal mobile android', function(){
             navigator.__defineGetter__('userAgent', function(){return userAgentStrings[3];});

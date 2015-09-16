@@ -1,7 +1,7 @@
 'use strict';
 
 
-var AppController = function($rootScope, $scope, FeedService, envConfig) {
+var AppController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
 
     this.name = 'app';
 
@@ -149,6 +149,19 @@ var AppController = function($rootScope, $scope, FeedService, envConfig) {
             var result = this.responseText;
             console.log(result);
         });
+    };
+
+    $scope.commentBtnHandler = function($event, $index, urlParams){
+        if($routeParams === urlParams){
+            $scope.$broadcast('toggleComments');
+        }else{
+            $rootScope.toggleComments = '1';
+            $scope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $scope.goToPage = function($event, $index, linkParams){
+        $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
 };

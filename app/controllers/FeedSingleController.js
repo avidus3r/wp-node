@@ -25,14 +25,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.lastOffset = $scope.$parent.lastOffset || null;
     $scope.voteTally = 0;
 
-
     $scope.postPath = 'posts';
-
     $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
-
     $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
-
     $scope.postParams = '?name=' + $routeParams.slug;
+
+    $scope.$on('$viewContentLoaded', function(){
+       $scope.onViewLoaded();
+    });
 
     $scope.getPost = function(){
         return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
@@ -112,6 +112,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.toggleComments = function(event){
+        console.log('toggleComments: ', event);
         event.preventDefault();
         event.stopPropagation();
         angular.element('.fb-wrapper').toggle();
@@ -240,6 +241,25 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
+    };
+
+    $scope.commentBtnHandler = function($event, $index, urlParams){
+
+        if($routeParams.slug === urlParams.slug){
+            angular.element('#commentHook').trigger('click');
+        }else{
+            $rootScope.toggleComments = '1';
+            $scope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $scope.onViewLoaded = function(){
+        if($rootScope.toggleComments === '1'){
+            setTimeout(function(){
+                angular.element('#commentHook').trigger('click');
+                $rootScope.toggleComments = null;
+            },1500);
+        }
     };
 
 };

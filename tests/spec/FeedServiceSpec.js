@@ -1,6 +1,6 @@
 describe('FeedService', function(){
     var $feedService;
-    beforeEach(module('NewsFeed'));
+    beforeEach(angular.mock.module('NewsFeed'));
 
     beforeEach(function(){
         inject(function($injector) {

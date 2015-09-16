@@ -2,7 +2,7 @@ describe('FeedSingleController', function(){
     var $controller;
 
     beforeEach(function() {
-        beforeEach(module('NewsFeed'));
+        beforeEach(angular.mock.module('NewsFeed'));
         inject(function (_$controller_) {
             $controller = _$controller_;
         });

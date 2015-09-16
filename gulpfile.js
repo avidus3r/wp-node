@@ -18,7 +18,7 @@ var gulp            = require('gulp'),
     cssmin          = require('gulp-cssmin');
 
 var paths   = {
-    js: ['app/**/*.js'],
+    js: ['app/**/*.js', '!tests/**/*.js'],
     sass: ['assets/**/*.scss'],
     assets:['assets/**/*.*', '!assets/**/*.scss'],
     templates: ['app/components/**/*.html'],
@@ -39,7 +39,7 @@ gulp.task('templates', function(){
 });
 
 gulp.task('tests', function(){
-    gulp.src('app/app.js')
+    gulp.src('app/app.mock.js')
         .pipe(browserify({
             insertGlobals: true
         }))
@@ -194,5 +194,5 @@ gulp.task('watch', function () {
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts', 'tests',  callback);
+    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts', callback);
 });
