@@ -49,7 +49,7 @@ angular.module('NewsFeed').factory(
 //Controller Modules
 angular.module('NewsFeed').controller(
     'AppController',
-    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.AppController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.AppController]
 );
 
 angular.module('NewsFeed').controller(

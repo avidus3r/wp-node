@@ -1,7 +1,7 @@
 'use strict';
 
 
-var AppController = function($rootScope, $scope, FeedService, envConfig) {
+var AppController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
 
     this.name = 'app';
 
@@ -21,7 +21,7 @@ var AppController = function($rootScope, $scope, FeedService, envConfig) {
         if ( mobileUAStr.test(navigator.userAgent) ){
             result = mobileUAStr.exec(navigator.userAgent);
             var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
-            return iso + 'mobile ' + result[0].toLowerCase().replace(' ','-');
+            return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
         }else if( desktopUAStr.test(navigator.userAgent) ){
             result = desktopUAStr.exec(navigator.userAgent);
             return 'desktop ' + result[0].toLowerCase().replace(' ','-');
@@ -149,6 +149,19 @@ var AppController = function($rootScope, $scope, FeedService, envConfig) {
             var result = this.responseText;
             console.log(result);
         });
+    };
+
+    $scope.commentBtnHandler = function($event, $index, urlParams){
+        if($routeParams === urlParams){
+            $scope.$broadcast('toggleComments');
+        }else{
+            $rootScope.toggleComments = '1';
+            $scope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $scope.goToPage = function($event, $index, linkParams){
+        $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
     };
 
 };

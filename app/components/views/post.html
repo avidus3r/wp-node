@@ -1,7 +1,7 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="2">
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
-
+            <!--<ng-if="$index%4===0"></ng-if>-->
             <div ng-switch="currentView">
 
                 <div ng-switch-when="list" class="list-view">

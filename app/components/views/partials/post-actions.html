@@ -5,7 +5,7 @@
         </div>
         <div class="ad-m-lr left pa-comments">
             <!-- take me to single with comments open -->
-            <a href="/{{getCategory(item.category, item.link).slug + '/' + item.slug}}/" class="btn"><i class="fa fa-comment"></i></a>
+            <button type="button" ng-click="commentBtnHandler($event, $index, {category: getCategory(item.category, item.link).slug, slug: item.slug})" class="btn"><i class="fa fa-comment"></i></button>
         </div>
         <div class="right pa-share">
             <button type="button" ng-click="shareVisible = !shareVisible" class="btn">
