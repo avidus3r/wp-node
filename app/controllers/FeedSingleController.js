@@ -260,7 +260,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         if($routeParams.slug === urlParams.slug){
             angular.element('#commentHook').trigger('click');
         }else{
-            $rootScope.toggleComments = '1';
             urlParams.slug = urlParams.slug + '#comment';
             $scope.goToPage($event, $index, urlParams);
         }

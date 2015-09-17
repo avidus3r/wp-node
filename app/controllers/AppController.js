@@ -155,13 +155,13 @@ var AppController = function($rootScope, $scope, FeedService, $route, $routePara
         if($routeParams === urlParams){
             $scope.$broadcast('toggleComments');
         }else{
-            $rootScope.toggleComments = '1';
+            urlParams.slug = urlParams.slug + '#comment';
             $scope.goToPage($event, $index, urlParams);
         }
     };
 
     $scope.goToPage = function($event, $index, linkParams){
-        $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
+        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 
 };
