@@ -116,7 +116,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         console.log('toggleComments: ', event);
         event.preventDefault();
         event.stopPropagation();
-
         var currentState = angular.element('#commentHook span').text();
         var newState = '';
         if(currentState === '+ View Responses'){
@@ -126,6 +125,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             newState = '+ View Responses';
             angular.element('.fb-wrapper').css({'height': '0'});
         }
+
         angular.element('#commentHook span').text(newState);
     };
 
@@ -244,7 +244,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
-        $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
+        window.location = '/' + linkParams.category + '/' + linkParams.slug;
     };
 
     $scope.getVoteTally = function(){
@@ -257,12 +257,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             angular.element('#commentHook').trigger('click');
         }else{
             $rootScope.toggleComments = '1';
+            urlParams.slug = urlParams.slug + '#comments';
             $scope.goToPage($event, $index, urlParams);
         }
     };
 
     $scope.onViewLoaded = function(){
-        if($rootScope.toggleComments === '1'){
+        if($location.hash() === 'comments'){
             setTimeout(function(){
                 angular.element('#commentHook').trigger('click');
                 $rootScope.toggleComments = null;
