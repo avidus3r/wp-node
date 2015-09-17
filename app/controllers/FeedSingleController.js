@@ -105,7 +105,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
-            //angular.element('.fb-wrapper').hide();
+            angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
             angular.element('#commentHook').on('click', function(e){
                 $scope.toggleComments(e);
             });
@@ -116,9 +116,16 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         console.log('toggleComments: ', event);
         event.preventDefault();
         event.stopPropagation();
-        angular.element('.fb-wrapper').toggle();
+
         var currentState = angular.element('#commentHook span').text();
-        var newState = currentState === '+ View Responses' ? '- Close Responses' : '+ View Responses';
+        var newState = '';
+        if(currentState === '+ View Responses'){
+            newState = '- Close Responses';
+            angular.element('.fb-wrapper').css({'height': 'auto'});
+        }else{
+            newState = '+ View Responses';
+            angular.element('.fb-wrapper').css({'height': '0'});
+        }
         angular.element('#commentHook span').text(newState);
     };
 
