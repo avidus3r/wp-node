@@ -3,7 +3,7 @@ body{
 }
 
     // custom navigation styles Bootstrap overrides
-    @media all and (max-width:1024px) {
+    @media all and (max-width:$nav-switch) {
       .navbar-nav {
         background: #666;
       }
@@ -24,15 +24,7 @@ body{
     // two columns in nav
     @media all and (max-width: 399px) {
       .nav > li {
-        display: inline-block;
         width: 50%;
-
-        color: #fff;
-
-        a,
-        a:visited {
-          color: #fff !important;
-        }
       }
     }
 
@@ -43,7 +35,7 @@ body{
       }
     }
 
-    @media all and (min-width: 670px ) and (max-width:1024px) {
+    @media all and (min-width: 670px ) and (max-width:$nav-switch) {
       // 4 columns nav
       .nav > li {
         width: 25%;
