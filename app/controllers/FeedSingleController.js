@@ -125,7 +125,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             newState = '+ View Responses';
             angular.element('.fb-wrapper').css({'height': '0'});
         }
-
         angular.element('#commentHook span').text(newState);
     };
 

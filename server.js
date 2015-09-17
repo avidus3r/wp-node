@@ -8,9 +8,9 @@ var express = require('express'),
     util = require('util'),
     multiparty = require('multiparty');
 
-var EXPRESS_PORT = 80,
-    EXPRESS_HOST = '172.31.8.101',
-    //EXPRESS_HOST = '127.0.0.1',
+var EXPRESS_PORT = 3000,
+    //EXPRESS_HOST = '172.31.8.101',
+    EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
 
 app.use(express.static(EXPRESS_ROOT));

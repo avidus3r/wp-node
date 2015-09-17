@@ -50,8 +50,8 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <!--<script id="facebook-jssdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.4"></script>
-    <script async="" src="//connect.facebook.net/en_US/fbevents.js"></script>-->
+    <script id="facebook-jssdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.4"></script>
+    <!--<script async="" src="//connect.facebook.net/en_US/fbevents.js"></script>-->
 
     <script type="text/javascript" src="/js/app.js"></script>
 
@@ -86,6 +86,15 @@
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=829799350468084";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
+
+    <script type="text/javascript">
+        var finished_rendering = function() {
+            console.log("finished rendering plugins");
+        };
+
+        // In your onload handler
+        FB.Event.subscribe('xfbml.render', finished_rendering);
+    </script>
     <!-- facebook root tag -->
 
     <!-- Google Tag Manager -->
