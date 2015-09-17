@@ -21,6 +21,14 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         .when('/submit',{
             templateUrl: '/views/submit.html'
         })
+        .when('/visitor-agreement',{
+            templateUrl: '/views/static-page.html',
+            controller: 'PageController'
+        })
+        .when('/privacy-policy',{
+            templateUrl: '/views/static-page.html',
+            controller: 'PageController'
+        })
         .otherwise({
             redirectTo: '/'
         });

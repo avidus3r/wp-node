@@ -140,8 +140,13 @@
   }
 }
 
-#submitPage{
+.page{
   padding:1em;
+  font-size: 12px;
+
+  ol{
+    padding: 1em;
+  }
 }
 
 // single post view CSS

@@ -49,8 +49,8 @@ angular.module('NewsFeed').factory(
 
 //Controller Modules
 angular.module('NewsFeed').controller(
-    'AppController',
-    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.AppController]
+    'HeaderController',
+    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.HeaderController]
 );
 
 angular.module('NewsFeed').controller(

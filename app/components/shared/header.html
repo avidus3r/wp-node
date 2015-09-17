@@ -1,5 +1,5 @@
 <!-- Header nav component  should be include -->
-<header class="feed-header clearfix" ng-controller="AppController">
+<header class="feed-header clearfix" ng-controller="HeaderController">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -21,13 +21,14 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li ng-repeat="item in navItems" ng-click="collapseNav()">
-                        <a href="/category/{{item.slug}}" ng-bind-html="item.title"></a>
+                    <li ng-repeat="item in navItems" class="{{item.class}}" ng-click="collapseNav()">
+                        <a href="/{{item.slug}}" ng-bind-html="item.title"></a>
                     </li>
-                    <!-- these are in altdriver main wordpress as menu>legal -->
+                    <!-- these are in altdriver main wordpress as menu>legal
                     <li class="hidden-md-altd"><a href="#">Contact</a></li>
                     <li class="hidden-md-altd"><a href="#">Privacy Policy</a></li>
                     <li class="hidden-md-altd"><a href="#">Visitor Agreement</a></li>
+                     -->
                 </ul>
             </div>
         </div>

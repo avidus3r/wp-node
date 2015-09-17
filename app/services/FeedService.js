@@ -1,13 +1,9 @@
 'use strict';
 
-var FeedService = function(envConfig, $http, $q){
+var FeedService = function(envConfig, env, $http, $q){
     var feed = {};
-    feed.endpoints = {
-        url: 'http://local.altdriver.com',
-        remoteUrl: 'http://www.altdriver.com',
-        basePath: '/wp-json/wp/v2/',
-        site: 'altdriver'
-    };
+
+    feed.endpoints = envConfig[env];
 
     feed.categories = [];
     feed.navItems = [];
@@ -74,15 +70,33 @@ var FeedService = function(envConfig, $http, $q){
         return deferred.promise;
     };
 
-    feed.getNavItems = function(){
+    feed.getLegalMenu = function(name){
         var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu';
+
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
 
         $http.get(url)
             .then(function (response) {
                 var res = response.data;
-                feed.navItems = response.data;
                 deferred.resolve(res);
+                feed.navItems.push(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
+    feed.getMainMenu = function(name){
+        var deferred = $q.defer();
+
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+                feed.navItems.push(res);
             }, function (response) {
                 deferred.reject(response);
             });

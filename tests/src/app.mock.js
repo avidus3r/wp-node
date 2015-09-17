@@ -3,14 +3,13 @@
 'use strict';
 
 var Controllers = {};
-Controllers.AppController = require('./controllers/AppController');
 Controllers.FeedSingleController = require('./controllers/FeedSingleController');
 Controllers.FeedCategoryController = require('./controllers/FeedCategoryController');
 Controllers.FeedListController = require('./controllers/FeedListController');
 
 module.exports = Controllers;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/app.controllers.js","/")
-},{"./controllers/AppController":3,"./controllers/FeedCategoryController":4,"./controllers/FeedListController":5,"./controllers/FeedSingleController":6,"1YiZ5S":23,"buffer":20}],2:[function(require,module,exports){
+},{"./controllers/FeedCategoryController":3,"./controllers/FeedListController":4,"./controllers/FeedSingleController":5,"1YiZ5S":22,"buffer":19}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
@@ -111,166 +110,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
 
 module.exports = Router;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/app.routes.js","/")
-},{"1YiZ5S":23,"buffer":20}],3:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-'use strict';
-
-
-var AppController = function($rootScope, $scope, FeedService, envConfig) {
-
-    this.name = 'app';
-
-    $scope.collapseNav = function(){
-        if(!angular.element('.navbar-toggle').hasClass('collapsed')){
-            angular.element('.navbar-toggle').click();
-        }
-    };
-
-    $scope.navItems = [];
-
-    $scope.isMobile = function(){
-        var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-        var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
-        var result = null;
-
-        if ( mobileUAStr.test(navigator.userAgent) ){
-            result = mobileUAStr.exec(navigator.userAgent);
-            var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
-            return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
-        }else if( desktopUAStr.test(navigator.userAgent) ){
-            result = desktopUAStr.exec(navigator.userAgent);
-            return 'desktop ' + result[0].toLowerCase().replace(' ','-');
-        }else{
-            return 'unknown';
-        }
-    };
-
-    $scope.getTerms = function(){
-        return FeedService.getTerms('category').then(
-            function(data){
-                $scope.categories = data;
-                $rootScope.$broadcast('categoriesRetrieved', $scope.categories);
-
-            },
-            function(error){
-
-            },
-            function(notification){
-
-            }
-        );
-    };
-
-    $scope.getSubmit = function(){
-
-        angular.element('#submitPage').css({'overflow':'hidden'});
-        var iframeEl = angular.element('#submitPage').find('iframe');
-        iframeEl.css({'margin-top':'-50px', 'border':'none'});
-        var iframe = document.querySelector('#submitIframe');
-
-        setTimeout(function(){
-
-            iframe.contentWindow.postMessage('hi','http://devaltdriver.wpengine.com');
-            iframeEl.css({'margin-top':'0px'});
-            angular.element('.view-container').height(angular.element(iframe).height());
-        },3000);
-
-        angular.element('.view-container').css({'height':'100%'});
-        angular.element('#submitPage').css({'height':'100%', 'padding':'0'});
-        angular.element('html').css({'height':'100%'});
-        angular.element('body').css({'height':'100%'});
-
-        angular.element('#submitPage').find('iframe').contents().find('#wpadminbar').hide();
-        angular.element('#submitPage').find('iframe').contents().find('#main-head').hide();
-
-        /*FeedService.getPage('submit').then(function(res){
-            angular.element('#submitPage').find('.content').html(res[0].content.rendered);
-            angular.element('#submitPage').find('.content').find('form').attr('action','/submit');
-            angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
-        });*/
-    };
-
-    $scope.getNavItems = function(){
-        return FeedService.getNavItems().then(
-            function(data){
-                angular.forEach(data, function (item, index) {
-                    item.slug = item.url.substring(item.url.lastIndexOf('category/')+9, item.url.length).replace('/','');
-                    $scope.navItems.push(item);
-                });
-            },
-            function(error){
-
-            },
-            function(notification){
-
-            }
-        );
-    };
-
-    $scope.getTerms();
-    $scope.getNavItems();
-
-    $scope.addUploadBtn = function(){
-
-    };
-
-    $scope.voteLoad = function(postID, index){
-        var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
-        var votedHistory = null;
-        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
-            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-            angular.forEach(votedHistory, function (item, index) {
-                if(item.postID === postID){
-                    var userVoted = item.voted;
-                    console.log(userVoted);
-                    voteButton.parent().find('button[name="' + userVoted + '"]').addClass('voted');
-                    voteButton.attr('disabled','disabled');
-                    return false;
-                }
-            });
-        }
-    };
-
-    $scope.vote = function(postID, vote, $event){
-        $event.preventDefault();
-        var voteButton = angular.element($event.currentTarget);
-        var votedHistory = null;
-
-        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
-            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-        }
-        voteButton.addClass('voted');
-        var upOrDown = voteButton.attr('name');
-        var voteVal = upOrDown === 'up' ? 2 : 1;
-
-        var ls = [];
-        var userLS = null;
-        if(votedHistory){
-            var items = JSON.parse(localStorage.getItem('user_voted'));
-            items.push({postID:postID, voted:upOrDown});
-            userLS = JSON.stringify(items);
-        }else{
-            ls.push({postID:postID, voted:upOrDown});
-            userLS = JSON.stringify(ls);
-        }
-        localStorage.setItem('user_voted', userLS);
-        var voteCount = voteButton.parent().find('.vote-count').text();
-        var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
-        voteButton.parent().find('.vote-count').text(count);
-        voteButton.parent().find('button').attr('disabled','disabled');
-
-        var req = FeedService.vote(postID, voteVal);
-        req.addEventListener('load', function () {
-            var result = this.responseText;
-            console.log(result);
-        });
-    };
-
-};
-
-module.exports = AppController;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controllers/AppController.js","/controllers")
-},{"1YiZ5S":23,"buffer":20}],4:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
@@ -446,11 +286,11 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
 
 module.exports = FeedCategoryController;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controllers/FeedCategoryController.js","/controllers")
-},{"1YiZ5S":23,"buffer":20}],5:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
-var FeedListController = function($scope, FeedService, $route, $routeParams, $location, envConfig) {
+var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
 
     this.name = 'list';
     this.$route = $route;
@@ -577,11 +417,176 @@ var FeedListController = function($scope, FeedService, $route, $routeParams, $lo
         return cat;
     };
 
+    $scope.collapseNav = function(){
+        if(!angular.element('.navbar-toggle').hasClass('collapsed')){
+            angular.element('.navbar-toggle').click();
+        }
+    };
+
+    $scope.navItems = [];
+    $scope.mainMenu = null;
+    $scope.legalMenu = null;
+
+    $scope.getTerms = function(){
+        return FeedService.getTerms('category').then(
+            function(data){
+                $scope.categories = data;
+                $rootScope.$broadcast('categoriesRetrieved', $scope.categories);
+
+            },
+            function(error){
+
+            },
+            function(notification){
+
+            }
+        );
+    };
+
+    $scope.getSubmit = function(){
+
+        angular.element('#submitPage').css({'overflow':'hidden'});
+        var iframeEl = angular.element('#submitPage').find('iframe');
+        iframeEl.css({'margin-top':'-50px', 'border':'none'});
+        var iframe = document.querySelector('#submitIframe');
+
+        setTimeout(function(){
+
+            iframe.contentWindow.postMessage('hi','http://devaltdriver.wpengine.com');
+            iframeEl.css({'margin-top':'0px'});
+            angular.element('.view-container').height(angular.element(iframe).height());
+        },3000);
+
+        angular.element('.view-container').css({'height':'100%'});
+        angular.element('#submitPage').css({'height':'100%', 'padding':'0'});
+        angular.element('html').css({'height':'100%'});
+        angular.element('body').css({'height':'100%'});
+
+        angular.element('#submitPage').find('iframe').contents().find('#wpadminbar').hide();
+        angular.element('#submitPage').find('iframe').contents().find('#main-head').hide();
+
+        /*FeedService.getPage('submit').then(function(res){
+         angular.element('#submitPage').find('.content').html(res[0].content.rendered);
+         angular.element('#submitPage').find('.content').find('form').attr('action','/submit');
+         angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
+         });*/
+    };
+
+    $scope.getMainMenu = function(){
+
+        FeedService.getMainMenu('Main Menu').then(
+            function(data){
+                $scope.mainMenu = data;
+                $scope.getLegalMenu();
+            },
+            function(error){
+
+            },
+            function(notification){
+
+            }
+        );
+    };
+
+    $scope.getLegalMenu = function(){
+        FeedService.getLegalMenu('Legal Menu').then(
+            function(data){
+                $scope.legalMenu = data;
+                $scope.renderMenu();
+            }
+        );
+    };
+
+    $scope.renderMenu = function(){
+        var menuItems = Object.assign($scope.mainMenu, $scope.legalMenu);
+        angular.forEach(menuItems, function (item, index) {
+            console.log(item);
+            //item.slug = item.url.substring(item.url.lastIndexOf('category/')+9, item.url.length).replace('/','');
+            //$scope.navItems.push(item);
+        });
+    };
+
+    $scope.getTerms();
+    $scope.getMainMenu();
+
+    $scope.voteLoad = function(postID, index){
+        var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
+        var votedHistory = null;
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+            angular.forEach(votedHistory, function (item, index) {
+                if(item.postID === postID){
+                    var userVoted = item.voted;
+                    console.log(userVoted);
+                    voteButton.parent().find('button[name="' + userVoted + '"]').addClass('voted');
+                    voteButton.attr('disabled','disabled');
+                    return false;
+                }
+            });
+        }
+    };
+
+    $scope.vote = function(postID, vote, $event){
+        $event.preventDefault();
+        var voteButton = angular.element($event.currentTarget);
+        var votedHistory = null;
+
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+        }
+        voteButton.addClass('voted');
+        var upOrDown = voteButton.attr('name');
+        var voteVal = upOrDown === 'up' ? 2 : 1;
+
+        var ls = [];
+        var userLS = null;
+        if(votedHistory){
+            var items = JSON.parse(localStorage.getItem('user_voted'));
+            items.push({postID:postID, voted:upOrDown});
+            userLS = JSON.stringify(items);
+        }else{
+            ls.push({postID:postID, voted:upOrDown});
+            userLS = JSON.stringify(ls);
+        }
+        localStorage.setItem('user_voted', userLS);
+        var voteCount = voteButton.parent().find('.vote-count').text();
+        var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
+        voteButton.parent().find('.vote-count').text(count);
+        voteButton.parent().find('button').attr('disabled','disabled');
+
+        var req = FeedService.vote(postID, voteVal);
+        req.addEventListener('load', function () {
+            var result = this.responseText;
+            console.log(result);
+        });
+    };
+
+    $scope.commentBtnHandler = function($event, $index, urlParams){
+        if($routeParams === urlParams){
+            $scope.$broadcast('toggleComments');
+        }else{
+            urlParams.slug = urlParams.slug + '#comment';
+            $scope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $scope.goToPage = function($event, $index, linkParams){
+        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
+    };
+
+    $scope.receiveMessage = function(event){
+        if(event.data.search('action=plugin_ready') > -1){
+            $scope.$emit('fbReady');
+        }
+    };
+
+    window.addEventListener('message', $scope.receiveMessage);
+
 };
 
 module.exports = FeedListController;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controllers/FeedListController.js","/controllers")
-},{"1YiZ5S":23,"buffer":20}],6:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
@@ -609,15 +614,16 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.singlePostID = null;
     $scope.lastOffset = $scope.$parent.lastOffset || null;
     $scope.voteTally = 0;
-
+    $scope.fbReady = false;
 
     $scope.postPath = 'posts';
-
     $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
-
     $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
-
     $scope.postParams = '?name=' + $routeParams.slug;
+
+    $scope.$on('$viewContentLoaded', function(){
+       $scope.onViewLoaded();
+    });
 
     $scope.getPost = function(){
         return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
@@ -690,18 +696,32 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
+            angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
+        });
+        $scope.$on('fbReady', function(){
             angular.element('#commentHook').on('click', function(e){
                 $scope.toggleComments(e);
             });
+            if($location.hash() === 'comment'){
+                angular.element('#commentHook').trigger('click');
+            }
+
         });
     };
 
     $scope.toggleComments = function(event){
+        console.log('toggleComments: ', event);
         event.preventDefault();
         event.stopPropagation();
-        angular.element('.fb-wrapper').toggle();
         var currentState = angular.element('#commentHook span').text();
-        var newState = currentState === '+ View Responses' ? '- Close Responses' : '+ View Responses';
+        var newState = '';
+        if(currentState === '+ View Responses'){
+            newState = '- Close Responses';
+            angular.element('.fb-wrapper').css({'height': 'auto'});
+        }else{
+            newState = '+ View Responses';
+            angular.element('.fb-wrapper').css({'height': '0'});
+        }
         angular.element('#commentHook span').text(newState);
     };
 
@@ -820,18 +840,46 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
-        $location.url('/' + linkParams.category + '/' + linkParams.slug, {reload:true});
+        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
     };
 
+    $scope.commentBtnHandler = function($event, $index, urlParams){
+
+        if($routeParams.slug === urlParams.slug){
+            angular.element('#commentHook').trigger('click');
+        }else{
+            urlParams.slug = urlParams.slug + '#comment';
+            $scope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $scope.onViewLoaded = function(){
+        setTimeout(function(){
+            if(!$scope.fbReady){
+                $scope.fbReady = true;
+                $scope.$emit('fbReady');
+            }
+        },3600);
+    };
+
+    $scope.receiveMessage = function(event){
+        if(event.data.search('action=plugin_ready') > -1){
+            $scope.fbReady = true;
+            $scope.$emit('fbReady');
+        }
+    };
+
+    window.addEventListener('message', $scope.receiveMessage);
+
 };
 
 module.exports = FeedSingleController;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controllers/FeedSingleController.js","/controllers")
-},{"1YiZ5S":23,"buffer":20}],7:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
@@ -883,10 +931,6 @@ angular.module('NewsFeed').factory(
  */
 
 //Controller Modules
-angular.module('NewsFeed').controller(
-    'AppController',
-    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.AppController]
-);
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
@@ -912,19 +956,15 @@ window.onerror = function(){
 };
 
 window.NewsFeed = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_880e892.js","/")
-},{"../assets/js/angular-metatags.min":9,"./app.controllers":1,"./app.routes":2,"./services/FeedService":8,"1YiZ5S":23,"angular":19,"angular-mocks/ngMock":11,"angular-resource":13,"angular-route":15,"angular-sanitize":17,"buffer":20,"ng-infinite-scroll":24}],8:[function(require,module,exports){
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_9757875b.js","/")
+},{"../assets/js/angular-metatags.min":8,"./app.controllers":1,"./app.routes":2,"./services/FeedService":7,"1YiZ5S":22,"angular":18,"angular-mocks/ngMock":10,"angular-resource":12,"angular-route":14,"angular-sanitize":16,"buffer":19,"ng-infinite-scroll":23}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
-var FeedService = function(envConfig, $http, $q){
+var FeedService = function(envConfig, env, $http, $q){
     var feed = {};
-    feed.endpoints = {
-        url: 'http://local.altdriver.com',
-        remoteUrl: 'http://www.altdriver.com',
-        basePath: '/wp-json/wp/v2/',
-        site: 'altdriver'
-    };
+
+    feed.endpoints = envConfig[env];
 
     feed.categories = [];
     feed.navItems = [];
@@ -991,15 +1031,33 @@ var FeedService = function(envConfig, $http, $q){
         return deferred.promise;
     };
 
-    feed.getNavItems = function(){
+    feed.getLegalMenu = function(name){
         var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu';
+
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
 
         $http.get(url)
             .then(function (response) {
                 var res = response.data;
-                feed.navItems = response.data;
                 deferred.resolve(res);
+                feed.navItems.push(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
+    feed.getMainMenu = function(name){
+        var deferred = $q.defer();
+
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+                feed.navItems.push(res);
             }, function (response) {
                 deferred.reject(response);
             });
@@ -1012,11 +1070,11 @@ var FeedService = function(envConfig, $http, $q){
 
 module.exports = FeedService;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/services/FeedService.js","/services")
-},{"1YiZ5S":23,"buffer":20}],9:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 angular.module("metatags",[]).provider("MetaTags",function(){var b={};var a={};this.when=function(e,d){b[e]=d;return this};this.otherwise=function(d){a=d;return this};var c=function(r){var C={};var f=Object.keys(b);var s=f.length;var h={};for(var B=0;B<s;B++){var l=f[B];var A=b[l];var e=Object.keys(A);var u=l.split("/").filter(Boolean);var d=u.length;var D=r.split("/").filter(Boolean);var k=D.length;var x=true;var w=false;if(d!==k){continue}for(var z=0;z<k;z++){if(u[z].indexOf(":")===0){h[D[z]]=u[z];continue}if(D[z]!==u[z]){h={};x=false;break}}var E=e.length;var g=Object.keys(h).length;if(g>0){for(var m=0;m<E;m++){var F=e[m];if(typeof(A[F])==="string"){C[F]=A[F]}if(typeof(A[F])==="function"){var y=A[F].apply(this,Object.keys(h));if(typeof(y)!=="string"){throw new Error(A[F].toString()+" should return a string")}else{C[F]=y}}}for(var q in h){for(var n in C){C[n]=C[n].replace(h[q],q)}}return C}else{for(var v in a){C[v]=a[v]}if(u[0]===D[0]){w=true;break}}}if(x&&w){for(var v in A){C[v]=A[v]}return C}else{return C}};this.$get=["$rootScope","$location",function(d,f){var e=function(){path=f.path();info=c(path);for(var g in info){d.metatags[g]=info[g]}};return{initialize:function(){d.metatags={};d.$on("$routeChangeSuccess",e)}}}]});
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../assets/js/angular-metatags.min.js","/../assets/js")
-},{"1YiZ5S":23,"buffer":20}],10:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license AngularJS v1.4.5
@@ -3478,13 +3536,13 @@ if (window.jasmine || window.mocha) {
 })(window, window.angular);
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-mocks/angular-mocks.js","/../node_modules/angular-mocks")
-},{"1YiZ5S":23,"buffer":20}],11:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 require('./angular-mocks');
 module.exports = 'ngMock';
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-mocks/ngMock.js","/../node_modules/angular-mocks")
-},{"./angular-mocks":10,"1YiZ5S":23,"buffer":20}],12:[function(require,module,exports){
+},{"./angular-mocks":9,"1YiZ5S":22,"buffer":19}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license AngularJS v1.4.4
@@ -4157,13 +4215,13 @@ angular.module('ngResource', ['ng']).
 })(window, window.angular);
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-resource/angular-resource.js","/../node_modules/angular-resource")
-},{"1YiZ5S":23,"buffer":20}],13:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 require('./angular-resource');
 module.exports = 'ngResource';
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-resource/index.js","/../node_modules/angular-resource")
-},{"./angular-resource":12,"1YiZ5S":23,"buffer":20}],14:[function(require,module,exports){
+},{"./angular-resource":11,"1YiZ5S":22,"buffer":19}],13:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license AngularJS v1.4.4
@@ -5159,13 +5217,13 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 })(window, window.angular);
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-route/angular-route.js","/../node_modules/angular-route")
-},{"1YiZ5S":23,"buffer":20}],15:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],14:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 require('./angular-route');
 module.exports = 'ngRoute';
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-route/index.js","/../node_modules/angular-route")
-},{"./angular-route":14,"1YiZ5S":23,"buffer":20}],16:[function(require,module,exports){
+},{"./angular-route":13,"1YiZ5S":22,"buffer":19}],15:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license AngularJS v1.4.4
@@ -5852,13 +5910,13 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 })(window, window.angular);
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-sanitize/angular-sanitize.js","/../node_modules/angular-sanitize")
-},{"1YiZ5S":23,"buffer":20}],17:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],16:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular-sanitize/index.js","/../node_modules/angular-sanitize")
-},{"./angular-sanitize":16,"1YiZ5S":23,"buffer":20}],18:[function(require,module,exports){
+},{"./angular-sanitize":15,"1YiZ5S":22,"buffer":19}],17:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license AngularJS v1.4.4
@@ -34465,13 +34523,13 @@ $provide.value("$locale", {
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular/angular.js","/../node_modules/angular")
-},{"1YiZ5S":23,"buffer":20}],19:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],18:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 require('./angular');
 module.exports = angular;
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/angular/index.js","/../node_modules/angular")
-},{"./angular":18,"1YiZ5S":23,"buffer":20}],20:[function(require,module,exports){
+},{"./angular":17,"1YiZ5S":22,"buffer":19}],19:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -35584,7 +35642,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"1YiZ5S":23,"base64-js":21,"buffer":20,"ieee754":22}],21:[function(require,module,exports){
+},{"1YiZ5S":22,"base64-js":20,"buffer":19,"ieee754":21}],20:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -35712,7 +35770,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"1YiZ5S":23,"buffer":20}],22:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],21:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -35800,7 +35858,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"1YiZ5S":23,"buffer":20}],23:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],22:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -35867,7 +35925,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"1YiZ5S":23,"buffer":20}],24:[function(require,module,exports){
+},{"1YiZ5S":22,"buffer":19}],23:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /* ng-infinite-scroll - v1.2.0 - 2014-12-02 */
 var mod;
@@ -36048,4 +36106,4 @@ mod.directive('infiniteScroll', [
 ]);
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/ng-infinite-scroll/build/ng-infinite-scroll.js","/../node_modules/ng-infinite-scroll/build")
-},{"1YiZ5S":23,"buffer":20}]},{},[7])
+},{"1YiZ5S":22,"buffer":19}]},{},[6])

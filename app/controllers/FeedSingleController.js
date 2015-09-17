@@ -115,7 +115,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             if($location.hash() === 'comment'){
                 angular.element('#commentHook').trigger('click');
             }
-            
+
         });
     };
 

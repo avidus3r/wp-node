@@ -6,11 +6,19 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
+var env = 'dev';
+
 var feedConfig = {
-    url: 'http://local.altdriver.com',
-    remoteUrl: 'http://www.altdriver.com',
-    basePath: '/wp-json/wp/v2/',
-    site: 'altdriver'
+    'prod': {
+        remoteUrl: 'http://www.altdriver.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    },
+    'dev':{
+        remoteUrl: 'http://devaltdriver.wpengine.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    }
 };
 
 //Controllers
@@ -32,11 +40,16 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
 /*
  * Module Controllers
  */
+angular.module('NewsFeed').controller(
+    'HeaderController',
+    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.HeaderController]
+);
 
 angular.module('NewsFeed').controller(
-    'AppController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.AppController]
+    'PageController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.PageController]
 );
+
 
 angular.module('NewsFeed').controller(
     'FeedSingleController',
@@ -50,7 +63,7 @@ angular.module('NewsFeed').controller(
 
 angular.module('NewsFeed').controller(
     'FeedListController',
-    ['$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
 );
 
 /*
@@ -73,19 +86,36 @@ angular.module('NewsFeed').directive('card', Directives.card);
  * Module Configuration
  */
 
-angular.module('NewsFeed').run(function(MetaTags){
+angular.module('NewsFeed').run(function(MetaTags, $rootScope){
     MetaTags.initialize();
+    $rootScope.isMobile = function(){
+        var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
+        var result = null;
+
+        if ( mobileUAStr.test(navigator.userAgent) ){
+            result = mobileUAStr.exec(navigator.userAgent);
+            var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
+            return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
+        }else if( desktopUAStr.test(navigator.userAgent) ){
+            result = desktopUAStr.exec(navigator.userAgent);
+            return 'desktop ' + result[0].toLowerCase().replace(' ','-');
+        }else{
+            return 'unknown';
+        }
+    };
 });
 
 angular.module('NewsFeed').config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', '$rootScopeProvider', Router]
 );
 
+angular.module('NewsFeed').constant('env', env);
 angular.module('NewsFeed').constant('envConfig', feedConfig);
 
 angular.module('NewsFeed').factory(
     'FeedService',
-    ['envConfig', '$http', '$q', FeedService]
+    ['envConfig', 'env', '$http', '$q', FeedService]
 );
 
 /*

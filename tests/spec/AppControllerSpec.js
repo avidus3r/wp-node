@@ -1,4 +1,4 @@
-describe('AppController', function(){
+describe('FeedListController', function(){
     beforeEach(angular.mock.module('NewsFeed'));
 
     var $controller;
@@ -29,7 +29,7 @@ describe('AppController', function(){
         beforeEach(function() {
             $scope = {};
             $route = {};
-            controller = $controller('AppController', { $scope: $scope, $route: $route });
+            controller = $controller('FeedListController', { $scope: $scope, $route: $route });
         });
 
         afterEach(function(){
@@ -96,7 +96,7 @@ describe('AppController', function(){
 
         beforeEach(function() {
             $scope = {};
-            controller = $controller('AppController', { $scope: $scope });
+            controller = $controller('FeedListController', { $scope: $scope });
         });
 
         it('should be defined', function(){
@@ -109,7 +109,7 @@ describe('AppController', function(){
 
         beforeEach(function() {
             $scope = {};
-            controller = $controller('AppController', { $scope: $scope });
+            controller = $controller('FeedListController', { $scope: $scope });
         });
 
         it('should be defined', function(){
