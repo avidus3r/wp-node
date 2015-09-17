@@ -164,6 +164,14 @@ var AppController = function($rootScope, $scope, FeedService, $route, $routePara
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 
+    $scope.receiveMessage = function(event){
+        if(event.data.search('action=plugin_ready') > -1){
+            $scope.$emit('fbReady');
+        }
+    };
+
+    window.addEventListener('message', $scope.receiveMessage);
+
 };
 
 module.exports = AppController;
