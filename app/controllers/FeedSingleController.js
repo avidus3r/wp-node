@@ -248,7 +248,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.goToPage = function(e, lastIndex, linkParams){
         $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
-        window.location = '/' + linkParams.category + '/' + linkParams.slug;
+        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 
     $scope.getVoteTally = function(){
