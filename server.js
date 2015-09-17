@@ -37,6 +37,10 @@ app.get('/privacy-policy', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
+app.get('*', function(req,res){
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
 app.post('/submit', function(req,res){
     var form = new multiparty.Form();
 

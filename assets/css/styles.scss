@@ -133,6 +133,7 @@
 }
 
 .post-view.feed{
+  position: relative;
   .votes{
     position: absolute;
     top: 0;
@@ -146,6 +147,89 @@
 
   ol{
     padding: 1em;
+  }
+}
+
+.main-header{
+  font: 18px "Open Sans",Arial,sans-serif;
+  text-transform: uppercase;
+  border-left: 3px solid #0092d7;
+  padding-left: 14px;
+  line-height: 2;
+  margin-bottom: 28px;
+}
+
+.page.contact{
+  padding: 0 1.25em 1.25em;
+  font-size: 13px;
+  color:rgb(96, 101, 105);
+
+  ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gfield_required{
+    color: #790000;
+    margin-left: .25em;
+  }
+
+  li.gfield{
+    margin: .75em 0 1em;
+  }
+
+  input{
+    background: #f9f9f9;
+    border:1px solid #d9d9d9;
+    padding: .35em 0;
+  }
+
+  label{
+    font-weight: bold;
+  }
+
+  .ginput_container{
+    width:100%;
+    @extend .clearfix;
+    &>input{
+      width:100%;
+    }
+    span {
+      float: left;
+      width: 48%;
+      &:first-child{
+        margin-right: 4%;
+      }
+      input{
+        width:100%;
+      }
+      label {
+        display: block;
+        font-size: .875em;
+        letter-spacing: .5pt;
+        white-space: nowrap;
+        margin: .188em 0 .75em;
+        font-weight: normal;
+      }
+    }
+  }
+
+  textarea{
+    max-width: 100%;
+    background: #f9f9f9;
+    border:1px solid #d9d9d9;
+  }
+
+  input[type="submit"]{
+    background: #0092D3;
+    color:#fff;
+    width: 100%;
+    padding: .75em 0;
+  }
+
+  .gform_validation_container{
+    display: none;
   }
 }
 

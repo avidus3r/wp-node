@@ -1,10 +1,11 @@
 'use strict';
 
 
-var PageController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
+var PageController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, envConfig) {
 
     this.name = 'page';
     $scope.routeParams = $location.$$path.replace('/','');
+    $scope.page = null;
 
     $scope.getRouteParams = function(){
         return '';
@@ -12,7 +13,9 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     $scope.getPage = function(){
         FeedService.getPage($scope.routeParams).then(
             function(res){
-                angular.element('#staticPage').find('.content').html(res[0].content.rendered);
+                $scope.page = res[0];
+                $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
+
             }
         );
     };

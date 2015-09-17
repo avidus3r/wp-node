@@ -64,7 +64,7 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
         angular.forEach($scope.menuItems, function (item, index) {
             angular.forEach(item, function (navItem, index) {
                 if (navItem.object === 'page') {
-                    navItem.class = 'hidden-md-altd';
+                    navItem.class = 'legal-menu';
                     navItem.slug = navItem.url.substring(navItem.url.lastIndexOf('.com/') + 5, navItem.url.length).replace('/', '');
                 }
                 if (navItem.object === 'category') {

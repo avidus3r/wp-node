@@ -21,6 +21,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
     $scope.currentY = null;
+    $scope.cardType = 'email';
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -38,6 +39,13 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
 
         val = encode ? encodeURIComponent(val) : val;
         return val;
+    };
+
+    $scope.getCardType = function(){
+        var cardType = $scope.cardType === 'email' ? 'follow' : 'email';
+        console.log(cardType);
+        $scope.cardType = cardType;
+        return $scope.cardType;
     };
 
     $scope.postPath = 'posts';
@@ -222,8 +230,10 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     };
 
     $scope.receiveMessage = function(event){
-        if(event.data.search('action=plugin_ready') > -1){
-            $scope.$emit('fbReady');
+        if(typeof event.data === 'string') {
+            if (event.data.search('action=plugin_ready') > -1) {
+                $scope.$emit('fbReady');
+            }
         }
     };
 

@@ -29,6 +29,10 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
         })
+        .when('/contact',{
+            templateUrl: '/views/static-page.html',
+            controller: 'PageController'
+        })
         .otherwise({
             redirectTo: '/'
         });

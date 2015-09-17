@@ -1,3 +1,4 @@
-<div id="staticPage" class="page" ng-init="getPage()">
-    <div class="content"></div>
+<div id="staticPage" class="page {{ page.slug }}" ng-init="getPage()">
+    <h1 class="main-header" ng-bind-html="page.title.rendered"></h1>
+    <div class="content" ng-bind-html="content"></div>
 </div>
