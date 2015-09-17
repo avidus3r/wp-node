@@ -97,4 +97,4 @@ window.onerror = function(){
     console.error(arguments);
 };
 
-window.NewsFeed = NewsFeed;
+//window.NewsFeed = NewsFeed;

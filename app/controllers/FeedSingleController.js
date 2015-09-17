@@ -106,9 +106,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
             angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
+        });
+        $scope.$on('fbReady', function(){
             angular.element('#commentHook').on('click', function(e){
                 $scope.toggleComments(e);
             });
+            if($location.hash() === 'comment'){
+                angular.element('#commentHook').trigger('click');
+            }
         });
     };
 
@@ -262,13 +267,16 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.onViewLoaded = function(){
-        if($location.hash() === 'comment'){
-            setTimeout(function(){
-                angular.element('#commentHook').trigger('click');
-                $rootScope.toggleComments = null;
-            },1500);
+
+    };
+
+    $scope.receiveMessage = function(event){
+        if(event.data.search('action=plugin_ready') > -1){
+            $scope.$emit('fbReady');
         }
     };
+
+    window.addEventListener('message', $scope.receiveMessage);
 
 };
 
