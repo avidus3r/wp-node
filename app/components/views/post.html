@@ -21,8 +21,18 @@
                 </div>
 
                 <div ng-switch-when="post" class="single-view">
-                    <ng-include src="'/views/partials/post-single.html'"></ng-include>
-                    <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>
+                    <div ng-switch="$index%8" ng-if="$index>0">
+                        <div ng-switch-when="0">
+                            <ng-include src="'/views/card.html'" ng-init="cardType='email'"></ng-include>
+                        </div>
+                        <div ng-switch-when="4">
+                            <ng-include src="'/views/card.html'" ng-init="cardType='follow'"></ng-include>
+                        </div>
+                        <div ng-switch-default>
+                            <ng-include src="'/views/partials/post-single.html'"></ng-include>
+                            <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>
+                        </div>
+                    </div>
                 </div>
 
             </div>

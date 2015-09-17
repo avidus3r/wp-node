@@ -277,9 +277,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.receiveMessage = function(event){
-        if(event.data.search('action=plugin_ready') > -1){
-            $scope.fbReady = true;
-            $scope.$emit('fbReady');
+        if(typeof event.data === 'string') {
+            if (event.data.search('action=plugin_ready') > -1) {
+                $scope.$emit('fbReady');
+            }
         }
     };
 
