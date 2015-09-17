@@ -6,7 +6,7 @@
             <p class="item-cat" ng-bind-html="item.category[0].name">{{ getCategory(item.category, item.link).name }}</p>
             <span class="clearfix"></span>
         </div>
-
+        <a name="comment"></a>
         <div class="post-content" ng-bind-html="renderContent(item.content.rendered, $index, false)"></div>
         <ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>
     </div>

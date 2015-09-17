@@ -256,13 +256,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             angular.element('#commentHook').trigger('click');
         }else{
             $rootScope.toggleComments = '1';
-            urlParams.slug = urlParams.slug + '#comments';
+            urlParams.slug = urlParams.slug + '#comment';
             $scope.goToPage($event, $index, urlParams);
         }
     };
 
     $scope.onViewLoaded = function(){
-        if($location.hash() === 'comments'){
+        if($location.hash() === 'comment'){
             setTimeout(function(){
                 angular.element('#commentHook').trigger('click');
                 $rootScope.toggleComments = null;
