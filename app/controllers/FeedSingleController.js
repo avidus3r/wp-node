@@ -24,6 +24,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.singlePostID = null;
     $scope.lastOffset = $scope.$parent.lastOffset || null;
     $scope.voteTally = 0;
+    $scope.fbReady = false;
 
     $scope.postPath = 'posts';
     $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
@@ -114,6 +115,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
             if($location.hash() === 'comment'){
                 angular.element('#commentHook').trigger('click');
             }
+            
         });
     };
 
@@ -266,11 +268,17 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.onViewLoaded = function(){
-
+        setTimeout(function(){
+            if(!$scope.fbReady){
+                $scope.fbReady = true;
+                $scope.$emit('fbReady');
+            }
+        },3600);
     };
 
     $scope.receiveMessage = function(event){
         if(event.data.search('action=plugin_ready') > -1){
+            $scope.fbReady = true;
             $scope.$emit('fbReady');
         }
     };
