@@ -1,7 +1,7 @@
 'use strict';
 
-var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $rootScopeProvider) {
-    //$urlRouterProvider.otherwise('/');
+var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider) {
+    var FeedService = FeedServiceProvider.$get();
     $routeProvider.
         when('/', {
             controller: 'FeedListController',
@@ -11,7 +11,22 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, $root
         .when('/category/:category', {
             controller: 'FeedCategoryController',
             templateUrl: '/views/post.html',
-            redirectTo: false
+            redirectTo: false,
+            resolve:{
+                categories: function(){
+                    return FeedService.getTerms('category').then(
+                        function(data){
+                            return data;
+                        },
+                        function(error){
+
+                        },
+                        function(notification){
+
+                        }
+                    );
+                }
+            }
         })
         .when('/:category/:slug', {
             controller: 'FeedSingleController',

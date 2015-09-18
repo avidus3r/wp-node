@@ -37,56 +37,12 @@ var Router = require('./app.routes');
 //Main Module
 var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
 
-/*
- * Module Controllers
- */
-angular.module('NewsFeed').controller(
-    'HeaderController',
-    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.HeaderController]
-);
-
-angular.module('NewsFeed').controller(
-    'PageController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'envConfig', Controllers.PageController]
-);
-
-
-angular.module('NewsFeed').controller(
-    'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
-);
-
-angular.module('NewsFeed').controller(
-    'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedCategoryController]
-);
-
-angular.module('NewsFeed').controller(
-    'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
-);
-
-/*
- * Module Controllers
- */
-
-
-/*
- * Module Directives
- */
-
-angular.module('NewsFeed').directive('card', Directives.card);
-
-/*
- * Module Directives
- */
-
 
 /*
  * Module Configuration
  */
 
-angular.module('NewsFeed').run(function(MetaTags, $rootScope){
+NewsFeed.run(function(MetaTags, $rootScope){
     MetaTags.initialize();
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -106,20 +62,73 @@ angular.module('NewsFeed').run(function(MetaTags, $rootScope){
     };
 });
 
-angular.module('NewsFeed').config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', '$rootScopeProvider', Router]
-);
-
-angular.module('NewsFeed').constant('env', env);
-angular.module('NewsFeed').constant('envConfig', feedConfig);
-
-angular.module('NewsFeed').factory(
+NewsFeed.factory(
     'FeedService',
     ['envConfig', 'env', '$http', '$q', FeedService]
 );
 
+NewsFeed.provider('FeedServiceProvider',function(){
+    return {
+        $get: function(){
+            return FeedService;
+        }
+    }
+});
+
+NewsFeed.config(
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', Router]
+);
+
+NewsFeed.constant('env', env);
+NewsFeed.constant('envConfig', feedConfig);
+
 /*
  * Module Configuration
+ */
+
+
+/*
+ * Module Controllers
+ */
+NewsFeed.controller(
+    'HeaderController',
+    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.HeaderController]
+);
+
+NewsFeed.controller(
+    'PageController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'envConfig', Controllers.PageController]
+);
+
+
+NewsFeed.controller(
+    'FeedSingleController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
+);
+
+NewsFeed.controller(
+    'FeedCategoryController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', 'categories', Controllers.FeedCategoryController]
+);
+
+NewsFeed.controller(
+    'FeedListController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
+);
+
+/*
+ * Module Controllers
+ */
+
+
+/*
+ * Module Directives
+ */
+
+NewsFeed.directive('card', Directives.card);
+
+/*
+ * Module Directives
  */
 
 

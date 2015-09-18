@@ -1,0 +1,12 @@
+<div class="post-view full">
+    <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
+    <div class="author-meta">
+        <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+        <p class="item-cat" ng-bind-html="item.category[0].name">{{ getCategory(item.category, item.link).name }}</p>
+        <span class="clearfix"></span>
+    </div>
+    <a name="comment"></a>
+    <div class="post-content" ng-bind-html="renderContent(item.content.rendered, $index, false)"></div>
+    <ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>
+</div>
+<ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>

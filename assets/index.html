@@ -50,7 +50,7 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <script id="facebook-jssdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.4"></script>
+    <!--<script id="facebook-jssdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.4"></script>-->
     <!--<script async="" src="//connect.facebook.net/en_US/fbevents.js"></script>-->
 
     <script type="text/javascript" src="/js/app.js"></script>
@@ -77,7 +77,9 @@
 </head>
 <body class="{{ isMobile() }}">
 
-    <!-- facebook root tag -->
+    <!---------------------
+    Facebook SDK
+    ---------------------->
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -86,10 +88,14 @@
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=829799350468084";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
+    <!---------------------
+    Facebook SDK
+    ---------------------->
 
-    <!-- facebook root tag -->
 
-    <!-- Google Tag Manager -->
+    <!---------------------
+    Google Tag Manager
+    ---------------------->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KGR7N7"
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -97,7 +103,9 @@
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KGR7N7'); var googletag ={}; googletag.cmd = [];</script>
-    <!-- Google Tag Manager -->
+    <!---------------------
+    Google Tag Manager
+    ---------------------->
 
     <ng-include src="'/shared/header.html'"></ng-include>
     <section class="view-container ng-view"></section>

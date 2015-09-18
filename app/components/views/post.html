@@ -1,5 +1,6 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="2">
+
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
 
             <div ng-switch="currentView">
@@ -7,37 +8,25 @@
                 <div ng-switch-when="list" class="list-view">
 
                     <div ng-switch="$index%8" ng-if="$index>0">
-                        <div ng-switch-when="0">
-                            <ng-include src="'/views/card.html'" ng-init="cardType='email'"></ng-include>
-                        </div>
-                        <div ng-switch-when="4">
-                            <ng-include src="'/views/card.html'" ng-init="cardType='follow'"></ng-include>
-                        </div>
-                        <div ng-switch-default>
-                            <ng-include src="'/views/partials/post-list.html'"></ng-include>
-                            <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>
-                        </div>
+                        <card ng-switch-when="0" type="email-signup"></card>
+                        <card ng-switch-when="4" type="social-follow"></card>
+                        <card ng-switch-default type="post-list"></card>
                     </div>
+
                 </div>
 
                 <div ng-switch-when="post" class="single-view">
-                    <div ng-switch="$index%8" ng-if="$index>0">
-                        <div ng-switch-when="0">
-                            <ng-include src="'/views/card.html'" ng-init="cardType='email'"></ng-include>
-                        </div>
-                        <div ng-switch-when="4">
-                            <ng-include src="'/views/card.html'" ng-init="cardType='follow'"></ng-include>
-                        </div>
-                        <div ng-switch-default>
-                            <ng-include src="'/views/partials/post-single.html'"></ng-include>
-                            <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>
-                        </div>
+
+                    <div ng-switch="$index">
+                        <card ng-switch-when="0" type="post-single"></card>
+                        <card ng-switch-default type="post-list"></card>
                     </div>
+
                 </div>
 
             </div>
 
         </div><!-- /ng-repeat -->
-    </div>
 
+    </div>
 </div>

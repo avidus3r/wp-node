@@ -1,23 +1,23 @@
 'use strict';
 
-var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig, categories) {
 
     this.name = 'category';
     this.params = $routeParams;
 
+    $scope.categories = categories;
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
-    $scope.lastScroll = window.scrollY;
     $scope.feedItemScrollAmount = 5;
     $scope.postPrefetchAt = 10;
     $scope.postsPerPage = 25;
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
-    $scope.currentY = null;
     $scope.category = null;
 
-    FeedService.getTerms('category').then(
+    console.log($scope.categories);
+    /*FeedService.getTerms('category').then(
         function(data){
             $scope.categories = data;
         },
@@ -27,7 +27,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         function(notification){
 
         }
-    );
+    );*/
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -70,35 +70,36 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
     };
 
     $scope.getPosts();
-    if(typeof $scope.$on === 'function') {
-        $scope.$on('categoriesRetrieved', function (event, categories) {
-            angular.forEach(categories, function (category, index) {
-                if (category.slug === $routeParams.category) {
-                    $rootScope.$broadcast('categoryLoaded', category);
-                }
-            });
+
+    $scope.$watch('categoriesRetrieved', function (event, categories) {
+        var scope = $scope;
+        angular.forEach(categories, function (category, index) {
+            if (category.slug === $routeParams.category) {
+                scope.$emit('categoryLoaded', category);
+            }
         });
+    });
 
-        $scope.$on('categoryLoaded', function (event, category) {
-            $scope.category = category;
-            // Standard meta
-            $rootScope.metatags.title = $scope.category.name + ' Archives - alt_driver';
-            $rootScope.metatags.description = $scope.category.description;
+    $scope.$on('categoryLoaded', function (event, category) {
 
-            // Facebook meta
-            $rootScope.metatags.fb_type = 'object';
-            $rootScope.metatags.fb_title = $scope.category.name + ' Archives - alt_driver';
-            $rootScope.metatags.fb_description = $scope.category.description;
-            $rootScope.metatags.fb_url = $scope.category.link;
-            $rootScope.metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+        $scope.category = category;
+        // Standard meta
+        $rootScope.metatags.title = $scope.category.name + ' Archives - alt_driver';
+        $rootScope.metatags.description = $scope.category.description;
 
-            // Twitter meta
-            $rootScope.metatags.tw_card = 'summary_large_image';
-            $rootScope.metatags.tw_title = $scope.category.name + ' Archives - alt_driver';
-            $rootScope.metatags.tw_description = $scope.category.description;
-            window.NewsFeed.metatags = $rootScope.metatags;
-        });
-    }
+        // Facebook meta
+        $rootScope.metatags.fb_type = 'object';
+        $rootScope.metatags.fb_title = $scope.category.name + ' Archives - alt_driver';
+        $rootScope.metatags.fb_description = $scope.category.description;
+        $rootScope.metatags.fb_url = $scope.category.link;
+        $rootScope.metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+
+        // Twitter meta
+        $rootScope.metatags.tw_card = 'summary_large_image';
+        $rootScope.metatags.tw_title = $scope.category.name + ' Archives - alt_driver';
+        $rootScope.metatags.tw_description = $scope.category.description;
+    });
+
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);

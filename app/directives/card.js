@@ -2,11 +2,9 @@
 
 var card = function() {
     return {
-        restrict: 'E',
-        scope: {
-            type: '=type'
-        },
-        templateUrl: '/views/card.html'
+        templateUrl: function(elem, attr){
+            return '/views/cards/' + attr.type + '.html';
+        }
     };
 };
 
