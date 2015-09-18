@@ -42,7 +42,7 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
  * Module Configuration
  */
 
-NewsFeed.run(function(MetaTags, $rootScope){
+NewsFeed.run(function(MetaTags, $rootScope, FeedService){
     MetaTags.initialize();
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -59,6 +59,60 @@ NewsFeed.run(function(MetaTags, $rootScope){
         }else{
             return 'unknown';
         }
+    };
+
+    $rootScope.voteLoad = function(postID, index){
+        var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
+        var votedHistory = null;
+
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+            angular.forEach(votedHistory, function (item, index) {
+                if(item.postID === postID){
+                    var userVoted = item.voted;
+                    setTimeout(function(){
+                        var votedOn = angular.element('.view-container').find('#votes-' + item.postID).find('button');
+                        votedOn.parent().find('button[name="' + userVoted + '"]').addClass('voted');
+                        votedOn.attr('disabled','disabled');
+                        return false;
+                    },50);
+                }
+            });
+        }
+    };
+
+    $rootScope.vote = function(postID, vote, $event){
+        $event.preventDefault();
+        var voteButton = angular.element($event.currentTarget);
+        var votedHistory = null;
+
+        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
+            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+        }
+        voteButton.addClass('voted');
+        var upOrDown = voteButton.attr('name');
+        var voteVal = upOrDown === 'up' ? 2 : 1;
+
+        var ls = [];
+        var userLS = null;
+        if(votedHistory){
+            var items = JSON.parse(localStorage.getItem('user_voted'));
+            items.push({postID:postID, voted:upOrDown});
+            userLS = JSON.stringify(items);
+        }else{
+            ls.push({postID:postID, voted:upOrDown});
+            userLS = JSON.stringify(ls);
+        }
+        localStorage.setItem('user_voted', userLS);
+        var voteCount = voteButton.parent().find('.vote-count').text();
+        var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
+        voteButton.parent().find('.vote-count').text(count);
+        voteButton.parent().find('button').attr('disabled','disabled');
+
+        var req = FeedService.vote(postID, voteVal);
+        req.addEventListener('load', function () {
+            var result = this.responseText;
+        });
     };
 });
 

@@ -30,12 +30,14 @@ var FeedService = function(envConfig, env, $http, $q){
     };
 
     feed.vote = function(postID, voteVal){
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID + '/' + voteVal;
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
 
         var oReq = new XMLHttpRequest();
 
         oReq.open('POST', url, true);
-        oReq.send('vote='+voteVal);
+        var formData = new FormData();
+        formData.append('vote', voteVal);
+        oReq.send(formData);
         return oReq;
     };
 

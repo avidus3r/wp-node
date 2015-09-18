@@ -16,6 +16,10 @@
     font-size: 1.4em;
   }
 
+  .ad-m{
+    margin-top: .5em;
+  }
+
   button {
     height: 2.5em;
   }
@@ -35,5 +39,16 @@
     
   }
 
+  .share-meta{
+    font-size: .65em;
+    margin-bottom: .5em;
+    padding-left: .25em;
+  }
 
+  .votes button[disabled="disabled"]{
+    color:#ccc;
+    &.voted{
+      color:lightblue;
+    }
+  }
 }
