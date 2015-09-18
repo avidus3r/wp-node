@@ -2,6 +2,12 @@ body{
   font-family: $font-montserrat, Calibri, Helvetica, Arial; // altD fonts
 }
 
+// align the logo using the underscore
+.navbar-brand {
+  position: relative;
+  top: -2px;
+}
+
     // custom navigation styles Bootstrap overrides
     @media all and (max-width:$nav-switch) {
       .navbar-nav {
@@ -18,6 +24,11 @@ body{
         a:visited {
           color: #fff !important;
         }
+      }
+
+      .navbar-nav > li > a {
+        padding-top: .5em;
+        padding-bottom: .5em;
       }
     }
 
