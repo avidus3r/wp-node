@@ -41,13 +41,6 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         return val;
     };
 
-    $scope.getCardType = function(){
-        var cardType = $scope.cardType === 'email' ? 'follow' : 'email';
-        console.log(cardType);
-        $scope.cardType = cardType;
-        return $scope.cardType;
-    };
-
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
@@ -62,7 +55,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
                 console.error('Failed: ', reason);
             },
             function(update) {  //notification
-                alert('Got notification: ' + update);
+                console.info('Got notification: ' + update);
             }
         );
     };
@@ -93,7 +86,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
                     console.error('Failed: ', reason);
                 },
                 function(update) {  //notification
-                    alert('Got notification: ' + update);
+                    console.info('Got notification: ' + update);
                 }
             );
         }
@@ -172,7 +165,6 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
             angular.forEach(votedHistory, function (item, index) {
                 if(item.postID === postID){
                     var userVoted = item.voted;
-                    console.log(userVoted);
                     voteButton.parent().find('button[name="' + userVoted + '"]').addClass('voted');
                     voteButton.attr('disabled','disabled');
                     return false;
@@ -212,7 +204,6 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         var req = FeedService.vote(postID, voteVal);
         req.addEventListener('load', function () {
             var result = this.responseText;
-            console.log(result);
         });
     };
 

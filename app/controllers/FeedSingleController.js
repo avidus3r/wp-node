@@ -120,7 +120,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.toggleComments = function(event){
-        console.log('toggleComments: ', event);
         event.preventDefault();
         event.stopPropagation();
         var currentState = angular.element('#commentHook span').text();
@@ -139,9 +138,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItems.push(item);
         if(index <= $scope.feedItemScrollAmount){
             $scope.add($scope.feedItems[index]);
-        }
-        if(index === $scope.feedItemScrollAmount){
-            //console.log('next');
         }
     };
 

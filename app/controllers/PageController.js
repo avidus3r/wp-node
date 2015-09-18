@@ -15,7 +15,6 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
             function(res){
                 $scope.page = res[0];
                 $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
-
             }
         );
     };

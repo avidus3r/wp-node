@@ -16,19 +16,6 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
     $scope.currentView = 'list';
     $scope.category = null;
 
-    console.log($scope.categories);
-    /*FeedService.getTerms('category').then(
-        function(data){
-            $scope.categories = data;
-        },
-        function(error){    
-
-        },
-        function(notification){
-
-        }
-    );*/
-
     $scope.getParams = function(param, encode){
         var val = null;
         switch(param){
@@ -64,7 +51,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
                 console.error('Failed: ', reason);
             },
             function(update) {  //notification
-                alert('Got notification: ' + update);
+                console.info('Got notification: ' + update);
             }
         );
     };
@@ -125,7 +112,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
                     console.error('Failed: ', reason);
                 },
                 function(update) {  //notification
-                    alert('Got notification: ' + update);
+                    console.info('Got notification: ' + update);
                 }
             );
         }

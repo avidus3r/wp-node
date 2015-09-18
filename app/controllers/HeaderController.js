@@ -60,7 +60,6 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
     };
 
     $scope.renderMenu = function(){
-        //var menuItems = Object.assign($scope.mainMenu, $scope.legalMenu);
         angular.forEach($scope.menuItems, function (item, index) {
             angular.forEach(item, function (navItem, index) {
                 if (navItem.object === 'page') {
@@ -73,11 +72,10 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
                 $scope.navItems.push(navItem);
             });
         });
-        console.log($scope.navItems.length);
     };
 
 
-    //$scope.getTerms();
+
     $scope.getMainMenu();
 
 };
