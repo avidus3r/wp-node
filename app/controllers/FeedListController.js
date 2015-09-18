@@ -128,19 +128,6 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         return cat;
     };
 
-    $scope.commentBtnHandler = function($event, $index, urlParams){
-        if($routeParams === urlParams){
-            $scope.$broadcast('toggleComments');
-        }else{
-            urlParams.slug = urlParams.slug + '#comment';
-            $scope.goToPage($event, $index, urlParams);
-        }
-    };
-
-    $scope.goToPage = function($event, $index, linkParams){
-        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
-    };
-
     $scope.receiveMessage = function(event){
         if(typeof event.data === 'string') {
             if (event.data.search('action=plugin_ready') > -1) {

@@ -42,7 +42,7 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
  * Module Configuration
  */
 
-NewsFeed.run(function(MetaTags, $rootScope, FeedService){
+NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams){
     MetaTags.initialize();
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -113,6 +113,19 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService){
         req.addEventListener('load', function () {
             var result = this.responseText;
         });
+    };
+
+    $rootScope.commentBtnHandler = function($event, $index, urlParams){
+        if($routeParams === urlParams){
+            $rootScope.$broadcast('toggleComments');
+        }else{
+            urlParams.slug = urlParams.slug + '#comment';
+            $rootScope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $rootScope.goToPage = function($event, $index, linkParams){
+        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 });
 

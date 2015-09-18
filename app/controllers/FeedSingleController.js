@@ -25,6 +25,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.lastOffset = $scope.$parent.lastOffset || null;
     $scope.voteTally = 0;
     $scope.fbReady = false;
+    $scope.comments = 0;
 
     $scope.postPath = 'posts';
     $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
@@ -113,25 +114,34 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
                 $scope.toggleComments(e);
             });
             if($location.hash() === 'comment'){
-                angular.element('#commentHook').trigger('click');
+                $scope.toggleComments(null);
             }
 
         });
     };
 
-    $scope.toggleComments = function(event){
-        event.preventDefault();
-        event.stopPropagation();
-        var currentState = angular.element('#commentHook span').text();
-        var newState = '';
-        if(currentState === '+ View Responses'){
-            newState = '- Close Responses';
-            angular.element('.fb-wrapper').css({'height': 'auto'});
+    $scope.commentBtnHandler = function($event, $index, urlParams){
+        console.log($routeParams, urlParams);
+        if($routeParams.slug === urlParams.slug){
+            $scope.toggleComments(null);
         }else{
-            newState = '+ View Responses';
-            angular.element('.fb-wrapper').css({'height': '0'});
+            urlParams.slug = urlParams.slug + '#comment';
+            $rootScope.goToPage($event, $index, urlParams);
         }
-        angular.element('#commentHook span').text(newState);
+    };
+
+    $scope.toggleComments = function(event){
+        if(event){
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        if($scope.comments === 1){
+            angular.element('.fb-wrapper').css({'height': '0'});
+            $scope.comments = 0;
+        }else{
+            angular.element('.fb-wrapper').css({'height': 'auto'});
+            $scope.comments = 1;
+        }
     };
 
     $scope.createFeedItem = function(item,index){
@@ -251,16 +261,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
-    };
-
-    $scope.commentBtnHandler = function($event, $index, urlParams){
-
-        if($routeParams.slug === urlParams.slug){
-            angular.element('#commentHook').trigger('click');
-        }else{
-            urlParams.slug = urlParams.slug + '#comment';
-            $scope.goToPage($event, $index, urlParams);
-        }
     };
 
     $scope.onViewLoaded = function(){
