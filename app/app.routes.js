@@ -34,6 +34,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             redirectTo: false
         })
         .when('/submit',{
+            controller: 'PageController',
             templateUrl: '/views/submit.html'
         })
         .when('/visitor-agreement',{
