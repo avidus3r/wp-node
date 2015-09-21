@@ -52,7 +52,7 @@ var FeedService = function(envConfig, env, $http, $q){
         oReq.open('POST', url, true);
         var formData = new FormData();
         formData.append('vote', voteVal);
-        oReq.send(fo);
+        oReq.send(formData);
         return oReq;
     };
 
