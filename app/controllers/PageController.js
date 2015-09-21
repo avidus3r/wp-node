@@ -11,12 +11,26 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
         return '';
     };
     $scope.getPage = function(){
-        FeedService.getPage($scope.routeParams).then(
-            function(res){
-                $scope.page = res[0];
-                $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
-            }
-        );
+        if($scope.routeParams === 'about'){
+            FeedService.getLegalMenu('Legal Menu').then(
+                function(res){
+                    var ul = angular.element('<ul />');
+                    angular.forEach(res, function (item, index) {
+                        var li = angular.element('<li />').append('<a href="/' + item.title.toLowerCase().replace(' ','-') + '">'+ item.title +'</a>');
+                        ul.append(li);
+                    });
+
+                    $scope.content = ul.html();
+                }
+            )
+        }else{
+            FeedService.getPage($scope.routeParams).then(
+                function(res){
+                    $scope.page = res[0];
+                    $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
+                }
+            );
+        }
     };
 
     $scope.getSubmit = function(){
@@ -33,10 +47,8 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
             angular.element('.view-container').height(angular.element(iframe).height());
         },3000);
 
-        angular.element('.view-container').css({'height':'100%'});
+
         angular.element('#submitPage').css({'height':'100%', 'padding':'0'});
-        angular.element('html').css({'height':'100%'});
-        angular.element('body').css({'height':'100%'});
 
         angular.element('#submitPage').find('iframe').contents().find('#wpadminbar').hide();
         angular.element('#submitPage').find('iframe').contents().find('#main-head').hide();
@@ -47,6 +59,10 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
          angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
          });*/
     };
+
+    $scope.$on('$viewContentLoaded', function(){
+        angular.element('html, body, .view-container, #staticPage, .content').css({'height':'100%'});
+    });
 
 };
 

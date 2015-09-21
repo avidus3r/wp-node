@@ -91,7 +91,6 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
             );
         }
         $scope.feedItemPosition += 1;
-        angular.element('#loading-more').hide();
     };
 
     $scope.getNext = function(){
@@ -137,8 +136,12 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         }
     };
 
+    $scope.$on('$viewContentLoaded', function(){
+        angular.element('#loading-more').hide();
+    });
+
     window.onscroll = function(ev) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-75)) {
             angular.element('#loading-more').show();
         }else{
             angular.element('#loading-more').hide();

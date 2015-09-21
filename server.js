@@ -39,6 +39,11 @@ app.get('/privacy-policy', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
+
+app.get('/about', function(req,res){
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
 app.get('/getPosts/:perPage/:pageNum', function(req,res){
     getPosts(req);
 });
