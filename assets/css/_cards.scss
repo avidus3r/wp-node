@@ -3,6 +3,7 @@
 // NON POST cards
 .card {
   @extend .post-content;
+  @extend .clearfix;
 }
 
 
