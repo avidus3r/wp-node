@@ -15,7 +15,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 15;
+    $scope.feedItemScrollAmount = 10;
     $scope.postPrefetchAt = 75;
     $scope.postsPerPage = 100;
     $scope.pageNumber = 1;
@@ -45,7 +45,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
     $scope.getPosts = function(){
-        return FeedService.getPosts($scope.postPath, $scope.pageNumber).then(
+        return FeedService.getPostData($scope.postPath, $scope.pageNumber).then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
@@ -74,7 +74,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            FeedService.getPosts($scope.postPath, $scope.pageNumber)
+            FeedService.getPostData($scope.postPath, $scope.pageNumber)
                 .then(
                 function(data){ //success
                     angular.forEach(data, function (item, index) {

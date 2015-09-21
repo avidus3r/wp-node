@@ -11,6 +11,20 @@ var FeedService = function(envConfig, env, $http, $q){
 
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
+    feed.getPostData = function(path, params) {
+        var deferred = $q.defer();
         var url = './data/posts_' + params + '.json';
         $http.get(url)
             .then(function (response) {
@@ -38,7 +52,7 @@ var FeedService = function(envConfig, env, $http, $q){
         oReq.open('POST', url, true);
         var formData = new FormData();
         formData.append('vote', voteVal);
-        oReq.send(formData);
+        oReq.send(fo);
         return oReq;
     };
 
