@@ -127,6 +127,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams){
     $rootScope.goToPage = function($event, $index, linkParams){
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
+
+    $rootScope.getSMSLink = function(link){
+        return $rootScope.isMobile().indexOf('ios') > -1 ? 'sms:&body='+link : 'sms:?body='+link;
+    };
 });
 
 NewsFeed.factory(
