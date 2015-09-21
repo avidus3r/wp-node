@@ -1,12 +1,13 @@
 'use strict';
 
-var express = require('express'),
-    app = express(),
-    path = require('path'),
-    request = require('request'),
-    bodyParser = require('body-parser'),
-    util = require('util'),
-    multiparty = require('multiparty');
+var express     = require('express'),
+    app         = express(),
+    path        = require('path'),
+    request     = require('request'),
+    bodyParser  = require('body-parser'),
+    util        = require('util'),
+    multiparty  = require('multiparty'),
+    fs          = require('fs');
 
 var EXPRESS_PORT = 3000,
     //EXPRESS_HOST = '172.31.8.101',
@@ -15,6 +16,7 @@ var EXPRESS_PORT = 3000,
 
 app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + '/tests'));
+app.use(express.static(__dirname + './data'));
 app.use(bodyParser.raw({extended:true}));
 
 app.get('/tests', function(req, res){
@@ -35,6 +37,38 @@ app.get('/visitor-agreement', function(req,res){
 
 app.get('/privacy-policy', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
+app.get('/getPosts/:perPage/:pageNum', function(req,res){
+    request('http://devaltdriver.wpengine.com/wp-json/wp/v2/posts?per_page=' + req.params.perPage + '&page=' + req.params.pageNum, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            /*fs.readdir('./data', function(err, files){
+                if(err) throw err;
+                console.log(files);
+            });*/
+
+            fs.realpath('./data', function(err, resolvedPath){
+                fs.readdir(resolvedPath, function(err, files){
+                    if(err) throw err;
+                    fs.writeFile(resolvedPath + '/posts_'+ req.params.pageNum +'.json', body, function(err){
+                        if(err) throw err;
+                    });
+                    if(files.length == 0){
+                        fs.writeFile(resolvedPath + '/posts_'+ req.params.pageNum +'.json', body, function(err){
+                            if(err) throw err;
+                        });
+                    }
+                });
+            });
+            res.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+            res.write(body);
+            res.end();
+        }
+    });
+});
+
+app.get('/data/:file', function(req, res){
+    res.sendFile(req.params.file, { root: path.join(__dirname, './data') });
 });
 
 app.get('*', function(req,res){

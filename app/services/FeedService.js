@@ -11,9 +11,10 @@ var FeedService = function(envConfig, env, $http, $q){
 
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
+        var url = './data/posts_' + params + '.json';
         $http.get(url)
             .then(function (response) {
+                console.log(response);
                 var res = response.data;
                 deferred.resolve(res);
             }, function (response) {
