@@ -15,7 +15,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 1;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 10;
+    $scope.feedItemScrollAmount = 15;
     $scope.postPrefetchAt = 75;
     $scope.postsPerPage = 100;
     $scope.pageNumber = 1;
@@ -91,6 +91,7 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
             );
         }
         $scope.feedItemPosition += 1;
+        angular.element('#loading-more').hide();
     };
 
     $scope.getNext = function(){
@@ -133,6 +134,14 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
             if (event.data.search('action=plugin_ready') > -1) {
                 $scope.$emit('fbReady');
             }
+        }
+    };
+
+    window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            angular.element('#loading-more').show();
+        }else{
+            angular.element('#loading-more').hide();
         }
     };
 
