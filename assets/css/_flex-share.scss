@@ -55,6 +55,13 @@
   }
 }
 
+.ios.mobile .flexshare {
+  .fs-item,
+  .fs-item:visited {
+    width: percentage(1/7);
+  }
+}
+
 // no round squares branded
 .flexshare {
   .flex-facebook,
