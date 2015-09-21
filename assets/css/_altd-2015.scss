@@ -57,6 +57,12 @@ body{
   background-color: $color-ad-green;
 }
 
+
+.wrapper.list .post-content.feed-view{
+  min-height: 180px;
+}
+
+
 // display title OVER video screeny
 .post-content h2.post-title{
   font-size: 1.5em; // font size controls all magical ems
