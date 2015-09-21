@@ -40,12 +40,16 @@ app.get('/privacy-policy', function(req,res){
 });
 
 app.get('/getPosts/:perPage/:pageNum', function(req,res){
+    getPosts(req);
+});
+
+function getPosts(req, res){
     request('http://devaltdriver.wpengine.com/wp-json/wp/v2/posts?per_page=' + req.params.perPage + '&page=' + req.params.pageNum, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             /*fs.readdir('./data', function(err, files){
-                if(err) throw err;
-                console.log(files);
-            });*/
+             if(err) throw err;
+             console.log(files);
+             });*/
 
             fs.realpath('./data', function(err, resolvedPath){
                 fs.readdir(resolvedPath, function(err, files){
@@ -65,10 +69,21 @@ app.get('/getPosts/:perPage/:pageNum', function(req,res){
             res.end();
         }
     });
-});
+}
 
 app.get('/data/:file', function(req, res){
-    res.sendFile(req.params.file, { root: path.join(__dirname, './data') });
+    fs.realpath('./data', function(err, resolvedPath) {
+        fs.readdir(resolvedPath, function (err, files) {
+            if(files.indexOf(req.params.file) === -1){
+                var pageNum = req.params.file.search(/[0-9]/);
+                req.params.perPage = 100;
+                req.params.pageNum = pageNum;
+                getPosts(req, res);
+            }else{
+                res.sendFile(req.params.file, { root: path.join(__dirname, './data') });
+            }
+        });
+    });
 });
 
 app.get('*', function(req,res){
