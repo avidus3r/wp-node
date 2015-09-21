@@ -143,7 +143,7 @@ NewsFeed.provider('FeedServiceProvider',function(){
 });
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', Router]
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', '$compileProvider', Router]
 );
 
 NewsFeed.constant('env', env);

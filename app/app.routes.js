@@ -1,6 +1,7 @@
 'use strict';
 
-var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider) {
+var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, $compileProvider) {
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|mailto):/);
     var FeedService = FeedServiceProvider.$get();
     $routeProvider.
         when('/', {
