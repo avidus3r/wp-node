@@ -132,8 +132,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams){
         return $rootScope.isMobile().indexOf('ios') > -1 ? 'sms:&body='+link : 'sms:?body='+link;
     };
 
-    $rootScope.initWhatsAppShare = function(){
+    $rootScope.initWhatsAppShare = function(link){
+        angular.element('.flexshare').find('#fs-wa').attr('data-href', link);
         angular.element('.flexshare').find('iframe').height(angular.element('.flexshare').height());
+
     };
 });
 

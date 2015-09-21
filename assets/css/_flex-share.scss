@@ -109,7 +109,12 @@
   .flex-reddit,
   .flex-reddit:visited {
     background-color: $color-reddit;
+    display: none;
   }
 
+}
+
+.mobile .flex-linkedin{
+  display: none;
 }
 
