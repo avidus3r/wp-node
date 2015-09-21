@@ -264,6 +264,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.onViewLoaded = function(){
+        angular.element('#loading-more').hide();
+
+        setTimeout(function(){
+            angular.element('.pa-share').on('click', function(){
+                if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
+                    angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
+            });
+        },1500);
         setTimeout(function(){
             if(!$scope.fbReady){
                 $scope.fbReady = true;

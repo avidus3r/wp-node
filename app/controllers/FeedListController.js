@@ -138,6 +138,13 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
 
     $scope.$on('$viewContentLoaded', function(){
         angular.element('#loading-more').hide();
+
+        setTimeout(function(){
+            angular.element('.pa-share').on('click', function(){
+                if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
+                    angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
+            });
+        },1500);
     });
 
     window.onscroll = function(ev) {
