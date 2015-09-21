@@ -64,6 +64,12 @@
 
 // no round squares branded
 .flexshare {
+
+  iframe{
+    height: 60px;
+    max-height: 60px;
+    min-height: 50px;
+  }
   .flex-facebook,
   .flex-facebook:visited {
     background-color: $color-facebook;
