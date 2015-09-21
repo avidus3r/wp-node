@@ -12,9 +12,14 @@
         <i class="fa fa-3x fa-envelope"></i>
       </a>
 
-      <!-- email -->
+      <!-- sms -->
       <a class="flex-sms fs-item" href="{{ getSMSLink(item.link) }}">
         <i class="fa fa-3x fa-phone"></i>
+      </a>
+
+      <!-- sms -->
+      <a href="whatsapp://send" data-text="You have got to see this - :" data-href="{{item.link}}" class="flex-whatsapp fs-item">
+          <i class="fa fa-3x fa-whatsapp"></i>
       </a>
 
       <!-- reddit -->
