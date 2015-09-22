@@ -43,6 +43,7 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         return FeedService.getPosts(postPath, postParams + pagingParams).then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
+                    item.type = 'post-list';
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
                 $scope.$emit('list:next');

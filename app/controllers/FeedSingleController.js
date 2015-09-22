@@ -42,6 +42,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
             $scope.initMeta(item);
             $scope.singlePostID = item.id;
+            item.type = 'post-single';
             $scope.createFeedItem(item, $scope.feedItems.length);
             $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
         });
@@ -92,6 +93,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         FeedService.getPosts(postPath, pagingParams).then(
             function(data){ //success
                 angular.forEach(data, function (item, index) {
+                    item.type = 'post-list';
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
                 $scope.$emit('list:next');

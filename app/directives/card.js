@@ -2,9 +2,14 @@
 
 var card = function() {
     return {
-        templateUrl: function(elem, attr){
-            return '/views/cards/' + attr.type + '.html';
-        }
+        restrict: 'E',
+        link: function(scope, element, attrs) {
+            scope.contentUrl = '/views/cards/' + attrs.type + '.html';
+            attrs.$observe('type',function(t){
+                scope.contentUrl = '/views/cards/' + t + '.html';
+            });
+        },
+        template: '<div ng-include="contentUrl"></div>'
     };
 };
 
