@@ -42,7 +42,7 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
  * Module Configuration
  */
 
-NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams){
+NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     MetaTags.initialize();
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -132,13 +132,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams){
         return $rootScope.isMobile().indexOf('ios') > -1 ? 'sms:&body='+link : 'sms:?body='+link;
     };
 
-    $rootScope.getShareLink = function(link){
-        return link;
-    };
-
-    $rootScope.initWhatsAppShare = function(link){
-        angular.element('.flexshare').find('#fs-wa').attr('data-href', link);
-        angular.element('.flexshare').find('iframe').height(angular.element('.flexshare').height());
+    $rootScope.getTrusted = function(val){
+        return $sce.trustAsHtml(val);
     };
 });
 
