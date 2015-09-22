@@ -22,7 +22,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.pageTitle = null;
     $scope.renderedOnce = true;
     $scope.singlePostID = null;
-    $scope.lastOffset = $scope.$parent.lastOffset || null;
+    $scope.lastOffset = localStorage.getItem('post_offset') || 0;
     $scope.voteTally = 0;
     $scope.fbReady = false;
     $scope.comments = 0;
@@ -256,10 +256,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
         $scope.feedItemPosition += 1;
     };
 
-    $scope.goToPage = function(e, lastIndex, linkParams){
-        $scope.$parent.lastOffset = lastIndex + $scope.lastOffset;
+    /*$scope.goToPage = function(e, lastIndex, linkParams){
+        localStorage.setItem('post_offset', lastIndex);
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
-    };
+    };*/
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;

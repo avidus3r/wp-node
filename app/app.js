@@ -6,7 +6,7 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'dev';
+var env = 'prod';
 
 var feedConfig = {
     'prod': {
@@ -61,6 +61,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
             return 'unknown';
         }
     };
+
+    //$rootScope.lastIndex = 0;
 
     $rootScope.decodeHtml = function(html) {
         var txt = document.createElement('textarea');
@@ -132,6 +134,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
+        localStorage.setItem('post_offset', JSON.stringify({offset: $index}));
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 
