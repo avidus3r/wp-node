@@ -51,14 +51,14 @@
   .fs-item:visited {
     display: block;
     float: left;
-    width: percentage(1/6);
+    width: percentage(1/5);
   }
 }
 
 .ios.mobile .flexshare {
   .fs-item,
   .fs-item:visited {
-    width: percentage(1/7);
+    width: percentage(1/6); 
   }
 }
 
