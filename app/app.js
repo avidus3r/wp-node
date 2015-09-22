@@ -198,7 +198,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
 );
 
 NewsFeed.controller(

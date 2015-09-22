@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig, $sce) {
+var FeedSingleController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, envConfig, $sce) {
 
     this.name = 'single';
     this.params = $routeParams;
@@ -26,6 +26,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     $scope.voteTally = 0;
     $scope.fbReady = false;
     $scope.comments = 0;
+    $scope.instagramPost = null;
+    $scope.instagramIndex = 6;
 
     $scope.postPath = 'posts';
     $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
@@ -90,21 +92,26 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        FeedService.getPosts(postPath, pagingParams).then(
-            function(data){ //success
-                angular.forEach(data, function (item, index) {
-                    item.type = 'post-list';
-                    $scope.createFeedItem(item, $scope.feedItems.length);
-                });
-                $scope.$emit('list:next');
-            },
-            function(reason){   //error
-                console.error('Failed: ', reason);
-            },
-            function(update) {  //notification
-                console.debug('Got notification: ' + update);
-            }
-        );
+        InstagramService.get(1, 'nofilter').then(function(res) {
+            var gram = res.data.data[0];
+            gram.type = 'instagram';
+            $scope.instagramPost = gram;
+            FeedService.getPosts(postPath, pagingParams).then(
+                function (data) { //success
+                    angular.forEach(data, function (item, index) {
+                        item.type = 'post-list';
+                        $scope.createFeedItem(item, $scope.feedItems.length);
+                    });
+                    $scope.$emit('list:next');
+                },
+                function (reason) {   //error
+                    console.error('Failed: ', reason);
+                },
+                function (update) {  //notification
+                    console.debug('Got notification: ' + update);
+                }
+            );
+        });
     };
 
     $scope.attachCommentsHandler = function(){
@@ -148,6 +155,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, $route, $ro
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems.push(item);
+        if(index === $scope.instagramIndex){
+            $scope.feedItemElements.splice(index,0,$scope.instagramPost);
+        }
         if(index <= $scope.feedItemScrollAmount){
             $scope.add($scope.feedItems[index]);
         }
