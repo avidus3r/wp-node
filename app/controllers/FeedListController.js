@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
+var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, envConfig) {
 
     this.name = 'list';
     this.$route = $route;
@@ -45,19 +45,26 @@ var FeedListController = function($rootScope, $scope, FeedService, $route, $rout
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
     $scope.getPosts = function(){
-        return FeedService.getPostData($scope.postPath, $scope.pageNumber).then(
-            function(data){ //success
-                angular.forEach(data, function (item, index) {
-                    $scope.createFeedItem(item, $scope.feedItems.length);
-                });
-            },
-            function(reason){   //error
-                console.error('Failed: ', reason);
-            },
-            function(update) {  //notification
-                console.info('Got notification: ' + update);
-            }
-        );
+        InstagramService.get(1, 'nofilter').then(function(res){
+            var gram = res.data.data[0];
+            gram.type = 'instagram';
+            $scope.createFeedItem(gram, $scope.feedItems.length);
+            console.log(gram);
+            FeedService.getPostData($scope.postPath, $scope.pageNumber).then(
+                function(data){ //success
+                    angular.forEach(data, function (item, index) {
+                        item.type = 'post';
+                        $scope.createFeedItem(item, $scope.feedItems.length);
+                    });
+                },
+                function(reason){   //error
+                    console.error('Failed: ', reason);
+                },
+                function(update) {  //notification
+                    console.info('Got notification: ' + update);
+                }
+            );
+        });
     };
 
     $scope.posts = $scope.getPosts();

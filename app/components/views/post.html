@@ -7,13 +7,21 @@
 
                 <div ng-switch-when="list" class="list-view">
 
-                    <div ng-if="$index===0">
-                        <card type="post-list"></card>
-                    </div>
-                    <div ng-switch="$index%8" ng-if="$index>0">
-                        <card ng-switch-when="0" ng-if="$index<10" type="email-signup"></card>
-                        <card ng-switch-when="4" ng-if="$index<10" type="social-follow"></card>
-                        <card ng-switch-default type="post-list"></card>
+                    <div ng-switch="item.type" class="card-{{ item.type }}">
+                        <div ng-switch-when="post">
+                            <div ng-if="$index===0">
+                                <card type="post-list"></card>
+                            </div>
+
+                            <div ng-switch="$index%8" ng-if="$index>0">
+                                <card ng-switch-when="0" ng-if="$index<10" type="email-signup"></card>
+                                <card ng-switch-when="4" ng-if="$index<10" type="social-follow"></card>
+                                <card ng-switch-default type="post-list"></card>
+                            </div>
+                        </div>
+                        <div ng-switch-when="instagram">
+                            <card type="instagram"></card>
+                        </div>
                     </div>
 
                 </div>

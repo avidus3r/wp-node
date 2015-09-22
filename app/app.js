@@ -29,6 +29,7 @@ var Directives = require('./app.directives');
 
 //Services
 var FeedService = require('./services/FeedService');
+var InstagramService = require('./services/InstagramService');
 
 //Routes
 var Router = require('./app.routes');
@@ -156,6 +157,16 @@ NewsFeed.provider('FeedServiceProvider',function(){
     }
 });
 
+NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
+
+NewsFeed.provider('InstagramServiceProvider',function(){
+    return {
+        $get: function(){
+            return InstagramService;
+        }
+    }
+});
+
 NewsFeed.config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', '$compileProvider', Router]
 );
@@ -194,7 +205,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
 );
 
 /*
