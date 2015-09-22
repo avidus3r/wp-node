@@ -61,6 +61,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         }
     };
 
+    $rootScope.decodeHtml = function(html) {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
+    };
+
     $rootScope.voteLoad = function(postID, index){
         var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
         var votedHistory = null;
