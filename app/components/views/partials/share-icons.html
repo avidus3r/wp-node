@@ -2,47 +2,43 @@
 <!-- Add a class of "share-small" to reduce font size -->
 <div class="flexshare">
 
-      <!-- facebook -->
-      <a class="flex-facebook fs-item" href="https://www.facebook.com/sharer/sharer.php?u={{ item.link }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
+    <!-- facebook -->
+    <a class="flex-facebook fs-item" href="https://www.facebook.com/sharer/sharer.php?u={{ item.link }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
         <i class="fa fa-3x fa-facebook"></i>
-      </a>
+    </a>
 
-      <!-- email -->
-      <a class="flex-mail fs-item" href="mailto:?subject=Check out this video&body=You have got to see this - {{ getParams('url', true) }}" target="_blank">
+    <!-- email -->
+    <a class="flex-mail fs-item" href="mailto:?subject=Check out this video&body=You have got to see this - {{ getParams('url', true) }}" target="_blank">
         <i class="fa fa-3x fa-envelope"></i>
-      </a>
+    </a>
 
-      <!-- sms -->
-      <a class="flex-sms fs-item" href="{{ getSMSLink(item.link) }}">
+    <!-- sms -->
+    <a class="flex-sms fs-item" href="{{ getSMSLink(item.link) }}">
         <i class="fa fa-3x fa-phone"></i>
-      </a>
+    </a>
 
-      <!-- sms -->
-      <a id="fs-wa" ng-init="initWhatsAppShare(item.link)" href="whatsapp://send" data-text="You have got to see this - :" data-href="{{getParams('url', false)}}" class="wa_btn wa_btn_s flex-whatsapp fs-item" style="display: none; height:100%; font-size:3em; background-size:.675em; padding:0; margin:0; width:100%; background-position:center center; border:none; border-radius:0;">
-          <i class="fa fa-3x fa-whatsapp"></i>
-      </a>
+    <!-- whatsapp -->
+    <a href="whatsapp://send?text={{ item.link }}" class="flex-whatsapp fs-item">
+        <i class="fa fa-3x fa-whatsapp"></i>
+    </a>
 
-    <script type="text/javascript">if(typeof wabtn4fg==="undefined"){wabtn4fg=1;h=document.head||document.getElementsByTagName("head")[0],s=document.createElement("script");s.type="text/javascript";s.src="/js/vendor/whatsapp-button.js";h.appendChild(s);}</script>
-
-      <!-- reddit -->
-      <a class="flex-reddit fs-item" href="//www.reddit.com/submit?url={{ getParams('url', true) }}&title={{ getParams('title', true) }}" target="_blank">
+    <!-- reddit -->
+    <a class="flex-reddit fs-item" href="//www.reddit.com/submit?url={{ getParams('url', true) }}&title={{ getParams('title', true) }}" target="_blank">
         <i class="fa fa-3x fa-reddit"></i>
-      </a>
+    </a>
 
-      <a class="flex-linkedin fs-item flexshare-first" href="http://www.linkedin.com/shareArticle?title={{ getParams('title') }}&url={{ getParams('url', true) }}&utm_source=linkedin&utm_medium=share&utm_campaign=site-share" title="Share on LinkedIn" target="_blank">
-        <!-- linkedin -->
+    <!-- linkedin -->
+    <a class="flex-linkedin fs-item flexshare-first" href="http://www.linkedin.com/shareArticle?title={{ getParams('title') }}&url={{ getParams('url', true) }}&utm_source=linkedin&utm_medium=share&utm_campaign=site-share" title="Share on LinkedIn" target="_blank">
         <i class="fa fa-3x fa-linkedin"></i>
-      </a>
+    </a>
 
-
-      <a class="flex-twitter fs-item" href="http://www.twitter.com/share?&text={{ getParams('title') }}&url={{ getParams('url', true) }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
-        <!-- twitter -->
+    <!-- twitter -->
+    <a class="flex-twitter fs-item" href="http://www.twitter.com/share?&text={{ getParams('title') }}&url={{ getParams('url', true) }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
         <i class="fa fa-3x fa-twitter"></i>
-      </a>
+    </a>
 
-      <a class="flex-gplus fs-item" href="https://plus.google.com/share?url={{ getParams('url', true) }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
-        <!-- googleplus -->
+    <!-- googleplus -->
+    <a class="flex-gplus fs-item" href="https://plus.google.com/share?url={{ getParams('url', true) }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
         <i class="fa fa-3x fa-google-plus"></i>
-      </a>
-
-  </div>
+    </a>
+</div>

@@ -10,4 +10,4 @@
     <div class="post-content" ng-bind-html="renderContent(item.content.rendered, $index, false)"></div>
     <ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>
 </div>
-<ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>
+<ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false; view='single'"></ng-include>
