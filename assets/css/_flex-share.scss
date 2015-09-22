@@ -83,6 +83,16 @@
   .flex-sms,
   .flex-sms:visited{
     background-color: #007bb6;
+
+    // some custom CSS for SMS
+    .fa-stack-2x {
+      font-size: 1.8em;
+    }
+
+    i {
+      vertical-align: 3px;
+    }
+
   }
 
   .flex-whatsapp,
