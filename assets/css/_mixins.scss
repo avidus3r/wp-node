@@ -1,5 +1,7 @@
 //mixins
 
 @mixin flex-justify-content($justify){
+  -webkit-box-pack: $justify;
+  -webkit-justify-content: $justify;
     justify-content: $justify;
 }
