@@ -1,7 +1,11 @@
 // flexbox based share buttons
 .flexshare {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: row;
   flex-direction: row;
+  -webkit-flex-wrap: nowrap;
   flex-wrap: nowrap;
   @include flex-justify-content(center);
   position: relative;
@@ -9,6 +13,7 @@
   clear: left;
 }
 .fs-item {
+  -webkit-flex-grow:1;
   flex-grow:1;
 }
 
@@ -19,6 +24,7 @@
 
 // testing classes - rework with something better
   .flexshare-first {
+    -webkit-order: -1;
     order: -1;
   }
 
@@ -43,24 +49,7 @@
   }
 }
 
-// ios specific flexbox reverts
-// ios imporoperly supports flexbox - revert to floats for now.
-.ios .flexshare {
-  display: block;
-  .fs-item,
-  .fs-item:visited {
-    display: block;
-    float: left;
-    width: percentage(1/5);
-  }
-}
 
-.ios.mobile .flexshare {
-  .fs-item,
-  .fs-item:visited {
-    width: percentage(1/6); 
-  }
-}
 
 .desktop .flexshare iframe{display: none;}
 
@@ -94,6 +83,16 @@
   .flex-sms,
   .flex-sms:visited{
     background-color: #007bb6;
+
+    // some custom CSS for SMS
+    .fa-stack-2x {
+      font-size: 1.8em;
+    }
+
+    i {
+      vertical-align: 3px;
+    }
+
   }
 
   .flex-whatsapp,
