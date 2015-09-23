@@ -175,6 +175,11 @@ body{
   // grab bag
   &.grab-bag {background-color: $color-ad-purple-alt;}
 
+  //instagram
+  &.instagram {
+    padding: 0 .5em !important;
+  }
+
   a{
     color: #ffffff;
   }
