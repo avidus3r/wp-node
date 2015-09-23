@@ -134,7 +134,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
-        localStorage.setItem('post_offset', JSON.stringify({offset: $index}));
+        //localStorage.setItem('post_offset', JSON.stringify({offset: $index}));
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
 

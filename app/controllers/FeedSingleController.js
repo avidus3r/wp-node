@@ -35,7 +35,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.socialFollow = {'type': 'social-follow'};
 
     $scope.postPath = 'posts';
-    $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
+    $scope.offset = $scope.lastOffset ? '&offset=' + $scope.lastOffset : '';
     $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
     $scope.postParams = '?name=' + $routeParams.slug;
 
@@ -285,10 +285,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         $scope.feedItemPosition += 1;
     };
 
-    /*$scope.goToPage = function(e, lastIndex, linkParams){
-        localStorage.setItem('post_offset', lastIndex);
+    $scope.goToPage = function(e, lastIndex, linkParams){
+        var currentOffset = localStorage.getItem('post_offset');
+        var newOffset = parseInt(currentOffset)+lastIndex;
+        localStorage.setItem('post_offset', newOffset);
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
-    };*/
+    };
 
     $scope.getVoteTally = function(){
         return $scope.voteTally;
