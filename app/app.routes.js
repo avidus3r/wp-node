@@ -7,7 +7,22 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
         when('/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
-            redirectTo: false
+            redirectTo: false,
+            resolve:{
+                posts: function(){
+                    return FeedService.getPosts('posts','?per_page=25&page=1').then(
+                        function(data){
+                            return data;
+                        },
+                        function(error){
+
+                        },
+                        function(notification){
+
+                        }
+                    );
+                }
+            }
         })
         .when('/category/:category', {
             controller: 'FeedCategoryController',

@@ -51,7 +51,13 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
             $scope.singlePostID = item.id;
             item.type = 'post-single';
             $scope.createFeedItem(item, $scope.feedItems.length);
-            $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
+            InstagramService.get(1, 'nofilter').then(function(res) {
+                var gram = res.data.data[0];
+                gram.type = 'instagram';
+                $scope.instagramPost = gram;
+                $scope.getPosts('feed/'+ $scope.singlePostID, $scope.pagingParams);
+            });
+
         });
     };
 
@@ -97,39 +103,36 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     };
 
     $scope.getPosts = function(postPath, pagingParams){
-        InstagramService.get(1, 'nofilter').then(function(res) {
-            var gram = res.data.data[0];
-            gram.type = 'instagram';
-            $scope.instagramPost = gram;
-            FeedService.getPosts(postPath, pagingParams).then(
-                function (data) { //success
-                    angular.forEach(data, function (item, index) {
 
-                        if(index === $scope.emailSignupIndex){
-                            //$scope.createFeedItem($scope.emailSignup, index);
-                        }
+        FeedService.getPosts(postPath, pagingParams).then(
+            function (data) { //success
+                angular.forEach(data, function (item, index) {
 
-                        /*if(index === $scope.socialFollowIndex){
-                         $scope.createFeedItem($scope.socialFollow, index);
-                         }*/
+                    if(index === $scope.emailSignupIndex){
+                        //$scope.createFeedItem($scope.emailSignup, index);
+                    }
 
-                        if(index === $scope.instagramIndex){
-                            $scope.createFeedItem($scope.instagramPost, index);
-                        }
+                    /*if(index === $scope.socialFollowIndex){
+                     $scope.createFeedItem($scope.socialFollow, index);
+                     }*/
 
-                        item.type = 'post-list';
-                        $scope.createFeedItem(item, $scope.feedItems.length);
-                    });
-                    $scope.$emit('list:next');
-                },
-                function (reason) {   //error
-                    console.error('Failed: ', reason);
-                },
-                function (update) {  //notification
-                    console.debug('Got notification: ' + update);
-                }
-            );
-        });
+                    if(index === $scope.instagramIndex){
+                        $scope.createFeedItem($scope.instagramPost, index);
+                    }
+
+                    item.type = 'post-list';
+                    $scope.createFeedItem(item, $scope.feedItems.length);
+                });
+                $scope.$emit('list:next');
+            },
+            function (reason) {   //error
+                console.error('Failed: ', reason);
+            },
+            function (update) {  //notification
+                console.debug('Got notification: ' + update);
+            }
+        );
+
     };
 
     $scope.attachCommentsHandler = function(){
