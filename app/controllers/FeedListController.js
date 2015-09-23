@@ -23,7 +23,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.currentY = null;
     $scope.cardType = 'email';
     $scope.instagramPost = null;
-    $scope.instagramIndex = 9;
+    $scope.instagramIndex = 5;
+    $scope.emailSignupIndex = 3;
+    $scope.socialFollowIndex = 1;
+    $scope.splicedItems = 0;
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -46,6 +49,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
+    $scope.emailSignup = {'type': 'email-signup'};
+    $scope.socialFollow = {'type': 'social-follow'};
+
     $scope.getPosts = function(){
         InstagramService.get(1, 'nofilter').then(function(res){
             var gram = res.data.data[0];
@@ -55,6 +61,20 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             FeedService.getPostData($scope.postPath, $scope.pageNumber).then(
                 function(data){ //success
                     angular.forEach(data, function (item, index) {
+                        if(index === $scope.emailSignupIndex){
+                            $scope.createFeedItem($scope.emailSignup, index);
+                            $scope.splicedItems+=1;
+                        }
+
+                        /*if(index === $scope.socialFollowIndex){
+                            $scope.createFeedItem($scope.socialFollow, index);
+                            $scope.splicedItems+=1;
+                        }*/
+
+                        if(index === $scope.instagramIndex){
+                            $scope.createFeedItem($scope.instagramPost, index);
+                            $scope.splicedItems+=1;
+                        }
                         item.type = 'post-list';
                         $scope.createFeedItem(item, $scope.feedItems.length);
                     });
@@ -72,12 +92,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.posts = $scope.getPosts();
 
     $scope.createFeedItem = function(item,index){
-        $scope.feedItems.push(item);
-        if(index === $scope.instagramIndex){
-            $scope.feedItemElements.splice(index,0,$scope.instagramPost);
-        }
+
+        $scope.feedItems[index] = item;
+
         if(index < $scope.feedItemScrollAmount){
-            $scope.feedItemElements.push($scope.feedItems[index]);
+            $scope.feedItemElements[index] = $scope.feedItems[index];
             $scope.feedItemPosition += 1;
         }
     };
@@ -106,7 +125,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getNext = function(){
-        var itemPosition = $scope.feedItemPosition-1;
+        var itemPosition = $scope.feedItemPosition-($scope.splicedItems);
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount;
         if(itemPosition % count === 0){

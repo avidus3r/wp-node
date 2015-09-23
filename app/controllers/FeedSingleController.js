@@ -28,6 +28,11 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.comments = 0;
     $scope.instagramPost = null;
     $scope.instagramIndex = 6;
+    $scope.emailSignupIndex = 3;
+    $scope.socialFollowIndex = 1;
+
+    $scope.emailSignup = {'type': 'email-signup'};
+    $scope.socialFollow = {'type': 'social-follow'};
 
     $scope.postPath = 'posts';
     $scope.offset = $scope.lastOffset ? '&offset=' + ($scope.lastOffset-1) : '';
@@ -99,6 +104,19 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
             FeedService.getPosts(postPath, pagingParams).then(
                 function (data) { //success
                     angular.forEach(data, function (item, index) {
+
+                        if(index === $scope.emailSignupIndex){
+                            //$scope.createFeedItem($scope.emailSignup, index);
+                        }
+
+                        /*if(index === $scope.socialFollowIndex){
+                         $scope.createFeedItem($scope.socialFollow, index);
+                         }*/
+
+                        if(index === $scope.instagramIndex){
+                            $scope.createFeedItem($scope.instagramPost, index);
+                        }
+
                         item.type = 'post-list';
                         $scope.createFeedItem(item, $scope.feedItems.length);
                     });
@@ -154,10 +172,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     };
 
     $scope.createFeedItem = function(item,index){
-        $scope.feedItems.push(item);
-        if(index === $scope.instagramIndex){
-            $scope.feedItemElements.splice(index,0,$scope.instagramPost);
-        }
+        $scope.feedItems[index] = item;
+
         if(index <= $scope.feedItemScrollAmount){
             $scope.add($scope.feedItems[index]);
         }
