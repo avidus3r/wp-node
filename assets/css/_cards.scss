@@ -42,6 +42,12 @@
   .mce_inline_error {
     border: 1px solid #fff;
   }
+
+  #mc_embed_signup_scroll .response {
+    background-color: white;
+    color: black;
+    padding: .5em;
+  }
 }
 // smaller button text on small devices
 @media all and (max-width:480px) {
