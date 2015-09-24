@@ -6,7 +6,7 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'prod';
+var env = 'dev';
 
 var feedConfig = {
     'prod': {
@@ -113,9 +113,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
             userLS = JSON.stringify(ls);
         }
         localStorage.setItem('user_voted', userLS);
-        var voteCount = voteButton.parent().find('.vote-count').text();
-        var count = voteCount === '' ? 1 : parseInt(voteCount)+1;
-        voteButton.parent().find('.vote-count').text(count);
+        var voteCount = voteButton.closest('.post-actions').find('.vote-count').text();
+        var count = voteCount === 0 ? 1 : parseInt(voteCount)+1;
+
+        voteButton.closest('.post-actions').find('.vote-count').text(count);
         voteButton.parent().find('button').attr('disabled','disabled');
 
         var req = FeedService.vote(postID, voteVal);
@@ -198,7 +199,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', '$sce', Controllers.FeedSingleController]
 );
 
 NewsFeed.controller(

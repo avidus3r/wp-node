@@ -17,3 +17,11 @@ tmp/
 dist/
 build/
 tests/src/
+
+#aws folders
+.elasticbeanstalk/
+EOT
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

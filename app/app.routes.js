@@ -3,6 +3,7 @@
 var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, $compileProvider) {
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
     var FeedService = FeedServiceProvider.$get();
+
     $routeProvider.
         when('/', {
             controller: 'FeedListController',
@@ -10,7 +11,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             redirectTo: false,
             resolve:{
                 posts: function(){
-                    return FeedService.getPosts('posts','?per_page=25&page=1').then(
+                    return FeedService.getPosts('feed','?per_page=25&page=1').then(
                         function(data){
                             return data;
                         },
@@ -47,7 +48,40 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
         .when('/:category/:slug', {
             controller: 'FeedSingleController',
             templateUrl: '/views/post.html',
-            redirectTo: false
+            redirectTo: false,
+            resolve: {
+                data: function($q, $route) {
+                    var params = {};
+                    params.slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
+
+                    return $q.all({
+                        post: FeedService.getPosts('posts', '?name=' + params.slug).then(
+                            function (data) {
+                                $route.singleId = data[0].id;
+
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts:FeedService.getPosts('feed', '?per_page=25&page=1&post__not_in=' + $route.singleId).then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        )
+                    });
+                }
+            }
         })
         .when('/submit',{
             controller: 'PageController',

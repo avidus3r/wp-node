@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+ <testsuite name="FeedListController" timestamp="2015-09-23T13:14:25" hostname="localhost" time="0.004" errors="0" tests="1" skipped="0" disabled="0" failures="1">
+  <testcase classname="FeedListController" name="encountered a declaration exception" time="0.002">
+   <failure type="exception" message="ReferenceError: angular is not defined"><![CDATA[ReferenceError: angular is not defined
+    at Suite.<anonymous> (/Users/christiaanmealey/dev/feed/tests/spec/AppControllerSpec.js:2:16)
+    at addSpecsToSuite (/Users/christiaanmealey/dev/feed/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:743:25)
+    at Env.describe (/Users/christiaanmealey/dev/feed/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:713:7)
+    at jasmineInterface.describe (/Users/christiaanmealey/dev/feed/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:3219:18)
+    at Object.<anonymous> (/Users/christiaanmealey/dev/feed/tests/spec/AppControllerSpec.js:1:63)
+    at Module._compile (module.js:460:26)
+    at Object.Module._extensions..js (module.js:478:10)
+    at Module.load (module.js:355:32)
+    at Function.Module._load (module.js:310:12)
+    at Module.require (module.js:365:17)]]>
+   </failure>
+  </testcase>
+ </testsuite>
+</testsuites>

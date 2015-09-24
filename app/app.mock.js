@@ -7,25 +7,37 @@ require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 require('angular-mocks/ngMock');
 
+var env = 'prod';
+
 var feedConfig = {
-    url: 'http://local.altdriver.com',
-    remoteUrl: 'http://www.altdriver.com',
-    basePath: '/wp-json/wp/v2/',
-    site: 'altdriver'
+    'prod': {
+        remoteUrl: 'http://www.altdriver.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    },
+    'dev':{
+        remoteUrl: 'http://devaltdriver.wpengine.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    }
 };
 
 //Controllers
 var Controllers = require('./app.controllers');
 
+//Directives
+var Directives = require('./app.directives');
+
 //Services
 var FeedService = require('./services/FeedService');
+var InstagramService = require('./services/InstagramService');
 
 //Routes
 var Router = require('./app.routes');
 
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', 'ngMock']);
 
 
 /*
@@ -36,44 +48,83 @@ angular.module('NewsFeed').run(function(MetaTags){
     MetaTags.initialize();
 });
 
-angular.module('NewsFeed').constant('envConfig', feedConfig);
-
-angular.module('NewsFeed').factory(
+NewsFeed.factory(
     'FeedService',
-    ['envConfig', '$http', '$q', FeedService]
+    ['envConfig', 'env', '$http', '$q', FeedService]
 );
+
+NewsFeed.provider('FeedServiceProvider',function(){
+    return {
+        $get: function(){
+            return FeedService;
+        }
+    }
+});
+
+NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
+
+NewsFeed.provider('InstagramServiceProvider',function(){
+    return {
+        $get: function(){
+            return InstagramService;
+        }
+    }
+});
+
+NewsFeed.config(
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', '$compileProvider', Router]
+);
+
+NewsFeed.constant('env', env);
+NewsFeed.constant('envConfig', feedConfig);
 
 /*
  * Module Configuration
  */
 
-//Controller Modules
-angular.module('NewsFeed').controller(
+
+/*
+ * Module Controllers
+ */
+NewsFeed.controller(
     'HeaderController',
     ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.HeaderController]
 );
 
-angular.module('NewsFeed').controller(
+NewsFeed.controller(
+    'PageController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'envConfig', Controllers.PageController]
+);
+
+
+NewsFeed.controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'envConfig', '$sce', Controllers.FeedSingleController]
 );
 
-angular.module('NewsFeed').controller(
+NewsFeed.controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', 'categories', Controllers.FeedCategoryController]
 );
 
-angular.module('NewsFeed').controller(
+NewsFeed.controller(
     'FeedListController',
-    ['$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'posts', 'envConfig', Controllers.FeedListController]
 );
 
-angular.module('NewsFeed').config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', '$rootScopeProvider', Router]
-);
+/*
+ * Module Controllers
+ */
 
-window.onerror = function(){
-    console.error(arguments);
-};
 
-window.NewsFeed = NewsFeed;
+/*
+ * Module Directives
+ */
+
+NewsFeed.directive('card', Directives.card);
+
+/*
+ * Module Directives
+ */
+
+module.exports = NewsFeed;

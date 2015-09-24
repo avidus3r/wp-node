@@ -1,3 +1,4 @@
+require('../../app/app.mock');
 describe('FeedService', function(){
     var $feedService;
     beforeEach(angular.mock.module('NewsFeed'));

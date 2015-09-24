@@ -15,7 +15,11 @@ var gulp            = require('gulp'),
     pkg             = require('./package.json'),
     plugins         = gulpLoadPlugins(),
     csslint         = require('gulp-csslint'),
-    cssmin          = require('gulp-cssmin');
+    cssmin          = require('gulp-cssmin'),
+    jasmine         = require('gulp-jasmine'),
+    reporters       = require('jasmine-reporters'),
+    requireDir      = require('require-dir'),
+    Server          = require('karma').Server;
 
 var paths   = {
     js: ['app/**/*.js', '!tests/**/*.js'],
@@ -36,6 +40,13 @@ gulp.task('scripts', ['lint'], function(){
 gulp.task('templates', function(){
     gulp.src(paths.templates)
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('test', function (done) {
+    new Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
 });
 
 gulp.task('tests', function(){
