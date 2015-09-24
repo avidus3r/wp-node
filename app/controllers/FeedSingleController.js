@@ -31,6 +31,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.emailSignupIndex = 3;
     $scope.socialFollowIndex = 1;
 
+    if($scope.lastOffset === 0){
+        localStorage.setItem('post_offset', 0);
+    }
+
     $scope.emailSignup = {'type': 'email-signup'};
     $scope.socialFollow = {'type': 'social-follow'};
 
@@ -257,6 +261,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
     $scope.goToPage = function(e, lastIndex, linkParams){
         var currentOffset = localStorage.getItem('post_offset');
+        console.log(currentOffset);
         var newOffset = parseInt(currentOffset)+lastIndex;
         localStorage.setItem('post_offset', newOffset);
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;

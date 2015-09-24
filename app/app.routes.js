@@ -53,12 +53,13 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 data: function($q, $route) {
                     var params = {};
                     params.slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
-
+                    var offset = '';
+                    if(localStorage.getItem('post_offset')) offset = '&offset=' + localStorage.getItem('post_offset');
                     return $q.all({
                         post: FeedService.getPosts('posts', '?name=' + params.slug).then(
                             function (data) {
                                 $route.singleId = data[0].id;
-
+                                localStorage.setItem('singID', $route.singleId);
                                 return data;
                             },
                             function (error) {
@@ -68,7 +69,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts:FeedService.getPosts('feed', '?per_page=25&page=1&post__not_in=' + $route.singleId).then(
+                        posts:FeedService.getPosts('feed', '?per_page=25&page=1&post__not_in=' + localStorage.getItem('singID')+offset).then(
                             function (data) {
                                 return data;
                             },
