@@ -6,7 +6,7 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'dev';
+var env = 'prod';
 
 var feedConfig = {
     'prod': {

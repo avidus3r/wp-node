@@ -9,9 +9,43 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
+            reloadOnSearch: false,
             resolve:{
                 posts: function(){
-                    return FeedService.getPosts('feed','?per_page=25&page=1').then(
+                    /*return FeedService.getPosts('feed','?per_page=25&page=1').then(
+                        function(data){
+                            return data;
+                        },
+                        function(error){
+
+                        },
+                        function(notification){
+
+                        }
+                    );*/
+                    return FeedService.getPostData('prod',25,1).then(
+                        function(data){
+                            return data;
+                        },
+                        function(error){
+
+                        },
+                        function(notification){
+
+                        }
+                    );
+                }
+            }
+        })
+        .when('/page/:pageNumber', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: true,
+            reloadOnSearch: false,
+            resolve:{
+                posts: function($route){
+                    var page = $route.current.params.pageNumber;
+                    return FeedService.getPosts('feed','?per_page=25&page='+page).then(
                         function(data){
                             return data;
                         },
@@ -52,6 +86,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             resolve: {
                 data: function($q, $route) {
                     var params = {};
+                    //if(window.location.pathname.lastIndexOf('/page/') >-1) return false;
                     params.slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
                     var offset = '';
                     if(localStorage.getItem('post_offset')) offset = '&offset=' + localStorage.getItem('post_offset');
@@ -174,7 +209,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false,
-        rewriteLinks: false
+        hashPrefix: ''
     });
 };
 

@@ -24,9 +24,14 @@ var FeedService = function(envConfig, env, $http, $q){
         return deferred.promise;
     };
 
-    feed.getPostData = function(path, params) {
+    feed.getPostData = function(env, postsPerPage, page) {
         var deferred = $q.defer();
-        var url = './data/posts_' + params + '.json';
+        var formData = new FormData();
+        formData.append('env',env);
+        formData.append('postsPerPage',postsPerPage);
+        formData.append('page',page);
+
+        var url = '/getPosts/'+env + '/' + postsPerPage + '/' + page;
         $http.get(url)
             .then(function (response) {
                 console.log(response);

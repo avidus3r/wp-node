@@ -18,12 +18,30 @@ app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + '/tests'));
 app.use(express.static(__dirname + './data'));
 app.use(bodyParser.raw({extended:true}));
+app.use(bodyParser.json({extended:true}));
+
+var feedConfig = {
+    'prod': {
+        remoteUrl: 'http://www.altdriver.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    },
+    'dev':{
+        remoteUrl: 'http://devaltdriver.wpengine.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    }
+};
 
 app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
 });
 
 app.get('/', function(req,res){
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
+app.get('/page/:pageNumber(\\d+)', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
@@ -44,33 +62,69 @@ app.get('/about', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
-app.get('/getPosts/:perPage/:pageNum', function(req,res){
-    getPosts(req);
+app.get('/getPosts/:env/:postsPerPage/:page', function(req,res){
+    fs.realpath('./data', function(err, resolvedPath) {
+        fs.readdir(resolvedPath, function (err, files) {
+            if(files.indexOf('posts_'+req.params.page+'.json') > -1){
+                var index = files.indexOf('posts_'+req.params.page+'.json');
+                var filepath = './data/'+files[index];
+
+                fs.open(filepath, 'r', function(err, fd) {
+                    fs.fstat(fd, function (err, stats) {
+                        var d = new Date(stats.birthtime).getTime();
+                        var now = Date.now();
+                        var hoursAge = ((now-d)/(60 * 60 * 1000));
+
+
+                        if(hoursAge > 24){
+                            fs.unlink(filepath, function(){
+                                getPosts(req.params.env, req.params.postsPerPage, req.params.page, res);
+                            });
+                        }else{
+                            res.sendFile(files[index], { root: path.join(__dirname, './data') });
+                        }
+                    });
+                });
+            }else{
+                getPosts(req.params.env, req.params.postsPerPage, req.params.page, res);
+            }
+
+        });
+    });
 });
 
-function getPosts(req, res){
-    request('http://devaltdriver.wpengine.com/wp-json/wp/v2/posts?per_page=' + req.params.perPage + '&page=' + req.params.pageNum, function (error, response, body) {
+app.post('/getPosts', function(req,res){
+    var input = new multiparty.Form();
+
+    input.parse(req, function(err, fields, files) {
+        var env = fields.env[0];
+        var page = fields.page[0];
+        var postsPerPage = fields.postsPerPage[0];
+        var posts = getPosts(env, postsPerPage, page, res);
+    });
+
+    //res.send(req.body);
+    //getPosts(req);
+});
+
+function getPosts(env, postsPerPage, page, res){
+    var endpoints = feedConfig[env];
+    var result = null;
+
+    request(endpoints.remoteUrl + endpoints.basePath + 'feed?per_page=' + postsPerPage + '&page=' + page, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            /*fs.readdir('./data', function(err, files){
-             if(err) throw err;
-             console.log(files);
-             });*/
 
             fs.realpath('./data', function(err, resolvedPath){
                 fs.readdir(resolvedPath, function(err, files){
                     if(err) throw err;
-                    fs.writeFile(resolvedPath + '/posts_'+ req.params.pageNum +'.json', body, function(err){
+                    fs.writeFile(resolvedPath + '/posts_'+ page +'.json', body, function(err){
                         if(err) throw err;
                     });
-                    if(files.length == 0){
-                        fs.writeFile(resolvedPath + '/posts_'+ req.params.pageNum +'.json', body, function(err){
-                            if(err) throw err;
-                        });
-                    }
                 });
             });
+            result = body;
             res.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-            res.write(body);
+            res.write(result);
             res.end();
         }
     });
@@ -91,9 +145,9 @@ app.get('/data/:file', function(req, res){
     });
 });
 
-app.get('*', function(req,res){
+/*app.get('*', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});
+});*/
 
 app.post('/submit', function(req,res){
     var form = new multiparty.Form();

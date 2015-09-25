@@ -1,7 +1,7 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container" infinite-scroll="getNext()" infinite-scroll-immediate-check="false" infinite-scroll-listen-for-event="list:next" infinite-scroll-distance="3">
 
-        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item">
+        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}">
 
             <card type="{{ item.type }}"></card>
 
