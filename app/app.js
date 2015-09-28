@@ -171,12 +171,20 @@ NewsFeed.provider('InstagramServiceProvider',function(){
     }
 });
 
-NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', '$compileProvider', Router]
-);
-
 NewsFeed.constant('env', env);
 NewsFeed.constant('envConfig', feedConfig);
+
+/*NewsFeed.provider('envConfigProvider',function(){
+    return {
+        $get: function(){
+            return envConfig;
+        }
+    }
+});*/
+
+NewsFeed.config(
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', '$compileProvider', Router]
+);
 
 /*
  * Module Configuration
@@ -209,7 +217,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'posts', 'envConfig', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.FeedListController]
 );
 
 /*

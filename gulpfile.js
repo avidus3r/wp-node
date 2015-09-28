@@ -26,7 +26,8 @@ var paths   = {
     sass: ['assets/**/*.scss'],
     assets:['assets/**/*.*', '!assets/**/*.scss'],
     templates: ['app/components/**/*.html'],
-    tests: ['tests/spec/**/*.js']
+    tests: ['tests/spec/**/*.js'],
+    config: ['app/config/*.json']
 };
 
 gulp.task('scripts', ['lint'], function(){
@@ -40,6 +41,11 @@ gulp.task('scripts', ['lint'], function(){
 gulp.task('templates', function(){
     gulp.src(paths.templates)
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('config', function(){
+    gulp.src(paths.config)
+        .pipe(gulp.dest('./dist/appdata/'));
 });
 
 gulp.task('test', function (done) {
@@ -198,6 +204,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
+    gulp.watch(paths.config, ['config']);
     gulp.watch(paths.sass, ['css:sass']);
     gulp.watch(paths.tests, ['tests']);
 });
@@ -205,5 +212,5 @@ gulp.task('watch', function () {
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'scripts', callback);
+    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'scripts', callback);
 });

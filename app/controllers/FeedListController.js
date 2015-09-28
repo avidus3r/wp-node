@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, posts, envConfig) {
+var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, envConfig) {
 
     this.name = 'list';
     this.$route = $route;
@@ -23,9 +23,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.currentY = null;
     $scope.cardType = 'email';
     $scope.instagramPost = null;
-    $scope.instagramIndex = 5;
-    $scope.emailSignupIndex = 3;
-    $scope.socialFollowIndex = 1;
+
     $scope.splicedItems = 0;
     $scope.paged = 1;
 
@@ -50,8 +48,21 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
-    $scope.emailSignup = {'type': 'email-signup'};
-    $scope.socialFollow = {'type': 'social-follow'};
+    angular.forEach(data.config, function(item, index){
+        switch(item.card.type){
+            case 'instagram':
+                $scope.instagramIndex = item.card.position;
+                break;
+            case 'email-signup':
+                $scope.emailSignupIndex = item.card.position;
+                $scope.emailSignup = {'type': 'email-signup'};
+                break;
+            case 'social-follow':
+                $scope.socialFollowIndex = item.card.position;
+                $scope.socialFollow = {'type': 'social-follow'};
+                break;
+        }
+    });
 
     $scope.getPosts = function(){
         console.log('getPosts');
@@ -71,30 +82,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         );
     };
 
-    InstagramService.get(1, 'nofilter').then(function(res){
-        var gram = res.data.data[0];
-        gram.type = 'instagram';
-        $scope.instagramPost = gram;
-        var postmap = [];
+    if(typeof data.instagram !== 'undefined'){
+        $scope.instagramPost = data.instagram.data.data[0];
+        $scope.instagramPost.type = 'instagram';
+    }else{
+        $scope.instagramPost = {'type': 'social-follow'};
+    }
 
-        angular.forEach(posts, function (item, index) {
-            if(index === $scope.emailSignupIndex){
-                postmap.push($scope.emailSignup);
-                $scope.splicedItems+=1;
-            }
-
-            if(index === $scope.instagramIndex){
-                postmap.push($scope.instagramPost);
-                //$scope.createFeedItem($scope.instagramPost, index);
-                $scope.splicedItems+=1;
-            }
-            item.type = 'post-list';
-            postmap.push(item);
-        });
-        angular.forEach(postmap, function (item, index) {
-            $scope.createFeedItem(item, $scope.feedItems.length);
-        });
-    });
+    var postmap = [];
 
     $scope.createFeedItem = function(item,index){
         $scope.feedItems[index] = item;
@@ -103,6 +98,24 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.feedItemPosition += 1;
         }
     };
+
+    angular.forEach(data.posts, function (item, index) {
+        if(index === $scope.emailSignupIndex){
+            postmap.push($scope.emailSignup);
+            $scope.splicedItems+=1;
+        }
+
+        if(index === $scope.instagramIndex){
+            postmap.push($scope.instagramPost);
+            //$scope.createFeedItem($scope.instagramPost, index);
+            $scope.splicedItems+=1;
+        }
+        item.type = 'post-list';
+        postmap.push(item);
+    });
+    angular.forEach(postmap, function (item, index) {
+        $scope.createFeedItem(item, $scope.feedItems.length);
+    });
 
     $scope.add = function(item){
         $scope.feedItemElements.push(item);

@@ -1,8 +1,9 @@
 'use strict';
 
-var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, $compileProvider) {
+var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, $compileProvider) {
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
     var FeedService = FeedServiceProvider.$get();
+    var InstagramService = InstagramServiceProvider.$get();
 
     $routeProvider.
         when('/', {
@@ -11,29 +12,56 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             redirectTo: false,
             reloadOnSearch: false,
             resolve:{
-                posts: function(){
-                    /*return FeedService.getPosts('feed','?per_page=25&page=1').then(
-                        function(data){
-                            return data;
-                        },
-                        function(error){
+                data: function($q, $route) {
+                    var params = {};
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
 
-                        },
-                        function(notification){
+                            },
+                            function (notification) {
 
-                        }
-                    );*/
-                    return FeedService.getPostData('prod',25,1).then(
-                        function(data){
-                            return data;
-                        },
-                        function(error){
+                            }
+                        ),
+                        posts: FeedService.getPostData('prod',25,1).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
 
-                        },
-                        function(notification){
+                            },
+                            function(notification){
 
-                        }
-                    );
+                            }
+                        ),
+                        instagram: InstagramService.get(1,'nofilter').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),
+                        sponsors: FeedService.getPosts('sponsors','').then(
+                            function(data){
+                                console.log('sponsors: ', data);
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        )
+
+                    });
                 }
             }
         })

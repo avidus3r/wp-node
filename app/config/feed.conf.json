@@ -1,0 +1,16 @@
+[
+  {
+    "card": {
+      "type": "instagram",
+      "count": 1,
+      "position": 1
+    }
+  },
+  {
+    "card": {
+      "type": "email-signup",
+      "count": 1,
+      "position": 2
+    }
+  }
+]

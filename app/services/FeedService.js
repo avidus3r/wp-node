@@ -44,9 +44,15 @@ var FeedService = function(envConfig, env, $http, $q){
         return deferred.promise;
     };
 
-    feed.getData = function(){
+    feed.getData = function(url){
         var deferred = $q.defer();
-        deferred.resolve('data');
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
         return deferred.promise;
     };
 
