@@ -192,11 +192,18 @@ body{
 
 // tighten display and set position for absolute children
 .feed-item {
-  margin: 0 auto 1em;
+  margin: 1em;
 
   // the inner div for the angular switch
   & > div {
     position: relative;
+  }
+}
+
+// tighten up on mobile
+@media all and (max-width: 480px) {
+  .feed-item {
+    margin: 1em .5em;
   }
 }
 
