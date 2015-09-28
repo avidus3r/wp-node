@@ -122,12 +122,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if(itemPosition % count === 0){
             while(i < (itemPosition+count)){
                 $scope.add($scope.feedItems[i]);
-                if(i % ($scope.postsPerPage-1) === 0){
+                /*if(i % ($scope.postsPerPage-1) === 0){
                     $scope.paged += 1;
                     var state = {page: $scope.paged};
                     history.pushState(state, 'page: '+ $scope.paged, '/page/'+$scope.paged);
                     //window.addEventListener('scroll',$scope.updateUrl());
-                }
+                }*/
                 i += 1;
             }
         }

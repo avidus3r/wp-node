@@ -37,7 +37,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 }
             }
         })
-        .when('/page/:pageNumber', {
+        /*.when('/page/:pageNumber', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: true,
@@ -58,7 +58,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                     );
                 }
             }
-        })
+        })*/
         .when('/category/:category', {
             controller: 'FeedCategoryController',
             templateUrl: '/views/post.html',

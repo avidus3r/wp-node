@@ -17,6 +17,7 @@ tmp/
 dist/
 build/
 tests/src/
+data/
 
 #aws folders
 .elasticbeanstalk/

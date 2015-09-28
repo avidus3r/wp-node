@@ -41,9 +41,9 @@ app.get('/', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
-app.get('/page/:pageNumber(\\d+)', function(req,res){
+/*app.get('/page/:pageNumber(\\d+)', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});
+});*/
 
 app.get('/submit', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
@@ -62,10 +62,61 @@ app.get('/about', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
+app.get('/update/:postId', function(req,res){
+    console.log('requested update');
+    var postId = req.params.postId;
+
+    fs.realpath('./data', function(err, resolvedPath){
+        fs.readdir(resolvedPath, function(err, files){
+            if(err) throw err;
+            fs.writeFile(resolvedPath + '/updated.json', postId, function(err){
+                if(err) throw err;
+            });
+        });
+    });
+
+    res.end();
+});
+
+app.put('/update', function(req,res){
+    console.log('requested update');
+
+    var input = new multiparty.Form();
+    var postId = null;
+    input.parse(req, function(err, fields, files) {
+        postId = fields['id'];
+    });
+
+
+    fs.realpath('./data', function(err, resolvedPath){
+        fs.readdir(resolvedPath, function(err, files){
+            if(err) throw err;
+            fs.writeFile(resolvedPath + '/updated.json', postId, function(err){
+                if(err) throw err;
+            });
+        });
+    });
+
+    res.end();
+});
+
 app.get('/getPosts/:env/:postsPerPage/:page', function(req,res){
+
     fs.realpath('./data', function(err, resolvedPath) {
         fs.readdir(resolvedPath, function (err, files) {
-            if(files.indexOf('posts_'+req.params.page+'.json') > -1){
+            if (files.indexOf('updated.json') > -1) {
+                for(var i=0; i<files.length;i++){
+                    var file = files[i];
+                    var count = i;
+                    fs.unlink('./data/'+ file, function(){
+
+                    });
+                    if((files.length-1) === count){
+                        getPosts(req.params.env, req.params.postsPerPage, req.params.page, res);
+                    }
+                }
+            }
+            else if(files.indexOf('posts_'+req.params.page+'.json') > -1){
                 var index = files.indexOf('posts_'+req.params.page+'.json');
                 var filepath = './data/'+files[index];
 
