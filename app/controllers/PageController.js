@@ -42,7 +42,7 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
 
         setTimeout(function(){
 
-            iframe.contentWindow.postMessage('hi','http://devaltdriver.wpengine.com');
+            iframe.contentWindow.postMessage('hide elements','http://devaltdriver.wpengine.com');
             iframeEl.css({'margin-top':'0px'});
             angular.element('.view-container').height(angular.element(iframe).height());
         },3000);
