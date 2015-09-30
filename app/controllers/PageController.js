@@ -61,7 +61,8 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     $scope.$on('$viewContentLoaded', function(){
-        angular.element('html, body, .view-container, #staticPage, .content').css({'height':'100%'});
+        angular.element('html, body, .view-container, #staticPage, .content').css({'min-height':'100%'});
+        angular.element('strong').css({'font-weight': 'bold', 'font-size': '1.2em'});
     });
 
 };

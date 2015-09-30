@@ -1,16 +1,1 @@
-[
-  {
-    "card": {
-      "type": "instagram",
-      "count": 1,
-      "position": 1
-    }
-  },
-  {
-    "card": {
-      "type": "email-signup",
-      "count": 1,
-      "position": 2
-    }
-  }
-]
+[{"card":{"position":"3","type":"instagram"}},{"card":{"position":"3","perPage":"on","type":"email-signup"}}]

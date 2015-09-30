@@ -24,7 +24,7 @@
                     <li ng-repeat="item in navItems" class="{{item.class}}" ng-click="collapseNav()">
                         <a href="/{{item.slug}}" ng-bind-html="item.title"></a>
                     </li>
-                    <li class="legal">
+                    <li class="legal" ng-click="collapseNav()">
                         <a href="/about">About</a>
                     </li>
                 </ul>

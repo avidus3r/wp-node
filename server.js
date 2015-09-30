@@ -15,10 +15,15 @@ var EXPRESS_PORT = 3000,
     EXPRESS_ROOT = './dist';
 
 app.use(express.static(EXPRESS_ROOT));
-app.use(express.static(__dirname + '/tests'));
+app.use(express.static(__dirname + './tests'));
+app.use(express.static(__dirname + './dist/admin'));
 app.use(express.static(__dirname + './data'));
+app.use(express.static(__dirname + './app/config'));
+app.use(express.static(__dirname + './app/components/views/cards'));
+
 app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
 
 var feedConfig = {
     'prod': {
@@ -37,13 +42,51 @@ app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
 });
 
-app.get('/', function(req,res){
+app.get('/admin', function(req, res){
+    res.sendFile('index.html', { root: path.join(__dirname, './dist/admin') });
+});
+
+app.post('/admin', function(req, res){
+
+    var data = req.body;
+
+    fs.realpath('./app/config', function(err, resolvedPath){
+        fs.readdir(resolvedPath, function(err, files){
+            if (files.indexOf('feed.conf.json') > -1) {
+                var file = files[files.indexOf('feed.conf.json')];
+
+                fs.unlink('./app/config/'+ file, function(){
+                    fs.writeFile('./app/config/feed.conf.json', JSON.stringify(data), function(err){
+                        if(err) throw err;
+                        data.forEach(function(element, index, data){
+                            var tpl = element.card.type + '.html';
+                            fs.realpath('./app/components/views/cards', function(err, resolvedPath) {
+                                fs.readdir(resolvedPath, function (err, files) {
+                                    if(files.indexOf(tpl) === -1){
+                                        fs.writeFile('./app/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
+
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            }
+            if(err) throw err;
+        });
+    });
+    res.writeHead(200);
+    res.end();
+});
+
+/*app.get('/', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
-/*app.get('/page/:pageNumber(\\d+)', function(req,res){
+app.get('/page/:pageNumber(\\d+)', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});*/
+});
 
 app.get('/submit', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
@@ -57,10 +100,9 @@ app.get('/privacy-policy', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
-
 app.get('/about', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});
+});*/
 
 app.get('/update/:postId', function(req,res){
     console.log('requested update');
@@ -196,9 +238,9 @@ app.get('/data/:file', function(req, res){
     });
 });
 
-/*app.get('*', function(req,res){
+app.get('*', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});*/
+});
 
 app.post('/submit', function(req,res){
     var form = new multiparty.Form();
