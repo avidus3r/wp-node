@@ -13,22 +13,41 @@
 
 // show and hide them
 @media all and (min-width:880px) {
-  .desktop .view-container {
-    padding-top: 70px;
+  .app-main {
     float: left;
     width: 65%;
-    width: calc(70% - 16px);
+    width: calc(100% - 366px);
     margin-right: 16px;
   }
 
 // need another div for dt only
-  .desktop .app-rail {
+  .app-rail {
     display: block;
-    padding-top: 70px;
+    padding-top: 50px;
     float: left;
-    width: 30%;
-    padding-left: 2em;
-    min-height: 3500px;
-    background-color: rgba(0,0,0,.25);
+    width: 350px;
+    padding-left: 1em;
+    text-align: center;
+
+    .sidebar {
+      //position: fixed;
+
+      .search-box {
+        width: 300px;
+        margin: 14px auto 0;
+      }
+
+      .card {
+        max-width: 300px;
+      }
+
+      .col-sm-3 {
+        width: 50%;
+      }
+
+      .card-email .btn-primary {
+        font-size: 1em;
+      }
+    }
   }
 }

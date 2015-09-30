@@ -1,6 +1,7 @@
 @import 'globals';
 @import "mixins";
 @import 'root';
+@import 'desktop';
 
 
 .wrapper{
@@ -8,7 +9,6 @@
 }
 .view-container{
   padding-top: 50px;
-  background: #efefef;
 }
 
 // submit story button
