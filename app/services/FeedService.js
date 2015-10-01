@@ -24,6 +24,44 @@ var FeedService = function(envConfig, env, $http, $q){
         return deferred.promise;
     };
 
+    feed.getCampaigns = function(path, params) {
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                angular.forEach(res,function(item, index){
+                    if(item.campaign_active !== null){
+                        var campaignID = item.parent;
+                        feed.getCampaign(campaignID).then(
+                            function(data){
+                                deferred.resolve(data);
+                            }
+                        )
+                    }
+                });
+
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
+    feed.getCampaign = function(id) {
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'campaigns/' + id;
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }
+        );
+
+        return deferred.promise;
+    };
+
     feed.getPostData = function(env, postsPerPage, page) {
         var deferred = $q.defer();
         var formData = new FormData();

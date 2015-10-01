@@ -16,14 +16,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.feedItemPosition = 0;
     $scope.lastScroll = window.scrollY;
     $scope.feedItemScrollAmount = 5;
-    $scope.postPrefetchAt = 10;
-    $scope.postsPerPage = 25;
+    $scope.postPrefetchAt = 8;
+    $scope.postsPerPage = 12;
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
     $scope.currentY = null;
     $scope.cardType = 'email';
     $scope.instagramPost = null;
     $scope.feedConfig = data.config;
+    $scope.sponsors = data.sponsors;
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
@@ -46,6 +47,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return val;
     };
 
+    console.log(data.sponsors);
+
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
@@ -63,6 +66,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     if(item.card.perPage === 'on') {
 
                         var card = item.card;
+
+                        if(card.type === 'sponsor') {
+                            if($scope.pageNumber <= $scope.sponsors.length) {
+                                card = $scope.sponsors[$scope.pageNumber];
+                                card.type = 'sponsor';
+                                card.position = item.card.position;
+                            }
+                        }
+
                         if (card.type === 'instagram') {
                             if (typeof data.instagram !== 'undefined') {
                                 card.data = data.instagram.data.data[0];
@@ -105,6 +117,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     angular.forEach(data.config, function(item, index){
         var card = item.card;
+        if(card.type === 'sponsor') {
+            card = data.sponsors[$scope.paged];
+            card.type = 'sponsor';
+            card.position = item.card.position;
+        }
         if(card.type === 'instagram') {
             if (typeof data.instagram !== 'undefined') {
                 card.data = data.instagram.data.data[0];

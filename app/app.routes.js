@@ -26,7 +26,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.getPostData('prod',25,1).then(
+                        posts: FeedService.getPostData('prod',12,1).then(
                             function(data){
                                 return data;
                             },
@@ -48,9 +48,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: FeedService.getPosts('sponsors','').then(
+                        sponsors: FeedService.getCampaigns('campaigns','').then(
                             function(data){
-                                console.log('sponsors: ', data);
                                 return data;
                             },
                             function(error){

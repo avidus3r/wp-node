@@ -1,5 +1,5 @@
 <!-- Sponsored Post Header -->
-<div class="sponsored sponsored-post-id trigger-sponsor-view" data-campaign-name="{{ item.campaign.name }}" data-post-id="{{ item.id }}" data-user-action="View">
+<div class="sponsored sponsored-post-id trigger-sponsor-view" data-campaign-name="{{ item.sponsor.campaign.name }}" data-post-id="{{ item.id }}" data-user-action="View">
     <a href="{{ item.sponsor.link }}">
         <!-- Display the sponsor's avatar -->
         <span class="sponsor-avatar">
@@ -8,7 +8,7 @@
     </a>
     ​
     <h1 class="sponsor-header sponsor-small">
-        <span class="sponsor-byline">{{ item.sponsor.byline }}</span>
+        <span class="sponsor-byline">{{ item.sponsor.campaign.byline }}</span>
         <a href="{{ item.sponsor.link }}" style="background-color:{{ item.sponsor.color }}">{{ item.sponsor.title }}</a>
     </h1>
     ​
