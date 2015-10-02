@@ -1,0 +1,109 @@
+ // SPONSORED POSTS
+// #################################
+
+
+
+// Sponsor Avatar smaller for content level placements
+.sponsored-post-id {
+  min-width: 185px;
+  margin: 0;
+  padding: .25em;
+  position: absolute;
+  right: 0;
+  top: 1em;
+  background-color: rgba(255,255,255,.9);
+}
+
+.sponsored-post-id .sponsor-avatar img {
+  width: 40px;
+  height: 40px;
+} 
+
+// ALL Avatars page and content level
+.sponsor-avatar img {
+  float: left;
+  margin: 0 .5em 0 0;
+}
+
+// All sponsor headers
+.sponsor-header  {
+  font-size: 1em;
+  margin: 0;
+  display: inline-block;
+  @extend .clearfix;
+}
+
+
+// Make some sponsor names larger
+.sponsor-header.sponsor-large {
+  font-size: 1.5em;
+}
+
+.sponsor-header .sponsor-byline {
+  color: rgb(148, 150, 151);
+  margin: .25em 0;
+}
+
+.sponsor-inline .sponsor-byline {
+  margin-right: .25em;
+}
+
+// Sponsored by
+.sponsor-header .sponsor-byline {
+  display: block;
+}
+
+
+// make sponsor bug have decent padding
+.sponsor-header a {
+  padding: 0 .5em;
+  background-color: #ee8d09;
+  color: #fff;
+}
+
+// SPONSOR ALL CAMPAIGNS PAGE
+
+// Sponsor page main header
+.sp-page-head {
+  position: relative;
+  margin-bottom: 1em;
+}
+
+
+@media all and (max-width: 479px) {
+  .sponsor-share {
+    clear: left;
+  }
+
+  .sponsor-share-text {
+    padding-left: .75em;
+  }
+}
+
+// make share text smaller
+.sponsor-share-text {
+  font-size: .75em;
+  padding-right: .75em;
+}
+
+.sponsor-follow div {
+  display: inline-block;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 1em;
+} 
+
+// OPTIONS
+// sponsored by INLINE
+.sponsor-inline .sponsor-header .sponsor-byline {
+  display: inline-block;
+}
+
+// inline sponsor label
+.sponsor-inline .sponsor-header .sponsor-byline:before  {
+  display: inline;
+}
+
+.sponsor-inline .sponsor-header .sponsor-byline:hover {
+  text-decoration: none;
+}
