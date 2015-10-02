@@ -14,7 +14,7 @@ var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
 
-app.use(express.static(EXPRESS_ROOT));
+//app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + './tests'));
 app.use(express.static(__dirname + './dist/admin'));
 app.use(express.static(__dirname + './data'));
