@@ -9,7 +9,7 @@ var express     = require('express'),
     multiparty  = require('multiparty'),
     fs          = require('fs');
 
-var EXPRESS_PORT = 3000,
+var EXPRESS_PORT = process.env.port || 3000,
     //EXPRESS_HOST = '172.31.8.101',
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
