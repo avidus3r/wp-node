@@ -23,6 +23,7 @@
     "clean": "^4.0.1",
     "event-stream": "^3.3.1",
     "fs": "0.0.2",
+    "forever": "latest",
     "gulp-browserify": "^0.5.1",
     "gulp-clean": "~0.2.4",
     "gulp-concat": "latest",
