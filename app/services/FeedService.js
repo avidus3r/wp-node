@@ -16,6 +16,7 @@ var FeedService = function(envConfig, env, $http, $q){
         $http.get(url)
             .then(function (response) {
                 var res = response.data;
+                console.log(res);
                 deferred.resolve(res);
             }, function (response) {
                 deferred.reject(response);

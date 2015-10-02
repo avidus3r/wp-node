@@ -26,7 +26,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.getPostData('prod',12,1).then(
+                        posts: FeedService.getPostData('dev',12,1).then(
                             function(data){
                                 return data;
                             },
@@ -120,6 +120,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                     return $q.all({
                         post: FeedService.getPosts('posts', '?name=' + params.slug).then(
                             function (data) {
+                                console.log(data);
                                 $route.singleId = data[0].id;
                                 localStorage.setItem('singID', $route.singleId);
                                 return data;
