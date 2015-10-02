@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "deploy": "gulp tests; sudo npm stop; gulp build; forever start server.js",
-    "start": "gulp build; forever start server.js",
+    "start": "gulp build; node server.js",
     "stop": "forever stop server.js"
   },
   "dependencies": {
