@@ -1,5 +1,12 @@
-<div class="post-content feed-view post-view feed arbitrary-html-card">
-    <ng-include src="'/views/partials/sponsor-header-post.html'"></ng-include>
+<div ng-if="currentView === 'sponsor' && $index === 0">
+    <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
+</div>
+<div class="post-content feed-view post-view feed {{ currentView === 'list' ? 'sponsor-list' : 'sponsor-main' }}">
+
+    <div ng-if="currentView === 'list'">
+        <ng-include src="'/views/partials/sponsor-header-post.html'"></ng-include>
+    </div>
+
     <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a>
     <h2 class="post-title">
         <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>

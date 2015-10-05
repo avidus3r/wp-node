@@ -25,6 +25,25 @@ var FeedService = function(envConfig, env, $http, $q){
         return deferred.promise;
     };
 
+    feed.getSponsor = function(sponsorName) {
+
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors/?name=' + sponsorName;
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+
+                feed.getCampaign(res[0].id).then(function(response){
+                    var res = response;
+                    deferred.resolve(res);
+                });
+            }
+        );
+
+        return deferred.promise;
+    };
+
     feed.getCampaigns = function(path, params) {
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;

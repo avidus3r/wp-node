@@ -106,6 +106,45 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 }
             }
         })
+        .when('/sponsor/:sponsor', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: null,
+                        instagram: null,
+                        sponsor: FeedService.getSponsor($route.current.params.sponsor).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        )
+
+                    });
+                }
+            }
+        })
         .when('/:category/:slug', {
             controller: 'FeedSingleController',
             templateUrl: '/views/post.html',

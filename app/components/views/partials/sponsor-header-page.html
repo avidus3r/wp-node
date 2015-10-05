@@ -1,15 +1,15 @@
 <!-- Sponsored Post Sponsor PAGE Header -->
 <div class="sponsored sp-page-head cf">
     <!-- Display the sponsor's avatar -->
-    <span class="sponsor-avatar">{{ item.sponsor.avatar }}</span>
+    <span class="sponsor-avatar"><img src="{{ item.sponsor.avatar }}" /></span>
     <h1 class="sponsor-header sponsor-large">
         {{ item.sponsor.title }}
     </h1>
     <p><?php echo $notes; ?></p>
     <div class="sponsor-follow">
-        <div class="fb-like" data-href="{{ item.sponsor.facebook_url }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
+        <div class="fb-like" data-href="{{ item.sponsor.urls.facebook }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
         <div>
-            <a href="{{ item.sponsor.twitter_url }}" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>
+            <a href="{{ item.sponsor.urls.twitter }}" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         </div>
     </div>

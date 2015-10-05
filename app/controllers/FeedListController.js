@@ -47,7 +47,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return val;
     };
 
-    console.log(data.sponsors);
+    if(data.posts === null) $scope.currentView = 'sponsor';
 
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
@@ -110,29 +110,39 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     };
 
-    angular.forEach(data.posts, function (item, index) {
-        item.type = 'post-list';
-        postmap.push(item);
-    });
+    if($scope.currentView === 'list') {
 
-    angular.forEach(data.config, function(item, index){
-        var card = item.card;
-        if(card.type === 'sponsor') {
-            card = data.sponsors[$scope.paged];
-            card.type = 'sponsor';
-            card.position = item.card.position;
-        }
-        if(card.type === 'instagram') {
-            if (typeof data.instagram !== 'undefined') {
-                card.data = data.instagram.data.data[0];
-            } else {
-                card.type = 'social-follow';
+        angular.forEach(data.posts, function (item, index) {
+            item.type = 'post-list';
+            postmap.push(item);
+        });
+
+        angular.forEach(data.config, function (item, index) {
+            var card = item.card;
+            if (card.type === 'sponsor') {
+                card = data.sponsors[$scope.paged];
+                card.type = 'sponsor';
+                card.position = item.card.position;
             }
-        }
+            if (card.type === 'instagram') {
+                if (typeof data.instagram !== 'undefined' && data.instagram !== null) {
+                    card.data = data.instagram.data.data[0];
+                } else {
+                    card.type = 'social-follow';
+                }
+            }
 
-        postmap.splice(card.position,0,card);
+            postmap.splice(card.position, 0, card);
 
-    });
+        });
+    }
+
+    if($scope.currentView === 'sponsor'){
+        angular.forEach(data.sponsor, function (item, index) {
+            item.type = 'sponsor';
+            postmap.push(item);
+        });
+    }
 
     angular.forEach(postmap, function (item, index) {
         $scope.createFeedItem(item, $scope.feedItems.length);
