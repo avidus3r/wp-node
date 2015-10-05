@@ -6,11 +6,16 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'dev';
+var env = 'stage';
 
 var feedConfig = {
     'prod': {
         remoteUrl: 'http://www.altdriver.com',
+        basePath: '/wp-json/wp/v2/',
+        site: 'altdriver'
+    },
+    'stage':{
+        remoteUrl: 'http://altdriver.staging.wpengine.com',
         basePath: '/wp-json/wp/v2/',
         site: 'altdriver'
     },
