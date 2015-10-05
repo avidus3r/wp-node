@@ -1,11 +1,15 @@
 <!-- Sponsored Post Sponsor PAGE Header -->
 <div class="sponsored sp-page-head cf">
     <!-- Display the sponsor's avatar -->
-    <span class="sponsor-avatar"><img src="{{ item.sponsor.avatar }}" /></span>
+
+    <span class="sponsor-avatar" ng-switch="item.sponsor.featured_image">
+        <img class="avatar" ng-switch-when="false" src="{{item.sponsor.avatar }}" />
+        <img class="featured" ng-switch-default src="{{ item.sponsor.featured_image[0] }}" width="{{ item.sponsor.featured_image[1] }}" height="{{ item.sponsor.featured_image[2] }}" />
+    </span>
     <h1 class="sponsor-header sponsor-large">
         {{ item.sponsor.title }}
     </h1>
-    <p><?php echo $notes; ?></p>
+    <p ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>
     <div class="sponsor-follow">
         <div class="fb-like" data-href="{{ item.sponsor.urls.facebook }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
         <div>

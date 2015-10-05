@@ -9,7 +9,7 @@ var card = function() {
                 scope.contentUrl = '/views/cards/' + t + '.html';
             });
         },
-        template: '<div ng-include="contentUrl"></div>'
+        template: '<div class="card-item" ng-include="contentUrl"></div>'
     };
 };
 

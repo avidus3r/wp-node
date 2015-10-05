@@ -3,6 +3,10 @@
 
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}">
 
+            <div ng-if="currentView === 'sponsor' && $index === 0">
+                <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
+            </div>
+
             <card type="{{ item.type }}"></card>
 
         </div><!-- /ng-repeat -->
