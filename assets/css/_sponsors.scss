@@ -1,28 +1,22 @@
  // SPONSORED POSTS
 // #################################
 
-
-
-// Sponsor Avatar smaller for content level placements
 .sponsored-post-id {
-  min-width: 185px;
   margin: 0;
   padding: .25em;
-  position: absolute;
-  right: 0;
-  top: 1em;
-  background-color: rgba(255,255,255,.9);
+
+  // Sponsor Avatar smaller for content level placements
+  .sponsor-avatar img {
+    width: 40px;
+    height: 40px;
+  } 
 }
 
-.sponsored-post-id .sponsor-avatar img {
-  width: 40px;
-  height: 40px;
-} 
-
 // ALL Avatars page and content level
-.sponsor-avatar img.avatar {
+.sponsor-avatar {
+  display: inline-block;
   float: left;
-  margin: 0 .5em 0 0;
+  margin: 0 .25em 0 0;
   max-height: 6em;
 }
 
@@ -35,26 +29,49 @@
   @extend .clearfix;
 }
 
-
-// Make some sponsor names larger
-.sponsor-header.sponsor-large {
-  font-size: 1.5em;
-}
-
 .sponsor-header .sponsor-byline {
   color: rgb(148, 150, 151);
   margin: .25em 0;
-}
-
-.sponsor-inline .sponsor-byline {
   margin-right: .25em;
-}
-
-// Sponsored by
-.sponsor-header .sponsor-byline {
   display: block;
 }
 
+// inline sponsored by on main feed items
+[type="sponsor"] {
+  .sponsor-header {
+    // make it a little smaller in the feed
+    font-size: .8em;
+
+    .sponsor-byline {
+      display: inline;
+      color: white;
+      margin-left: 0;
+    }
+
+    a {
+      padding:0;
+     }
+  }
+
+   .sponsor-avatar {
+    display: none;
+   }
+
+}
+
+// no background-color on single view
+.post-view.full {
+
+  .sponsored {
+    background-color: transparent !important;
+    margin-bottom: .5em;
+    margin-top: .5em;
+  }
+
+  // .sponsor + .item-author {
+  //   float: right;
+  // }
+}
 
 // make sponsor bug have decent padding
 .sponsor-header a {
@@ -76,26 +93,20 @@
  }
 
  .sp-page-head .sponsor-avatar{
-
    width: 100%;
- }
- .sp-page-head .sponsor-avatar img.featured{
-    margin: 0 auto;
-   display: flex;
-   -webkit-flex: 1;
-   max-width: 100%;
- }
+   
+   img.featured{
+      margin: 0 auto;
+     display: flex;
+     -webkit-flex: 1;
+     max-width: 100%;
+   }
+}
 
  .sponsor-follow{
    padding: 0 .25em;
  }
- .sponsor-main{
 
- }
-
- .sponsor-main:nth-child(0n+1){
-
- }
 
 
 @media all and (max-width: 479px) {
@@ -120,18 +131,3 @@
   vertical-align: middle;
   margin-right: 1em;
 } 
-
-// OPTIONS
-// sponsored by INLINE
-.sponsor-inline .sponsor-header .sponsor-byline {
-  display: inline-block;
-}
-
-// inline sponsor label
-.sponsor-inline .sponsor-header .sponsor-byline:before  {
-  display: inline;
-}
-
-.sponsor-inline .sponsor-header .sponsor-byline:hover {
-  text-decoration: none;
-}

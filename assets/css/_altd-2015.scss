@@ -90,9 +90,9 @@ body{
   background-color: $color-ad-green;
 }
 
-
+// keep the loading posts from collapsing on one another
 .wrapper.list .post-content.feed-view{
-  min-height: 180px;
+  min-height: 150px;
 }
 
 #loading-more{
