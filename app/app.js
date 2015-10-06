@@ -50,6 +50,9 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
 
 NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     MetaTags.initialize();
+
+    $rootScope.orientation = null;
+
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
@@ -65,6 +68,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         }else{
             return 'unknown';
         }
+    };
+
+    $rootScope.getOrientation = function(){
+        if(!$rootScope.orientation){
+            $rootScope.orientation = (window.outerWidth > window.outerHeight) ? 'landscape' : 'portrait';
+        }
+        return $rootScope.orientation;
     };
 
     //$rootScope.lastIndex = 0;
@@ -151,6 +161,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     $rootScope.getTrusted = function(val){
         return $sce.trustAsHtml(val);
     };
+
+    if(/mobile/i.test($rootScope.isMobile())){
+        window.addEventListener('resize',function(e){
+            $rootScope.orientation = (e.currentTarget.outerWidth > e.currentTarget.outerHeight) ? 'landscape' : 'portrait';
+            angular.element('body').removeClass('landscape portrait').addClass($rootScope.orientation);
+        }, false);
+    }
 });
 
 NewsFeed.factory(
@@ -239,7 +256,6 @@ NewsFeed.directive('card', Directives.card);
 /*
  * Module Directives
  */
-
 
 window.onerror = function(){
     console.error(arguments);
