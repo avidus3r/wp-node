@@ -25,6 +25,21 @@ var FeedService = function(envConfig, env, $http, $q){
         return deferred.promise;
     };
 
+    feed.search = function(query) {
+
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query;
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }
+        );
+
+        return deferred.promise;
+    };
+
     feed.getSponsor = function(sponsorName) {
 
         var deferred = $q.defer();

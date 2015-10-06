@@ -31,6 +31,7 @@
   font-size: 1em;
   margin: 0 0 .25em;
   display: inline-block;
+  padding: 0 .25em;
   @extend .clearfix;
 }
 
@@ -70,8 +71,8 @@
   margin-bottom: 1em;
 }
 
- .sp-page-head {
-
+ .notes{
+   padding: 0 .25em;
  }
 
  .sp-page-head .sponsor-avatar{
@@ -82,10 +83,11 @@
     margin: 0 auto;
    display: flex;
    -webkit-flex: 1;
+   max-width: 100%;
  }
 
  .sponsor-follow{
-
+   padding: 0 .25em;
  }
  .sponsor-main{
 

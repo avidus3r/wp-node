@@ -9,7 +9,7 @@
     <h1 class="sponsor-header sponsor-large">
         {{ item.sponsor.title }}
     </h1>
-    <p ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>
+    <p class="notes" ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>
     <div class="sponsor-follow">
         <div class="fb-like" data-href="{{ item.sponsor.urls.facebook }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
         <div>

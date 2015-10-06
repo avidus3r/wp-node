@@ -48,6 +48,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     if(data.posts === null) $scope.currentView = 'sponsor';
+    if($routeParams.hasOwnProperty('query')) $scope.currentView = 'search';
 
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
@@ -110,16 +111,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     };
 
-    if($scope.currentView === 'list') {
+    if($scope.currentView === 'list' || $scope.currentView === 'search') {
 
         angular.forEach(data.posts, function (item, index) {
-            item.type = 'post-list';
+            item.type = 'post-'+$scope.currentView;
             postmap.push(item);
         });
 
         angular.forEach(data.config, function (item, index) {
             var card = item.card;
-            if (card.type === 'sponsor') {
+            if (card.type === 'sponsor' && data.sponsors) {
                 card = data.sponsors[$scope.paged];
                 card.type = 'sponsor';
                 card.position = item.card.position;

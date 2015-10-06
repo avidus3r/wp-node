@@ -74,6 +74,10 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
         });
     };
 
+    $scope.search = function(){
+        window.location.href = '/search/' + encodeURIComponent(angular.element('input[name="s"]').val());
+    };
+
 
 
     $scope.getMainMenu();

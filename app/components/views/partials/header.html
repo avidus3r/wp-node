@@ -21,6 +21,10 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav">
+                    <li class="search">
+                        <input type="text" name="s" placeholder="Search...">
+                        <button ng-click="search()" id="search" type="button"><i class="fa fa-search"></i></button>
+                    </li>
                     <li ng-repeat="item in navItems" class="{{item.class}}" ng-click="collapseNav()">
                         <a href="/{{item.slug}}" ng-bind-html="item.title"></a>
                     </li>
