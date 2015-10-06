@@ -48,6 +48,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     });
 
     $scope.post = data.post;
+    if($scope.post[0].sponsor !== null){
+        $scope.post[0].campaignActive = true;
+    }
     $scope.posts = data.posts;
 
     $scope.initMeta = function(post){

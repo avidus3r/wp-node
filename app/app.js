@@ -6,7 +6,7 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'stage';
+var env = 'dev';
 
 var feedConfig = {
     'prod': {
@@ -160,6 +160,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
 
     $rootScope.getTrusted = function(val){
         return $sce.trustAsHtml(val);
+    };
+
+    $rootScope.search = function(){
+        window.location.href = '/search/' + encodeURIComponent(angular.element('input[name="s"]').val());
     };
 
     if(/mobile/i.test($rootScope.isMobile())){

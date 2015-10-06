@@ -128,6 +128,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             angular.forEach(data.posts, function (item, index) {
                 console.log('posts foreach');
                 item.type = 'post-'+$scope.currentView;
+
                 postmap.push(item);
             });
 
@@ -153,9 +154,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     }
 
-    if($scope.currentView === 'sponsor' && data.sponsor !== null){
-        if(data.sponsor.length > 0) {
-            angular.forEach(data.sponsor, function (item, index) {
+    if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
+        if($scope.sponsors.length > 0) {
+            angular.forEach($scope.sponsors, function (item, index) {
                 item.type = 'sponsor';
                 postmap.push(item);
             });
