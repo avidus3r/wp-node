@@ -122,6 +122,9 @@
                   <span class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></span>
                 </div> 
                 -->
+                <div class="search-box" ng-if="isMobile().indexOf('mobile') === -1 ">
+                    <ng-include src="'/views/partials/search.html'"></ng-include>
+                </div>
                 <ng-include src="'/views/cards/email-signup.html'"></ng-include>
                 <!-- Add a trending card for 5 most popular posts -->
             </section>

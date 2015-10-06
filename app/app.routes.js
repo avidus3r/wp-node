@@ -139,7 +139,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             }
                         ),
                         instagram: null,
-                        sponsor: null
+                        sponsors: null
                     });
                 }
             }
@@ -167,7 +167,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                         ),
                         posts: null,
                         instagram: null,
-                        sponsor: FeedService.getSponsor($route.current.params.sponsor).then(
+                        sponsors: FeedService.getSponsor($route.current.params.sponsor).then(
                             function(data){
                                 return data;
                             },
@@ -271,6 +271,26 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
         })
         // the following views' meta get set in their controller
         .when('/category/:category', {
+            robots: 'index, follow',
+            title: 'alt_driver - Hottest Car Content from Social & the Web',
+            description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            // Facebook
+            fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
+            fb_site_name: 'alt_driver',
+            fb_url: 'http://www.altdriver.com/',
+            fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            fb_type: 'website',
+            fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            // Twitter
+            tw_card: '',
+            tw_description: '',
+            tw_title: '',
+            tw_site: '@altdriver',
+            tw_domain: 'alt_driver',
+            tw_creator: '@altdriver',
+            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png'
+        })
+        .when('/search/:query', {
             robots: 'index, follow',
             title: 'alt_driver - Hottest Car Content from Social & the Web',
             description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',

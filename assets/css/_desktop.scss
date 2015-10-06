@@ -35,6 +35,13 @@
       .search-box {
         width: 300px;
         margin: 14px auto 0;
+
+        input{
+          width:88%;
+        }
+        button{
+          width: 10%;
+        }
       }
 
       .card {

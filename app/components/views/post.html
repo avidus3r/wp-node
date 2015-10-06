@@ -7,7 +7,7 @@
                 <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
             </div>
 
-            <card type="{{ item.type }}"></card>
+            <card error="{{ item.noresults ? 'no-results' : '' }}" type="{{ item.type }}"></card>
 
         </div><!-- /ng-repeat -->
 
