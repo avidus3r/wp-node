@@ -136,8 +136,6 @@ gulp.task('devServe', ['env:development'], function () {
 });
 
 gulp.task('watch', function () {
-    //plugins.livereload.listen({interval:500});
-
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
