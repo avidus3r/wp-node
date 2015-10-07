@@ -134,7 +134,7 @@ gulp.task('devServe', ['env:development'], function () {
         this.stderr.pipe(process.stderr);
     });
 });
-
+ 
 gulp.task('watch', function () {
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
