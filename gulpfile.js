@@ -67,53 +67,6 @@ gulp.task('tests', function(){
         .pipe(gulp.dest('./tests/src'))
 });
 
-function publishToS3 (options) {
-    var aws = JSON.parse(fs.readFileSync('./aws.json'));
-
-    if(!options.path){
-        throw "path is a required option"
-    }
-
-    return es.map(function (file, cb) {
-
-        var isFile = fs.lstatSync(file.path).isFile();
-
-        if (!isFile) {
-            return false;
-        }
-
-        var uploadPath = file.path.replace(file.base, '');
-
-        // Correct path to use forward slash for windows
-        if(path.sep == "\\"){
-            uploadPath = uploadPath.replace(/\\/g,"/");
-        }
-        var client = knox.createClient(aws);
-        console.log('client: ', client);
-        var headers = {
-            'x-amz-acl': 'public-read'
-        };
-        client.putFile(file.path, uploadPath, headers, function(err, res) {
-            if (err || res.statusCode !== 200) {
-                console.log("Error Uploading" + res.req.path);
-            } else {
-                console.log("Uploaded " + res.req.path);
-            }
-            cb();
-        });
-        return true;
-    });
-}
-
-gulp.task('publish',function(){
-
-    gulp.src('./dist/**/*.*', {read: false})
-        .pipe(publishToS3({
-            path : "/"+pkg.name+"/"
-        }));
-
-});
-
 gulp.task('lint', function() {
     gulp.src(paths.js)
         .pipe(plugins.jshint())
@@ -181,26 +134,6 @@ gulp.task('devServe', ['env:development'], function () {
         this.stderr.pipe(process.stderr);
     });
 });
-
-gulp.task('tag', ['bump'], function (cb) {
-
-    var pkg = require('./package.json');
-    var v = 'v' + pkg.version;
-    var message = '"Release ' + v +'"';
-
-    gulp.src('./')
-        .pipe(git.commit(message));
-
-    git.tag(v, message);
-    git.push('origin', 'master', {args : '--tags'});
-
-    cb();
-});
-
-gulp.task('release', function(callback) {
-    runSequence('tag', 'publish',  callback);
-});
-
 
 gulp.task('watch', function () {
     //plugins.livereload.listen({interval:500});
