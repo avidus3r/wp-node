@@ -47,6 +47,11 @@ gulp.task('config', function(){
         .pipe(gulp.dest('./dist/appdata/'));
 });
 
+gulp.task('data', function(){
+    gulp.src(paths.config)
+        .pipe(gulp.dest('./data/'));
+});
+
 gulp.task('test', function (done) {
     new Server({
         configFile: __dirname + '/karma.conf.js',
@@ -211,5 +216,5 @@ gulp.task('watch', function () {
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'scripts', callback);
+    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'data', 'scripts', callback);
 });

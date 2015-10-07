@@ -8,6 +8,13 @@ require('../assets/js/angular-metatags.min');
 
 var env = 'dev';
 
+if(/stage/i.test(window.location.hostname)){
+    env = 'stage';
+}
+if(/dev/i.test(window.location.hostname)){
+    env = 'dev';
+}
+
 var feedConfig = {
     'prod': {
         remoteUrl: 'http://www.altdriver.com',
