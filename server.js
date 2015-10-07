@@ -1,6 +1,7 @@
 'use strict';
 
 var express     = require('express'),
+    http        = require('http'),
     app         = express(),
     path        = require('path'),
     request     = require('request'),
@@ -9,7 +10,7 @@ var express     = require('express'),
     multiparty  = require('multiparty'),
     fs          = require('fs');
 
-var EXPRESS_PORT = process.env.port || 3000,
+var EXPRESS_PORT = 3000,
     //EXPRESS_HOST = '172.31.8.101',
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
@@ -20,6 +21,8 @@ app.use(express.static(__dirname + './dist/admin'));
 app.use(express.static(__dirname + './data'));
 app.use(express.static(__dirname + './app/config'));
 app.use(express.static(__dirname + './app/components/views/cards'));
+
+app.set('port', process.env.PORT || EXPRESS_PORT);
 
 app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
@@ -347,9 +350,11 @@ app.get('/:category/:slug', function(req,res, next){
     }
 });
 
-var server = app.listen(EXPRESS_PORT, EXPRESS_HOST, 511, function(){
+http.createServer(app).listen(app.get('port'), function(){
+    console.log('app listening on port ' + app.get('port'));
+});
+
+/*var server = app.listen(EXPRESS_PORT, EXPRESS_HOST, 511, function(){
     var host = server.address().address;
     var port = server.address().port;
-
-    console.log('app listening at http://%s:%s', host, port);
-});
+});*/
