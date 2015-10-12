@@ -19,7 +19,7 @@ var paths   = {
     config: ['../app/config/*.json']
 };
 
-var defaultTasks = ['clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'data', 'scripts', 'devServe', 'watch'];
+var defaultTasks = ['build', 'devServe', 'watch'];
 
 
 gulp.task('env:development', function () {
@@ -112,5 +112,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.sass, ['css:sass']);
     gulp.watch(paths.tests, ['tests']);
 });
+
+gulp.task('build',['clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'data', 'scripts']);
 
 gulp.task('development', defaultTasks);
