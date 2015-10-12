@@ -4,7 +4,6 @@ var gulp            = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     sass            = require('gulp-sass'),
     path            = require('path'),
-    clean           = require('gulp-clean'),
     browserify      = require('gulp-browserify'),
     runSequence     = require('run-sequence'),
     plugins         = gulpLoadPlugins(),
@@ -104,11 +103,6 @@ gulp.task('css:sass', function () {
             paths: [ '../assets/css/' ]
         }))
         .pipe(gulp.dest('../dist'));
-});
-
-gulp.task('clean', function () {
-    return gulp.src('../dist', { read: false })
-        .pipe(clean());
 });
 
 gulp.task('watch', function () {
