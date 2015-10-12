@@ -26,6 +26,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.feedConfig = data.config;
     $scope.sponsors = data.sponsors;
     $scope.instagram = data.instagram;
+    $scope.posts = data.posts;
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
@@ -48,14 +49,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return val;
     };
 
-    if(data.posts === null && data.sponsors !== null) $scope.currentView = 'sponsor';
+    if($scope.posts === null && $scope.sponsors !== null) $scope.currentView = 'sponsor';
     if($routeParams.hasOwnProperty('query')) $scope.currentView = 'search';
 
     $scope.postPath = 'posts';
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
     $scope.getPosts = function(){
-        console.log('getPosts');
+
         FeedService.getPostData('prod', $scope.postsPerPage, $scope.pageNumber).then(
             function(data){ //success
                 var pagedpostmap = [];
@@ -69,23 +70,20 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                         var card = item.card;
 
-                        if(card.type === 'sponsor') {
-                            if($scope.pageNumber <= $scope.sponsors.length) {
-                                card = $scope.sponsors[$scope.pageNumber];
-                                card.type = 'sponsor';
-                                card.position = item.card.position;
-                            }
+                        if (card.type === 'sponsor' && $scope.sponsors !== null) {
+                            card = $scope.sponsors[$scope.paged];
+                            card.type = 'sponsor';
+                            card.position = item.card.position;
+                            postmap.splice(card.position, 0, card);
                         }
-
                         if (card.type === 'instagram') {
-                            if (typeof data.instagram !== 'undefined') {
+                            if (typeof data.instagram !== 'undefined' && $scope.instagram !== null) {
                                 card.data = data.instagram.data.data[0];
                             } else {
                                 card.type = 'social-follow';
                             }
+                            postmap.splice(card.position, 0, card);
                         }
-
-                        pagedpostmap.splice(card.position, 0, card);
                     }
                 });
                 angular.forEach(pagedpostmap, function (item, index) {
@@ -114,32 +112,27 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     if($scope.currentView === 'list' || $scope.currentView === 'search') {
 
-        if(data.posts.length === 0){
-            data.config = null;
+        if($scope.posts.length === 0){
+            $scope.feedConfig = null;
             var item = {};
-            item.message = '<p>Sorry, nothing matched your search</p>';
-            //item.title = {rendered: '<h3>Search results</h3>'};
             item.type = 'post-'+$scope.currentView + '-empty';
             item.noresults = true;
             postmap.push(item);
-
         }
         else{
-            angular.forEach(data.posts, function (item, index) {
-                console.log('posts foreach');
+            angular.forEach($scope.posts, function (item, index) {
                 item.type = 'post-'+$scope.currentView;
-
                 postmap.push(item);
             });
 
-            angular.forEach(data.config, function (item, index) {
-                console.log('config foreach');
+            angular.forEach($scope.feedConfig, function (item, index) {
                 var card = item.card;
 
                 if (card.type === 'sponsor' && $scope.sponsors !== null) {
-                    card = data.sponsors[$scope.paged];
+                    card = $scope.sponsors[$scope.paged];
                     card.type = 'sponsor';
                     card.position = item.card.position;
+                    postmap.splice(card.position, 0, card);
                 }
                 if (card.type === 'instagram') {
                     if (typeof data.instagram !== 'undefined' && $scope.instagram !== null) {
@@ -147,9 +140,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     } else {
                         card.type = 'social-follow';
                     }
+                    postmap.splice(card.position, 0, card);
                 }
-
-                postmap.splice(card.position, 0, card);
             });
         }
     }

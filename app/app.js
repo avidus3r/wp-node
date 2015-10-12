@@ -6,7 +6,7 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'dev';
+var env = 'prod';
 
 if(/stage/i.test(window.location.hostname)){
     env = 'stage';
@@ -45,7 +45,6 @@ var InstagramService = require('./services/InstagramService');
 
 //Routes
 var Router = require('./app.routes');
-
 
 //Main Module
 var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
@@ -206,14 +205,6 @@ NewsFeed.provider('InstagramServiceProvider',function(){
 
 NewsFeed.constant('env', env);
 NewsFeed.constant('envConfig', feedConfig);
-
-/*NewsFeed.provider('envConfigProvider',function(){
-    return {
-        $get: function(){
-            return envConfig;
-        }
-    }
-});*/
 
 NewsFeed.config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', '$compileProvider', Router]

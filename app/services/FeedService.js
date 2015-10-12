@@ -16,7 +16,6 @@ var FeedService = function(envConfig, env, $http, $q){
         $http.get(url)
             .then(function (response) {
                 var res = response.data;
-                console.log(res);
                 deferred.resolve(res);
             }, function (response) {
                 deferred.reject(response);
@@ -107,7 +106,6 @@ var FeedService = function(envConfig, env, $http, $q){
         var url = '/getPosts/'+env + '/' + postsPerPage + '/' + page;
         $http.get(url)
             .then(function (response) {
-                console.log(response);
                 var res = response.data;
                 deferred.resolve(res);
             }, function (response) {
