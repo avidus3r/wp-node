@@ -19,7 +19,6 @@ var paths   = {
     config: ['../app/config/*.json']
 };
 
-
 var defaultTasks = ['clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'data', 'scripts', 'devServe', 'watch'];
 
 
