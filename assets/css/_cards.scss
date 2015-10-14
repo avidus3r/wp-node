@@ -87,5 +87,21 @@
   }
 }
 
+.card-instagram.post-content {
+  img {
+    width:100%;
+  }
+
+  h2.post-title {
+    position: relative;
+    font-size: 1.2em;
+    margin: .5em;
+    width: auto;
+    color: $color-text-main;
+    background-color: #fff;
+  }
+
+}
+
 // Sponsored posts styles
 @import 'sponsors';
