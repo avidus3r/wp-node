@@ -1,7 +1,6 @@
 /* single view */
 .view-container.single{
   background: #fff;
-  //max-width: 640px;
   margin: 0 auto 1em;
 }
 
@@ -101,7 +100,6 @@
 
 
 .single .post-content,.single-post .post-content{
-  box-shadow: none;
   //font-size: 1.2em;
   line-height: normal;
   padding:.5em 0em .5em;
@@ -121,11 +119,8 @@
 }
 
 .post-content.feed-view{
-  //min-height: 230px;
-  //font-size: 1em;
   background: #fff;
   color:#666;
-  box-shadow: 0 1px 5px rgba(0,0,0,.5);
   padding: 0;
 }
 
