@@ -1,5 +1,4 @@
-$.fn.serializeObject = function()
-{
+$.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
     $.each(a, function() {
@@ -17,14 +16,19 @@ $.fn.serializeObject = function()
 
 var App = {
     cards: [],
+    env: [],
 
     init: function(){
         var self = this;
         var request = self.getData('/appdata/feed.conf.json');
 
         request.done(function(res){
-            $(res).each(function(index, item){
+            $(res.cards).each(function(index, item){
                 self.cards.push(item);
+            });
+
+            $(res.env).each(function(index, item){
+                self.env.push(item);
             });
 
             self.render();
@@ -36,7 +40,7 @@ var App = {
 
         btnSave.on('click', function(e){
             e.preventDefault();
-            self.save();
+            self.update();
         });
 
         btnAdd.on('click', function(e){
@@ -96,6 +100,50 @@ var App = {
         var self = this;
         var form = $('#formContent');
         form.html('');
+        var envContainer = $('#envConfig');
+
+        self.env.forEach(function(item, index, collection) {
+            var envItem = item;
+            var row = $('<fieldset />')
+                .append(
+                $('<legend />').text('Env')
+            );
+
+            for (var prop in envItem) {
+                var fieldName = prop;
+                var fieldValue = envItem[prop];
+                var fieldType = null;
+                var input = null;
+
+                switch (prop) {
+                    case 'env':
+                        fieldType = 'text';
+                        input = $('<input />').attr({type: fieldType, name: fieldName}).val(fieldValue);
+                        break;
+                    case 'per_page':
+                    case 'prefetch_at':
+                    case 'scroll_amount':
+                        fieldType = 'number';
+                        input = $('<input />').attr({type: fieldType, name: fieldName, value: fieldValue});
+                        break;
+                }
+
+                var field = $('<p />')
+                    .attr('class', fieldName)
+                    .append(
+                    $('<label />')
+                        .attr('for', fieldName)
+                        .css({ 'display':'block' })
+                        .text(fieldName).css({'text-transform': 'capitalize'})
+                )
+                    .append(input)
+                    .appendTo(row);
+
+                row.append(field);
+            }
+            envContainer.html(row);
+        });
+
         self.cards.forEach(function(item, index, collection){
             var card = item.card;
             var row = $('<fieldset />')
@@ -151,26 +199,38 @@ var App = {
 
     update: function() {
         var self = this;
-        var newCard = {
-            'card': $('#newCard').serializeObject()
-        };
-        self.cards.push(newCard);
-        self.render();
+
+        if($('#newCard').children().length > 0) {
+            var newCard = {
+                'card': $('#newCard').serializeObject()
+            };
+            self.cards.push(newCard);
+            self.render();
+        }
         self.save();
     },
 
     save: function() {
         var self = this;
-        var cards = {};
-
-        var card = Object.assign(self.cards, cards);
+        var env = [];
+        var envItem = {};
+        $(self.env).each(function(index, item){
+             for(var prop in item){
+                 var input = $('input[name="' + prop + '"');
+                 var val = input.val();
+                 envItem[prop] = val;
+             }
+            env.push(envItem);
+            self.env = env;
+        });
+        var data = {'env':self.env,'cards':self.cards};
 
         $.ajax({
             type: 'POST',
             url: '/admin',
             dataType:'json',
             headers:{'Content-Type':'application/json'},
-            data: JSON.stringify(card),
+            data: JSON.stringify(data),
             success: function (res) {
 
                 self.render();

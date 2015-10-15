@@ -72,7 +72,7 @@ app.post('/admin', function(req, res){
                 fs.unlink('./app/config/'+ file, function(){
                     fs.writeFile('./app/config/feed.conf.json', JSON.stringify(data), function(err){
                         if(err) throw err;
-                        data.forEach(function(element, index, data){
+                        data.cards.forEach(function(element, index, data){
                             var tpl = element.card.type + '.html';
                             fs.realpath('./app/components/views/cards', function(err, resolvedPath) {
                                 fs.readdir(resolvedPath, function (err, files) {

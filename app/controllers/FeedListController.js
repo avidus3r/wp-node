@@ -15,9 +15,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 0;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 5;
-    $scope.postPrefetchAt = 8;
-    $scope.postsPerPage = 12;
+    $scope.feedItemScrollAmount = Number(data.config.env[0].scroll_amount);
+    $scope.postPrefetchAt = Number(data.config.env[0].prefetch_at);
+    $scope.postsPerPage = Number(data.config.env[0].per_page);
     $scope.pageNumber = 1;
     $scope.currentView = 'list';
     $scope.currentY = null;
@@ -30,6 +30,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
+
+    console.log(typeof $scope.feedItemScrollAmount, typeof $scope.postPrefetchAt, typeof $scope.postsPerPage);
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -65,20 +67,20 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     pagedpostmap.push(item);
                 });
 
-                angular.forEach($scope.feedConfig, function(item, index){
+                angular.forEach($scope.feedConfig.cards, function(item, index){
                     if(item.card.perPage === 'on') {
 
                         var card = item.card;
-
-                        if (card.type === 'sponsor' && $scope.sponsors !== null) {
+                        console.log(card);
+                        if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
                             card = $scope.sponsors[$scope.paged];
                             card.type = 'sponsor';
                             card.position = item.card.position;
                             pagedpostmap.splice(card.position, 0, card);
                         }
                         if (card.type === 'instagram') {
-                            if (typeof data.instagram !== 'undefined' && $scope.instagram !== null) {
-                                card.data = data.instagram.data.data[0];
+                            if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
+                                card.data = $scope.instagram.data.data[$scope.paged-1];
                             } else {
                                 card.type = 'social-follow';
                             }
@@ -87,7 +89,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     }
                 });
                 angular.forEach(pagedpostmap, function (item, index) {
-                    console.log(item, index);
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
             },
@@ -125,18 +126,21 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 postmap.push(item);
             });
 
-            angular.forEach($scope.feedConfig, function (item, index) {
+            angular.forEach($scope.feedConfig.cards, function (item, index) {
+
                 var card = item.card;
 
-                if (card.type === 'sponsor' && $scope.sponsors !== null) {
+                if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
+                    console.log(card);
                     card = $scope.sponsors[$scope.paged];
                     card.type = 'sponsor';
                     card.position = item.card.position;
                     postmap.splice(card.position, 0, card);
                 }
                 if (card.type === 'instagram') {
-                    if (typeof data.instagram !== 'undefined' && $scope.instagram !== null) {
-                        card.data = data.instagram.data.data[0];
+                    console.log(card);
+                    if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
+                        card.data = $scope.instagram.data.data[$scope.paged-1];
                     } else {
                         card.type = 'social-follow';
                     }

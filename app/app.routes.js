@@ -8,6 +8,64 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
     var InstagramService = InstagramServiceProvider.$get();
 
     $routeProvider
+        .when('/', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),
+                        instagram: InstagramService.get(5,'nofilter').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),
+                        sponsors: FeedService.getCampaigns('campaigns','').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        )
+
+                    });
+                }
+            }
+        })
         .when('/category/:category', {
             controller: 'FeedCategoryController',
             templateUrl: '/views/post.html',
@@ -140,7 +198,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(1,'nofilter').then(
+                        instagram: InstagramService.get(5,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -185,54 +243,6 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
         .when('/about',{
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
-        })
-        .when('/', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
-            redirectTo: false,
-            reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route) {
-                    var params = {};
-                    return $q.all({
-                        config: FeedService.getData('/appdata/feed.conf.json').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),
-                        instagram: InstagramService.get(1,'nofilter').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),
-                        sponsors: null
-
-                    });
-                }
-            }
         })
         .otherwise({
             redirectTo: '/'

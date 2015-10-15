@@ -127,19 +127,6 @@
         <div class="app-main">
             <section class="view-container ng-view"></section>
             <p id="loading-more" class="hidden center alert alert-info">Loading more articles...</p>
-            <script type="text/javascript">
-                //console.log(angular.module('NewsFeed'));
-                angular.module('NewsFeed').trackPageView = function(){
-                    ga('send', 'pageview');
-                };
-
-                angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
-                    if(fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
-                    if(!fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue);
-                    return;
-                };
-
-            </script>
         </div>
         <div class="app-rail">
             <section class="sidebar">
@@ -147,7 +134,8 @@
                 <div class="input-group search-box ad-m-tb">
                   <input type="text" class="form-control" placeholder="Search altdriver.com" aria-describedby="basic-addon2">
                   <span class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></span>
-                </div> 
+                </div>
+                 
                 -->
                 <div class="search-box" ng-if="isMobile().indexOf('mobile') === -1 ">
                     <ng-include src="'/views/partials/search.html'"></ng-include>
@@ -157,6 +145,19 @@
             </section>
         </div>
     </div>
+    <script type="text/javascript">
+        //console.log(angular.module('NewsFeed'));
+        angular.module('NewsFeed').trackPageView = function(){
+            ga('send', 'pageview');
+        };
+
+        angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+            if(fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
+            if(!fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue);
+            return;
+        };
+
+    </script>
 
 </body>
 </html>
