@@ -30,7 +30,8 @@
 
 // hide whats app and sms on DT
 .desktop .flex-sms,
-.desktop .flex-whatsapp {
+.desktop .flex-whatsapp,
+.desktop .flex-linkedin{
   display: none !important;
 }
 
