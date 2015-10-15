@@ -69,6 +69,12 @@
     .visible-md-altd {
       display: block !important;
     }
+
+    .navbar-nav > li.search {
+      width: 100%;
+      display: block;
+      padding: 1em;
+    }
   }
 
   // hackity hack hide when nav changes
@@ -87,6 +93,8 @@
       top: .5em;
       margin-right: 7.5em;
     }
+
+  
   }
 
 // #################### End Nav Stuffs
