@@ -15,8 +15,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.feedItemPosition = 1;
     $scope.lastScroll = window.scrollY;
     $scope.feedItemScrollAmount = 5;
-    $scope.postPrefetchAt = 10;
-    $scope.postsPerPage = 25;
+    $scope.postPrefetchAt = 8;
+    $scope.postsPerPage = 12;
     $scope.pageNumber = 1;
     $scope.currentView = 'post';
     $scope.pageTitle = null;
@@ -30,6 +30,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.instagramIndex = 6;
     $scope.emailSignupIndex = 3;
     $scope.socialFollowIndex = 1;
+    $scope.feedConfig = data.config;
+    $scope.sponsors = data.sponsors;
+    $scope.instagram = data.instagram;
+    $scope.paged = 1;
 
     if($scope.lastOffset === 0){
         localStorage.setItem('post_offset', 0);
@@ -51,7 +55,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     if($scope.post[0].sponsor !== null){
         $scope.post[0].campaignActive = true;
     }
-    $scope.posts = data.posts;
+
+    var offset = '';
+    if(localStorage.getItem('post_offset')) offset = '&offset=' + localStorage.getItem('post_offset');
 
     $scope.initMeta = function(post){
         // Standard meta
@@ -90,26 +96,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
         val = encode ? encodeURIComponent(val) : val;
         return val;
-    };
-
-    $scope.getPosts = function(postPath, pagingParams){
-
-        FeedService.getPosts(postPath, pagingParams).then(
-            function (data) { //success
-                angular.forEach(data, function (item, index) {
-                    item.type = 'post-list';
-                    $scope.createFeedItem(item, $scope.feedItems.length);
-                });
-                $scope.$emit('list:next');
-            },
-            function (reason) {   //error
-                console.error('Failed: ', reason);
-            },
-            function (update) {  //notification
-                console.debug('Got notification: ' + update);
-            }
-        );
-
     };
 
     $scope.attachCommentsHandler = function(){
@@ -169,6 +155,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         if(itemPosition % count === 0){
             while(i < (itemPosition+count)){
                 $scope.add($scope.feedItems[i]);
+                if(i % ($scope.postsPerPage-1) === 0){
+                    $scope.paged += 1;
+                    var state = {page: $scope.paged};
+                    history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
+                    angular.module('NewsFeed').trackPageView();
+                }
                 i += 1;
             }
         }
@@ -306,39 +298,97 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.singlePostID = item.id;
     item.type = 'post-single';
     $scope.createFeedItem(item, $scope.feedItems.length);
-    InstagramService.get(1, 'nofilter').then(function(res) {
-        var gram = res.data.data[0];
-        gram.type = 'instagram';
-        $scope.instagramPost = gram;
-        var postmap = [];
 
-        angular.forEach($scope.posts, function (item, index) {
-            if(index === $scope.emailSignupIndex){
-                postmap.push($scope.emailSignup);
-                //$scope.createFeedItem($scope.emailSignup, index);
-                $scope.splicedItems+=1;
+    FeedService.getPosts('feed', '?per_page=12&page=1&post__not_in=' + $scope.post[0].id + offset).then(
+        function (data) {
+            $scope.posts = data;
+            var postmap = [];
+
+            angular.forEach($scope.posts, function (item, index) {
+                item.type = 'post-list';
+                postmap.push(item);
+                //$scope.createFeedItem(item, $scope.feedItems.length);
+            });
+
+            angular.forEach($scope.feedConfig, function (item, index) {
+                var card = item.card;
+
+                if (card.type === 'sponsor' && $scope.sponsors !== null) {
+                    card = $scope.sponsors[$scope.paged];
+                    card.type = 'sponsor';
+                    card.position = item.card.position;
+                    postmap.splice(card.position, 0, card);
+                }
+                if (card.type === 'instagram') {
+                    if (typeof data.instagram !== 'undefined' && $scope.instagram !== null) {
+                        card.data = data.instagram.data.data[0];
+                    } else {
+                        card.type = 'social-follow';
+                    }
+                    postmap.splice(card.position, 0, card);
+                }
+            });
+
+            angular.forEach(postmap, function (item, index) {
+                $scope.createFeedItem(item, $scope.feedItems.length);
+            });
+        },
+        function (error) {
+
+        },
+        function (notification) {
+
+        }
+    );
+
+    $scope.getPosts = function(path, params){
+
+        FeedService.getPosts(path,params).then(
+            function(data){ //success
+                var pagedpostmap = [];
+                angular.forEach(data, function (item, index) {
+                    item.type = 'post-list';
+                    pagedpostmap.push(item);
+                });
+
+                angular.forEach($scope.feedConfig, function(item, index){
+                    if(item.card.perPage === 'on') {
+
+                        var card = item.card;
+
+                        if (card.type === 'sponsor' && $scope.sponsors !== null) {
+                            card = $scope.sponsors[$scope.paged];
+                            card.type = 'sponsor';
+                            card.position = item.card.position;
+                            pagedpostmap.splice(card.position, 0, card);
+                        }
+                        if (card.type === 'instagram') {
+                            if (typeof data.instagram !== 'undefined' && $scope.instagram !== null) {
+                                card.data = data.instagram.data.data[0];
+                            } else {
+                                card.type = 'social-follow';
+                            }
+                            pagedpostmap.splice(card.position, 0, card);
+                        }
+                    }
+                });
+                angular.forEach(pagedpostmap, function (item, index) {
+                    console.log(item, index);
+                    $scope.createFeedItem(item, $scope.feedItems.length);
+                });
+            },
+            function(reason){   //error
+                console.error('Failed: ', reason);
+            },
+            function(update) {  //notification
+                console.info('Got notification: ' + update);
             }
+        );
+    };
 
-            /*if(index === $scope.socialFollowIndex){
-             $scope.createFeedItem($scope.socialFollow, index);
-             $scope.splicedItems+=1;
-             }*/
-
-            if(index === $scope.instagramIndex){
-                postmap.push($scope.instagramPost);
-                //$scope.createFeedItem($scope.instagramPost, index);
-                $scope.splicedItems+=1;
-            }
-            item.type = 'post-list';
-            postmap.push(item);
-            //$scope.createFeedItem(item, $scope.feedItems.length);
-        });
-        angular.forEach(postmap, function (item, index) {
-            $scope.createFeedItem(item, $scope.feedItems.length);
-        });
-    });
-
-    //});
+    $scope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+        angular.module('NewsFeed').trackEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
+    };
 
     window.addEventListener('message', $scope.receiveMessage);
 

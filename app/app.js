@@ -6,7 +6,7 @@ var angular = require('angular');
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'prod';
+var env = 'dev';
 
 if(/stage/i.test(window.location.hostname)){
     env = 'stage';
@@ -24,11 +24,13 @@ var feedConfig = {
     'stage':{
         remoteUrl: 'http://altdriver.staging.wpengine.com',
         basePath: '/wp-json/wp/v2/',
+        ga: 'UA-66153561-1',
         site: 'altdriver'
     },
     'dev':{
         remoteUrl: 'http://devaltdriver.wpengine.com',
         basePath: '/wp-json/wp/v2/',
+        ga: 'UA-66153561-1',
         site: 'altdriver'
     }
 };
@@ -59,6 +61,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
 
     $rootScope.orientation = null;
 
+    if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null'){
+        localStorage.setItem('post_offset', 0);
+    }
+
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
@@ -75,6 +81,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
             return 'unknown';
         }
     };
+
+    $rootScope.gaID = feedConfig[env].ga;
 
     $rootScope.getOrientation = function(){
         if(!$rootScope.orientation){
@@ -96,6 +104,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         var votedHistory = null;
 
         if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
+
             votedHistory = JSON.parse(localStorage.getItem('user_voted'));
             angular.forEach(votedHistory, function (item, index) {
                 if(item.postID === postID){
@@ -112,7 +121,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     };
 
     $rootScope.vote = function(postID, vote, $event){
-        $event.preventDefault();
+
+
         var voteButton = angular.element($event.currentTarget);
         var votedHistory = null;
 
@@ -122,6 +132,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         voteButton.addClass('voted');
         var upOrDown = voteButton.attr('name');
         var voteVal = upOrDown === 'up' ? 2 : 1;
+
+        angular.module('NewsFeed').trackEvent('voting', 'click', postID + ' - ' + upOrDown, 1, null);
+        $event.preventDefault();
 
         var ls = [];
         var userLS = null;
@@ -144,20 +157,34 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         req.addEventListener('load', function () {
             var result = this.responseText;
         });
+
+        if(voteButton.closest('.post-actions').find('.vote-count').text() === '1'){
+            voteButton.closest('.post-actions').find('.pointsTxt').text('point');
+        }else{
+            voteButton.closest('.post-actions').find('.pointsTxt').text('points');
+        }
     };
 
     $rootScope.commentBtnHandler = function($event, $index, urlParams){
         if($routeParams === urlParams){
             $rootScope.$broadcast('toggleComments');
         }else{
+            angular.module('NewsFeed').trackEvent('postactions:comments','click',urlParams.slug,1,null);
             urlParams.slug = urlParams.slug + '#comment';
             $rootScope.goToPage($event, $index, urlParams);
         }
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
-        //localStorage.setItem('post_offset', JSON.stringify({offset: $index}));
+        var postOffset = $index === 0 ? 0 : $index-1;
+        localStorage.setItem('post_offset', postOffset);
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
+    };
+
+    $rootScope.goToCategory = function(category){
+        //$scope.collapseNav();
+        angular.module('NewsFeed').trackEvent('navigation.category', 'click', category, 1, null);
+        window.location.href = '/' + category;
     };
 
     $rootScope.getSMSLink = function(link){
@@ -178,6 +205,24 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
             angular.element('body').removeClass('landscape portrait').addClass($rootScope.orientation);
         }, false);
     }
+
+    $rootScope.shareItemClick = function($event, slug){
+        angular.module('NewsFeed').trackEvent('postactions:share:' + angular.element($event.currentTarget).attr('class'),'click',slug,1,null);
+    };
+
+    $rootScope.shareClick = function($event, slug){
+        if(angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').hasClass('ng-hide')){
+            angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').removeClass('ng-hide');
+            angular.module('NewsFeed').trackEvent('postactions:share:open','click',slug,1,null);
+        }else{
+            angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').addClass('ng-hide');
+            angular.module('NewsFeed').trackEvent('postactions:share:close','click',slug,1,null);
+        }
+    };
+
+    $rootScope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+        angular.module('NewsFeed').trackEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
+    };
 });
 
 NewsFeed.factory(

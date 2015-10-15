@@ -7,7 +7,7 @@
 
     <div class="author-meta">
         <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-        <p class="item-cat {{ getCategory(item.category, item.link).slug }}"><a ng-bind-html="getCategory(item.category, item.link).name" href="/{{ getCategory(item.category, item.link).taxonomy }}/{{ getCategory(item.category, item.link).slug }}"></a></p>
+        <p class="item-cat {{ getCategory(item.category, item.link).slug }}"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
 
         <span class="clearfix"></span>
     </div>

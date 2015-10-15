@@ -74,6 +74,12 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
         });
     };
 
+    $scope.navClick = function(){
+        angular.module('NewsFeed').trackEvent('navigation.main','click','menu button',1,null);
+    };
+
+
+
     $scope.getMainMenu();
 
 };

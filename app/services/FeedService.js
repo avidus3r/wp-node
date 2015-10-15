@@ -102,7 +102,6 @@ var FeedService = function(envConfig, env, $http, $q){
         formData.append('env',env);
         formData.append('postsPerPage',postsPerPage);
         formData.append('page',page);
-
         var url = '/getPosts/'+env + '/' + postsPerPage + '/' + page;
         $http.get(url)
             .then(function (response) {

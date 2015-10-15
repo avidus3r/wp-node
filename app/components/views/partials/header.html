@@ -3,7 +3,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" ng-click="navClick()">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -24,10 +24,10 @@
                     <li class="search" ng-if="isMobile().indexOf('mobile') > -1 ">
                         <ng-include style="display: flex; width: 100%;" src="'/views/partials/search.html'"></ng-include>
                     </li>
-                    <li ng-repeat="item in navItems" class="{{item.class}}" ng-click="collapseNav()">
-                        <a href="/{{item.slug}}" ng-bind-html="item.title"></a>
+                    <li ng-repeat="item in navItems" class="{{item.class}}">
+                        <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title"></a>
                     </li>
-                    <li class="legal" ng-click="collapseNav()">
+                    <li class="legal" ng-click="collapseNav($event)">
                         <a href="/about">About</a>
                     </li>
                 </ul>

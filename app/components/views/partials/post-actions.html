@@ -1,6 +1,6 @@
 <div class="post-actions clearfix">
     <div class="ad-m">
-        <div class="share-meta"><span class="vote-count">{{ item.votes.total_votes - (item.votes.votes_down || 0) }}</span> points</div>
+        <div class="share-meta"><span class="vote-count" ng-init="totalVotes = item.votes.total_votes - (item.votes.votes_down || 0)">{{ totalVotes }}</span> <span class="pointsTxt">{{ totalVotes === 1 ? "point" : "points" }}</span></div>
         <div class="left pa-voting">
             <ng-include src="'/views/partials/voting.html'"></ng-include>
         </div>
@@ -9,12 +9,12 @@
             <button type="button" ng-click="commentBtnHandler($event, $index, {category: getCategory(item.category, item.link).slug, slug: item.slug})" class="btn"><i class="fa fa-comment"></i></button>
         </div>
         <div class="right pa-share">
-            <button type="button" ng-click="shareVisible = !shareVisible" class="btn">
+            <button type="button" class="btn" ng-click="shareClick($event, item.slug)">
                 Share
             </button>
         </div>
     </div>
-    <div class="share-icon-wrapper ng-hide" ng-show="shareVisible">
+    <div class="share-icon-wrapper ng-hide">
         <ng-include src="'/views/partials/share-icons.html'"></ng-include>
     </div>
 </div>
