@@ -21,14 +21,14 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li class="search" ng-if="isMobile().indexOf('mobile') > -1 ">
-                        <ng-include style="display: flex; width: 100%;" src="'/views/partials/search.html'"></ng-include>
-                    </li>
                     <li ng-repeat="item in navItems" class="{{item.class}}">
                         <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title"></a>
                     </li>
                     <li class="legal" ng-click="collapseNav($event)">
                         <a href="/about">About</a>
+                    </li>
+                    <li class="search">
+                        <ng-include src="'/views/partials/search.html'"></ng-include>
                     </li>
                 </ul>
             </div>

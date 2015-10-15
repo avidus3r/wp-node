@@ -30,22 +30,21 @@
   }
 }
 
-// HACKITY HACK HACK
-// Need to rework bootstraps responsive utilities
-.visible-md-altd {
-  display: none;
+// search box
+// make the searchbox look good
+.header-search-txt {
+  padding: .3em;
+  border: 1px solid #e3e3e3;
+  top: 1px;
+  position: relative;
+  min-width: 280px;
 }
 
-@media all and (max-width: $nav-switch - 1px) {
-  .visible-md-altd {
-    display: block !important;
-  }
-}
-
-// hackity hack hide when nav changes
-@media all and (min-width: $nav-switch + 1px) {
-  .hidden-md-altd {
-    display: none !important;
+ // match the btn padding
+.nav > li.search {
+  
+  .btn-search {
+    padding: 4px 10px;
   }
 }
 

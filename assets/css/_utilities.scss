@@ -32,6 +32,12 @@
 .ad-p-b {padding-bottom: 1em;}
 .ad-p-tb {padding-top: 1em; padding-bottom: 1em;}
 
+.flexy {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
 /**
  * For modern browsers
  * 1. The space content is one way to avoid an Opera bug when the
