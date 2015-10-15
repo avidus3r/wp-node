@@ -88,14 +88,16 @@
 
     // some custom CSS for SMS
     .fa-stack-2x {
-      font-size: 2em;
-      margin-top: .1em; 
+      font-size: 2.5em !important;
+      margin-top: 0; 
     }
 
     // the text that makes the ...
     .flex-sms-txt {
-      font-size: 9px; 
+      font-size: 15px;
       line-height: 1.25em;
+      position: relative;
+      top: 1px;
     }
 
   }

@@ -6,6 +6,10 @@ body{
 // interface components
 header {
   font-family: $font-system;
+
+  .btn-search {
+    padding: 6px 12px; // match the regular btn
+  }
 }
 
 .author-meta,
@@ -52,39 +56,6 @@ h1, h2, h3, h4, h5, h6 {
     @media all and (max-width: 399px) {
       .nav > li {
         width: 50%;
-
-        &.search{
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          line-height: 3em;
-          flex-grow: 10;
-          border:none;
-          margin-top: -7.5px;
-          margin-bottom: 5px;
-          background: #333;
-          padding: 0 .25em 0 .5em;
-
-          input{
-            display: flex;
-            flex-grow: 9;
-            background: #333;
-            color:#fff;
-            border:none;
-            border-right: 1px solid #666;
-          }
-
-          button{
-            display: flex;
-            flex-grow: 1;
-            background: #333;
-            border: none;
-
-            i{
-              flex-grow: 1;
-            }
-          }
-        }
       }
     }
 

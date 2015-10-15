@@ -11,14 +11,13 @@
   display: none;
 }
 
-// show and hide them
+// show and hide the main sections
 @media all and (min-width:880px) {
   .app-main {
     float: left;
     width: 65%;
     width: calc(100% - 366px);
   }
-
 
 // need another div for dt only
   .app-rail {
@@ -58,3 +57,36 @@
     }
   }
 }
+
+// ################# navigation stuff
+// HACKITY HACK HACK
+// Need to rework bootstraps responsive utilities
+  .visible-md-altd {
+    display: none;
+  }
+
+  @media all and (max-width: $nav-switch - 1px) {
+    .visible-md-altd {
+      display: block !important;
+    }
+  }
+
+  // hackity hack hide when nav changes
+  @media all and (min-width: $nav-switch + 1px) {
+    .hidden-md-altd {
+      display: none !important;
+    }
+
+    nav {
+      position: relative;
+    }
+
+    .navbar-nav > li.search {
+      position: absolute;
+      right: 0;
+      top: .5em;
+      margin-right: 7.5em;
+    }
+  }
+
+// #################### End Nav Stuffs
