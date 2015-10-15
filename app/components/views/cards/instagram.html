@@ -5,8 +5,9 @@
         </a>
     </p>
     <h2 class="post-title">
-        <span ng-bind-html="item.data.caption.text">{{ item.data.caption.text }}</span>
+        <span>{{ item.data.caption.text }}</span>
     </h2>
+    <span style="display: inline-block; margin: -.5em .5em 0; padding: 0 .5em .5em" class="tags"><a style="padding: 0 .25em" ng-repeat="tag in item.data.tags" href="http://instagram.com/explore/tags/{{tag}}">#{{tag}} </a></span>
     <div class="author-meta">
         <p class="item-cat instagram">Instagram</p>
 

@@ -27,20 +27,16 @@ var InstagramService = function($http, $q) {
                         igItems.forEach(function(item,index,igItems){
                             var text = item.caption.text;
                             var str = text.substring(text.indexOf('#'),text.length);
-                            var tags = str.match(/^#[a-z0-9\s]+/i).toString();
+                            var tags = str.match(/^#[a-z0-9\s#]+/g).toString();
                             console.log(tags);
-                            tags = tags.substring(0,tags.length-1).split(' ');
+                            //tags = tags.substring(0,tags.length-1).split(' ');
                             var postIndex = index;
                             var tagLinks = null;
-                            tags.forEach(function(tag,index,tags){
-                                if(tag.startsWith('#')) {
-                                    res.data.data[postIndex].caption.text = res.data.data[postIndex].caption.text.replace(tag, '<a href="http://instagram.com/explore/tags/' + tag.replace('#', '') + '" target="_blank">' + tag + ' </a>');
-                                }
-                            });
+                            res.data.data[postIndex].caption.text = res.data.data[postIndex].caption.text.replace(tags, '');
 
 
                         });
-                        console.log(res);
+                        //console.log(res);
                         deferred.resolve(res);
                     },
                     function (err) {
