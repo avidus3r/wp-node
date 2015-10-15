@@ -28,7 +28,9 @@
     order: -1;
   }
 
-.desktop .flex-sms{
+// hide whats app and sms on DT
+.desktop .flex-sms,
+.desktop .flex-whatsapp {
   display: none !important;
 }
 
@@ -86,11 +88,14 @@
 
     // some custom CSS for SMS
     .fa-stack-2x {
-      font-size: 1.8em;
+      font-size: 2em;
+      margin-top: .1em; 
     }
 
-    i {
-      vertical-align: 3px;
+    // the text that makes the ...
+    .flex-sms-txt {
+      font-size: 9px; 
+      line-height: 1.25em;
     }
 
   }
