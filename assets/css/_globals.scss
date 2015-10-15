@@ -25,10 +25,11 @@ $font-montserrat: 'Montserrat', sans-serif;
 $font-pontano: 'Pontano Sans', sans-serif;
 $font-rokkitt: 'Rokkit', serif;
 $font-lora: 'Lora', serif;
+$font-lato: 'Lato', serif;
 
 $font-system: 'Helvetica', 'Arial', sans-serif;
-$font-body: $font-system;
-$font-headline: $font-roboto;
+$font-body: $font-pontano;
+$font-headline: $font-lato;
 
 
 // media query size variables

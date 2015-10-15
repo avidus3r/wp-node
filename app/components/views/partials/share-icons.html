@@ -14,9 +14,9 @@
 
     <!-- sms -->
     <a ng-click="shareItemClick($event, item.slug)" class="flex-sms fs-item" href="{{ getSMSLink(item.link) }}">
-        <span style="line-height: 1.75em; margin-top: .2em; width:2.5em" class="fa-2x fa-stack fa-lg pull-left">
-            <i class="fa fa-flip-horizontal fa-comment-o fa-stack-2x fa-2x"></i>
-            <i style="font-size: 10px; line-height: 1.25em;">sms</i>
+        <span class="fa-2x fa-stack fa-lg">
+            <i class="fa fa-flip-horizontal fa-mobile fa-stack-2x fa-2x"></i>
+            <i class="flex-sms-txt">...</i>
         </span>
     </a>
 
@@ -32,10 +32,6 @@
         <i class="fa fa-3x fa-reddit"></i>
     </a>
 
-    <!-- linkedin -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-linkedin fs-item flexshare-first" href="http://www.linkedin.com/shareArticle?title={{ decodeHtml(item.title.rendered) }}&url={{ item.link }}&utm_source=linkedin&utm_medium=share&utm_campaign=site-share" title="Share on LinkedIn" target="_blank">
-        <i class="fa fa-3x fa-linkedin"></i>
-    </a>
 
     <!-- twitter -->
     <a ng-click="shareItemClick($event, item.slug)" class="flex-twitter fs-item" href="http://www.twitter.com/share?&text={{ decodeHtml(item.title.rendered) }}&url={{ item.link }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
