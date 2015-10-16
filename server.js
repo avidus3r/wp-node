@@ -330,7 +330,7 @@ app.get('/:category/:slug', function(req,res, next){
         var postName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
         var endpoint = 'posts?name=' + postName;
 
-        request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
+        request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
                 var metatags = {};
 
