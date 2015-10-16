@@ -51,10 +51,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     }
 
     var offset = '';
-    if(localStorage.getItem('post_offset')) offset = '&offset=' + localStorage.getItem('post_offset');
+    var postOffset = localStorage.getItem('post_offset');
+
+    if(parseInt(postOffset) > 2) postOffset = (postOffset - 2);
+
+    if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
     $scope.offset = offset;
 
-    if(parseInt($scope.offset) > 2) $scope.offest = ($scope.offest - 2);
+
 
     $scope.initMeta = function(post){
         // Standard meta
@@ -275,12 +279,12 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
             });
         },1500);
-        setTimeout(function(){
+        /*setTimeout(function(){
             if(!$scope.fbReady){
                 $scope.fbReady = true;
                 $scope.$emit('fbReady');
             }
-        },5600);
+        },5600);*/
     };
 
     $scope.receiveMessage = function(event){
