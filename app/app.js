@@ -1,12 +1,15 @@
 'use strict';
 
-var angular = require('angular');
+var angular     = require('angular'),
+    mongoose    = require('mongoose');
+
+
 
 //Angular Dependencies
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'dev';
+var env = 'prod';
 
 if(/stage/i.test(window.location.hostname)){
     env = 'stage';

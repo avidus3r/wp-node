@@ -114,6 +114,21 @@ var FeedService = function(envConfig, env, $http, $q){
         return deferred.promise;
     };
 
+    feed.getP = function(postsPerPage, page) {
+        var deferred = $q.defer();
+
+        var url = '/p/' + postsPerPage + '/' + page;
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
     feed.getData = function(url){
         var deferred = $q.defer();
         $http.get(url)
