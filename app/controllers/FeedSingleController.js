@@ -102,7 +102,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                 $scope.toggleComments(e);
             });
             if($location.hash() === 'comment'){
-                //$scope.toggleComments(null);
+                setTimeout(function(){
+                    $scope.toggleComments(null);
+                },1000);
             }
 
         });
