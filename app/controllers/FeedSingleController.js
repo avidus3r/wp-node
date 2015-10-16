@@ -52,6 +52,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
     var offset = '';
     if(localStorage.getItem('post_offset')) offset = '&offset=' + localStorage.getItem('post_offset');
+    $scope.offset = offset;
 
     $scope.initMeta = function(post){
         // Standard meta
@@ -242,7 +243,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
+            $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + '&post__not_in=' + $scope.singlePostID + $scope.offset;
             $scope.getPosts('feed/', $scope.pagingParams);
         }
         $scope.feedItemPosition += 1;
@@ -274,7 +275,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                 $scope.fbReady = true;
                 $scope.$emit('fbReady');
             }
-        },3600);
+        },5600);
     };
 
     $scope.receiveMessage = function(event){
