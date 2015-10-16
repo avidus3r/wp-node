@@ -347,7 +347,7 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_type = 'article';
                 metatags.fb_site_name = ' driver\'s envy';
                 metatags.fb_title = post.title.rendered + ' -  driver\'s envy';
-                metatags.fb_description = post.excerpt.rendered;
+                metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
                 metatags.fb_image = post.featured_image_src.medium[0];
 
