@@ -50,7 +50,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(5,'nofilter').then(
+                        /*instagram: InstagramService.get(5,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -71,7 +71,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        )
+                        )*/
+                        instagram:null,
+                        sponsors:null
 
                     });
                 }
@@ -209,28 +211,30 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(5,'nofilter').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
+                        /*instagram: InstagramService.get(5,'nofilter').then(
+                         function(data){
+                         return data;
+                         },
+                         function(error){
 
-                            },
-                            function(notification){
+                         },
+                         function(notification){
 
-                            }
-                        ),
-                        sponsors: FeedService.getCampaigns('campaigns','').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
+                         }
+                         ),
+                         sponsors: FeedService.getCampaigns('campaigns','').then(
+                         function(data){
+                         return data;
+                         },
+                         function(error){
 
-                            },
-                            function(notification){
+                         },
+                         function(notification){
 
-                            }
-                        )
+                         }
+                         )*/
+                        instagram:null,
+                        sponsors:null
                     });
                 }
             }

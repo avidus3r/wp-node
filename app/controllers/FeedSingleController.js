@@ -53,7 +53,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     var offset = '';
     var postOffset = localStorage.getItem('post_offset');
 
-    if(parseInt(postOffset) > 2) postOffset = (postOffset - 2);
+    if(parseInt(postOffset) > 2) postOffset = (postOffset);
 
     if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
     $scope.offset = offset;
@@ -314,7 +314,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                 //$scope.createFeedItem(item, $scope.feedItems.length);
             });
 
-            angular.forEach($scope.feedConfig.cards, function (item, index) {
+            /*angular.forEach($scope.feedConfig.cards, function (item, index) {
 
                 var card = item.card;
 
@@ -334,7 +334,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     }
                     postmap.splice(card.position, 0, card);
                 }
-            });
+            });*/
 
             angular.forEach(postmap, function (item, index) {
                 $scope.createFeedItem(item, $scope.feedItems.length);
@@ -358,7 +358,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     pagedpostmap.push(item);
                 });
 
-                angular.forEach($scope.feedConfig.cards, function(item, index){
+                /*angular.forEach($scope.feedConfig.cards, function(item, index){
                     if(item.card.perPage === 'on') {
 
                         var card = item.card;
@@ -378,7 +378,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                             pagedpostmap.splice(card.position, 0, card);
                         }
                     }
-                });
+                });*/
                 angular.forEach(pagedpostmap, function (item, index) {
                     console.log(item, index);
                     $scope.createFeedItem(item, $scope.feedItems.length);

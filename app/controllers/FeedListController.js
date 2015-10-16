@@ -69,7 +69,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     pagedpostmap.push(item);
                 });
 
-                angular.forEach($scope.feedConfig.cards, function(item, index){
+                /*angular.forEach($scope.feedConfig.cards, function(item, index){
                     if(item.card.perPage === 'on') {
 
                         var card = item.card;
@@ -92,7 +92,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             pagedpostmap.splice(cardPosition, 0, card);
                         }
                     }
-                });
+                });*/
                 angular.forEach(pagedpostmap, function (item, index) {
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 });
@@ -131,7 +131,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 postmap.push(item);
             });
 
-            angular.forEach($scope.feedConfig.cards, function (item, index) {
+            /*angular.forEach($scope.feedConfig.cards, function (item, index) {
 
                 var card = item.card;
 
@@ -151,18 +151,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     console.log('splicing instagram');
                     postmap.splice(card.position, 0, card);
                 }
-            });
+            });*/
         }
     }
 
-    if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
+    /*if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
         if($scope.sponsors.length > 0) {
             angular.forEach($scope.sponsors, function (item, index) {
                 item.type = 'sponsor';
                 postmap.push(item);
             });
         }
-    }
+    }*/
 
     angular.forEach(postmap, function (item, index) {
         $scope.createFeedItem(item, $scope.feedItems.length);
