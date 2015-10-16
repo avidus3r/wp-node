@@ -258,10 +258,6 @@ app.get('/data/:file', function(req, res){
     });
 });
 
-app.get('*', function(req,res){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});
-
 app.post('/submit', function(req,res){
     var form = new multiparty.Form();
 
@@ -277,11 +273,11 @@ app.post('/submit', function(req,res){
 });
 
 app.get('/category/:category', function(req,res){
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://local.altdriver.com',
+            url: 'http://www.altdriver.com',
             remoteUrl: 'http://devaltdriver.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
@@ -289,30 +285,29 @@ app.get('/category/:category', function(req,res){
         var catName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
         var endpoint = 'terms/category?name=' + catName;
 
-        request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
+        request(feed.endpoints.url + '/' + req.params.category, function(error, response, body){
             if (!error && response.statusCode == 200) {
-                var category = {};
-                var metatags = {};
-                var categories = JSON.parse(body);
-                for(var i=0; i<categories.length;i++){
-                    if(categories[i].slug === catName){
-                        category = categories[i];
-                    }
-                }
-                // Standard meta
-                metatags.title = category.name + ' Archives - alt_driver';
-                metatags.description = category.description;
+                /*var metatags = {};
+                 console.log(body);
+                 var post = JSON.parse([response.body][0]);
 
-                // Facebook meta
-                metatags.fb_type = 'object';
-                metatags.fb_site_name = 'alt_driver';
-                metatags.fb_title = category.name + ' Archives - alt_driver';
-                metatags.fb_description = category.description;
-                metatags.fb_url = category.link;
-                metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+                 post = post[0];
+                 metatags.title = post.title.rendered + ' - alt_driver';
+                 metatags.description = post.excerpt.rendered;
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                 // Facebook meta
+                 metatags.fb_type = 'article';
+                 metatags.fb_site_name = 'alt_driver';
+                 metatags.fb_title = post.title.rendered + ' - alt_driver';
+                 metatags.fb_description = post.excerpt.rendered;
+                 metatags.fb_url = post.link;
+                 metatags.fb_image = post.featured_image_src.medium[0];
+
+                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');*/
+
+                res.send(body);
             }
+
         });
 
     }else {
@@ -321,12 +316,12 @@ app.get('/category/:category', function(req,res){
 });
 
 app.get('/:category/:slug', function(req,res, next){
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
 
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://local.altdriver.com',
+            url: 'http://www.altdriver.com',
             remoteUrl: 'http://devaltdriver.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
@@ -334,15 +329,12 @@ app.get('/:category/:slug', function(req,res, next){
         var postName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
         var endpoint = 'posts?name=' + postName;
 
-        request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
+        request(feed.endpoints.url + '/' + req.params.category + '/' + req.params.slug, function(error, response, body){
             if (!error && response.statusCode == 200) {
-                var metatags = {};
-
+                /*var metatags = {};
+                console.log(body);
                 var post = JSON.parse([response.body][0]);
-                /*for(var prop in post){
-                 console.log(prop,post[prop]);
-                 }*/
-                // Standard meta
+
                 post = post[0];
                 metatags.title = post.title.rendered + ' - alt_driver';
                 metatags.description = post.excerpt.rendered;
@@ -355,7 +347,9 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_url = post.link;
                 metatags.fb_image = post.featured_image_src.medium[0];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');*/
+
+                res.send(body);
             }
 
         });
@@ -364,10 +358,15 @@ app.get('/:category/:slug', function(req,res, next){
     }
 });
 
+
+app.get('*', function(req,res){
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+});
+
 /*
  express app routes
  */
-app.use('/', require('./server/routes'));
+//app.use('/', require('./server/routes'));
 
 
 /*
