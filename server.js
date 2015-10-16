@@ -50,6 +50,8 @@ static paths
  */
 app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + './tests'));
+app.use(express.static(__dirname + './favicons'));
+app.use(express.static(__dirname + './favicons.ico'));
 app.use(express.static(__dirname + './dist/admin'));
 app.use(express.static(__dirname + './data'));
 app.use(express.static(__dirname + './app/config'));
