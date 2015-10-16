@@ -244,7 +244,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.$on('$viewContentLoaded', function(){
         angular.element('#loading-more').hide();
-
+        angular.element('body').find('.sidebar').removeClass('ng-hide');
         setTimeout(function(){
             angular.element('.pa-share').on('click', function(){
                 if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)

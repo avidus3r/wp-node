@@ -28,6 +28,17 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
+                        /*posts: FeedService.getP(12,1).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),*/
                         posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
                             function(data){
                                 return data;

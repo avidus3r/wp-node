@@ -7,11 +7,41 @@ var express     = require('express'),
     path        = require('path'),
     request     = require('request'),
     multiparty  = require('multiparty'),
-    fs          = require('fs');
+    fs          = require('fs'),
+    mongoose    = require('mongoose');
 
 var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
+
+
+mongoose.connect('mongodb://localhost/altdriver', function(){
+
+});
+
+var db = mongoose.connection;
+
+function getPagePosts(numberOfPosts, pageNumber) {
+    //db.once('open', function () {
+        return db.collection('posts').find().limit(numberOfPosts);
+    //});
+}
+
+app.get('/p/:perPage/:page', function(req,res){
+    var data = getPagePosts(parseInt(req.params.perPage),req.params.page);
+
+    var posts = [];
+    var i = 0;
+    data.forEach(function(item, index, collection){
+        posts.push(item);
+        if(i === parseInt(req.params.perPage)-1){
+            //res.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+            res.send(JSON.stringify(posts));
+
+        }
+        i++;
+    });
+});
 
 app.set('port', process.env.PORT || EXPRESS_PORT);
 
