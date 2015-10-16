@@ -38,6 +38,26 @@
   display: flex;
 }
 
+// buttons
+.btn-full {
+  display: block;
+  width: 100%;
+}
+
+.btn-flat {
+  text-decoration: none;
+  border: 0 !important;
+  padding: 1em;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.btn-instagram {
+  color: #fff !important;
+  background-color: $color-ad-orange !important;
+}
+
 /**
  * For modern browsers
  * 1. The space content is one way to avoid an Opera bug when the
