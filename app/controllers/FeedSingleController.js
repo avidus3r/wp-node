@@ -251,7 +251,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         $scope.feedItemElements.push(item);
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
-            $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + '&post__not_in=' + $scope.singlePostID + $scope.offset;
+            $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + '&post__not_in=' + $scope.singlePostID;
             $scope.getPosts('feed/', $scope.pagingParams);
         }
         $scope.feedItemPosition += 1;
