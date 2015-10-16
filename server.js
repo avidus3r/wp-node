@@ -349,7 +349,7 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_title = post.title.rendered + ' -  driver\'s envy';
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
-                metatags.fb_image = post.featured_image_src.medium[0];
+                metatags.fb_image = post.featured_image_src.large[0];
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://driversenvy.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
