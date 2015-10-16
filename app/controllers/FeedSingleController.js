@@ -54,6 +54,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     if(localStorage.getItem('post_offset')) offset = '&offset=' + localStorage.getItem('post_offset');
     $scope.offset = offset;
 
+    if(parseInt($scope.offset) > 2) $scope.offest = ($scope.offest - 2);
+
     $scope.initMeta = function(post){
         // Standard meta
         $rootScope.metatags.title = post.title.rendered;
@@ -255,6 +257,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         var currentOffset = localStorage.getItem('post_offset');
         console.log(currentOffset);
         var newOffset = parseInt(currentOffset)+lastIndex;
+
         localStorage.setItem('post_offset', newOffset);
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
