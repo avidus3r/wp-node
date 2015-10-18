@@ -14,39 +14,8 @@ var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist';
 
-
-mongoose.connect('mongodb://localhost/altdriver', function(){
-
-});
-
-var db = mongoose.connection;
-
-function getPagePosts(numberOfPosts, pageNumber) {
-    //db.once('open', function () {
-        return db.collection('posts').find().limit(numberOfPosts);
-    //});
-}
-
-app.get('/p/:perPage/:page', function(req,res){
-    var data = getPagePosts(parseInt(req.params.perPage),req.params.page);
-
-    var posts = [];
-    var i = 0;
-    data.forEach(function(item, index, collection){
-        posts.push(item);
-        if(i === parseInt(req.params.perPage)-1){
-            //res.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-            res.send(JSON.stringify(posts));
-
-        }
-        i++;
-    });
-});
-
-app.set('port', process.env.PORT || EXPRESS_PORT);
-
 /*
-static paths
+ static paths
  */
 app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + './tests'));
@@ -57,7 +26,6 @@ app.use(express.static(__dirname + './data'));
 app.use(express.static(__dirname + './app/config'));
 app.use(express.static(__dirname + './app/components/views/cards'));
 
-
 /*
  middleware
  */
@@ -65,24 +33,38 @@ app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
 
+app.set('port', process.env.PORT || EXPRESS_PORT);
 
-var feedConfig = {
-    'prod': {
-        remoteUrl: 'http://www.altdriver.com',
-        basePath: '/wp-json/wp/v2/',
-        site: 'altdriver'
-    },
-    'stage':{
-        remoteUrl: 'http://altdriver.staging.wpengine.com',
-        basePath: '/wp-json/wp/v2/',
-        site: 'altdriver'
-    },
-    'dev':{
-        remoteUrl: 'http://devaltdriver.wpengine.com',
-        basePath: '/wp-json/wp/v2/',
-        site: 'altdriver'
-    }
-};
+app.locals.config = require('./app/config/feed.conf.json');
+app.locals.appconfig = require('./app/config/' + app.locals.config.env[0].app + '/app.json');
+
+
+var feedConfig = app.locals.appconfig.env;
+
+mongoose.connect('mongodb://localhost/altdriver', function(){
+
+});
+
+var db = mongoose.connection;
+
+function getPagePosts(numberOfPosts, pageNumber) {
+    return db.collection('posts').find().limit(numberOfPosts);
+}
+
+app.get('/p/:perPage/:page', function(req,res){
+    var data = getPagePosts(parseInt(req.params.perPage),req.params.page);
+
+    var posts = [];
+    var i = 0;
+    data.forEach(function(item, index, collection){
+        posts.push(item);
+        if(i === parseInt(req.params.perPage)-1){
+            res.send(JSON.stringify(posts));
+        }
+        i++;
+    });
+});
+
 
 app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
