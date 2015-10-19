@@ -17,7 +17,7 @@
 
 //!post-view
 .post-view.full{
-  padding: 1em; // pad the main story but leave the rest in feed style
+  padding: 1em 1em 0; // pad the main story but leave the rest in feed style
 }
 
 .share-footer{
@@ -78,21 +78,17 @@
 
 // ########### I would like to rework the single "expanded" view/state of the stories to be unique. Make styliing a little easier
 
-.single .post-content, .single-post .post-content{
-  padding: 1.25em;
-}
-
-
 .single  .post-title, .single-post .post-title{
   margin-bottom: .5em;
   padding: 0 .5em;
 }
 
 .post-view.full .author-meta{
+  font-size: .75em;
   border-top: 1px solid #bababa;
   border-bottom: 1px solid #bababa;
   margin-bottom: .5em;
-  padding: 0 .5em;
+  padding: 0 1em;
   p{
     line-height: 2em;
   }
@@ -100,13 +96,13 @@
 
 
 .single .post-content,.single-post .post-content{
-  //font-size: 1.2em;
   line-height: normal;
-  padding:.5em 0em .5em;
+  padding:.5em 0 0;
   p{
     padding:0 .5em;
     &:first-child{
       padding: 0;
+      margin-bottom: 0;
     }
     iframe{
       margin-bottom: .5em;
