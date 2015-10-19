@@ -328,7 +328,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     };
 
     $scope.onScroll = function(){
-        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-800)) {
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-1000)) {
             angular.element('#loading-more').show();
             $scope.paged += 1;
             var state = {page: $scope.paged};
