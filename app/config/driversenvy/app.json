@@ -1,6 +1,6 @@
 {
   "app": {
-      "name": "driverenvy",
+      "name": "driversenvy",
       "title": "Driver's Envy",
       "per_page":"12",
       "prefetch_at":"8",
