@@ -178,9 +178,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
-        var postOffset = $index === 0 ? 0 : $index-1;
+        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
+        var postOffset = $index === 0 ? 0 : $index;
         localStorage.setItem('post_offset', postOffset);
-        window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
+        window.location.href = page;
     };
 
     $rootScope.goToCategory = function(category){

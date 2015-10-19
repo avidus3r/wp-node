@@ -117,7 +117,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     };
 
     $scope.commentBtnHandler = function($event, $index, urlParams){
-        console.log($routeParams, urlParams);
         if($routeParams.slug === urlParams.slug){
             $scope.toggleComments(null);
         }else{
@@ -151,7 +150,48 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.getNext = function(){
         if($scope.feedItemPosition-1 === 0) return false;
 
-        var itemPosition = $scope.feedItemPosition-1;
+        $scope.getPosts.then(
+            function(data){ //success
+                var pagedpostmap = [];
+                angular.forEach(data, function (item, index) {
+                    item.type = 'post-list';
+                    pagedpostmap.push(item);
+                });
+
+                /*angular.forEach($scope.feedConfig.cards, function(item, index){
+                 if(item.card.perPage === 'on') {
+
+                 var card = item.card;
+                 console.log(card);
+                 if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
+                 card = $scope.sponsors[$scope.paged];
+                 card.type = 'sponsor';
+                 card.position = item.card.position;
+                 pagedpostmap.splice(card.position, 0, card);
+                 }
+                 if (card.type === 'instagram') {
+                 if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
+                 card.data = $scope.instagram.data.data[$scope.paged-1];
+                 } else {
+                 card.type = 'social-follow';
+                 }
+                 pagedpostmap.splice(card.position, 0, card);
+                 }
+                 }
+                 });*/
+                $scope.$emit('next:done', pagedpostmap);
+
+            },
+            function(reason){   //error
+                console.error('Failed: ', reason);
+            },
+            function(update) {  //notification
+                console.info('Got notification: ' + update);
+            }
+        );
+
+
+        /*var itemPosition = $scope.feedItemPosition-1;
         var i = itemPosition;
         var count = $scope.feedItemScrollAmount+1;
 
@@ -166,8 +206,15 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                 }
                 i += 1;
             }
-        }
+        }*/
     };
+
+    $scope.$on('next:done', function($event, posts){
+        window.addEventListener('scroll', $scope.onScroll);
+        angular.forEach(posts, function (item, index) {
+            $scope.add(item, $scope.feedItems.length-1);
+        });
+    });
 
     $scope.getCategory = function(categories, permalink){
         var cat = null;
@@ -259,9 +306,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
     $scope.goToPage = function(e, lastIndex, linkParams){
         var currentOffset = localStorage.getItem('post_offset');
-        console.log(currentOffset);
         var newOffset = parseInt(currentOffset)+lastIndex;
-
         localStorage.setItem('post_offset', newOffset);
         window.location.href = '/' + linkParams.category + '/' + linkParams.slug;
     };
@@ -279,12 +324,21 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
             });
         },1500);
-        /*setTimeout(function(){
-            if(!$scope.fbReady){
-                $scope.fbReady = true;
-                $scope.$emit('fbReady');
-            }
-        },5600);*/
+        window.addEventListener('scroll', $scope.onScroll);
+    };
+
+    $scope.onScroll = function(){
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-800)) {
+            angular.element('#loading-more').show();
+            $scope.paged += 1;
+            var state = {page: $scope.paged};
+            history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
+            angular.module('NewsFeed').trackPageView();
+            $scope.getNext();
+            window.removeEventListener('scroll', $scope.onScroll);
+        }else{
+            angular.element('#loading-more').hide();
+        }
     };
 
     $scope.receiveMessage = function(event){
@@ -297,7 +351,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
     //return FeedService.getPosts($scope.postPath, $scope.postParams).then(function(data){
     var item = $scope.post[0];
-    console.log(item);
     $scope.initMeta(item);
     $scope.singlePostID = item.id;
     item.type = 'post-single';
@@ -349,48 +402,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     );
 
     $scope.getPosts = function(path, params){
-
-        FeedService.getPosts(path,params).then(
-            function(data){ //success
-                var pagedpostmap = [];
-                angular.forEach(data, function (item, index) {
-                    item.type = 'post-list';
-                    pagedpostmap.push(item);
-                });
-
-                /*angular.forEach($scope.feedConfig.cards, function(item, index){
-                    if(item.card.perPage === 'on') {
-
-                        var card = item.card;
-                        console.log(card);
-                        if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                            card = $scope.sponsors[$scope.paged];
-                            card.type = 'sponsor';
-                            card.position = item.card.position;
-                            pagedpostmap.splice(card.position, 0, card);
-                        }
-                        if (card.type === 'instagram') {
-                            if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
-                                card.data = $scope.instagram.data.data[$scope.paged-1];
-                            } else {
-                                card.type = 'social-follow';
-                            }
-                            pagedpostmap.splice(card.position, 0, card);
-                        }
-                    }
-                });*/
-                angular.forEach(pagedpostmap, function (item, index) {
-                    console.log(item, index);
-                    $scope.createFeedItem(item, $scope.feedItems.length);
-                });
-            },
-            function(reason){   //error
-                console.error('Failed: ', reason);
-            },
-            function(update) {  //notification
-                console.info('Got notification: ' + update);
-            }
-        );
+        return FeedService.getPosts(path,params);
     };
 
     $scope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){

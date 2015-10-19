@@ -1,7 +1,7 @@
 'use strict';
 
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, envConfig) {
-    console.log('hi');
+
     this.name = 'list';
     this.$route = $route;
     this.$routeParams = $routeParams;
@@ -134,12 +134,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getNext = function(){
-        console.log('getting next');
         $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged;
         $scope.getPosts('feed/', $scope.postParams).then(
             function(data){ //success
-                console.log(data);
-
 
                 var pagedpostmap = [];
                 angular.forEach(data, function (item, index) {
@@ -253,7 +250,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
 
     $scope.onScroll = function(){
-        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-600)) {
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-800)) {
             angular.element('#loading-more').show();
             $scope.paged += 1;
             var state = {page: $scope.paged};
