@@ -1,7 +1,6 @@
 'use strict';
 
-var angular     = require('angular'),
-    mongoose    = require('mongoose');
+var angular     = require('angular');
 
 
 
