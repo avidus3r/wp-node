@@ -1,6 +1,7 @@
 'use strict';
 
 require('newrelic');
+require('./lib/connection');
 
 var express     = require('express'),
     http        = require('http'),
@@ -43,14 +44,10 @@ app.locals.appconfig = require('./app/config/' + app.locals.config.env[0].app + 
 
 var feedConfig = app.locals.appconfig.env;
 
-mongoose.connect('mongodb://localhost/altdriver', function(){
 
-});
-
-var db = mongoose.connection;
 
 function getPagePosts(numberOfPosts, pageNumber) {
-    return db.collection('posts').find().limit(numberOfPosts);
+    //return db.collection('posts').find().limit(numberOfPosts);
 }
 
 app.get('/p/:perPage/:page', function(req,res){
@@ -67,6 +64,16 @@ app.get('/p/:perPage/:page', function(req,res){
     });
 });
 
+
+app.get('/posts/:perPage/:page', function(req, res) {
+    var post = require('./lib/post');
+    var perPage = parseInt(req.params.perPage);
+    var page = parseInt(req.params.page);
+    post.getPosts(perPage, page, function(err,result){
+       res.send(result);
+    });
+    //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+});
 
 app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
@@ -332,7 +339,7 @@ app.get('/:category/:slug', function(req,res, next){
                 // Facebook meta
                 metatags.fb_type = 'article';
                 metatags.fb_site_name = ' driver\'s envy';
-                metatags.fb_title = post.title.rendered + ' -  driver\'s envy';
+                metatags.fb_title = post.title.rendered;
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
                 metatags.fb_image = post.featured_image_src.large[0];

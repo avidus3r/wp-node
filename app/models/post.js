@@ -21,12 +21,10 @@ var schema = {
     },
     campaign_active:{
         type: Boolean,
-        required: true,
         default: null
     },
     sponsor: {
         type: Object,
-        required: true,
         default: null
     },
     parent: {
@@ -139,5 +137,4 @@ PostSchema.statics.load = function(id, cb) {
     }).populate(fields).exec(cb);
 };
 
-
-mongoose.model('Post', PostSchema);
+module.exports = mongoose.model('Post', PostSchema);

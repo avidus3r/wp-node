@@ -8,6 +8,45 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
     var InstagramService = InstagramServiceProvider.$get();
 
     $routeProvider
+        .when('/posts',{
+            controller: 'PostsController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: FeedService.posts(12, 1).then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        instagram: null,
+                        sponsors: null
+
+                    });
+                }
+            }
+        })
         .when('/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -28,18 +67,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*posts: FeedService.getP(12,1).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),*/
-                        posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
+                        posts: FeedService.getPostData('prod',100,1).then(
                             function(data){
                                 return data;
                             },
@@ -50,6 +78,17 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
+                        /*posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),*/
                         /*instagram: InstagramService.get(5,'nofilter').then(
                             function(data){
                                 return data;

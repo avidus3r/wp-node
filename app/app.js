@@ -1,7 +1,7 @@
 'use strict';
 
-var angular     = require('angular');
-
+var angular     = require('angular'),
+    mongoose    = require('mongoose');
 
 
 //Angular Dependencies
@@ -49,6 +49,10 @@ var InstagramService = require('./services/InstagramService');
 
 //Routes
 var Router = require('./app.routes');
+
+//Models
+//var Post = mongoose.model('Post');
+//var Posts = require('./models/post');
 
 //Main Module
 var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
@@ -290,6 +294,11 @@ NewsFeed.controller(
 NewsFeed.controller(
     'FeedListController',
     ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.FeedListController]
+);
+
+NewsFeed.controller(
+    'PostsController',
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.PostsController]
 );
 
 /*
