@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css">
+        body, html{
+            width:100%;
+            height:100%;
+
+        }
+        .wrapper{
+            height: 100%;
+        }
+        form{
+            width:100%;
+            height:100%;
+            display: flex;
+            flex-direction: column;
+            -webkit-flex-direction: column;
+        }
+
+        fieldset{
+            width: 50%;
+            margin:auto;
+            display: flex;
+            flex-direction: column;
+            -webkit-flex-direction: column;
+        }
+
+        input{
+            width: 100%;
+            margin: 1em 0;
+            padding: .5em;
+        }
+
+        button{
+            width: 70%;
+            margin: 2em auto 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <form id="auth" name="auth" method="post" action="/auth" enctype="multipart/form-data">
+            <fieldset>
+                <input type="text" name="uname" placeholder="User Name" required>
+                <input type="password" name="pwd" placeholder="Password" required>
+                <button class="btn btn-success pull-right" id="login" type="submit">login</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

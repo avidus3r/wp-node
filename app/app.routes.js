@@ -67,18 +67,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.getPostData('prod',100,1).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),
-                        /*posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
+                        /*posts: FeedService.getPostData('prod',100,1).then(
                             function(data){
                                 return data;
                             },
@@ -89,6 +78,17 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),*/
+                        posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),
                         /*instagram: InstagramService.get(5,'nofilter').then(
                             function(data){
                                 return data;

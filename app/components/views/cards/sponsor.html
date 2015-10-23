@@ -1,6 +1,6 @@
 <div class="post-content feed-view post-view feed {{ currentView === 'list' ? 'sponsor-list' : 'sponsor-main' }}">
 
-    <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})"><img class="featured-image" src="{{ item.featured_image_src.medium[0] }}" width="{{ item.featured_image_src.medium[1] }}" height="{{ item.featured_image_src.medium[2] }}" /></a>
+    <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})"><img class="featured-image" src="{{ item.featured_image_src.original[0] }}" width="{{ item.featured_image_src.original[1] }}" height="{{ item.featured_image_src.original[2] }}" /></a>
     <h2 class="post-title">
         <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
     </h2>

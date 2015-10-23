@@ -8,7 +8,7 @@ var angular     = require('angular'),
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'prod';
+var env = 'dev';
 
 if(/stage/i.test(window.location.hostname)){
     env = 'stage';
@@ -71,6 +71,19 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         localStorage.setItem('post_offset', 0);
     }
 
+    $rootScope._isMobile = function(){
+        var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
+
+        if ( mobileUAStr.test(navigator.userAgent) ){
+            return true;
+        }else if( desktopUAStr.test(navigator.userAgent) ){
+            return false;
+        }else{
+            return true;
+        }
+    };
+
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
@@ -128,7 +141,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
 
     $rootScope.vote = function(postID, vote, $event){
 
-
+        //@ltDr1v3r!
         var voteButton = angular.element($event.currentTarget);
         var votedHistory = null;
 
@@ -154,7 +167,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         }
         localStorage.setItem('user_voted', userLS);
         var voteCount = voteButton.closest('.post-actions').find('.vote-count').text();
-        var count = voteCount === 0 ? 1 : parseInt(voteCount)+1;
+        var count = null;
+
+        if(upOrDown === 'up'){
+            count = voteCount === 0 ? 1 : parseInt(voteCount)+1;
+        }else{
+            count = parseInt(voteCount)-1;
+        }
 
         voteButton.closest('.post-actions').find('.vote-count').text(count);
         voteButton.parent().find('button').attr('disabled','disabled');
@@ -219,16 +238,37 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
 
     $rootScope.shareClick = function($event, slug){
         if(angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').hasClass('ng-hide')){
+
             angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').removeClass('ng-hide');
             angular.module('NewsFeed').trackEvent('postactions:share:open','click',slug,1,null);
         }else{
             angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').addClass('ng-hide');
             angular.module('NewsFeed').trackEvent('postactions:share:close','click',slug,1,null);
         }
+        var shareTop = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height() + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top;
+        if( shareTop > (window.innerHeight+window.scrollY)){
+            var diff = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top - window.innerHeight;
+            var s = window.scrollY + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height()+10;
+            window.scrollTo(0,s);
+        }
     };
 
     $rootScope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
         angular.module('NewsFeed').trackEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
+    };
+
+    $rootScope.getFeaturedImage = function(img, attr){
+        var attrs = {'src': 0, 'width': 1, 'height': 2};
+
+        if(/ios/i.test($rootScope.isMobile())){
+            return img.large[attrs[attr]];
+        }
+        else if(/mobile/i.test($rootScope.isMobile())){
+            return img.medium[attrs[attr]];
+        }
+        else if(/desktop/i.test($rootScope.isMobile())){
+            return img.original[attrs[attr]];
+        }
     };
 });
 

@@ -11,7 +11,9 @@ var express     = require('express'),
     request     = require('request'),
     multiparty  = require('multiparty'),
     fs          = require('fs'),
-    mongoose    = require('mongoose');
+    mongoose    = require('mongoose'),
+    authorized  = false,
+    md5         = require('js-md5');
 
 var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
@@ -24,7 +26,7 @@ app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + './tests'));
 app.use(express.static(__dirname + './favicons'));
 app.use(express.static(__dirname + './favicons.ico'));
-app.use(express.static(__dirname + './dist/admin'));
+app.use(express.static('./admin'));
 app.use(express.static(__dirname + './data'));
 app.use(express.static(__dirname + './app/config'));
 app.use(express.static(__dirname + './app/components/views/cards'));
@@ -79,8 +81,52 @@ app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
 });
 
+app.post('/auth', function(req, res){
+    var input = new multiparty.Form();
+    var creds = require('./app/creds.json');
+
+    input.parse(req, function(err, fields, files) {
+        var inputUname = md5(fields.uname.toString());
+        var inputPwd = md5(fields.pwd.toString());
+        var uname = creds.uname;
+        var pwd = creds.pwd;
+
+        if(inputUname === uname && inputPwd === pwd){
+            authorized = true;
+            var authed = {
+                u:uname,
+                p:pwd,
+                d:Date.now()
+            };
+            app.set('auth', JSON.stringify(authed));
+            res.redirect('/admin');
+        }else{
+            res.redirect('/auth');
+        }
+    });
+
+});
+
+app.get('/auth', function(req, res){
+    res.sendFile('login.html', { root: path.join(__dirname, './admin') });
+});
+
 app.get('/admin', function(req, res){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist/admin') });
+    if(app.get('auth')){
+        var auth = JSON.parse(app.get('auth'));
+        var now = Date.now();
+        var then = new Date(auth.d);
+        var diff = new Date(now-then).getMinutes();
+        if(diff < 59){
+            res.sendFile('index.html', { root: path.join(__dirname, './admin') });
+        }
+    }
+    if(!authorized){
+        res.redirect('/auth');
+    }else{
+        res.sendFile('index.html', { root: path.join(__dirname, './admin') });
+    }
+
 });
 
 app.post('/admin', function(req, res){
@@ -342,7 +388,7 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_title = post.title.rendered;
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
-                metatags.fb_image = post.featured_image_src.large[0];
+                metatags.fb_image = post.featured_image_src.original[0];
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://driversenvy.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }

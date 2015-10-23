@@ -62,23 +62,30 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
     $scope.initMeta = function(post){
         // Standard meta
-        $rootScope.metatags.title = post.title.rendered;
+        $rootScope.metatags.title = $scope.decodeHtml(post.title.rendered);
+        document.title = $scope.decodeHtml(post.title.rendered);
         $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.section = $routeParams.category;
         $rootScope.metatags.published_time = post.date;
 
         // Facebook meta
         $rootScope.metatags.fb_type = 'article';
-        $rootScope.metatags.fb_title = post.title.rendered;
+        $rootScope.metatags.fb_title = $scope.decodeHtml(post.title.rendered);
         $rootScope.metatags.fb_description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.fb_url = post.link;
-        $rootScope.metatags.fb_image = post.featured_image_src.medium[0];
+        $rootScope.metatags.fb_image = post.featured_image_src.original[0];
 
         // Twitter meta
         $rootScope.metatags.tw_card = 'summary_large_image';
-        $rootScope.metatags.tw_title = post.title.rendered;
+        $rootScope.metatags.tw_title = $scope.decodeHtml(post.title.rendered);
         $rootScope.metatags.tw_description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.tw_image = post.featured_image_src.medium[0];
+    };
+
+    $scope.decodeHtml = function(html) {
+        var txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
     };
 
     $scope.getParams = function(param, encode){
