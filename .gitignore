@@ -6,6 +6,7 @@
 .settings
 .tmproj
 nbproject
+newrelic_agent.log
 Thumbs.db
 aws.json
 
