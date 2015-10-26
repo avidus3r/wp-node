@@ -8,7 +8,7 @@ var angular     = require('angular'),
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'dev';
+var env = 'stage';
 
 if(/stage/i.test(window.location.hostname)){
     env = 'stage';

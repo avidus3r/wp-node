@@ -1,7 +1,7 @@
 'use strict';
 
 require('newrelic');
-require('./lib/connection');
+//require('./lib/connection');
 
 var express     = require('express'),
     http        = require('http'),

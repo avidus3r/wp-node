@@ -363,6 +363,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     item.type = 'post-single';
     $scope.createFeedItem(item, $scope.feedItems.length);
 
+    if(item.sponsor !== null){
+        angular.module('NewsFeed').trackEvent('Sponsored Content', 'View', item.sponsor.title + ' ' + item.id, 1, null);
+    }
+
     FeedService.getPosts('feed', '?per_page=12&page=1&post__not_in=' + $scope.post[0].id + offset).then(
         function (data) {
             $scope.posts = data;
