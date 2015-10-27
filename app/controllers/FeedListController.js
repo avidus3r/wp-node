@@ -137,14 +137,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     }
 
-    /*if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
+    if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
         if($scope.sponsors.length > 0) {
             angular.forEach($scope.sponsors, function (item, index) {
                 item.type = 'sponsor';
                 postmap.push(item);
             });
         }
-    }*/
+    }
 
     angular.forEach(postmap, function (item, index) {
         $scope.createFeedItem(item, $scope.feedItems.length);

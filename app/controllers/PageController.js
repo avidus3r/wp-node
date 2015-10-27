@@ -12,28 +12,16 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     angular.element('#loading-more').hide();
-
+    console.log(envConfig);
     $scope.getPage = function(){
-        if($scope.routeParams === 'about'){
-            FeedService.getLegalMenu('Legal Menu').then(
-                function(res){
-                    var ul = angular.element('<ul />');
-                    angular.forEach(res, function (item, index) {
-                        var li = angular.element('<li />').append('<a href="/' + item.title.toLowerCase().replace(' ','-') + '">'+ item.title +'</a>');
-                        ul.append(li);
-                    });
 
-                    $scope.content = ul.html();
-                }
-            )
-        }else{
-            FeedService.getPage($scope.routeParams).then(
-                function(res){
-                    $scope.page = res[0];
-                    $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
-                }
-            );
-        }
+        FeedService.getPage($scope.routeParams).then(
+            function(res){
+                $scope.page = res[0];
+                $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
+            }
+        );
+
     };
 
     $scope.getSubmit = function(){
