@@ -10,6 +10,9 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     $scope.getRouteParams = function(){
         return '';
     };
+
+    angular.element('#loading-more').hide();
+
     $scope.getPage = function(){
         if($scope.routeParams === 'about'){
             FeedService.getLegalMenu('Legal Menu').then(
@@ -61,7 +64,8 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     $scope.$on('$viewContentLoaded', function(){
-        angular.element('html, body, .view-container, #staticPage, .content').css({'min-height':'100%'});
+        var minHeight = window.innerHeight;
+        angular.element('html, body, .view-container, #staticPage, .content').css({'min-height':minHeight+'px'});
         angular.element('strong').css({'font-weight': 'bold', 'font-size': '1.2em'});
     });
 
