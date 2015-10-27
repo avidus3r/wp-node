@@ -89,7 +89,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*instagram: InstagramService.get(5,'nofilter').then(
+                        instagram: InstagramService.get(5,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -100,7 +100,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: FeedService.getCampaigns('campaigns','').then(
+                        /*sponsors: FeedService.getCampaigns('campaigns','').then(
                             function(data){
                                 return data;
                             },
@@ -111,7 +111,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         )*/
-                        instagram:null,
+                        //instagram:null,
                         sponsors:null
 
                     });
@@ -123,18 +123,58 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             templateUrl: '/views/post.html',
             redirectTo: false,
             resolve:{
-                categories: function(){
-                    return FeedService.getTerms('category').then(
-                        function(data){
-                            return data;
-                        },
-                        function(error){
+                data: function($q, $route) {
+                    var params = {};
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
 
-                        },
-                        function(notification){
+                            },
+                            function (notification) {
 
+                            }
+                        ),
+                        posts: FeedService.getPosts('posts', '?per_page=12&page=1&category_name='+$route.current.params.category).then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        /*instagram: InstagramService.get(5, 'nofilter').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),*/
+                        instagram:null,
+                        sponsors: null,
+                        categories: function () {
+                            return FeedService.getTerms('category').then(
+                                function (data) {
+                                    return data;
+                                },
+                                function (error) {
+
+                                },
+                                function (notification) {
+
+                                }
+                            );
                         }
-                    );
+                    });
                 }
             }
         })

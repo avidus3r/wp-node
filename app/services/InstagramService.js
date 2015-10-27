@@ -23,7 +23,7 @@ var InstagramService = function($http, $q) {
 
                 $http.jsonp(url, config).then(
                     function (res) {
-                        var igItems = res.data.data;
+                        /*var igItems = res.data.data;
                         igItems.forEach(function(item,index,igItems){
                             var text = item.caption.text;
                             var str = text.substring(text.indexOf('#'),text.length);
@@ -35,7 +35,7 @@ var InstagramService = function($http, $q) {
                             res.data.data[postIndex].caption.text = res.data.data[postIndex].caption.text.replace(tags, '');
 
 
-                        });
+                        });*/
                         //console.log(res);
                         deferred.resolve(res);
                     },

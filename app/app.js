@@ -328,7 +328,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'envConfig', 'categories', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.FeedCategoryController]
 );
 
 NewsFeed.controller(
