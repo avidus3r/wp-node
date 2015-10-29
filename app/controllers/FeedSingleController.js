@@ -378,17 +378,17 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                 //$scope.createFeedItem(item, $scope.feedItems.length);
             });
 
-            /*angular.forEach($scope.feedConfig.cards, function (item, index) {
+            angular.forEach($scope.feedConfig.cards, function (item, index) {
 
                 var card = item.card;
 
-                if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
+                /*if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
                     console.log(card);
                     card = $scope.sponsors[$scope.paged];
                     card.type = 'sponsor';
                     card.position = item.card.position;
                     postmap.splice(card.position, 0, card);
-                }
+                }*/
                 if (card.type === 'instagram') {
                     console.log(card);
                     if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
@@ -398,7 +398,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     }
                     postmap.splice(card.position, 0, card);
                 }
-            });*/
+            });
 
             angular.forEach(postmap, function (item, index) {
                 $scope.createFeedItem(item, $scope.feedItems.length);

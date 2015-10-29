@@ -4,6 +4,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
 
+
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
 

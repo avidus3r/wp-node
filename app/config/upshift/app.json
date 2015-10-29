@@ -1,23 +1,23 @@
 {
   "app": {
-      "name": "driversenvy",
-      "title": "Driver's Envy",
+      "name": "upshift",
+      "title": "Upshift",
       "per_page":"12",
       "prefetch_at":"8",
       "scroll_amount":"6",
-      "fb_appid":"638692042912150"
+      "fb_appid":""
   },
   "env": {
     "prod": {
-      "remoteUrl": "http://driversenvy.altdrivermedia.com",
+      "remoteUrl": "http://upshift.altdrivermedia.com",
       "basePath": "/wp-json/wp/v2/"
     },
     "stage":{
-      "remoteUrl": "http://driversenvy.altdrivermedia.com",
+      "remoteUrl": "http://upshift.altdrivermedia.com",
       "baseParh": "/wp-json/wp/v2/"
     },
     "dev":{
-      "remoteUrl": "http://driversenvy.altdrivermedia.com",
+      "remoteUrl": "http://upshift.altdrivermedia.com",
       "basePath": "/wp-json/wp/v2/"
     }
   }

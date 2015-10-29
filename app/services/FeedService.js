@@ -3,15 +3,18 @@
 var FeedService = function(envConfig, env, $http, $q){
     var feed = {};
 
-    feed.endpoints = envConfig[env];
-
+    feed.envName = env;
     feed.categories = [];
     feed.navItems = [];
     feed.lastOffset = null;
     feed.singleId = null;
+    feed.env = null;
+
+    feed.endpoints = envConfig[env];
 
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
+
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
         $http.get(url)
             .then(function (response) {

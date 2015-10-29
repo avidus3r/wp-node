@@ -1,7 +1,8 @@
 'use strict';
 
 var angular     = require('angular'),
-    mongoose    = require('mongoose');
+    mongoose    = require('mongoose'),
+    jQuery      = window.jQuery;
 
 
 //Angular Dependencies
@@ -17,25 +18,97 @@ if(/dev/i.test(window.location.hostname)){
     env = 'dev';
 }
 
-var feedConfig = {
-    'prod': {
-        remoteUrl: 'http://www.altdriver.com',
-        basePath: '/wp-json/wp/v2/',
-        site: 'altdriver'
-    },
-    'stage':{
-        remoteUrl: 'http://altdriver.staging.wpengine.com',
-        basePath: '/wp-json/wp/v2/',
-        ga: 'UA-66153561-1',
-        site: 'altdriver'
-    },
-    'dev':{
-        remoteUrl: 'http://devaltdriver.wpengine.com',
-        basePath: '/wp-json/wp/v2/',
-        ga: 'UA-66153561-1',
-        site: 'altdriver'
-    }
-};
+var host = window.location.host;
+
+var appName = host.substring(0,host.indexOf('.'));
+var config = null;
+var feedConfig = null;
+var appConfig = null;
+
+switch(appName){
+    case 'altdriver':
+        config = {
+            app: {
+                name: 'altdriver',
+                title: 'alt_driver',
+                per_page:'12',
+                prefetch_at:'8',
+                scroll_amount:'6',
+                fb_appid:'638692042912150',
+                ga:'UA-66153561-1'
+            },
+            env: {
+                prod: {
+                    remoteUrl: 'http://www.altdriver.com',
+                    basePath: '/wp-json/wp/v2/'
+                },
+                stage:{
+                    remoteUrl: 'http://altdriver.staging.wpengine.com',
+                    basePath: '/wp-json/wp/v2/'
+                },
+                dev:{
+                    remoteUrl: 'http://devaltdriver.wpengine.com',
+                    basePath: '/wp-json/wp/v2/'
+                }
+            }
+        };
+        break;
+    case 'driversenvy':
+        config = {
+            app: {
+                name: 'driversenvy',
+                title: 'Driver\'s Envy',
+                per_page:'12',
+                prefetch_at:'8',
+                scroll_amount:'6',
+                fb_appid:'638692042912150'
+            },
+            env: {
+                prod: {
+                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                },
+                stage:{
+                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                },
+                dev:{
+                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                }
+            }
+        };
+        break;
+    case 'upshift':
+        config = {
+            app: {
+                name: 'upshift',
+                title: 'UPSHIFT',
+                per_page:'12',
+                prefetch_at:'8',
+                scroll_amount:'6',
+                fb_appid:'638692042912150'
+            },
+            env: {
+                prod: {
+                    remoteUrl: 'http://upshift.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                },
+                stage:{
+                    remoteUrl: 'http://upshift.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                },
+                dev:{
+                    remoteUrl: 'http://upshift.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                }
+            }
+        };
+        break;
+}
+
+feedConfig = config.env;
+appConfig = config.app;
 
 //Controllers
 var Controllers = require('./app.controllers');
@@ -46,6 +119,7 @@ var Directives = require('./app.directives');
 //Services
 var FeedService = require('./services/FeedService');
 var InstagramService = require('./services/InstagramService');
+var AppConfigService = require('./services/AppConfigService');
 
 //Routes
 var Router = require('./app.routes');
@@ -101,7 +175,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
         }
     };
 
-    $rootScope.gaID = feedConfig[env].ga;
+    $rootScope.gaID = appConfig.ga;
+    $rootScope.app = appConfig;
 
     $rootScope.getOrientation = function(){
         if(!$rootScope.orientation){
@@ -295,8 +370,21 @@ NewsFeed.provider('InstagramServiceProvider',function(){
     }
 });
 
+
+NewsFeed.factory('AppConfigService', ['$http', '$q', AppConfigService]);
+
+NewsFeed.provider('AppConfigServiceProvider',function(){
+    return {
+        $get: function(){
+            return AppConfigService;
+        }
+    }
+});
+
+
 NewsFeed.constant('env', env);
 NewsFeed.constant('envConfig', feedConfig);
+
 
 NewsFeed.config(
     ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', '$compileProvider', Router]
