@@ -2,10 +2,10 @@
     /* extra CSS file for all modifications */
 
 .upshift .navbar-brand {
-  background-image: url('http://upshift.com/images/upshift_logo.png');
-  width:220px;
+  background-image: url('../images/upshift_logo.png');
+  width:180px;
   position: relative;
-  top: 10px;
+  top: 4px;
   left: .75em;
   margin-right: 1.75em;
   /* can set width and height to match logo */
@@ -14,8 +14,8 @@
 
 @media all and (max-width:480px) {
   .upshift .navbar-brand {
-    width: 140px;
-    top: 16px;
+    width: 120px;
+    top: 10px;
     margin-right: 0;
     left: .25em;
   }
