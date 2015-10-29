@@ -1,3 +1,26 @@
+// use the sitename on the body - where sitename = brand
+
+.altdriver .navbar-brand {
+  background-image: url('http://2e3k4o242jj84difhk2rzy6v.wpengine.netdna-cdn.com/wp-content/uploads/logo_alt_driver_250x51.png');
+  position: relative;
+  top: 14px;
+  left: .75em;
+  margin-right: 1.75em;
+}
+
+@media all and (min-width: 480px) {
+  .altdriver .navbar-brand {
+    width: 142px;
+    top: 12px;
+  }
+}
+
+@media all and (min-width: $nav-switch) {
+  .altdriver .navbar-brand {
+    top: 10px;
+  }
+}
+
 // typography
 body{
   font-family: $font-body, Calibri, Helvetica, Arial; // altD fonts
@@ -260,25 +283,4 @@ h1, h2, h3, h4, h5, h6 {
 
 .flex-reddit {
   order: 3;
-}
-
-// drivers envy logo
-.de-logo {
-  width:120px; 
-  position:relative; 
-  top:3px;
-}
-
-@media all and (min-width:350px) {
-  .de-logo {
-    width:150px; 
-    top: 0;
-  }
-}
-
-@media all and (min-width:880px) {
-  .de-logo {
-    width: 200px !important;
-    top: -4px !important;
-  }
 }

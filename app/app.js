@@ -35,7 +35,8 @@ switch(appName){
                 prefetch_at:'8',
                 scroll_amount:'6',
                 fb_appid:'638692042912150',
-                ga:'UA-66153561-1'
+                ga:'UA-66153561-1',
+                feedPath: 'posts'
             },
             env: {
                 prod: {
@@ -61,7 +62,8 @@ switch(appName){
                 per_page:'12',
                 prefetch_at:'8',
                 scroll_amount:'6',
-                fb_appid:'638692042912150'
+                fb_appid:'638692042912150',
+                feedPath: 'posts'
             },
             env: {
                 prod: {
@@ -87,7 +89,8 @@ switch(appName){
                 per_page:'12',
                 prefetch_at:'8',
                 scroll_amount:'6',
-                fb_appid:'638692042912150'
+                fb_appid:'638692042912150',
+                feedPath: 'posts'
             },
             env: {
                 prod: {
@@ -177,6 +180,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
 
     $rootScope.gaID = appConfig.ga;
     $rootScope.app = appConfig;
+
+    angular.element('body').addClass($rootScope.app.name);
+    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name +'.css">');
 
     $rootScope.getOrientation = function(){
         if(!$rootScope.orientation){
@@ -384,10 +390,11 @@ NewsFeed.provider('AppConfigServiceProvider',function(){
 
 NewsFeed.constant('env', env);
 NewsFeed.constant('envConfig', feedConfig);
+NewsFeed.constant('appConfig', appConfig);
 
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', '$compileProvider', Router]
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'envConfig', 'appConfig', '$compileProvider', Router]
 );
 
 /*

@@ -1,12 +1,13 @@
 'use strict';
 
-var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, $compileProvider) {
+var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, envConfig, appConfig, $compileProvider) {
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
 
 
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
+    console.log(appConfig);
 
     $routeProvider
         .when('/posts',{
@@ -56,6 +57,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             resolve:{
                 data: function($q, $route) {
                     var params = {};
+                    var feedPath = appConfig.feedPath;
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
@@ -79,7 +81,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),*/
-                        posts: FeedService.getPosts('feed/', '?per_page=12&page=1').then(
+                        posts: FeedService.getPosts(feedPath+'/', '?per_page=12&page=1').then(
                             function(data){
                                 return data;
                             },
