@@ -47,6 +47,9 @@
     
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
+    <!-- IF site != to altdriver.com load override css as sitename.css
+    <link type="text/css" rel="stylesheet" href="/css/site/{{sitename}}.css"/>
+     -->
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -91,7 +94,7 @@
     <meta name="msapplication-TileImage" content="/favicons/mstile-310x310.png" sizes="310x310">
     <!-- END Favicons -->
 </head>
-<body class="{{ isMobile() }} {{ getOrientation() }}">
+<body class="{{ isMobile() }} {{ getOrientation() }} altdriver">
 
     <!---------------------
     Facebook SDK
