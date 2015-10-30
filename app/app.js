@@ -22,7 +22,7 @@ env = 'prod';
 
 var host = window.location.host;
 
-var appName = host.substring(0,host.indexOf('.'));
+var appName = host.substring(host.indexOf('.')+1, host.lastIndexOf('.'));
 var config = null;
 /*
 switch(appName){
