@@ -58,6 +58,22 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = appConfig.feedPath;
+
+                    var instagramResolve = InstagramService.get(5,'nofilter').then(
+                        function(data){
+                            return data;
+                        },
+                        function(error){
+
+                        },
+                        function(notification){
+
+                        }
+                    );
+
+                    if(appConfig.name === 'upshift'){
+                        instagramResolve = null;
+                    }
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
@@ -92,17 +108,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(5,'nofilter').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),
+                        //instagram: instagramResolve,
                         /*sponsors: FeedService.getCampaigns('campaigns','').then(
                             function(data){
                                 return data;
@@ -114,7 +120,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         )*/
-                        //instagram:null,
+                        instagram:null,
                         sponsors:null
 
                     });

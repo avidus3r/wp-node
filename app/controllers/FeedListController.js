@@ -124,7 +124,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     card.position = Number(item.card.position);
                     postmap.splice(card.position, 0, card);
                 }*/
-                if (card.type === 'instagram') {
+                /*if (card.type === 'instagram') {
                     if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                         card.data = $scope.instagram.data.data[0];
                     } else {
@@ -133,7 +133,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.splicedItems += 1;
                     console.log('splicing instagram');
                     postmap.splice(card.position, 0, card);
-                }
+                }*/
             });
 
             //postmap.splice(5,0,{type:'main-leaderboard'});
@@ -176,25 +176,25 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 angular.forEach($scope.feedConfig.cards, function(item, index){
                      if(item.card.perPage === 'on') {
 
-                     var card = item.card;
+                         var card = item.card;
 
-                     /*if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                         card = $scope.sponsors[$scope.paged];
-                         card.type = 'sponsor';
-                         card.position = Number(item.card.position);
+                         /*if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
+                             card = $scope.sponsors[$scope.paged];
+                             card.type = 'sponsor';
+                             card.position = Number(item.card.position);
 
-                         pagedpostmap.splice((card.position*$scope.paged), 0, card);
-                     }*/
-                     if (card.type === 'instagram') {
-                         if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
-                            card.data = $scope.instagram.data.data[$scope.paged-1];
-                         } else {
-                            card.type = 'social-follow';
-                         }
+                             pagedpostmap.splice((card.position*$scope.paged), 0, card);
+                         }*/
+                         /*if (card.type === 'instagram') {
+                             if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
+                                card.data = $scope.instagram.data.data[$scope.paged-1];
+                             } else {
+                                card.type = 'social-follow';
+                             }
                             var cardPosition = ($scope.paged-1) * $scope.postsPerPage + parseInt(card.position);
                             console.log(cardPosition);
                             pagedpostmap.splice(cardPosition, 0, card);
-                         }
+                         }*/
                      }
                  });
 

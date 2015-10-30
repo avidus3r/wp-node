@@ -9,7 +9,7 @@ var angular     = require('angular'),
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 
-var env = 'stage';
+var env = 'prod';
 
 if(/stage/i.test(window.location.hostname)){
     env = 'stage';
@@ -18,12 +18,12 @@ if(/dev/i.test(window.location.hostname)){
     env = 'dev';
 }
 
+env = 'prod';
+
 var host = window.location.host;
 
 var appName = host.substring(0,host.indexOf('.'));
 var config = null;
-var feedConfig = null;
-var appConfig = null;
 
 switch(appName){
     case 'altdriver':
@@ -40,7 +40,8 @@ switch(appName){
             },
             env: {
                 prod: {
-                    remoteUrl: 'http://www.altdriver.com',
+                    /*remoteUrl: 'http://www.altdriver.com',*/
+                    remoteUrl: 'http://altdriver.staging.wpengine.com',
                     basePath: '/wp-json/wp/v2/'
                 },
                 stage:{
@@ -110,8 +111,8 @@ switch(appName){
         break;
 }
 
-feedConfig = config.env;
-appConfig = config.app;
+var feedConfig = config.env;
+var appConfig = config.app;
 
 //Controllers
 var Controllers = require('./app.controllers');

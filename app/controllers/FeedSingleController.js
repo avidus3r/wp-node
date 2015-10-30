@@ -58,7 +58,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
     $scope.offset = offset;
 
-
+    $scope.getPosts = function(path, params){
+        return FeedService.getPosts(path,params);
+    };
 
     $scope.initMeta = function(post){
         // Standard meta
@@ -157,7 +159,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.getNext = function(){
         if($scope.feedItemPosition-1 === 0) return false;
 
-        $scope.getPosts.then(
+        //add params
+        $scope.getPosts().then(
             function(data){ //success
                 var pagedpostmap = [];
                 angular.forEach(data, function (item, index) {
@@ -259,6 +262,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
             expectedEmbed.addClass('video-container');
             $scope.resizeEmbed(expectedEmbed);
         }
+
+
+        expectedEmbed.append('<div id="div-gpt-ad-1434127859548-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1434127859548-0"); });</script></div>');
         return $sce.trustAsHtml(content);
     };
 
@@ -412,9 +418,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         }
     );
 
-    $scope.getPosts = function(path, params){
-        return FeedService.getPosts(path,params);
-    };
+
 
     $scope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
         angular.module('NewsFeed').trackEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
