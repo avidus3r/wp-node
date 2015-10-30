@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedSingleController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, $sce) {
+var FeedSingleController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce) {
 
     this.name = 'single';
     this.params = $routeParams;
@@ -31,6 +31,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.sponsors = data.sponsors;
     $scope.instagram = data.instagram;
     $scope.paged = 1;
+    $scope.feedPath = app[appName].feedPath;
 
     if($scope.lastOffset === 0){
         localStorage.setItem('post_offset', 0);
@@ -160,7 +161,8 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         if($scope.feedItemPosition-1 === 0) return false;
 
         //add params
-        $scope.getPosts().then(
+        $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + $scope.offset;
+        $scope.getPosts($scope.feedPath, $scope.postParams).then(
             function(data){ //success
                 var pagedpostmap = [];
                 angular.forEach(data, function (item, index) {
@@ -168,27 +170,27 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     pagedpostmap.push(item);
                 });
 
-                /*angular.forEach($scope.feedConfig.cards, function(item, index){
-                 if(item.card.perPage === 'on') {
+                angular.forEach($scope.feedConfig.cards, function(item, index){
+                    if(item.card.perPage === 'on') {
 
-                 var card = item.card;
-                 console.log(card);
-                 if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                 card = $scope.sponsors[$scope.paged];
-                 card.type = 'sponsor';
-                 card.position = item.card.position;
-                 pagedpostmap.splice(card.position, 0, card);
-                 }
-                 if (card.type === 'instagram') {
-                 if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
-                 card.data = $scope.instagram.data.data[$scope.paged-1];
-                 } else {
-                 card.type = 'social-follow';
-                 }
-                 pagedpostmap.splice(card.position, 0, card);
-                 }
-                 }
-                 });*/
+                        var card = item.card;
+                        if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
+                            card = $scope.sponsors[$scope.paged];
+                            card.type = 'sponsor';
+                            card.position = item.card.position;
+                            pagedpostmap.splice(card.position, 0, card);
+                        }
+                        if (card.type === 'instagram') {
+                            if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
+                                card.data = $scope.instagram.data.data[$scope.paged-1];
+                            } else {
+                                card.type = 'social-follow';
+                            }
+                            pagedpostmap.splice(card.position, 0, card);
+                        }
+                    }
+                });
+
                 $scope.$emit('next:done', pagedpostmap);
 
             },
@@ -231,9 +233,9 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         var catParent = null;
 
         angular.forEach(categories, function (category, index) {
-            /*if(category.slug.replace('-','') === envConfig.site){
+            if(category.slug.replace('-','') === appName){
                 catParent = category.term_id;
-            }*/
+            }
         });
         angular.forEach(categories, function (category, index) {
             if(catParent){
@@ -263,8 +265,6 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
             $scope.resizeEmbed(expectedEmbed);
         }
 
-
-        expectedEmbed.append('<div id="div-gpt-ad-1434127859548-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1434127859548-0"); });</script></div>');
         return $sce.trustAsHtml(content);
     };
 

@@ -161,6 +161,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         }
     };
 
+    $rootScope.getAppPath = function(){
+        return appName + '/';
+    };
+
     $rootScope.isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
@@ -419,12 +423,12 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', '$sce', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', Controllers.FeedSingleController]
 );
 
 NewsFeed.controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedCategoryController]
 );
 
 NewsFeed.controller(

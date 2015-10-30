@@ -31,6 +31,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.instagram = data.instagram;
     $scope.posts = data.posts;
     $scope.sponsorPosts = [];
+    $scope.feedPath = app[appName].feedPath;
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
@@ -184,7 +185,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.getNext = function(){
         $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged;
-        $scope.getPosts('feed/', $scope.postParams).then(
+        $scope.getPosts($scope.feedPath, $scope.postParams).then(
             function(data){ //success
 
                 var pagedpostmap = [];
