@@ -34,6 +34,8 @@
     "gulp-jasmine": "^2.1.0",
     "gulp-jshint": "latest",
     "gulp-load-plugins": "latest",
+    "gulp-ng-config": "^1.2.1",
+    "gulp-ng-constant": "^1.1.0",
     "gulp-nodemon": "latest",
     "gulp-rename": "latest",
     "gulp-sass": "latest",

@@ -8,7 +8,7 @@ var angular     = require('angular'),
 //Angular Dependencies
 require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
-
+require('./config/config');
 var env = 'prod';
 
 if(/stage/i.test(window.location.hostname)){
@@ -24,7 +24,7 @@ var host = window.location.host;
 
 var appName = host.substring(0,host.indexOf('.'));
 var config = null;
-
+/*
 switch(appName){
     case 'altdriver':
         config = {
@@ -36,11 +36,11 @@ switch(appName){
                 scroll_amount:'6',
                 fb_appid:'638692042912150',
                 ga:'UA-66153561-1',
-                feedPath: 'posts'
+                feedPath: 'feed'
             },
             env: {
                 prod: {
-                    /*remoteUrl: 'http://www.altdriver.com',*/
+                    *//*remoteUrl: 'http://www.altdriver.com',*//*
                     remoteUrl: 'http://altdriver.staging.wpengine.com',
                     basePath: '/wp-json/wp/v2/'
                 },
@@ -109,10 +109,7 @@ switch(appName){
             }
         };
         break;
-}
-
-var feedConfig = config.env;
-var appConfig = config.app;
+}*/
 
 //Controllers
 var Controllers = require('./app.controllers');
@@ -133,16 +130,18 @@ var Router = require('./app.routes');
 //var Posts = require('./models/post');
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', 'NewsFeed.config']);
 
 
 /*
  * Module Configuration
  */
 
-NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
+NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
     MetaTags.initialize();
 
+    var feedConfig = app[appName].env;
+    var appConfig = app[appName];
     $rootScope.orientation = null;
 
     if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null'){
@@ -356,7 +355,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce){
 
 NewsFeed.factory(
     'FeedService',
-    ['envConfig', 'env', '$http', '$q', FeedService]
+    ['app', 'appName', 'env', '$http', '$q', FeedService]
 );
 
 NewsFeed.provider('FeedServiceProvider',function(){
@@ -390,12 +389,13 @@ NewsFeed.provider('AppConfigServiceProvider',function(){
 
 
 NewsFeed.constant('env', env);
-NewsFeed.constant('envConfig', feedConfig);
-NewsFeed.constant('appConfig', appConfig);
+NewsFeed.constant('appName', appName);
+//NewsFeed.constant('envConfig', feedConfig);
+//NewsFeed.constant('appConfig', appConfig);
 
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'envConfig', 'appConfig', '$compileProvider', Router]
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
 );
 
 /*
@@ -408,33 +408,33 @@ NewsFeed.config(
  */
 NewsFeed.controller(
     'HeaderController',
-    ['$rootScope', '$scope', 'FeedService', 'envConfig', Controllers.HeaderController]
+    ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
 );
 
 NewsFeed.controller(
     'PageController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'envConfig', Controllers.PageController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
 );
 
 
 NewsFeed.controller(
     'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', '$sce', Controllers.FeedSingleController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', '$sce', Controllers.FeedSingleController]
 );
 
 NewsFeed.controller(
     'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.FeedCategoryController]
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.FeedCategoryController]
 );
 
 NewsFeed.controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.FeedListController]
 );
 
 NewsFeed.controller(
     'PostsController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'envConfig', Controllers.PostsController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
 );
 
 /*

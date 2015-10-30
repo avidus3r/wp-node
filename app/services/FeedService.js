@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedService = function(envConfig, env, $http, $q){
+var FeedService = function(app, appName, env, $http, $q){
     var feed = {};
 
     feed.categories = [];
@@ -8,9 +8,8 @@ var FeedService = function(envConfig, env, $http, $q){
     feed.lastOffset = null;
     feed.singleId = null;
 
+    feed.endpoints = app[appName].env[env];
 
-    feed.endpoints = envConfig[env];
-    console.log(env);
     feed.getPosts = function(path, params) {
         var deferred = $q.defer();
 

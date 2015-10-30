@@ -1,7 +1,7 @@
 'use strict';
 
 
-var PageController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, envConfig) {
+var PageController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, app) {
 
     this.name = 'page';
     $scope.routeParams = $location.$$path.replace('/','');
@@ -12,7 +12,7 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     angular.element('#loading-more').hide();
-    console.log(envConfig);
+    console.log(app);
     $scope.getPage = function(){
 
         FeedService.getPage($scope.routeParams).then(

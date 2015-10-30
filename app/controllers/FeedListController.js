@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, envConfig) {
+var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app) {
 
     this.name = 'list';
     this.$route = $route;
@@ -236,9 +236,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var catParent = null;
 
         angular.forEach(categories, function (category, index) {
-            if(category.slug.replace('-','') === envConfig.site){
+            /*if(category.slug.replace('-','') === envConfig.site){
                 catParent = category.term_id;
-            }
+            }*/
         });
         angular.forEach(categories, function (category, index) {
             if(catParent){

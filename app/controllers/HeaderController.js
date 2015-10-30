@@ -1,7 +1,7 @@
 'use strict';
 
 
-var HeaderController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, envConfig) {
+var HeaderController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, app) {
 
     this.name = 'app';
 

@@ -18,7 +18,8 @@ var gulp            = require('gulp'),
     jasmine         = require('gulp-jasmine'),
     reporters       = require('jasmine-reporters'),
     requireDir      = require('require-dir'),
-    Server          = require('karma').Server;
+    Server          = require('karma').Server,
+    gulpNgConfig    = require('gulp-ng-config');
 
 var paths   = {
     js: ['app/**/*.js', '!tests/**/*.js'],
@@ -45,6 +46,10 @@ gulp.task('templates', function(){
 gulp.task('config', function(){
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
+
+    gulp.src('./app/config.json')
+        .pipe(gulpNgConfig('NewsFeed.config'))
+        .pipe(gulp.dest('./app/config'))
 });
 
 gulp.task('data', function(){
@@ -147,5 +152,5 @@ gulp.task('watch', function () {
 gulp.task('default',['build','devServe','watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'css:sass', 'css', 'assets', 'templates', 'config', 'data', 'scripts', callback);
+    runSequence('clean','config', 'css:sass', 'css', 'assets', 'templates', 'data', 'scripts', callback);
 });

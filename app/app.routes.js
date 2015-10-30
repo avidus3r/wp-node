@@ -1,13 +1,12 @@
 'use strict';
 
-var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, envConfig, appConfig, $compileProvider) {
+var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, app, appName, $compileProvider) {
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
 
 
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
-    console.log(appConfig);
 
     $routeProvider
         .when('/posts',{
@@ -57,7 +56,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             resolve:{
                 data: function($q, $route) {
                     var params = {};
-                    var feedPath = appConfig.feedPath;
+                    var feedPath = app[appName].feedPath;
 
                     var instagramResolve = InstagramService.get(5,'nofilter').then(
                         function(data){
@@ -71,9 +70,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                         }
                     );
 
-                    if(appConfig.name === 'upshift'){
+                    /*if(appConfig.name === 'upshift'){
                         instagramResolve = null;
-                    }
+                    }*/
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
