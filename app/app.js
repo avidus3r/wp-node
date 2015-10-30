@@ -429,7 +429,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedListController]
 );
 
 NewsFeed.controller(

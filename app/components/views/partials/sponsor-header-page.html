@@ -3,8 +3,8 @@
     <!-- Display the sponsor's avatar -->
 
     <span class="sponsor-avatar" ng-switch="item.sponsor.featured_image">
-        <img class="avatar" ng-switch-when="false" src="{{item.sponsor.avatar }}" />
-        <img class="featured" ng-switch-default src="{{ item.sponsor.featured_image[0] }}" width="{{ item.sponsor.featured_image[1] }}" height="{{ item.sponsor.featured_image[2] }}" />
+        <div class="avatar" ng-switch-when="false" style="background:url({{item.sponsor.avatar }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
+        <div class="featured" ng-switch-default style="background:url({{ item.sponsor.featured_image[0] }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
     </span>
     <h1 class="sponsor-header sponsor-large">
         {{ item.sponsor.title }}

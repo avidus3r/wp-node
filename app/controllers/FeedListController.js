@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app) {
+var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName) {
 
     this.name = 'list';
     this.$route = $route;
@@ -76,22 +76,23 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.sendImpression = function(sponsorPost){
         setTimeout(function(){
             angular.module('NewsFeed').trackEvent('Sponsored Content', 'Impression', sponsorPost.sponsor.title + ' ' + sponsorPost.id, 1, {nonInteraction: true});
+            $scope.sponsorPosts.shift();
         },500);
     };
 
     $scope.trackSponsor = function(){
-        for(var i=0;i<$scope.sponsorPosts.length;i++){
-            var currentIndex = $scope.sponsorPosts[i] + $scope.splicedItems;
-            if(angular.element('#feed-item-' + currentIndex + ':in-viewport').length > 0){
-                var sponsorPost = $scope.feedItemElements[currentIndex];
-                var scrollPos = angular.element('#feed-item-' + currentIndex).offset().top - angular.element(window).scrollTop();
-                var inWindowAmount = window.innerHeight - angular.element('#feed-item-' + currentIndex).height();
-                if(!$scope.feedItemElements[currentIndex].impressionSent && scrollPos <= inWindowAmount) {
-                    $scope.feedItemElements[currentIndex].impressionSent = true;
-                    $scope.sendImpression(sponsorPost);
-                }
+        var currentIndex = $scope.sponsorPosts[0]+$scope.splicedItems;
+
+        if(angular.element('#feed-item-' + currentIndex + ':in-viewport').length > 0){
+            var sponsorPost = $scope.feedItemElements[currentIndex];
+            var scrollPos = angular.element('#feed-item-' + currentIndex).offset().top - angular.element(window).scrollTop();
+            var inWindowAmount = window.innerHeight - angular.element('#feed-item-' + currentIndex).height();
+            if(!$scope.feedItemElements[currentIndex].impressionSent && scrollPos <= inWindowAmount) {
+                $scope.feedItemElements[currentIndex].impressionSent = true;
+                $scope.sendImpression(sponsorPost);
             }
         }
+
     };
 
     if($scope.currentView === 'list' || $scope.currentView === 'search') {
@@ -117,13 +118,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                 var card = item.card;
 
-                /*if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                    console.log(card);
+                if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
                     card = $scope.sponsors[$scope.paged];
                     card.type = 'sponsor';
                     card.position = Number(item.card.position);
                     postmap.splice(card.position, 0, card);
-                }*/
+                    $scope.splicedItems++;
+                    $scope.sponsorPosts.push(index);
+                }
                 /*if (card.type === 'instagram') {
                     if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                         card.data = $scope.instagram.data.data[0];
@@ -162,6 +164,24 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.feedItemPosition += 1;
     };
 
+    $scope.onScroll = function(){
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-1500)) {
+            angular.element('#loading-more').show();
+            $scope.paged += 1;
+            var state = {page: $scope.paged};
+            history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
+            angular.module('NewsFeed').trackPageView();
+            $scope.getNext();
+            window.removeEventListener('scroll', $scope.onScroll);
+        }else{
+            angular.element('#loading-more').hide();
+        }
+
+        if($scope.sponsorPosts.length > 0){
+            $scope.trackSponsor();
+        }
+    };
+
     $scope.getNext = function(){
         $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged;
         $scope.getPosts('feed/', $scope.postParams).then(
@@ -178,13 +198,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                          var card = item.card;
 
-                         /*if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
+                         if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
                              card = $scope.sponsors[$scope.paged];
                              card.type = 'sponsor';
                              card.position = Number(item.card.position);
 
                              pagedpostmap.splice((card.position*$scope.paged), 0, card);
-                         }*/
+                             $scope.splicedItems++;
+                             $scope.sponsorPosts.push(card.position*$scope.paged);
+                         }
                          /*if (card.type === 'instagram') {
                              if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                                 card.data = $scope.instagram.data.data[$scope.paged-1];
@@ -197,7 +219,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                          }*/
                      }
                  });
-
                 $scope.$emit('next:done', pagedpostmap);
             },
             function(reason){   //error
@@ -236,9 +257,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var catParent = null;
 
         angular.forEach(categories, function (category, index) {
-            /*if(category.slug.replace('-','') === envConfig.site){
+            if(category.slug.replace('-','') === appName){
                 catParent = category.term_id;
-            }*/
+            }
         });
         angular.forEach(categories, function (category, index) {
             if(catParent){
@@ -274,26 +295,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         window.addEventListener('scroll', $scope.onScroll);
     });
-
-
-    $scope.onScroll = function(){
-        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-1500)) {
-            angular.element('#loading-more').show();
-            $scope.paged += 1;
-            var state = {page: $scope.paged};
-            history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
-            angular.module('NewsFeed').trackPageView();
-            $scope.getNext();
-            window.removeEventListener('scroll', $scope.onScroll);
-        }else{
-            angular.element('#loading-more').hide();
-        }
-
-        if($scope.sponsorPosts.length > 0){
-            $scope.trackSponsor();
-        }
-    };
-
 
     window.addEventListener('message', $scope.receiveMessage);
 

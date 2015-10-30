@@ -108,7 +108,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             }
                         ),
                         //instagram: instagramResolve,
-                        /*sponsors: FeedService.getCampaigns('campaigns','').then(
+                        sponsors: FeedService.getCampaigns('campaigns','').then(
                             function(data){
                                 return data;
                             },
@@ -118,9 +118,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        )*/
-                        instagram:null,
-                        sponsors:null
+                        ),
+                        instagram:null
+                        //sponsors:null
 
                     });
                 }
