@@ -126,16 +126,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.splicedItems++;
                     $scope.sponsorPosts.push(index);
                 }
-                /*if (card.type === 'instagram') {
+                if (card.type === 'instagram') {
                     if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                         card.data = $scope.instagram.data.data[0];
                     } else {
                         card.type = 'social-follow';
                     }
-                    $scope.splicedItems += 1;
-                    console.log('splicing instagram');
+
                     postmap.splice(card.position, 0, card);
-                }*/
+                    $scope.splicedItems++;
+                }
             });
 
             //postmap.splice(5,0,{type:'main-leaderboard'});
@@ -207,16 +207,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                              $scope.splicedItems++;
                              $scope.sponsorPosts.push(card.position*$scope.paged);
                          }
-                         /*if (card.type === 'instagram') {
+                         if (card.type === 'instagram') {
                              if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                                 card.data = $scope.instagram.data.data[$scope.paged-1];
                              } else {
                                 card.type = 'social-follow';
                              }
                             var cardPosition = ($scope.paged-1) * $scope.postsPerPage + parseInt(card.position);
-                            console.log(cardPosition);
                             pagedpostmap.splice(cardPosition, 0, card);
-                         }*/
+                            $scope.splicedItems++;
+                         }
                      }
                  });
                 $scope.$emit('next:done', pagedpostmap);
