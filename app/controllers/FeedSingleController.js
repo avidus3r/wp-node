@@ -192,7 +192,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     if(item.card.perPage === 'on') {
 
                         var card = item.card;
-                        
+
                         if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
                             card = $scope.sponsorItems[$scope.paged];
                             card.type = 'sponsor';
