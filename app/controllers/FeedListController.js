@@ -32,7 +32,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.posts = data.posts;
     $scope.sponsorPosts = [];
     $scope.sponsorItems = [];
-    $scope.sponsorIndex = 0;
     $scope.feedPath = app[appName].feedPath;
 
     $scope.splicedItems = 0;
@@ -40,10 +39,19 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
 
     angular.forEach($scope.sponsors, function (item, index) {
-        $scope.sponsorItems.push(item.campaigns.campaign_items);
+        if(item.campaign_active === "true"){
+            angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
+                $scope.sponsorItems.push(campaignItem);
+            });
+        }
     });
 
+    $scope.shuffle = function(arr){
+        for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+        return arr;
+    };
 
+    $scope.shuffle($scope.sponsorItems);
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -127,10 +135,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             angular.forEach($scope.feedConfig.cards, function (item, index) {
 
                 var card = item.card;
-                $scope.sponsorIndex = ($scope.paged-1) % $scope.sponsorItems.length;
 
-                if (card.type === 'sponsor' && $scope.sponsorItems[$scope.sponsorIndex] !== null && $scope.sponsorItems[$scope.sponsorIndex].length > ($scope.paged)) {
-                    card = $scope.sponsorItems[$scope.sponsorIndex][$scope.paged];
+                if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                    card = $scope.sponsorItems[$scope.paged];
                     card.type = 'sponsor';
                     card.position = Number(item.card.position);
                     postmap.splice(card.position, 0, card);
@@ -209,10 +216,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                          var card = item.card;
 
-                         $scope.sponsorIndex = ($scope.paged-1) % $scope.sponsorItems.length;
-
-                         if (card.type === 'sponsor' && $scope.sponsorItems[$scope.sponsorIndex] !== null && $scope.sponsorItems[$scope.sponsorIndex].length > ($scope.paged)) {
-                             card = $scope.sponsorItems[$scope.sponsorIndex][$scope.paged];
+                         if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                             card = $scope.sponsorItems[$scope.paged];
                              card.type = 'sponsor';
                              card.position = Number(item.card.position);
 
