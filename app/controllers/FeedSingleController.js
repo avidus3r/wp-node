@@ -32,15 +32,22 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.instagram = data.instagram;
     $scope.paged = 1;
     $scope.feedPath = app[appName].feedPath;
+    $scope.sponsorPosts = [];
+    $scope.sponsorItems = [];
+    $scope.sponsorIndex = 0;
 
     if($scope.lastOffset === 0){
         localStorage.setItem('post_offset', 0);
     }
-
+    console.log($scope.sponsors);
     $scope.postPath = 'posts';
     $scope.offset = $scope.lastOffset ? '&offset=' + $scope.lastOffset : '';
     $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
     $scope.postParams = '?name=' + $routeParams.slug;
+
+    angular.forEach($scope.sponsors, function (item, index) {
+        $scope.sponsorItems.push(item.campaigns.campaign_items);
+    });
 
     $scope.$on('$viewContentLoaded', function(){
        $scope.onViewLoaded();
@@ -161,7 +168,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         if($scope.feedItemPosition-1 === 0) return false;
 
         //add params
-        $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + $scope.offset;
+        $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged;
         $scope.getPosts($scope.feedPath, $scope.postParams).then(
             function(data){ //success
                 var pagedpostmap = [];
@@ -174,11 +181,15 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     if(item.card.perPage === 'on') {
 
                         var card = item.card;
-                        if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                            card = $scope.sponsors[$scope.paged];
+                        $scope.sponsorIndex = ($scope.paged-1) % $scope.sponsorItems.length;
+
+                        if (card.type === 'sponsor' && $scope.sponsorItems[$scope.sponsorIndex] !== null && $scope.sponsorItems[$scope.sponsorIndex].length > ($scope.paged)) {
+                            card = $scope.sponsorItems[$scope.sponsorIndex][$scope.paged];
                             card.type = 'sponsor';
-                            card.position = item.card.position;
+                            card.position = Number(item.card.position);
                             pagedpostmap.splice(card.position, 0, card);
+                            $scope.splicedItems++;
+                            $scope.sponsorPosts.push(index);
                         }
                         if (card.type === 'instagram') {
                             if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {
@@ -375,6 +386,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
     FeedService.getPosts('feed', '?per_page=12&page=1&post__not_in=' + $scope.post[0].id + offset).then(
         function (data) {
+            $scope.currentView = 'list';
             $scope.posts = data;
             var postmap = [];
 
@@ -388,13 +400,16 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
                 var card = item.card;
 
-                /*if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                    console.log(card);
-                    card = $scope.sponsors[$scope.paged];
+                $scope.sponsorIndex = ($scope.paged-1) % $scope.sponsorItems.length;
+
+                if (card.type === 'sponsor' && $scope.sponsorItems[$scope.sponsorIndex] !== null && $scope.sponsorItems[$scope.sponsorIndex].length > ($scope.paged)) {
+                    card = $scope.sponsorItems[$scope.sponsorIndex][$scope.paged];
                     card.type = 'sponsor';
-                    card.position = item.card.position;
+                    card.position = Number(item.card.position);
                     postmap.splice(card.position, 0, card);
-                }*/
+                    $scope.splicedItems++;
+                    $scope.sponsorPosts.push(index);
+                }
                 if (card.type === 'instagram') {
                     console.log(card);
                     if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > ($scope.paged)) {

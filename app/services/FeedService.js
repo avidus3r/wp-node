@@ -59,6 +59,21 @@ var FeedService = function(app, appName, env, $http, $q){
         return deferred.promise;
     };
 
+    feed.getSponsors = function() {
+
+        var deferred = $q.defer();
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors/';
+
+        $http.get(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+            }
+        );
+
+        return deferred.promise;
+    };
+
     feed.getCampaigns = function(path, params) {
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;

@@ -108,7 +108,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: FeedService.getCampaigns('campaigns','').then(
+                        sponsors: FeedService.getSponsors().then(
                             function(data){
                                 return data;
                             },
@@ -306,7 +306,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: FeedService.getCampaigns('campaigns','').then(
+                        sponsors: FeedService.getSponsors().then(
                             function(data){
                                 return data;
                             },

@@ -31,10 +31,19 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.instagram = data.instagram;
     $scope.posts = data.posts;
     $scope.sponsorPosts = [];
+    $scope.sponsorItems = [];
+    $scope.sponsorIndex = 0;
     $scope.feedPath = app[appName].feedPath;
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
+
+
+    angular.forEach($scope.sponsors, function (item, index) {
+        $scope.sponsorItems.push(item.campaigns.campaign_items);
+    });
+
+
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -54,7 +63,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return val;
     };
 
-    if($scope.posts === null && $scope.sponsors !== null) $scope.currentView = 'sponsor';
+    if($scope.posts === null && $scope.sponsorItems !== null) $scope.currentView = 'sponsor';
     if($routeParams.hasOwnProperty('query')) $scope.currentView = 'search';
 
     $scope.postPath = 'posts';
@@ -118,9 +127,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             angular.forEach($scope.feedConfig.cards, function (item, index) {
 
                 var card = item.card;
+                $scope.sponsorIndex = ($scope.paged-1) % $scope.sponsorItems.length;
 
-                if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                    card = $scope.sponsors[$scope.paged];
+                if (card.type === 'sponsor' && $scope.sponsorItems[$scope.sponsorIndex] !== null && $scope.sponsorItems[$scope.sponsorIndex].length > ($scope.paged)) {
+                    card = $scope.sponsorItems[$scope.sponsorIndex][$scope.paged];
                     card.type = 'sponsor';
                     card.position = Number(item.card.position);
                     postmap.splice(card.position, 0, card);
@@ -143,8 +153,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     }
 
-    if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
-        if($scope.sponsors.length > 0) {
+    if($scope.currentView === 'sponsor' && $scope.sponsorItems !== null){
+        if($scope.sponsorItems.length > 0) {
             angular.forEach($scope.sponsors, function (item, index) {
                 item.type = 'sponsor';
                 postmap.push(item);
@@ -199,8 +209,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                          var card = item.card;
 
-                         if (card.type === 'sponsor' && $scope.sponsors !== null && $scope.sponsors.length > ($scope.paged)) {
-                             card = $scope.sponsors[$scope.paged];
+                         $scope.sponsorIndex = ($scope.paged-1) % $scope.sponsorItems.length;
+
+                         if (card.type === 'sponsor' && $scope.sponsorItems[$scope.sponsorIndex] !== null && $scope.sponsorItems[$scope.sponsorIndex].length > ($scope.paged)) {
+                             card = $scope.sponsorItems[$scope.sponsorIndex][$scope.paged];
                              card.type = 'sponsor';
                              card.position = Number(item.card.position);
 
