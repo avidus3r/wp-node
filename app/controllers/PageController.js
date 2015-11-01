@@ -12,13 +12,14 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     angular.element('#loading-more').hide();
-    console.log(app);
+
     $scope.getPage = function(){
 
         FeedService.getPage($scope.routeParams).then(
             function(res){
                 $scope.page = res[0];
                 $scope.content = $sce.trustAsHtml($scope.page.content.rendered);
+
             }
         );
 

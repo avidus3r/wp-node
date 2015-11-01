@@ -26,7 +26,7 @@
                     <li ng-repeat="item in navItems" class="{{item.class}}">
                         <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title"></a>
                     </li>
-                    <li class="legal" ng-click="collapseNav($event)">
+                    <li class="legal" ng-click="goToPage($event, $index, '/about')">
                         <a href="/about">About</a>
                     </li>
                     <li class="search">
