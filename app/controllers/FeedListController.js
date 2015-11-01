@@ -171,6 +171,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     postmap.splice(index,0,adItem);
                 }
             });
+
+            
             //postmap.splice(5,0,{type:'main-leaderboard'});
         }
     }
