@@ -11,9 +11,22 @@
     height: 40px;
   }
 
+  // buttons in sponsor notes defaults
   .button {
     padding: 5px 21px;
+    margin-right: .5em;
+    background-color: $color-ad-blue;
+    color: white !important;
   } 
+
+  a.button:nth-child(even) {
+    background-color: $color-ad-orange;
+  }
+}
+
+// hide the text label on the large sponsor landing page
+.sponsor-header.sponsor-large {
+  display: none;
 }
 
 // ALL Avatars page and content level
