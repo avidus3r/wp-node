@@ -36,21 +36,31 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
     $scope.sponsorPosts = [];
     $scope.sponsorItems = [];
     $scope.sponsorIndex = 0;
+    $scope.data = data;
 
     if($scope.lastOffset === 0){
         localStorage.setItem('post_offset', 0);
     }
-    console.log($scope.sponsors);
+
     $scope.postPath = 'posts';
     $scope.offset = $scope.lastOffset ? '&offset=' + $scope.lastOffset : '';
     $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
     $scope.postParams = '?name=' + $routeParams.slug;
+    var notIn = null;
 
     angular.forEach($scope.sponsors, function (item, index) {
         if(item.campaign_active === "true"){
             angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
-                campaignItem.type = 'sponsor';
-                $scope.sponsorItems.push(campaignItem);
+                if($scope.data.post[0].sponsor !== null){
+                    notIn = $scope.data.post[0].id;
+                }
+                if(notIn){
+
+                    if(campaignItem.id !== notIn){
+                        campaignItem.type = 'sponsor';
+                        $scope.sponsorItems.push(campaignItem);
+                    }
+                }
             });
         }
     });
@@ -193,9 +203,10 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
 
                 angular.forEach(pagedpostmap, function (item, index) {
                     if (index > 0 && index % 3 === 0) {
-                        console.log($scope.sponsorItems[$scope.sponsorCount]);
-                        pagedpostmap.splice(index, 0, $scope.sponsorItems[$scope.sponsorCount]);
-                        $scope.sponsorCount++;
+                        if($scope.sponsorCount >= $scope.sponsorItems.length) {
+                            pagedpostmap.splice(index, 0, $scope.sponsorItems[$scope.sponsorCount]);
+                            $scope.sponsorCount++;
+                        }
                     }
                 });
 
