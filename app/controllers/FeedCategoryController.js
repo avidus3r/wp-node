@@ -1,6 +1,6 @@
 'use strict';
 
-var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, data, app) {
+var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, data, app, appName) {
 
     this.name = 'category';
     this.params = $routeParams;
@@ -236,9 +236,9 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         var catParent = null;
 
         angular.forEach(categories, function (category, index) {
-            /*if(category.slug.replace('-','') === envConfig.site){
+            if(category.slug.replace('-','') === appName){
                 catParent = category.term_id;
-            }*/
+            }
         });
         angular.forEach(categories, function (category, index) {
             if(catParent){

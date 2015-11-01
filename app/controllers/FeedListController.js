@@ -164,6 +164,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.sponsorCount++;
                 }
             });
+            /*angular.forEach(postmap, function (item, index) {
+                if (index > 0 && index % 4 === 0) {
+                    var adItem = {};
+                    adItem.type = 'post-half-page';
+                    postmap.splice(index,0,adItem);
+                }
+            });*/
             //postmap.splice(5,0,{type:'main-leaderboard'});
         }
     }
@@ -254,6 +261,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             $scope.sponsorCount++;
                         }
                     });
+
+                    /*angular.forEach(pagedpostmap, function (item, index) {
+                        if (index > 0 && index % 4 === 0) {
+                            var adItem = {};
+                            adItem.type = 'post-half-page';
+                            pagedpostmap.splice(index,0,adItem);
+                        }
+                    });*/
                     $scope.$emit('next:done', pagedpostmap);
                 },
                 function (reason) {   //error
