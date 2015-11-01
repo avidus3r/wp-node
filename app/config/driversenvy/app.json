@@ -5,7 +5,9 @@
       "per_page":"12",
       "prefetch_at":"8",
       "scroll_amount":"6",
-      "fb_appid":"638692042912150"
+      "fb_appid":"975384505833680",
+      "feedPath":"posts",
+      "ga":"UA-69393693-1"
   },
   "env": {
     "prod": {

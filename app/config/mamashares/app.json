@@ -1,0 +1,23 @@
+"mamashares": {
+      "name": "mamashares",
+      "title": "Mama Shares",
+      "per_page":"12",
+      "prefetch_at":"12",
+      "scroll_amount":"12",
+      "fb_appid":"1698053510431350",
+      "feedPath":"posts",
+      "ga":"UA-69395977-1",
+"env": {
+  "prod": {
+    "remoteUrl": "http://mamashares.altdrivermedia.com",
+    "basePath": "/wp-json/wp/v2/"
+  },
+  "stage":{
+    "remoteUrl": "http://mamashares.altdrivermedia.com",
+    "baseParh": "/wp-json/wp/v2/"
+  },
+  "dev":{
+    "remoteUrl": "http://mamashares.altdrivermedia.com",
+    "basePath": "/wp-json/wp/v2/"
+  }
+}

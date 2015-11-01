@@ -96,21 +96,9 @@
 </head>
 <body class="{{ isMobile() }} {{ getOrientation() }}">
 
-    <!---------------------
-    Facebook SDK
-    ---------------------->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=638692042912150";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    <!---------------------
-    Facebook SDK
-    ---------------------->
 
+    <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
+    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
 
     <!---------------------
     Google Tag Manager

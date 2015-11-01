@@ -355,6 +355,11 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             return img.original[attrs[attr]];
         }
     };
+
+    $rootScope.getAppInfo = function(param){
+
+        return appConfig[param];
+    };
 });
 
 NewsFeed.factory(

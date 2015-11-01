@@ -5,8 +5,9 @@
       "per_page":"12",
       "prefetch_at":"12",
       "scroll_amount":"12",
-      "fb_appid":"",
+      "fb_appid":"1515910288730494",
       "feedPath":"posts",
+      "ga":"UA-69422901-1",
       "env": {
         "prod": {
           "remoteUrl": "http://upshift.altdrivermedia.com",
