@@ -164,13 +164,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.sponsorCount++;
                 }
             });
-            /*angular.forEach(postmap, function (item, index) {
+            angular.forEach(postmap, function (item, index) {
                 if (index > 0 && index % 4 === 0) {
                     var adItem = {};
                     adItem.type = 'post-half-page';
                     postmap.splice(index,0,adItem);
                 }
-            });*/
+            });
             //postmap.splice(5,0,{type:'main-leaderboard'});
         }
     }
