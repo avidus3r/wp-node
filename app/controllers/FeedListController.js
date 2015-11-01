@@ -125,53 +125,107 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             postmap.push(item);
         }
         else{
+            var pushedItems = 0;
+
             angular.forEach($scope.posts, function (item, index) {
                 item.type = 'post-'+$scope.currentView;
                 /*if(item.sponsor !== null){
                     item.type = 'sponsor';
                     $scope.sponsorPosts.push(index);
                 }*/
-                postmap.push(item);
-            });
 
-            angular.forEach($scope.feedConfig.cards, function (item, index) {
-
-                var card = item.card;
-
-                /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
-                    card = $scope.sponsorItems[$scope.paged];
-                    card.type = 'sponsor';
-                    card.position = Number(item.card.position);
-                    postmap.splice(card.position, 0, card);
-                    $scope.splicedItems++;
-                    $scope.sponsorPosts.push(index);
-                }*/
-                if (card.type === 'instagram') {
-                    if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
-                        card.data = $scope.instagram.data.data[0];
-                    } else {
-                        card.type = 'social-follow';
-                    }
-
-                    postmap.splice(card.position, 0, card);
-                    $scope.splicedItems++;
+                if (index === 5) {
+                    var adItem = {};
+                    adItem.type = 'post-half-page';
+                    postmap.push(adItem);
+                    $scope.feedItemScrollAmount+=1;
+                    pushedItems++;
                 }
 
+                if (index === 3) {
+                    var siteInContentAdItem = {};
+                    siteInContentAdItem.type = 'site-in-content';
+                    postmap.push(siteInContentAdItem);
+                    $scope.feedItemScrollAmount+=1;
+                    pushedItems++;
+                }
+
+
+                if (index === 1) {
+                    console.log('pushing mainleaderboard');
+                    var mainLeaderboardAdItem = {};
+                    mainLeaderboardAdItem.type = 'main-leaderboard';
+                    postmap.push(mainLeaderboardAdItem);
+                    $scope.feedItemScrollAmount+=1;
+                    pushedItems++;
+                }
+
+                angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
+
+                    var card = cardItem.card;
+
+                    /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                     card = $scope.sponsorItems[$scope.paged];
+                     card.type = 'sponsor';
+                     card.position = Number(item.card.position);
+                     postmap.splice(card.position, 0, card);
+                     $scope.splicedItems++;
+                     $scope.sponsorPosts.push(index);
+                     }*/
+                    if (card.type === 'instagram' && index === Number(card.position)) {
+                        if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
+                            card.data = $scope.instagram.data.data[0];
+                        } else {
+                            card.type = 'social-follow';
+                        }
+
+                        postmap.push(card);
+                        $scope.feedItemScrollAmount+=1;
+                        $scope.splicedItems++;
+                        pushedItems++;
+                    }
+                });
+
+                if (index > 0 && index %2 === 0) {
+                    postmap.push($scope.sponsorItems[$scope.sponsorCount]);
+                    $scope.sponsorCount++;
+                    $scope.feedItemScrollAmount+=1;
+                }
+
+                postmap.push(item);
+
             });
-            angular.forEach(postmap, function (item, index) {
-                if (index > 0 && index % 2 === 0) {
+
+            /*angular.forEach(postmap, function (item, index) {
+                if (index > 0 && index % 1 === 0) {
+                    var mainLeaderboardAdItem = {};
+                    mainLeaderboardAdItem.type = 'main-leaderboard';
+                    postmap.splice(index,0,mainLeaderboardAdItem);
+                }
+            });*/
+
+            /*angular.forEach(postmap, function (item, index) {
+                if (index > 0 && index % 3 === 0) {
                     postmap.splice((index+$scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
                     $scope.sponsorCount++;
                 }
-            });
-            angular.forEach(postmap, function (item, index) {
+            });*/
+
+            /*angular.forEach(postmap, function (item, index) {
                 if (index > 0 && index % 4 === 0) {
+                    var siteInContentAdItem = {};
+                    siteInContentAdItem.type = 'site-in-content';
+                    postmap.splice(index,0,siteInContentAdItem);
+                }
+            });*/
+
+            /*angular.forEach(postmap, function (item, index) {
+                if (index > 0 && index % 7 === 0) {
                     var adItem = {};
                     adItem.type = 'post-half-page';
                     postmap.splice(index,0,adItem);
                 }
-            });
-
+            });*/
 
             //postmap.splice(5,0,{type:'main-leaderboard'});
         }
@@ -218,6 +272,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getNext = function(){
+        $scope.feedItemScrollAmount = 12;
         $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged;
         if($scope.currentView === 'list' || $scope.currentView === 'search') {
             $scope.getPosts($scope.feedPath, $scope.postParams).then(
@@ -258,9 +313,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     angular.forEach(pagedpostmap, function (item, index) {
                         if (index > 0 && index % 2 === 0) {
-                            console.log($scope.sponsorItems[$scope.sponsorCount]);
-                            pagedpostmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
-                            $scope.sponsorCount++;
+                            if($scope.sponsorCount >= $scope.sponsorItems.length) {
+                                pagedpostmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
+                                $scope.sponsorCount++;
+                            }
                         }
                     });
 
@@ -299,6 +355,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.$on('next:done', function($event, posts){
         window.addEventListener('scroll', $scope.onScroll);
+
         angular.forEach(posts, function (item, index) {
             $scope.add(item, $scope.feedItems.length-1);
         });
