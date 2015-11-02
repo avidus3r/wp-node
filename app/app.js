@@ -22,7 +22,7 @@ env = 'preprod';
 
 var host = window.location.host;
 
-var appName = host.substring(host.indexOf('.')+1, host.lastIndexOf('.'));
+var appName = host.substring(0, host.lastIndexOf('.com'));
 var config = null;
 
 //Controllers
