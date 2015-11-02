@@ -18,98 +18,12 @@ if(/dev/i.test(window.location.hostname)){
     env = 'dev';
 }
 
-env = 'prod';
+env = 'preprod';
 
 var host = window.location.host;
 
 var appName = host.substring(host.indexOf('.')+1, host.lastIndexOf('.'));
 var config = null;
-/*
-switch(appName){
-    case 'altdriver':
-        config = {
-            app: {
-                name: 'altdriver',
-                title: 'alt_driver',
-                per_page:'12',
-                prefetch_at:'8',
-                scroll_amount:'6',
-                fb_appid:'638692042912150',
-                ga:'UA-66153561-1',
-                feedPath: 'feed'
-            },
-            env: {
-                prod: {
-                    *//*remoteUrl: 'http://www.altdriver.com',*//*
-                    remoteUrl: 'http://altdriver.staging.wpengine.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                stage:{
-                    remoteUrl: 'http://altdriver.staging.wpengine.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                dev:{
-                    remoteUrl: 'http://devaltdriver.wpengine.com',
-                    basePath: '/wp-json/wp/v2/'
-                }
-            }
-        };
-        break;
-    case 'driversenvy':
-        config = {
-            app: {
-                name: 'driversenvy',
-                title: 'Driver\'s Envy',
-                per_page:'12',
-                prefetch_at:'8',
-                scroll_amount:'6',
-                fb_appid:'638692042912150',
-                feedPath: 'posts'
-            },
-            env: {
-                prod: {
-                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                stage:{
-                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                dev:{
-                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                }
-            }
-        };
-        break;
-    case 'upshift':
-        config = {
-            app: {
-                name: 'upshift',
-                title: 'UPSHIFT',
-                per_page:'12',
-                prefetch_at:'8',
-                scroll_amount:'6',
-                fb_appid:'638692042912150',
-                feedPath: 'posts'
-            },
-            env: {
-                prod: {
-                    remoteUrl: 'http://upshift.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                stage:{
-                    remoteUrl: 'http://upshift.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                dev:{
-                    remoteUrl: 'http://upshift.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                }
-            }
-        };
-        break;
-}*/
 
 //Controllers
 var Controllers = require('./app.controllers');

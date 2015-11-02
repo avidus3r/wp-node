@@ -4,7 +4,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
 
-
+    var appConfig = app[appName];
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
 
@@ -57,8 +57,22 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app[appName].feedPath;
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
 
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
 
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
 
                     /*if(appName === 'upshift'){
                         instagramResolve = null;
@@ -108,17 +122,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: FeedService.getSponsors().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        )
+                        sponsors: sponsorResolve
                     });
                 }
             }

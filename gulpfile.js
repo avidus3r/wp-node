@@ -27,7 +27,7 @@ var paths   = {
     assets:['assets/**/*.*', '!assets/**/*.scss'],
     templates: ['app/components/**/*.html'],
     tests: ['tests/spec/**/*.js'],
-    config: ['app/config/*.json']
+    config: ['app/config/*.json', 'app/config.json']
 };
 
 gulp.task('scripts', ['lint'], function(){
