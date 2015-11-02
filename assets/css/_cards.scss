@@ -104,5 +104,14 @@
 
 }
 
+//ad cards
+.card-item.main-leaderboard,
+.card-item.post-companion-leaderboard,
+.card-item.post-half-page,
+.card-item.ad-category,
+.card-item.site-in-content{
+  text-align: center;
+}
+
 // Sponsored posts styles
 @import 'sponsors';
