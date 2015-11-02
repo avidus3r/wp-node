@@ -316,15 +316,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     });
 
-                    angular.forEach(pagedpostmap, function (item, index) {
-                        if (index > 0 && index % 2 === 0) {
-                            if($scope.sponsorCount >= $scope.sponsorItems.length) {
-                                pagedpostmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
-                                $scope.sponsorCount++;
+                    if($scope.sponsors !== null) {
+                        angular.forEach(pagedpostmap, function (item, index) {
+                            if (index > 0 && index % 2 === 0) {
+                                if ($scope.sponsorCount >= $scope.sponsorItems.length) {
+                                    pagedpostmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
+                                    $scope.sponsorCount++;
+                                }
                             }
-                        }
-                    });
-
+                        });
+                    }
                     /*angular.forEach(pagedpostmap, function (item, index) {
                         if (index > 0 && index % 4 === 0) {
                             var adItem = {};

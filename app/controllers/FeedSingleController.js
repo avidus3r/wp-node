@@ -201,15 +201,16 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     pagedpostmap.push(item);
                 });
 
-                angular.forEach(pagedpostmap, function (item, index) {
-                    if (index > 0 && index % 3 === 0) {
-                        if($scope.sponsorCount >= $scope.sponsorItems.length) {
-                            pagedpostmap.splice(index, 0, $scope.sponsorItems[$scope.sponsorCount]);
-                            $scope.sponsorCount++;
+                if($scope.sponsors !== null) {
+                    angular.forEach(pagedpostmap, function (item, index) {
+                        if (index > 0 && index % 3 === 0) {
+                            if ($scope.sponsorCount >= $scope.sponsorItems.length) {
+                                pagedpostmap.splice(index, 0, $scope.sponsorItems[$scope.sponsorCount]);
+                                $scope.sponsorCount++;
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
                 angular.forEach($scope.feedConfig.cards, function(item, index){
                     if(item.card.perPage === 'on') {
 
@@ -419,7 +420,7 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
         angular.module('NewsFeed').trackEvent('Sponsored Content', 'View', item.sponsor.title + ' ' + item.id, 1, null);
     }
 
-    FeedService.getPosts('feed', '?per_page=12&page=1&post__not_in=' + $scope.post[0].id + offset).then(
+    FeedService.getPosts($scope.feedPath, '?per_page=12&page=1&post__not_in=' + $scope.post[0].id + offset).then(
         function (data) {
             $scope.currentView = 'list';
             $scope.posts = data;
@@ -453,14 +454,14 @@ var FeedSingleController = function($rootScope, $scope, FeedService, InstagramSe
                     postmap.splice(card.position, 0, card);
                 }
             });
-
-            angular.forEach(postmap, function (item, index) {
-                if (index > 0 && index % 2 === 0) {
-                    postmap.splice((index+$scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
-                    $scope.sponsorCount++;
-                }
-            });
-
+            if($scope.sponsors !== null) {
+                angular.forEach(postmap, function (item, index) {
+                    if (index > 0 && index % 2 === 0) {
+                        postmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
+                        $scope.sponsorCount++;
+                    }
+                });
+            }
             angular.forEach(postmap, function (item, index) {
                 $scope.createFeedItem(item, $scope.feedItems.length);
             });

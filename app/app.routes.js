@@ -274,6 +274,23 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                     var params = {};
                     params.slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
 
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
+
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
@@ -310,17 +327,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: FeedService.getSponsors().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        )
+                        sponsors: sponsorResolve
                     });
                 }
             }

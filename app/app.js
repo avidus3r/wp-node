@@ -18,11 +18,14 @@ if(/dev/i.test(window.location.hostname)){
     env = 'dev';
 }
 
-env = 'preprod';
+env = 'prod';
 
 var host = window.location.host;
 
 var appName = host.substring(0, host.lastIndexOf('.com'));
+if(appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1){
+    appName = appName.replace(appName.substring(0,appName.indexOf('.')+1),'');
+}
 var config = null;
 
 //Controllers
