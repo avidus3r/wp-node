@@ -2,6 +2,6 @@
 
 var Directives = {};
 
-Directives.card = require('./directives/card');
+Directives.card = require('./card');
 
 module.exports = Directives;

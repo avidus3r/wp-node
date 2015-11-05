@@ -46,15 +46,6 @@ app.locals.config = require('./app/config/feed.conf.json');
 
 var feedConfig = null;
 
-app.get('/getenv', function(req, res){
-    var host = req.headers.host;
-
-    app.locals.config.appName = host.substring(0,host.indexOf('.'));
-    app.locals.appconfig = require('./app/config/' + app.locals.config.appName + '/app.json');
-    feedConfig = app.locals.appconfig.env;
-    res.send(JSON.stringify(app.locals.appconfig));
-});
-
 function getPagePosts(numberOfPosts, pageNumber) {
     //return db.collection('posts').find().limit(numberOfPosts);
 }

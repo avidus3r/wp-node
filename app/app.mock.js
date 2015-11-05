@@ -26,7 +26,7 @@ var feedConfig = {
 var Controllers = require('./app.controllers');
 
 //Directives
-var Directives = require('./app.directives');
+var Directives = require('./directives/app.directives.js');
 
 //Services
 var FeedService = require('./services/FeedService');

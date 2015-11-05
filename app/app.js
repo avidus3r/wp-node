@@ -6,9 +6,10 @@ var angular     = require('angular'),
 
 
 //Angular Dependencies
-require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 require('./config/config');
+
+
 var env = 'prod';
 
 if(/stage/i.test(window.location.hostname)){
@@ -26,18 +27,16 @@ var appName = host.substring(0, host.lastIndexOf('.com'));
 if(appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1){
     appName = appName.replace(appName.substring(0,appName.indexOf('.')+1),'');
 }
-var config = null;
 
 //Controllers
 var Controllers = require('./app.controllers');
 
 //Directives
-var Directives = require('./app.directives');
+var Directives = require('./directives/app.directives.js');
 
 //Services
 var FeedService = require('./services/FeedService');
 var InstagramService = require('./services/InstagramService');
-var AppConfigService = require('./services/AppConfigService');
 
 //Routes
 var Router = require('./app.routes');
@@ -47,7 +46,7 @@ var Router = require('./app.routes');
 //var Posts = require('./models/post');
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', 'NewsFeed.config']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'metatags', 'NewsFeed.config']);
 
 
 /*
@@ -61,7 +60,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var appConfig = app[appName];
     $rootScope.orientation = null;
 
-    if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null'){
+    if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined'){
         localStorage.setItem('post_offset', 0);
     }
 
@@ -279,6 +278,21 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 });
 
+// constants
+NewsFeed.constant('env', env);
+NewsFeed.constant('appName', appName);
+
+NewsFeed.config(
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+);
+/*
+ * Module Configuration
+ */
+
+
+/*
+ * Module Services
+ */
 NewsFeed.factory(
     'FeedService',
     ['app', 'appName', 'env', '$http', '$q', FeedService]
@@ -301,32 +315,10 @@ NewsFeed.provider('InstagramServiceProvider',function(){
         }
     }
 });
-
-
-NewsFeed.factory('AppConfigService', ['$http', '$q', AppConfigService]);
-
-NewsFeed.provider('AppConfigServiceProvider',function(){
-    return {
-        $get: function(){
-            return AppConfigService;
-        }
-    }
-});
-
-
-NewsFeed.constant('env', env);
-NewsFeed.constant('appName', appName);
-//NewsFeed.constant('envConfig', feedConfig);
-//NewsFeed.constant('appConfig', appConfig);
-
-
-NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
-);
-
 /*
- * Module Configuration
+ * Module Services
  */
+
 
 
 /*
@@ -355,7 +347,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', Controllers.FeedListController]
 );
 
 NewsFeed.controller(

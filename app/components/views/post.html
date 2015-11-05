@@ -1,4 +1,4 @@
-<div class="wrapper single-post {{ currentView }}" ngController="FeedListController">
+<div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container">
 
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}">

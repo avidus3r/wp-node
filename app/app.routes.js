@@ -265,7 +265,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             }
         })
         .when('/:category/:slug', {
-            controller: 'FeedSingleController',
+            controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
@@ -327,7 +327,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        sponsors: sponsorResolve
+                        sponsors: sponsorResolve,
+                        posts: null
                     });
                 }
             }
