@@ -19,7 +19,7 @@ if(/dev/i.test(window.location.hostname)){
     env = 'dev';
 }
 
-env = 'prod';
+env = 'preprod';
 
 var host = window.location.host;
 
@@ -335,7 +335,7 @@ NewsFeed.controller(
 );
 
 
-NewsFeed.controller(
+/*NewsFeed.controller(
     'FeedSingleController',
     ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', Controllers.FeedSingleController]
 );
@@ -343,7 +343,7 @@ NewsFeed.controller(
 NewsFeed.controller(
     'FeedCategoryController',
     ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedCategoryController]
-);
+);*/
 
 NewsFeed.controller(
     'FeedListController',

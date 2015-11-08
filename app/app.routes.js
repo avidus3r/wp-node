@@ -89,17 +89,6 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*posts: FeedService.getPostData('prod',100,1).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),*/
                         posts: FeedService.getPosts(feedPath+'/', '?per_page=12&page=1').then(
                             function(data){
                                 return data;
@@ -111,7 +100,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(25,'nofilter').then(
+                        /*instagram: InstagramService.get(25,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -122,15 +111,18 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
+                        sponsors: sponsorResolve*/
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
             }
         })
         .when('/category/:category', {
-            controller: 'FeedCategoryController',
+            controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
+            reloadOnSearch: false,
             resolve:{
                 data: function($q, $route) {
                     var params = {};
