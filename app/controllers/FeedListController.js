@@ -34,12 +34,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.sponsorCount = 0;
     $scope.feedPath = app[appName].feedPath;
     $scope.appConfig = app[appName];
+    $scope.isSingle = false;
+    $scope.singleParams = {};
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
 
 
     if(data.post){
+        $scope.isSingle = true;
+        //add params
         $scope.post = data.post;
         $scope.lastOffset = localStorage.getItem('post_offset') || 0;
         if($scope.lastOffset === 0){
@@ -133,18 +137,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return arr;
     };
 
-    if($scope.posts !== null && $scope.post !== null) {
-        angular.forEach($scope.sponsors, function (item, index) {
-            if (item.campaign_active === 'true') {
-                angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
-                    campaignItem.type = 'sponsor';
-                    $scope.sponsorItems.push(campaignItem);
-                });
-            }
-        });
-        $scope.shuffle($scope.sponsorItems);
-        console.log($scope.sponsorItems.length);
-    }
     $scope.getParams = function(param, encode){
         var val = null;
         switch(param){
@@ -204,15 +196,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
 
     };
-
-    if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
-        if($scope.sponsors.length > 0) {
-            angular.forEach($scope.sponsors, function (item, index) {
-                item.type = 'sponsor';
-                postmap.push(item);
-            });
-        }
-    }
 
     $scope.add = function(item){
         $scope.feedItemElements.push(item);
@@ -372,6 +355,20 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.init = function() {
         var item = null;
+
+        if($scope.posts !== null && $scope.post !== null) {
+            angular.forEach($scope.sponsors, function (item, index) {
+                if (item.campaign_active === 'true') {
+                    angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
+                        campaignItem.type = 'sponsor';
+                        $scope.sponsorItems.push(campaignItem);
+                    });
+                }
+            });
+            $scope.shuffle($scope.sponsorItems);
+            console.log($scope.sponsorItems.length);
+        }
+
         if($scope.currentView === 'list' || $scope.currentView === 'search') {
 
             if($scope.posts.length === 0){
@@ -457,6 +454,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             angular.forEach(postmap, function (item, index) {
                 $scope.createFeedItem(item, $scope.feedItems.length);
             });
+        }
+        if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
+            if($scope.sponsors.length > 0) {
+                angular.forEach($scope.sponsors, function (item, index) {
+                    item.type = 'sponsor';
+                    postmap.push(item);
+                });
+            }
         }
         if($scope.currentView === 'post') {
             item = $scope.post[0];
