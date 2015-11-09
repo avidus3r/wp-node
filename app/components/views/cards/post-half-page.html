@@ -1,6 +1,7 @@
 <script type='text/javascript'>
+    var gptAdSlots = [];
   googletag.cmd.push(function() {
-    googletag.defineSlot('/110669458/post_half_page_300x600', [[300, 600], [300, 250]], 'div-gpt-ad-1439475907105-0').addService(googletag.pubads());
+      gptAdSlots[1] = googletag.defineSlot('/110669458/post_half_page_300x600', [[300, 600], [300, 250]], 'div-gpt-ad-1439475907105-0').addService(googletag.pubads());
     googletag.pubads().enableSingleRequest();
     googletag.enableServices();
   });

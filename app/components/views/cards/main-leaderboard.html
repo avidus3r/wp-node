@@ -1,4 +1,10 @@
 <script type='text/javascript'>
+    if(location.search.length > 0){
+        googletag.cmd.push(function() {
+            googletag.pubads().clear();
+        });
+    }
+
  var gptAdSlots = [];
   googletag.cmd.push(function() {
 
@@ -6,9 +12,9 @@
       addSize([0, 0], [[320, 50], [320, 100]]).
       addSize([767, 200], [728, 90]). // Desktop
       build();
-   
 
-googletag.defineSlot('/110669458/home_page_leaderboard_720x90', [[728, 90], [320, 50]], 'div-gpt-ad-1435319880127-0').defineSizeMapping(mapping).addService(googletag.pubads());
+
+      gptAdSlots[0] = googletag.defineSlot('/110669458/home_page_leaderboard_720x90', [[728, 90], [320, 50]], 'div-gpt-ad-1435319880127-0').defineSizeMapping(mapping).addService(googletag.pubads());
     googletag.pubads().enableSingleRequest();
 googletag.pubads().collapseEmptyDivs();
     googletag.enableServices();
