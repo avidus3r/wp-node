@@ -78,10 +78,6 @@
     <meta name="msapplication-TileImage" content="/favicons/{{ getAppPath() }}mstile-310x150.png" sizes="310x150">
     <meta name="msapplication-TileImage" content="/favicons/{{ getAppPath() }}mstile-310x310.png" sizes="310x310">
     <!-- END Favicons -->
-</head>
-<body class="{{ isMobile() }} {{ getOrientation() }}">
-
-
     <script type='text/javascript'>
         var googletag = googletag || {};
         googletag.cmd = googletag.cmd || [];
@@ -96,6 +92,9 @@
             node.parentNode.insertBefore(gads, node);
         })();
     </script>
+</head>
+<body class="{{ isMobile() }} {{ getOrientation() }}">
+
 
 
 <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
