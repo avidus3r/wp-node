@@ -1,11 +1,11 @@
-<div class="post-content feed-view post-view feed card-instagram">
+<div class="post-content feed-view post-view feed card-instagram" id="{{ instagramItems[instagramIndex].id }}">
     <p>
-        <a href="{{ item.data.link }}" target="_blank">
-            <img class="instagram-img" src="{{ item.data.images.standard_resolution.url }}">
+        <a href="{{ instagramItems[instagramIndex].link }}" target="_blank">
+            <img class="instagram-img" src="{{ instagramItems[instagramIndex].images.standard_resolution.url }}">
         </a>
     </p>
     <h2 class="post-title">
-        <span>{{ item.data.caption.text }}</span>
+        <span>{{ instagramItems[instagramIndex].caption.text }}</span>
     </h2>
     <!--<span style="display: inline-block; margin: -.5em .5em 0; padding: 0 .5em .5em" class="tags"><a style="padding: 0 .25em" ng-repeat="tag in item.data.tags" href="http://instagram.com/explore/tags/{{tag}}" target="_blank">#{{tag}} </a></span>-->
     <div class="author-meta">

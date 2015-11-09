@@ -100,7 +100,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(25,'nofilter').then(
+                        /*instagram: InstagramService.get(25,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -110,7 +110,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),
+                        ),*/
+                        instagram:null,
                         sponsors: sponsorResolve
                     });
                 }
