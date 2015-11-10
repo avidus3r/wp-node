@@ -67,8 +67,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
         $scope.offset = offset;
         $scope.currentView = 'post';
-    }else{
+    }else if(data.posts){
         $scope.currentView = 'list';
+    }else{
+        $scope.currentView = 'sponsor';
     }
 
     $scope.initMeta = function(post){
@@ -533,10 +535,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             });
         }
         if($scope.currentView === 'sponsor' && $scope.sponsors !== null){
+
             if($scope.sponsors.length > 0) {
                 angular.forEach($scope.sponsors, function (item, index) {
                     item.type = 'sponsor';
                     postmap.push(item);
+                });
+                angular.forEach(postmap, function (item, index) {
+                    $scope.createFeedItem(item, $scope.feedItems.length);
                 });
             }
         }

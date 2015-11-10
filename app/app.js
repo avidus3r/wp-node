@@ -310,15 +310,18 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         angular.module('NewsFeed').trackEvent('postactions:share:' + angular.element($event.currentTarget).attr('class'),'click',slug,1,null);
     };
 
-    $rootScope.shareClick = function($event, slug){
-        if(angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').hasClass('ng-hide')){
+    $rootScope.shareClick = function($event, slug, $index){
+        angular.element('.share-icon-wrapper').not(':eq('+$index+')').removeClass('ng-hide').addClass('ng-hide');
+        var shareBtn = angular.element($event.currentTarget).parent().parent().next();
+        if(shareBtn.hasClass('ng-hide')){
 
-            angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').removeClass('ng-hide');
+            shareBtn.removeClass('ng-hide');
             angular.module('NewsFeed').trackEvent('postactions:share:open','click',slug,1,null);
         }else{
-            angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').addClass('ng-hide');
+            shareBtn.addClass('ng-hide');
             angular.module('NewsFeed').trackEvent('postactions:share:close','click',slug,1,null);
         }
+
         var shareTop = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height() + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top;
         if( shareTop > (window.innerHeight+window.scrollY)){
             var diff = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top - window.innerHeight;
