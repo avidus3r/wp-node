@@ -297,7 +297,7 @@ app.post('/submit', function(req,res){
 
     form.parse(req, function(err, fields, files) {
         var uri = fields['remoteHost'];
-        request.post({url:'http://devaltdriver.wpengine.com/submit', form:fields.fields}, function(error, response, body){
+        request.post({url:'http://altdriver.wpengine.com/submit', form:fields.fields}, function(error, response, body){
             console.log('error: ', error,'body: ',body,'response: ',response);
             res.writeHead(200, {'content-type': 'text/plain'});
             res.write(body);
@@ -312,7 +312,7 @@ app.get('/category/:category', function(req,res){
 
         feed.endpoints = {
             url: 'http://local.altdriver.com',
-            remoteUrl: 'http://devaltdriver.wpengine.com',
+            remoteUrl: 'http://altdriver.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -356,8 +356,8 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://www.altdriver.com',
-            remoteUrl: 'http://devaltdriver.wpengine.com',
+            url: 'http://altdriver.wpengine.com',
+            remoteUrl: 'http://altdriver.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -374,18 +374,18 @@ app.get('/:category/:slug', function(req,res, next){
                  }*/
                 // Standard meta
                 post = post[0];
-                metatags.title = post.title.rendered + ' - driver\'s envy';
+                metatags.title = post.title.rendered;
                 metatags.description = post.excerpt.rendered;
 
                 // Facebook meta
                 metatags.fb_type = 'article';
-                metatags.fb_site_name = ' driver\'s envy';
+                metatags.fb_site_name = ' alt_driver';
                 metatags.fb_title = post.title.rendered;
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
                 metatags.fb_image = post.featured_image_src.original[0];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://driversenvy.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
 
         });
