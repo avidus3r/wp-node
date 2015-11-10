@@ -3,11 +3,10 @@
 var gulp            = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     sass            = require('gulp-sass'),
-    git             = require('gulp-git'),
+    /*git             = require('gulp-git'),*/
     fs              = require('fs'),
     es              = require('event-stream'),
     path            = require('path'),
-    knox            = require('knox'),
     clean           = require('gulp-clean'),
     browserify      = require('gulp-browserify'),
     runSequence     = require('run-sequence'),
@@ -17,7 +16,6 @@ var gulp            = require('gulp'),
     cssmin          = require('gulp-cssmin'),
     jasmine         = require('gulp-jasmine'),
     reporters       = require('jasmine-reporters'),
-    requireDir      = require('require-dir'),
     Server          = require('karma').Server,
     gulpNgConfig    = require('gulp-ng-config');
 
@@ -47,7 +45,7 @@ gulp.task('config', function(){
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
-    gulp.src('./app/config.json')
+    gulp.src('./app/config/config.json')
         .pipe(gulpNgConfig('NewsFeed.config'))
         .pipe(gulp.dest('./app/config'))
 });

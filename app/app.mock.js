@@ -23,7 +23,7 @@ var feedConfig = {
 };
 
 //Controllers
-var Controllers = require('./app.controllers');
+var Controllers = require('./controllers/app.controllers.js');
 
 //Directives
 var Directives = require('./directives/app.directives.js');
@@ -33,7 +33,7 @@ var FeedService = require('./services/FeedService');
 var InstagramService = require('./services/InstagramService');
 
 //Routes
-var Router = require('./app.routes');
+var Router = require('./config/app.routes.js');
 
 
 //Main Module

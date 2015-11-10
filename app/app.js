@@ -1,8 +1,10 @@
 'use strict';
 
 var angular     = require('angular'),
-    mongoose    = require('mongoose'),
-    jQuery      = window.jQuery;
+    jQuery      = window.jQuery,
+    env         = null,
+    host        = null,
+    appName     = null;
 
 
 //Angular Dependencies
@@ -10,40 +12,21 @@ require('../assets/js/angular-metatags.min');
 require('./config/config');
 
 
-var env = 'prod';
+function init() {
+    env = 'preprod';
+    host = window.location.host;
+    appName = host.substring(0, host.lastIndexOf('.com'));
 
-if(/stage/i.test(window.location.hostname)){
-    env = 'stage';
-}
-if(/dev/i.test(window.location.hostname)){
-    env = 'dev';
-}
+    if (appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1) {
+        appName = appName.replace(appName.substring(0, appName.indexOf('.') + 1), '');
+    }
 
-env = 'preprod';
-
-var host = window.location.host;
-
-var appName = host.substring(0, host.lastIndexOf('.com'));
-if(appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1){
-    appName = appName.replace(appName.substring(0,appName.indexOf('.')+1),'');
+    window.onerror = function(errorMessage, errorScript, lineNumber, columnNumber, error){
+        console.error(errorMessage, errorScript, lineNumber, columnNumber, error);
+    };
 }
 
-//Controllers
-var Controllers = require('./app.controllers');
-
-//Directives
-var Directives = require('./directives/app.directives.js');
-
-//Services
-var FeedService = require('./services/FeedService');
-var InstagramService = require('./services/InstagramService');
-
-//Routes
-var Router = require('./app.routes');
-
-//Models
-//var Post = mongoose.model('Post');
-//var Posts = require('./models/post');
+init();
 
 //Main Module
 var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'metatags', 'NewsFeed.config']);
@@ -52,7 +35,97 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
 /*
  * Module Configuration
  */
+// Routes
+var Router = require('./config/app.routes.js');
 
+// Constants
+NewsFeed.constant('env', env);
+NewsFeed.constant('appName', appName);
+
+NewsFeed.config(
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+);
+/*
+ * Module Configuration
+ */
+
+
+/*
+ * Module Services
+ */
+//Services
+var Services = require('./services/app.services');
+var FeedService = Services.FeedService;
+var InstagramService = Services.InstagramService;
+
+NewsFeed.factory('FeedService', ['app', 'appName', 'env', '$http', '$q', FeedService]);
+NewsFeed.provider('FeedServiceProvider',function(){
+    return {
+        $get: function(){
+            return FeedService;
+        }
+    }
+});
+
+NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
+NewsFeed.provider('InstagramServiceProvider',function(){
+    return {
+        $get: function(){
+            return InstagramService;
+        }
+    }
+});
+/*
+ * Module Services
+ */
+
+
+
+/*
+ * Module Controllers
+ */
+//Controllers
+var Controllers = require('./controllers/app.controllers.js');
+
+NewsFeed.controller(
+    'HeaderController',
+    ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
+);
+
+NewsFeed.controller(
+    'PageController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
+);
+
+NewsFeed.controller(
+    'FeedListController',
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$compile', Controllers.FeedListController]
+);
+
+NewsFeed.controller(
+    'PostsController',
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
+);
+
+/*
+ * Module Controllers
+ */
+
+
+/*
+ * Module Directives
+ */
+//Directives
+var Directives = require('./directives/app.directives.js');
+
+NewsFeed.directive('card', Directives.card);
+NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
+
+/*
+ * Module Directives
+ */
+
+//run
 NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
     MetaTags.initialize();
 
@@ -277,101 +350,3 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return appConfig[param];
     };
 });
-
-// constants
-NewsFeed.constant('env', env);
-NewsFeed.constant('appName', appName);
-
-NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
-);
-/*
- * Module Configuration
- */
-
-
-/*
- * Module Services
- */
-NewsFeed.factory(
-    'FeedService',
-    ['app', 'appName', 'env', '$http', '$q', FeedService]
-);
-
-NewsFeed.provider('FeedServiceProvider',function(){
-    return {
-        $get: function(){
-            return FeedService;
-        }
-    }
-});
-
-NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
-
-NewsFeed.provider('InstagramServiceProvider',function(){
-    return {
-        $get: function(){
-            return InstagramService;
-        }
-    }
-});
-/*
- * Module Services
- */
-
-
-
-/*
- * Module Controllers
- */
-NewsFeed.controller(
-    'HeaderController',
-    ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
-);
-
-NewsFeed.controller(
-    'PageController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
-);
-
-
-/*NewsFeed.controller(
-    'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', Controllers.FeedSingleController]
-);
-
-NewsFeed.controller(
-    'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedCategoryController]
-);*/
-
-NewsFeed.controller(
-    'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$compile', Controllers.FeedListController]
-);
-
-NewsFeed.controller(
-    'PostsController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
-);
-
-/*
- * Module Controllers
- */
-
-
-/*
- * Module Directives
- */
-
-NewsFeed.directive('card', Directives.card);
-
-/*
- * Module Directives
- */
-
-window.onerror = function(){
-    console.error(arguments);
-};
-
-//window.NewsFeed = NewsFeed;

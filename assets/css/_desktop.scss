@@ -1,8 +1,12 @@
 // desktop styles
-
+html, body{
+  height:100%;
+  min-height: 100%;
+}
 // need something to wrap the .view container class
 .app-wrapper {
   max-width: 1250px;
+  height:100%;
   margin: 0 auto;
 }
 
@@ -11,52 +15,56 @@
   display: none;
 }
 
+.dt-ad{
+  margin-bottom: 3em;
+}
+
 //show and hide the main sections
-// @media all and (min-width:880px) {
-//   .app-main {
-//     float: left;
-//     width: 65%;
-//     width: calc(100% - 366px);
-//   }
+@media all and (min-width:880px) {
+   .app-main {
+     float: left;
+     width: 65%;
+     width: calc(100% - 366px);
+   }
 
-// // need another div for dt only
-//   .app-rail {
-//     display: block;
-//     padding-top: 50px;
-//     float: left;
-//     width: 350px;
-//     padding-left: 1em;
-//     text-align: center;
+// need another div for dt only
+   .app-rail {
+     display: block;
+     padding-top: 50px;
+     float: left;
+     width: 350px;
+     padding-left: 1em;
+     text-align: center;
 
-//     .sidebar {
-//       //position: fixed;
+     .sidebar {
+       position: fixed;
+       margin-top: 1em;
+       .search-box {
+         width: 300px;
+         margin: 14px auto 0;
 
-//       .search-box {
-//         width: 300px;
-//         margin: 14px auto 0;
+         input{
+           width:88%;
+         }
+         button{
+           width: 10%;
+         }
+       }
 
-//         input{
-//           width:88%;
-//         }
-//         button{
-//           width: 10%;
-//         }
-//       }
+       .card {
+         max-width: 300px;
+       }
 
-//       .card {
-//         max-width: 300px;
-//       }
+       .col-sm-3 {
+         width: 50%;
+       }
 
-//       .col-sm-3 {
-//         width: 50%;
-//       }
-
-//       .card-email .btn-primary {
-//         font-size: 1em;
-//       }
-//     }
-//   }
-// }
+       .card-email .btn-primary {
+         font-size: 1em;
+       }
+     }
+   }
+}
 
 // ################# navigation stuff
 // HACKITY HACK HACK

@@ -100,6 +100,15 @@
         <div class="app-rail">
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
+                <div ng-if="!_isMobile()">
+                    <div class="dt-ad dt-ad-post-half-page">
+                        <ng-include src="'/views/cards/post-half-page.html'"></ng-include>
+                    </div>
+                    <div class="dt-ad dt-ad-site-in-content">
+                        <ng-include src="'/views/cards/site-in-content.html'"></ng-include>
+                    </div>
+                </div>
+
                 <!-- Add a trending card for 5 most popular posts -->
             </section>
         </div>

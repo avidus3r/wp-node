@@ -17,7 +17,8 @@ var express     = require('express'),
 
 var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
-    EXPRESS_ROOT = './dist';
+    EXPRESS_ROOT = './dist',
+    feedConfig = null;
 
 /*
  static paths
@@ -42,9 +43,6 @@ app.set('port', process.env.PORT || EXPRESS_PORT);
 
 app.locals.config = require('./app/config/feed.conf.json');
 
-
-
-var feedConfig = null;
 
 function getPagePosts(numberOfPosts, pageNumber) {
     //return db.collection('posts').find().limit(numberOfPosts);
@@ -72,7 +70,6 @@ app.get('/posts/:perPage/:page', function(req, res) {
     post.getPosts(perPage, page, function(err,result){
        res.send(result);
     });
-    //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
 });
 
 app.get('/tests', function(req, res){
@@ -81,7 +78,7 @@ app.get('/tests', function(req, res){
 
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
-    var creds = require('./app/creds.json');
+    var creds = require('./app/config/creds.json');
 
     input.parse(req, function(err, fields, files) {
         var inputUname = md5(fields.uname.toString());
@@ -401,12 +398,6 @@ app.get('/:category/:slug', function(req,res, next){
 app.get('*', function(req,res){
     res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
-
-/*
- express app routes
- */
-//app.use('/', require('./server/routes'));
-
 
 /*
  create server
