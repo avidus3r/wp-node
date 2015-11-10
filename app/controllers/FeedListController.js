@@ -39,6 +39,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.isSingle = false;
     $scope.singleParams = {};
     $scope.isMobile = $rootScope._isMobile();
+    if(localStorage.getItem('post_offset') === "NaN"){
+        localStorage.setItem('post_offset','0');
+    }
+    $scope.postIndex = 0 || Number(localStorage.getItem('post_offset'));
+
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
@@ -52,20 +57,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.isSingle = true;
         //add params
         $scope.post = data.post;
-        $scope.lastOffset = localStorage.getItem('post_offset') || 0;
-        if($scope.lastOffset === 0){
-            localStorage.setItem('post_offset', 0);
-        }
-        $scope.offset = $scope.lastOffset ? '&offset=' + $scope.lastOffset : '';
-        $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
-        $scope.postParams = '?name=' + $routeParams.slug;
+
         var offset = '';
         var postOffset = localStorage.getItem('post_offset');
 
-        if(parseInt(postOffset) > 2) postOffset = (postOffset);
-
         if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
         $scope.offset = offset;
+
+        $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
+        $scope.postParams = '?name=' + $routeParams.slug;
+
         $scope.currentView = 'post';
     }else if(data.posts){
         $scope.currentView = 'list';
@@ -379,6 +380,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         window.addEventListener('scroll', $scope.onScroll);
 
         angular.forEach(posts, function (item, index) {
+            if(item.type === 'post-list'){
+                item.post_index = $scope.postIndex;
+                $scope.postIndex++;
+            }
             $scope.add(item, $scope.feedItems.length-1);
         });
     });
@@ -531,6 +536,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 });
             }
             angular.forEach(postmap, function (item, index) {
+                if(item.type === 'post-list'){
+                    item.post_index = $scope.postIndex;
+                    $scope.postIndex++;
+                }
                 $scope.createFeedItem(item, $scope.feedItems.length);
             });
         }
@@ -634,7 +643,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                         });
                     }*/
+
                     angular.forEach(postmap, function (item, index) {
+                        if(item.type === 'post-list'){
+                            item.post_index = $scope.postIndex;
+                            $scope.postIndex++;
+                        }
                         $scope.createFeedItem(item, $scope.feedItems.length);
                     });
                 },

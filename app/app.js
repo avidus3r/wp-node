@@ -275,8 +275,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
+
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
-        var postOffset = $index === 0 ? 0 : $index;
+        var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         localStorage.setItem('post_offset', postOffset);
         window.location.href = page;
     };
