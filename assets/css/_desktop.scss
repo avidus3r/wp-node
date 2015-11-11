@@ -109,6 +109,12 @@ html, body{
 .ipad.landscape .app-main {
   float: none;
   width: 100%;
+  max-width: 728px;
+  margin-left: auto;
+  margin-right: auto;
+  .feed-item{
+    margin: 1em auto !important;
+  }
 }
 
 .ipad.landscape .app-rail {
