@@ -342,7 +342,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                              $scope.splicedItems++;
                              $scope.sponsorPosts.push(card.position*$scope.paged);
                              }*/
-                            /*if (card.type === 'instagram') {
+                            if (card.type === 'instagram') {
                                 if(index === Number(card.position)) {
                                     if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > $scope.instagramIndex) {
                                         card.data = $scope.instagram.data.data[$scope.instagramIndex];
@@ -355,7 +355,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                     }
 
                                 }
-                            }*/
+                            }
                         }
                     });
 
@@ -506,7 +506,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                          $scope.splicedItems++;
                          $scope.sponsorPosts.push(index);
                          }*/
-                        /*if (card.type === 'instagram' && index === Number(card.position)) {
+                        if (card.type === 'instagram' && index === Number(card.position)) {
 
                             if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                                 card.data = $scope.instagram.data.data[$scope.instagramIndex];
@@ -519,7 +519,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 card.type = 'social-follow';
                             }
 
-                        }*/
+                        }
                     });
 
                     if($scope.sponsors !== null){
@@ -621,7 +621,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                              $scope.splicedItems++;
                              $scope.sponsorPosts.push(index);
                              }*/
-                            /*if (card.type === 'instagram' && index === Number(card.position)) {
+                            if (card.type === 'instagram' && index === Number(card.position)) {
 
                                 if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
                                     card.data = $scope.instagram.data.data[$scope.instagramIndex];
@@ -634,7 +634,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                     card.type = 'social-follow';
                                 }
 
-                            }*/
+                            }
                         });
                         postmap.push(item);
                     });
