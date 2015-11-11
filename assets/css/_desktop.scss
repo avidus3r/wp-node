@@ -105,4 +105,14 @@ html, body{
   
   }
 
+// ipad landscape ad fixes temp
+.ipad.landscape .app-main {
+  float: none;
+  width: 100%;
+}
+
+.ipad.landscape .app-rail {
+  display: none;
+}
+
 // #################### End Nav Stuffs
