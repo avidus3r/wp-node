@@ -59,7 +59,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.post = data.post;
 
         var offset = '';
-        var postOffset = localStorage.getItem('post_offset');
+        var postOffset = Number(localStorage.getItem('post_offset'));
 
         if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
         $scope.offset = offset;
@@ -561,6 +561,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.initMeta(item);
             $scope.singlePostID = item.id;
             item.type = 'post-single';
+
+            item.post_index = $scope.postIndex;
+            $scope.postIndex++;
+
             $scope.createFeedItem(item, $scope.feedItems.length);
 
             if (item.sponsor !== null) {
