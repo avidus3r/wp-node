@@ -104,14 +104,22 @@
 
 }
 
-@media all and (min-width: 1125px) {
-  .ad-post-companion{
-    height:90px;
+.ad-post-companion{
+  text-align: center;
+
+  iframe{
+    max-height:50px !important;
   }
 }
 
-.ad-post-companion{
-  text-align: center;
+@media all and (min-width: 1125px) {
+  .ad-post-companion{
+    height:90px;
+
+    iframe{
+      max-height:90px !important;
+    }
+  }
 }
 
 //ad cards

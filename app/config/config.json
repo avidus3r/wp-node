@@ -15,7 +15,7 @@
       "sponsors":"1",
       "env": {
         "prod": {
-          "remoteUrl": "http://altdriver.staging.wpengine.com",
+          "remoteUrl": "http://altdriver.wpengine.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {

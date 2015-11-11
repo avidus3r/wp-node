@@ -13,7 +13,7 @@ require('./config/config');
 
 
 function init() {
-    env = 'preprod';
+    env = 'prod';
     host = window.location.host;
     appName = host.substring(0, host.lastIndexOf('.com'));
 
