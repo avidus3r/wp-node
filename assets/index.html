@@ -114,15 +114,16 @@
         </div>
     </div>
     <script type="text/javascript">
-        //console.log(angular.module('NewsFeed'));
+
         angular.module('NewsFeed').trackPageView = function(){
+            console.log('trackPageview');
             ga('send', 'pageview');
         };
 
         angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+            console.log('trackEvent');
             if(fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
             if(!fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue);
-            return;
         };
 
     </script>
