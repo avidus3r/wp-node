@@ -16,7 +16,8 @@ function init() {
     env = 'prod';
     host = window.location.host;
 
-    appName = localStorage.getItem('appName');
+    //appName = localStorage.getItem('appName');
+    appName = 'altdriver';
     if(!appName) {
         appName = host.substring(0, host.lastIndexOf('.com'));
 
