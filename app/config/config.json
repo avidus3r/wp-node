@@ -77,11 +77,11 @@
       "feedPath":"posts",
       "ga":"UA-69393693-1",
       "gtm_id":"GTM-PMB65S",
-      "adsPerPage": "3",
+      "adsPerPage": "",
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://www.altdriver.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
