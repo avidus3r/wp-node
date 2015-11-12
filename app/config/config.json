@@ -19,7 +19,7 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
-          "remoteUrl": "http://altdriver.staging.wpengine.com",
+          "remoteUrl": "http://c",
           "basePath": "/wp-json/wp/v2/"
         },
         "stage": {
@@ -39,7 +39,8 @@
       "per_page":"12",
       "prefetch_at":"12",
       "scroll_amount":"12",
-      "fb_appid":"1515910288730494",
+      "fb_pixel_id":"1515910288730494",
+      "fb_appid":"",
       "feedPath":"posts",
       "ga":"UA-69422901-1",
       "gtm_id":"GTM-M2Z5BM",
@@ -71,7 +72,8 @@
       "per_page":"12",
       "prefetch_at":"8",
       "scroll_amount":"6",
-      "fb_appid":"975384505833680",
+      "fb_appid":"",
+      "fb_pixel_id":"975384505833680",
       "feedPath":"posts",
       "ga":"UA-69393693-1",
       "gtm_id":"GTM-PMB65S",
@@ -103,7 +105,8 @@
       "per_page":"12",
       "prefetch_at":"12",
       "scroll_amount":"12",
-      "fb_appid":"1698053510431350",
+      "fb_appid":"",
+      "fb_pixel_id":"1698053510431350",
       "feedPath":"posts",
       "ga":"UA-69395977-1",
       "gtm_id":"GTM-MJFLCK",
