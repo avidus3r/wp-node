@@ -15,16 +15,21 @@ require('./config/config');
 function init() {
     env = 'prod';
     host = window.location.host;
-    appName = host.substring(0, host.lastIndexOf('.com'));
 
-    if (appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1) {
-        appName = appName.replace(appName.substring(0, appName.indexOf('.') + 1), '');
+    appName = localStorage.getItem('appName');
+    if(!appName) {
+        appName = host.substring(0, host.lastIndexOf('.com'));
+
+        if (appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1) {
+            appName = appName.replace(appName.substring(0, appName.indexOf('.') + 1), '');
+        }
     }
 
-    window.onerror = function(errorMessage, errorScript, lineNumber, columnNumber, error){
-        console.error(errorMessage, errorScript, lineNumber, columnNumber, error);
-    };
 }
+
+window.onerror = function(errorMessage, errorScript, lineNumber, columnNumber, error){
+    console.error(errorMessage, errorScript, lineNumber, columnNumber, error);
+};
 
 init();
 

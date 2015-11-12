@@ -97,7 +97,7 @@
             <section class="view-container ng-view"></section>
             <p id="loading-more" class="center alert alert-info">Getting more car stuff...</p>
         </div>
-        <div class="app-rail">
+        <div ng-if="getAppInfo('adsPerPage')" class="app-rail">
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
                 <div ng-if="!_isMobile()">

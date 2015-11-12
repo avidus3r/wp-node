@@ -43,7 +43,7 @@
       "feedPath":"posts",
       "ga":"UA-69422901-1",
       "gtm_id":"GTM-M2Z5BM",
-      "adsPerPage": "0",
+      "adsPerPage": "",
       "sponsors":"0",
       "env": {
         "prod": {
@@ -107,7 +107,7 @@
       "feedPath":"posts",
       "ga":"UA-69395977-1",
       "gtm_id":"GTM-MJFLCK",
-      "adsPerPage": "0",
+      "adsPerPage": "",
       "sponsors":"0",
       "env": {
         "prod": {
