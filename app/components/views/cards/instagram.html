@@ -1,13 +1,13 @@
-<div class="post-content feed-view post-view feed card-instagram">
+<div class="post-content feed-view post-view feed card-instagram" id="{{ gram.id }}">
     <p>
-        <a href="{{ item.data.link }}" target="_blank">
-            <img class="instagram-img" src="{{ item.data.images.standard_resolution.url }}">
+        <a href="{{ gram.link }}" target="_blank">
+            <img class="instagram-img" src="{{ gram.images.standard_resolution.url }}">
         </a>
     </p>
-    <h2 class="post-title">
-        <span>{{ item.data.caption.text }}</span>
-    </h2>
-    <!--<span style="display: inline-block; margin: -.5em .5em 0; padding: 0 .5em .5em" class="tags"><a style="padding: 0 .25em" ng-repeat="tag in item.data.tags" href="http://instagram.com/explore/tags/{{tag}}" target="_blank">#{{tag}} </a></span>-->
+    <!--<h2 class="post-title">
+        <span>{{ gram.caption.text }}</span>
+    </h2>-->
+
     <div class="author-meta">
         <p class="item-cat instagram">Instagram</p>
 

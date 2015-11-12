@@ -53,25 +53,10 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <script type='text/javascript'>
-        var googletag = googletag || {};
-        googletag.cmd = googletag.cmd || [];
-        (function() {
-            var gads = document.createElement('script');
-            gads.async = true;
-            gads.type = 'text/javascript';
-            var useSSL = 'https:' == document.location.protocol;
-            gads.src = (useSSL ? 'https:' : 'http:') +
-            '//www.googletagservices.com/tag/js/gpt.js';
-            var node = document.getElementsByTagName('script')[0];
-            node.parentNode.insertBefore(gads, node);
-        })();
-    </script>
-
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Montserrat|Pontano+Sans|Rokkitt|Lora|Lato:400,700' rel='stylesheet' type='text/css'>
-    <!-- START Favicons -->
+    <!-- START Favicons
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/{{ getAppPath() }}apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/favicons/{{ getAppPath() }}apple-touch-icon-114x114.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/favicons/{{ getAppPath() }}apple-touch-icon-72x72.png">
@@ -92,77 +77,52 @@
     <meta name="msapplication-TileImage" content="/favicons/{{ getAppPath() }}mstile-150x150.png" sizes="150x150">
     <meta name="msapplication-TileImage" content="/favicons/{{ getAppPath() }}mstile-310x150.png" sizes="310x150">
     <meta name="msapplication-TileImage" content="/favicons/{{ getAppPath() }}mstile-310x310.png" sizes="310x310">
-    <!-- END Favicons -->
+    END Favicons -->
+
 </head>
 <body class="{{ isMobile() }} {{ getOrientation() }}">
 
-    <!---------------------
-    Facebook SDK
-    ---------------------->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=638692042912150";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    <!---------------------
-    Facebook SDK
-    ---------------------->
 
 
-    <!---------------------
-    Google Tag Manager
-    ---------------------->
-    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KGR7N7"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KGR7N7'); var googletag ={}; googletag.cmd = [];</script>
-    <!---------------------
-    Google Tag Manager
-    ---------------------->
+<div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
+    <div id="ga-id" style="display: none;">{{ getAppInfo('ga') }}</div>
+    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
+    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
 
-
-    <!-- Google Analytics -->
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-66153561-1', 'auto');
-        ga('send', 'pageview');
-
-    </script>
-    <!-- End Google Analytics -->
+    <ng-include src="'/views/partials/ga.html'"></ng-include>
 
     <ng-include src="'/views/partials/header.html'"></ng-include>
     <div class="app-wrapper">
         <div class="app-main">
             <section class="view-container ng-view"></section>
-            <p id="loading-more" class="center alert alert-info">Load more articles...</p>
+            <p id="loading-more" class="center alert alert-info">Getting more car stuff...</p>
         </div>
-        <div class="app-rail">
+        <div ng-if="getAppInfo('adsPerPage')" class="app-rail">
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
+                <div ng-if="!_isMobile()">
+                    <div class="dt-ad dt-ad-post-half-page">
+                        <ng-include src="'/views/cards/post-half-page.html'"></ng-include>
+                    </div>
+                    <div class="dt-ad dt-ad-site-in-content">
+                        <ng-include src="'/views/cards/ad-category.html'"></ng-include>
+                    </div>
+                </div>
                 <!-- Add a trending card for 5 most popular posts -->
             </section>
         </div>
     </div>
     <script type="text/javascript">
-        //console.log(angular.module('NewsFeed'));
+
         angular.module('NewsFeed').trackPageView = function(){
+            console.log('trackPageview');
             ga('send', 'pageview');
         };
 
         angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+            console.log('trackEvent');
             if(fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
             if(!fieldsObject) ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue);
-            return;
         };
 
     </script>

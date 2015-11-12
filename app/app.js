@@ -1,142 +1,136 @@
 'use strict';
 
 var angular     = require('angular'),
-    mongoose    = require('mongoose'),
-    jQuery      = window.jQuery;
+    jQuery      = window.jQuery,
+    env         = null,
+    host        = null,
+    appName     = null;
 
 
 //Angular Dependencies
-require('ng-infinite-scroll');
 require('../assets/js/angular-metatags.min');
 require('./config/config');
-var env = 'prod';
 
-if(/stage/i.test(window.location.hostname)){
-    env = 'stage';
+
+function init() {
+    env = 'prod';
+    host = window.location.host;
+
+    appName = localStorage.getItem('appName');
+    if(!appName) {
+        appName = host.substring(0, host.lastIndexOf('.com'));
+
+        if (appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1) {
+            appName = appName.replace(appName.substring(0, appName.indexOf('.') + 1), '');
+        }
+    }
+
 }
-if(/dev/i.test(window.location.hostname)){
-    env = 'dev';
-}
 
-env = 'prod';
+window.onerror = function(errorMessage, errorScript, lineNumber, columnNumber, error){
+    console.error(errorMessage, errorScript, lineNumber, columnNumber, error);
+};
 
-var host = window.location.host;
-
-var appName = host.substring(host.indexOf('.')+1, host.lastIndexOf('.'));
-var config = null;
-/*
-switch(appName){
-    case 'altdriver':
-        config = {
-            app: {
-                name: 'altdriver',
-                title: 'alt_driver',
-                per_page:'12',
-                prefetch_at:'8',
-                scroll_amount:'6',
-                fb_appid:'638692042912150',
-                ga:'UA-66153561-1',
-                feedPath: 'feed'
-            },
-            env: {
-                prod: {
-                    *//*remoteUrl: 'http://www.altdriver.com',*//*
-                    remoteUrl: 'http://altdriver.staging.wpengine.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                stage:{
-                    remoteUrl: 'http://altdriver.staging.wpengine.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                dev:{
-                    remoteUrl: 'http://devaltdriver.wpengine.com',
-                    basePath: '/wp-json/wp/v2/'
-                }
-            }
-        };
-        break;
-    case 'driversenvy':
-        config = {
-            app: {
-                name: 'driversenvy',
-                title: 'Driver\'s Envy',
-                per_page:'12',
-                prefetch_at:'8',
-                scroll_amount:'6',
-                fb_appid:'638692042912150',
-                feedPath: 'posts'
-            },
-            env: {
-                prod: {
-                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                stage:{
-                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                dev:{
-                    remoteUrl: 'http://driversenvy.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                }
-            }
-        };
-        break;
-    case 'upshift':
-        config = {
-            app: {
-                name: 'upshift',
-                title: 'UPSHIFT',
-                per_page:'12',
-                prefetch_at:'8',
-                scroll_amount:'6',
-                fb_appid:'638692042912150',
-                feedPath: 'posts'
-            },
-            env: {
-                prod: {
-                    remoteUrl: 'http://upshift.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                stage:{
-                    remoteUrl: 'http://upshift.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                },
-                dev:{
-                    remoteUrl: 'http://upshift.altdrivermedia.com',
-                    basePath: '/wp-json/wp/v2/'
-                }
-            }
-        };
-        break;
-}*/
-
-//Controllers
-var Controllers = require('./app.controllers');
-
-//Directives
-var Directives = require('./app.directives');
-
-//Services
-var FeedService = require('./services/FeedService');
-var InstagramService = require('./services/InstagramService');
-var AppConfigService = require('./services/AppConfigService');
-
-//Routes
-var Router = require('./app.routes');
-
-//Models
-//var Post = mongoose.model('Post');
-//var Posts = require('./models/post');
+init();
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', 'NewsFeed.config']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'metatags', 'NewsFeed.config']);
 
 
 /*
  * Module Configuration
  */
+// Routes
+var Router = require('./config/app.routes.js');
 
+// Constants
+NewsFeed.constant('env', env);
+NewsFeed.constant('appName', appName);
+
+NewsFeed.config(
+    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+);
+/*
+ * Module Configuration
+ */
+
+
+/*
+ * Module Services
+ */
+//Services
+var Services = require('./services/app.services');
+var FeedService = Services.FeedService;
+var InstagramService = Services.InstagramService;
+
+NewsFeed.factory('FeedService', ['app', 'appName', 'env', '$http', '$q', FeedService]);
+NewsFeed.provider('FeedServiceProvider',function(){
+    return {
+        $get: function(){
+            return FeedService;
+        }
+    }
+});
+
+NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
+NewsFeed.provider('InstagramServiceProvider',function(){
+    return {
+        $get: function(){
+            return InstagramService;
+        }
+    }
+});
+/*
+ * Module Services
+ */
+
+
+
+/*
+ * Module Controllers
+ */
+//Controllers
+var Controllers = require('./controllers/app.controllers.js');
+
+NewsFeed.controller(
+    'HeaderController',
+    ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
+);
+
+NewsFeed.controller(
+    'PageController',
+    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
+);
+
+NewsFeed.controller(
+    'FeedListController',
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$compile', Controllers.FeedListController]
+);
+
+NewsFeed.controller(
+    'PostsController',
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
+);
+
+/*
+ * Module Controllers
+ */
+
+
+/*
+ * Module Directives
+ */
+//Directives
+var Directives = require('./directives/app.directives.js');
+
+NewsFeed.directive('card', Directives.card);
+NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
+
+/*
+ * Module Directives
+ */
+
+//run
 NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
     MetaTags.initialize();
 
@@ -144,7 +138,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var appConfig = app[appName];
     $rootScope.orientation = null;
 
-    if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null'){
+    if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined'){
         localStorage.setItem('post_offset', 0);
     }
 
@@ -286,8 +280,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
+
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
-        var postOffset = $index === 0 ? 0 : $index;
+        var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         localStorage.setItem('post_offset', postOffset);
         window.location.href = page;
     };
@@ -321,15 +316,18 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         angular.module('NewsFeed').trackEvent('postactions:share:' + angular.element($event.currentTarget).attr('class'),'click',slug,1,null);
     };
 
-    $rootScope.shareClick = function($event, slug){
-        if(angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').hasClass('ng-hide')){
+    $rootScope.shareClick = function($event, slug, $index){
+        angular.element('.share-icon-wrapper').not(':eq('+$index+')').removeClass('ng-hide').addClass('ng-hide');
+        var shareBtn = angular.element($event.currentTarget).parent().parent().next();
+        if(shareBtn.hasClass('ng-hide')){
 
-            angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').removeClass('ng-hide');
+            shareBtn.removeClass('ng-hide');
             angular.module('NewsFeed').trackEvent('postactions:share:open','click',slug,1,null);
         }else{
-            angular.element($event.currentTarget).closest('.post-actions').find('.share-icon-wrapper').addClass('ng-hide');
+            shareBtn.addClass('ng-hide');
             angular.module('NewsFeed').trackEvent('postactions:share:close','click',slug,1,null);
         }
+
         var shareTop = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height() + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top;
         if( shareTop > (window.innerHeight+window.scrollY)){
             var diff = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top - window.innerHeight;
@@ -355,109 +353,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             return img.original[attrs[attr]];
         }
     };
+
+    $rootScope.getAppInfo = function(param){
+
+        return appConfig[param];
+    };
 });
-
-NewsFeed.factory(
-    'FeedService',
-    ['app', 'appName', 'env', '$http', '$q', FeedService]
-);
-
-NewsFeed.provider('FeedServiceProvider',function(){
-    return {
-        $get: function(){
-            return FeedService;
-        }
-    }
-});
-
-NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
-
-NewsFeed.provider('InstagramServiceProvider',function(){
-    return {
-        $get: function(){
-            return InstagramService;
-        }
-    }
-});
-
-
-NewsFeed.factory('AppConfigService', ['$http', '$q', AppConfigService]);
-
-NewsFeed.provider('AppConfigServiceProvider',function(){
-    return {
-        $get: function(){
-            return AppConfigService;
-        }
-    }
-});
-
-
-NewsFeed.constant('env', env);
-NewsFeed.constant('appName', appName);
-//NewsFeed.constant('envConfig', feedConfig);
-//NewsFeed.constant('appConfig', appConfig);
-
-
-NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
-);
-
-/*
- * Module Configuration
- */
-
-
-/*
- * Module Controllers
- */
-NewsFeed.controller(
-    'HeaderController',
-    ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
-);
-
-NewsFeed.controller(
-    'PageController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
-);
-
-
-NewsFeed.controller(
-    'FeedSingleController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', Controllers.FeedSingleController]
-);
-
-NewsFeed.controller(
-    'FeedCategoryController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedCategoryController]
-);
-
-NewsFeed.controller(
-    'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', Controllers.FeedListController]
-);
-
-NewsFeed.controller(
-    'PostsController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
-);
-
-/*
- * Module Controllers
- */
-
-
-/*
- * Module Directives
- */
-
-NewsFeed.directive('card', Directives.card);
-
-/*
- * Module Directives
- */
-
-window.onerror = function(){
-    console.error(arguments);
-};
-
-//window.NewsFeed = NewsFeed;

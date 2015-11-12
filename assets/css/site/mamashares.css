@@ -1,0 +1,22 @@
+/* use the sitename on the body - where sitename = brand */
+    /* extra CSS file for all modifications */
+
+.mamashares .navbar-brand {
+  background-image: url('../../images/logo-mamashares.png');
+  width:160px;
+  position: relative;
+  top: 10px;
+  left: .75em;
+  margin-right: 1.75em;
+  /* can set width and height to match logo */
+  /* can adjust bg position as well */
+}
+
+@media all and (max-width:480px) {
+  .mamashares .navbar-brand {
+    width: 160px;
+    top: 10px;
+    margin-right: 0;
+    left: .5em;
+  }
+}

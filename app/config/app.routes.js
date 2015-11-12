@@ -4,7 +4,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
 
-
+    var appConfig = app[appName];
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
 
@@ -57,8 +57,22 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app[appName].feedPath;
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
 
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
 
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
 
                     /*if(appName === 'upshift'){
                         instagramResolve = null;
@@ -75,17 +89,6 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*posts: FeedService.getPostData('prod',100,1).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),*/
                         posts: FeedService.getPosts(feedPath+'/', '?per_page=12&page=1').then(
                             function(data){
                                 return data;
@@ -97,7 +100,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(25,'nofilter').then(
+                        /*instagram: InstagramService.get(25,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -107,26 +110,18 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),
-                        sponsors: FeedService.getSponsors().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        )
+                        ),*/
+                        instagram:null,
+                        sponsors: sponsorResolve
                     });
                 }
             }
         })
         .when('/category/:category', {
-            controller: 'FeedCategoryController',
+            controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
+            reloadOnSearch: false,
             resolve:{
                 data: function($q, $route) {
                     var params = {};
@@ -261,7 +256,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             }
         })
         .when('/:category/:slug', {
-            controller: 'FeedSingleController',
+            controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
@@ -269,6 +264,23 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 data: function($q, $route) {
                     var params = {};
                     params.slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
+
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
 
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
@@ -295,7 +307,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(25,'nofilter').then(
+                        /*instagram: InstagramService.get(25,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -305,18 +317,10 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),
-                        sponsors: FeedService.getSponsors().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        )
+                        ),*/
+                        instagram:null,
+                        sponsors: sponsorResolve,
+                        posts: null
                     });
                 }
             }

@@ -222,8 +222,6 @@ var FeedCategoryController = function($rootScope, $scope, FeedService, $route, $
         window.addEventListener('scroll', $scope.onScroll);
     });
 
-
-
     $scope.$on('next:done', function($event, posts){
         window.addEventListener('scroll', $scope.onScroll);
         angular.forEach(posts, function (item, index) {

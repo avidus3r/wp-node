@@ -4,12 +4,12 @@
         <div class="left pa-voting">
             <ng-include src="'/views/partials/voting.html'"></ng-include>
         </div>
-        <!--<div class="ad-m-lr left pa-comments">
-            &lt;!&ndash; take me to single with comments open &ndash;&gt;
+        <div class="ad-m-lr left pa-comments">
+            <!-- take me to single with comments open -->
             <button type="button" ng-click="commentBtnHandler($event, $index, {category: getCategory(item.category, item.link).slug, slug: item.slug})" class="btn"><i class="fa fa-comment"></i></button>
-        </div>-->
+        </div>
         <div class="right pa-share">
-            <button type="button" class="btn" ng-click="shareClick($event, item.slug)">
+            <button type="button" class="btn" ng-click="shareClick($event, item.slug, $index)">
                 Share
             </button>
         </div>
