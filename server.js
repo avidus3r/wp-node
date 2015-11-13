@@ -311,8 +311,8 @@ app.get('/category/:category', function(req,res){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://local.altdriver.com',
-            remoteUrl: 'http://altdriver.wpengine.com',
+            url: 'http://www.altdriver.com',
+            remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -356,8 +356,8 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://altdriver.wpengine.com',
-            remoteUrl: 'http://altdriver.wpengine.com',
+            url: 'http://www.altdriver.com',
+            remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
