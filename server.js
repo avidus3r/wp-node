@@ -311,8 +311,8 @@ app.get('/category/:category', function(req,res){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://local.altdriver.com',
-            remoteUrl: 'http://altdriver.wpengine.com',
+            url: 'http://www.altdriver.com',
+            remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -330,16 +330,16 @@ app.get('/category/:category', function(req,res){
                     }
                 }
                 // Standard meta
-                metatags.title = category.name + ' Archives - alt_driver';
+                metatags.title = category.name + ' Archives - Driver\'s Envy';
                 metatags.description = category.description;
 
                 // Facebook meta
                 metatags.fb_type = 'object';
-                metatags.fb_site_name = 'alt_driver';
-                metatags.fb_title = category.name + ' Archives - alt_driver';
+                metatags.fb_site_name = 'Driver\'s Envy';
+                metatags.fb_title = category.name + ' Archives - Driver\'s Envy';
                 metatags.fb_description = category.description;
                 metatags.fb_url = category.link;
-                metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+                metatags.fb_image = 'http://driversenvy.altdrivermedia.com/wp-content/uploads/sites/4/2015/11/logo_drivers-envy-sm.png';
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
@@ -356,8 +356,8 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://altdriver.wpengine.com',
-            remoteUrl: 'http://altdriver.wpengine.com',
+            url: 'http://www.altdriver.com',
+            remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -379,13 +379,13 @@ app.get('/:category/:slug', function(req,res, next){
 
                 // Facebook meta
                 metatags.fb_type = 'article';
-                metatags.fb_site_name = ' alt_driver';
+                metatags.fb_site_name = 'driversenvy.com';
                 metatags.fb_title = post.title.rendered;
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
                 metatags.fb_image = post.featured_image_src.original[0];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://driversenvy.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
 
         });
