@@ -311,12 +311,12 @@ app.get('/category/:category', function(req,res){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://local.altdriver.com',
-            remoteUrl: 'http://altdriver.wpengine.com',
+            url: 'http://www.altdriver.com',
+            remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
-        var catName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
+        var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
 
         request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
@@ -356,12 +356,12 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://altdriver.wpengine.com',
-            remoteUrl: 'http://altdriver.wpengine.com',
+            url: 'http://www.altdriver.com',
+            remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
-        var postName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
+        var postName = req.params.slug;
         var endpoint = 'posts?name=' + postName;
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
