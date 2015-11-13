@@ -1,7 +1,7 @@
 'use strict';
 
 require('newrelic');
-//require('./lib/connection');
+//require('./lib/connection'); 
 
 var express     = require('express'),
     http        = require('http'),
@@ -316,7 +316,7 @@ app.get('/category/:category', function(req,res){
             basePath: '/wp-json/wp/v2/'
         };
 
-        var catName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
+        var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
 
         request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
@@ -361,7 +361,7 @@ app.get('/:category/:slug', function(req,res, next){
             basePath: '/wp-json/wp/v2/'
         };
 
-        var postName = req.url.substr(req.url.lastIndexOf('/')+1, req.url.length);
+        var postName = req.params.slug;
         var endpoint = 'posts?name=' + postName;
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
