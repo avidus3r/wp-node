@@ -16,11 +16,11 @@
       "sponsors":"1",
       "env": {
         "prod": {
-          "remoteUrl": "http://admin.altdriver.com",
+          "remoteUrl": "http://www.altdriver.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
-          "remoteUrl": "http://c",
+          "remoteUrl": "http://admin.altdriver.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "stage": {
