@@ -173,13 +173,23 @@ var FeedService = function(app, appName, env, $http, $q){
         var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'pages?name=' + page;
 
-        $http.get(url)
+        var oReq = new XMLHttpRequest();
+
+        oReq.open('GET', url, true);
+        oReq.send();
+
+        oReq.addEventListener("load", function () {
+            var result = JSON.parse(this.responseText);
+            deferred.resolve(result);
+        });
+
+        /*$http.get(url)
             .then(function (response) {
                 var res = response.data;
                 deferred.resolve(res);
             }, function (response) {
                 deferred.reject(response);
-            });
+            });*/
 
         return deferred.promise;
     };
@@ -205,14 +215,26 @@ var FeedService = function(app, appName, env, $http, $q){
 
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
 
-        $http.get(url)
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.open('GET', url, true);
+        oReq.send();
+
+        oReq.addEventListener("load", function () {
+            var result = JSON.parse(this.responseText);
+            deferred.resolve(result);
+            feed.navItems.push(result);
+        });
+
+        /*$http.get(url)
             .then(function (response) {
                 var res = response.data;
                 deferred.resolve(res);
                 feed.navItems.push(res);
             }, function (response) {
                 deferred.reject(response);
-            });
+            });*/
 
         return deferred.promise;
     };
@@ -222,14 +244,25 @@ var FeedService = function(app, appName, env, $http, $q){
 
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
 
-        $http.get(url)
+        var oReq = new XMLHttpRequest();
+
+        oReq.open('GET', url, true);
+        oReq.send();
+
+        oReq.addEventListener("load", function () {
+            var result = JSON.parse(this.responseText);
+            deferred.resolve(result);
+            feed.navItems.push(result);
+        });
+
+        /*$http.get(url)
             .then(function (response) {
                 var res = response.data;
                 deferred.resolve(res);
                 feed.navItems.push(res);
             }, function (response) {
                 deferred.reject(response);
-            });
+            });*/
 
         return deferred.promise;
     };
