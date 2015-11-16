@@ -39,6 +39,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.isSingle = false;
     $scope.singleParams = {};
     $scope.isMobile = $rootScope._isMobile();
+    $scope.currentCategory = null;
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
@@ -91,6 +92,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.currentView = 'list';
     }else{
         $scope.currentView = 'sponsor';
+    }
+
+    if(!$routeParams.hasOwnProperty('slug') && $routeParams.hasOwnProperty('category')){
+        $scope.currentView = 'category';
+        $scope.currentCategory = $routeParams.category;
     }
 
     $scope.initMeta = function(post){
@@ -385,6 +391,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if($scope.currentView !== 'search') {
             $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params;
 
+            if($scope.currentView === 'category'){
+                $scope.feedPath = 'posts';
+                $scope.postParams += '&category_name=' + $scope.currentCategory;
+            }
             $scope.getPosts($scope.feedPath, $scope.postParams).then(
                 function (data) { //success
                     if(data.length > 0) {
@@ -507,7 +517,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             console.log($scope.sponsorItems.length);
         }
 
-        if($scope.currentView === 'list' || $scope.currentView === 'search') {
+        if($scope.currentView === 'list' || $scope.currentView === 'search' || $scope.currentView === 'category') {
 
             if($scope.posts.length === 0){
                 $scope.feedConfig = null;
@@ -521,6 +531,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                 angular.forEach($scope.posts, function (item, index) {
                     item.type = 'post-'+$scope.currentView;
+
+                    if($scope.currentView === 'category') item.type = 'post-list';
 
                     if(Number($scope.appConfig.adsPerPage) > 0){
 

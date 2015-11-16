@@ -10,10 +10,9 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.endpoints = app[appName].env[env];
 
-    feed.getPosts = function(path, params) {
+    feed.get = function(url){
         var deferred = $q.defer();
 
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params + '&_jsonp=JSON_CALLBACK';
         $http.jsonp(url)
             .then(function (response) {
                 var res = response.data;
@@ -26,19 +25,14 @@ var FeedService = function(app, appName, env, $http, $q){
         return deferred.promise;
     };
 
+    feed.getPosts = function(path, params) {
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params + '&_jsonp=JSON_CALLBACK';
+        return feed.get(url);
+    };
+
     feed.search = function(query, page) {
-
-        var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page + '&_jsonp=JSON_CALLBACK';
-
-        $http.jsonp(url)
-            .then(function (response) {
-                var res = response.data;
-                deferred.resolve(res);
-            }
-        );
-
-        return deferred.promise;
+        return feed.get(url);
     };
 
     feed.getSponsor = function(sponsorName) {
@@ -61,18 +55,8 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.getSponsors = function() {
-
-        var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors?_jsonp=JSON_CALLBACK';
-
-        $http.jsonp(url)
-            .then(function (response) {
-                var res = response.data;
-                deferred.resolve(res);
-            }
-        );
-
-        return deferred.promise;
+        return feed.get(url);
     };
 
     feed.getCampaigns = function(path, params) {
@@ -100,19 +84,69 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.getCampaign = function(id) {
-        var deferred = $q.defer();
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'campaigns/' + id + '?_jsonp=JSON_CALLBACK';
+
+        return feed.get(url);
+    };
+
+    feed.vote = function(postID, voteVal){
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.open('POST', url, true);
+        var formData = new FormData();
+        formData.append('vote', voteVal);
+        oReq.send(formData);
+        return oReq;
+    };
+
+    feed.getPage = function(page){
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'pages?name=' + page + '&_jsonp=JSON_CALLBACK';
+        return feed.get(url);
+    };
+
+    feed.getTerms = function(taxonomy){
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'terms/' + taxonomy + '?per_page=0&_jsonp=JSON_CALLBACK';
+        return feed.get(url);
+    };
+
+    feed.getLegalMenu = function(name){
+        var deferred = $q.defer();
+
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name) + '&_jsonp=JSON_CALLBACK';
 
         $http.jsonp(url)
             .then(function (response) {
                 var res = response.data;
                 deferred.resolve(res);
-            }
-        );
+                feed.navItems.push(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
 
         return deferred.promise;
     };
 
+    feed.getMainMenu = function(name){
+        var deferred = $q.defer();
+
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name) + '&_jsonp=JSON_CALLBACK';
+
+        $http.jsonp(url)
+            .then(function (response) {
+                var res = response.data;
+                deferred.resolve(res);
+                feed.navItems.push(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    };
+
+
+    //static endpoints
     feed.getPostData = function(env, postsPerPage, page) {
         var deferred = $q.defer();
         var formData = new FormData();
@@ -155,116 +189,6 @@ var FeedService = function(app, appName, env, $http, $q){
             }, function (response) {
                 deferred.reject(response);
             });
-        return deferred.promise;
-    };
-
-    feed.vote = function(postID, voteVal){
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
-
-        var oReq = new XMLHttpRequest();
-
-        oReq.open('POST', url, true);
-        var formData = new FormData();
-        formData.append('vote', voteVal);
-        oReq.send(formData);
-        return oReq;
-    };
-
-    feed.getPage = function(page){
-        var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'pages?name=' + page + '&_jsonp=JSON_CALLBACK';
-
-        /*var oReq = new XMLHttpRequest();
-
-        oReq.open('GET', url, true);
-        oReq.send();
-
-        oReq.addEventListener("load", function () {
-            var result = JSON.parse(this.responseText);
-            deferred.resolve(result);
-        });*/
-
-        $http.get(url)
-            .then(function (response) {
-                var res = response.data;
-                feed.categories = response.data;
-                deferred.resolve(res);
-            }, function (response) {
-                deferred.reject(response);
-            });
-
-        return deferred.promise;
-    };
-
-    feed.getTerms = function(taxonomy){
-        var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'terms/' + taxonomy + '?per_page=0&_jsonp=JSON_CALLBACK';
-
-        $http.jsonp(url)
-            .then(function (response) {
-                var res = response.data;
-                feed.categories = response.data;
-                deferred.resolve(res);
-            }, function (response) {
-                deferred.reject(response);
-            });
-
-        return deferred.promise;
-    };
-
-    feed.getLegalMenu = function(name){
-        var deferred = $q.defer();
-
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name) + '&_jsonp=JSON_CALLBACK';
-
-        /*var oReq = new XMLHttpRequest();
-
-        oReq.open('GET', url, true);
-        oReq.send();
-
-        oReq.addEventListener("load", function () {
-            var result = JSON.parse(this.responseText);
-            deferred.resolve(result);
-            feed.navItems.push(result);
-        });*/
-
-        $http.jsonp(url)
-            .then(function (response) {
-                var res = response.data;
-                deferred.resolve(res);
-                feed.navItems.push(res);
-            }, function (response) {
-                deferred.reject(response);
-            });
-
-        return deferred.promise;
-    };
-
-    feed.getMainMenu = function(name){
-        var deferred = $q.defer();
-
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name) + '&_jsonp=JSON_CALLBACK';
-
-        /*var oReq = new XMLHttpRequest();
-
-        oReq.open('GET', url, true);
-        oReq.send();
-
-        oReq.addEventListener("load", function () {
-            var result = JSON.parse(this.responseText);
-            deferred.resolve(result);
-            feed.navItems.push(result);
-        });*/
-
-        $http.jsonp(url)
-            .then(function (response) {
-                var res = response.data;
-                deferred.resolve(res);
-                feed.navItems.push(res);
-            }, function (response) {
-                deferred.reject(response);
-            });
-
         return deferred.promise;
     };
 
