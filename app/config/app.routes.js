@@ -199,7 +199,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.search($route.current.params.query).then(
+                        posts: FeedService.search($route.current.params.query,1).then(
                             function(data){
                                 return data;
                             },
@@ -343,6 +343,10 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
         })
         .when('/about',{
             templateUrl: '/views/static-page.html',
+            controller: 'PageController'
+        })
+        .when('/subscribe',{
+            templateUrl: '/views/subscribe.html',
             controller: 'PageController'
         })
         .otherwise({
