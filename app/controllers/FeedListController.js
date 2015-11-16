@@ -59,7 +59,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.errorCheck = function(){
         if($scope.post === 'error' || $scope.posts === 'error' || $scope.sponsors === 'error'){
-            window.location.href = 'http://splash.altdriver.com/';
+            //window.location.href = 'http://splash.altdriver.com/';
             /*var errorHtml = '<section class="view-container"> <div class="wrapper app-error" style="padding:1em; margin-top:2em;"><h2>Uh oh...</h2><p>something went wrong</p><img style="max-width: 100%;" src="/images/error.jpg"></div></section>';
             angular.element('.app-main').html(errorHtml);*/
         }

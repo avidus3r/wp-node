@@ -25,7 +25,7 @@
         },
         "stage": {
           "remoteUrl": "http://altdriver.staging.wpengine.com",
-          "baseParh": "/wp-json/wp/v2/"
+          "basePath": "/wp-json/wp/v2/"
         },
         "dev": {
           "remoteUrl": "http://devaltdriver.wpengine.com",
@@ -58,7 +58,7 @@
         },
         "stage":{
           "remoteUrl": "http://upshift.altdrivermedia.com",
-          "baseParh": "/wp-json/wp/v2/"
+          "basePath": "/wp-json/wp/v2/"
         },
         "dev":{
           "remoteUrl": "http://upshift.altdrivermedia.com",
@@ -91,7 +91,7 @@
         },
         "stage":{
           "remoteUrl": "http://driversenvy.altdrivermedia.com",
-          "baseParh": "/wp-json/wp/v2/"
+          "basePath": "/wp-json/wp/v2/"
         },
         "dev":{
           "remoteUrl": "http://driversenvy.altdrivermedia.com",
@@ -124,7 +124,7 @@
         },
         "stage":{
           "remoteUrl": "http://mamashares.altdrivermedia.com",
-          "baseParh": "/wp-json/wp/v2/"
+          "basePath": "/wp-json/wp/v2/"
         },
         "dev":{
           "remoteUrl": "http://mamashares.altdrivermedia.com",

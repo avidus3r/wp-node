@@ -306,8 +306,41 @@ app.post('/submit', function(req,res){
     });
 });
 
+
+app.get('/', function(req,res){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
+
+        var metatags = {
+            robots: 'index, follow',
+            title: 'alt_driver - Hottest Car Content from Social & the Web',
+            description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            // Facebook
+            fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
+            fb_site_name: 'alt_driver',
+            fb_url: 'http://www.altdriver.com/',
+            fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            fb_type: 'website',
+            fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            // Twitter
+            tw_card: '',
+            tw_description: '',
+            tw_title: '',
+            tw_site: '@altdriver',
+            tw_domain: 'alt_driver',
+            tw_creator: '@altdriver',
+            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png'
+        };
+
+        res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+
+    }else {
+        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+    }
+});
+
+
 app.get('/category/:category', function(req,res){
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
         var feed = {};
 
         feed.endpoints = {
@@ -357,7 +390,7 @@ app.get('/:category/:slug', function(req,res, next){
 
         feed.endpoints = {
             url: 'http://www.altdriver.com',
-            remoteUrl: 'http://www.altdriver.com',
+            remoteUrl: 'http://altdriver.staging.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -373,9 +406,14 @@ app.get('/:category/:slug', function(req,res, next){
                  console.log(prop,post[prop]);
                  }*/
                 // Standard meta
+ 
                 post = post[0];
+                console.log(post);
+                metatags.published = post.date;
+                metatags.modified = post.modified;
+                metatags.category = post.category[0].name;
                 metatags.title = post.title.rendered;
-                metatags.description = post.excerpt.rendered;
+                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
                 // Facebook meta
                 metatags.fb_type = 'article';
@@ -383,9 +421,9 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_title = post.title.rendered;
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
-                metatags.fb_image = post.featured_image_src.original[0];
+                metatags.fb_image = post.featured_image_src.original_wp[0];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
 
         });
