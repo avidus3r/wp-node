@@ -19,16 +19,17 @@ var FeedService = function(app, appName, env, $http, $q){
                 var res = response.data;
                 deferred.resolve(res);
             }, function (response) {
+                console.error(response);
                 deferred.reject(response);
             });
 
         return deferred.promise;
     };
 
-    feed.search = function(query) {
+    feed.search = function(query, page) {
 
         var deferred = $q.defer();
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query;
+        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page;
 
         $http.get(url)
             .then(function (response) {

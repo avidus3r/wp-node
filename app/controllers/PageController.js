@@ -27,30 +27,37 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     $scope.getSubmit = function(){
-
         angular.element('#submitPage').css({'overflow':'hidden'});
         var iframeEl = angular.element('#submitPage').find('iframe');
         iframeEl.css({'margin-top':'-50px', 'border':'none'});
         var iframe = document.querySelector('#submitIframe');
 
         setTimeout(function(){
-
             iframe.contentWindow.postMessage('hide elements','http://altdriver.staging.wpengine.com');
             iframeEl.css({'margin-top':'0px'});
             angular.element('.view-container').height(angular.element(iframe).height());
         },3000);
 
-
         angular.element('#submitPage').css({'height':'100%', 'padding':'0'});
-
         angular.element('#submitPage').find('iframe').contents().find('#wpadminbar').hide();
         angular.element('#submitPage').find('iframe').contents().find('#main-head').hide();
+    };
 
-        /*FeedService.getPage('submit').then(function(res){
-         angular.element('#submitPage').find('.content').html(res[0].content.rendered);
-         angular.element('#submitPage').find('.content').find('form').attr('action','/submit');
-         angular.element('#submitPage').find('.content').find('form').append('<input type="hidden" name="remoteHost" value="' + envConfig.remoteUrl + '/submit">');
-         });*/
+    $scope.getSubscribe = function(){
+        angular.element('#subscribePage').css({'overflow':'hidden'});
+        var iframeEl = angular.element('#subscribePage').find('iframe');
+        iframeEl.css({'margin-top':'-50px', 'border':'none'});
+        var iframe = document.querySelector('#subscribeIframe');
+
+        setTimeout(function(){
+            iframe.contentWindow.postMessage('hide elements','http://altdriver.staging.wpengine.com');
+            iframeEl.css({'margin-top':'0px'});
+            angular.element('.view-container').height(angular.element(iframe).height());
+        },3000);
+
+        angular.element('#subscribePage').css({'height':'100%', 'padding':'0 1em'});
+        angular.element('#subscribePage').find('iframe').contents().find('#wpadminbar').hide();
+        angular.element('#subscribePage').find('iframe').contents().find('#main-head').hide();
     };
 
     $scope.$on('$viewContentLoaded', function(){

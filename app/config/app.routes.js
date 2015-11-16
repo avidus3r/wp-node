@@ -60,19 +60,19 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
-                    if(Number(appSponsors) > 0){
+                    /*if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
                                 return data;
                             },
                             function(error){
-
+                                return 'error';
                             },
                             function(notification){
 
                             }
                         )
-                    }
+                    }*/
 
                     /*if(appName === 'upshift'){
                         instagramResolve = null;
@@ -94,7 +94,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function(error){
-
+                                return 'error';
                             },
                             function(notification){
 
@@ -142,7 +142,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function (error) {
-
+                                return 'error';
                             },
                             function (notification) {
 
@@ -193,18 +193,18 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function (error) {
-
+                                return 'error';
                             },
                             function (notification) {
 
                             }
                         ),
-                        posts: FeedService.search($route.current.params.query).then(
+                        posts: FeedService.search($route.current.params.query,1).then(
                             function(data){
                                 return data;
                             },
                             function(error){
-
+                                return 'error';
                             },
                             function(notification){
 
@@ -244,7 +244,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function(error){
-
+                                return 'error';
                             },
                             function(notification){
 
@@ -274,7 +274,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function(error){
-
+                                return 'error';
                             },
                             function(notification){
 
@@ -301,7 +301,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function (error) {
-
+                                return 'error';
                             },
                             function (notification) {
 
@@ -346,7 +346,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             controller: 'PageController'
         })
         .when('/subscribe',{
-            templateUrl: '/views/static-page.html',
+            templateUrl: '/views/subscribe.html',
             controller: 'PageController'
         })
         .otherwise({
