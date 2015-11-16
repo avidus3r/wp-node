@@ -139,8 +139,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var appConfig = app[appName];
     $rootScope.orientation = null;
 
-    if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined'){
-        localStorage.setItem('post_offset', 0);
+    try{
+        if(!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined'){
+            localStorage.setItem('post_offset', 0);
+        }
+    }catch(e){
+
     }
 
     $rootScope._isMobile = function(){
@@ -202,20 +206,24 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
         var votedHistory = null;
 
-        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
+        try{
+            if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null'){
 
-            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-            angular.forEach(votedHistory, function (item, index) {
-                if(item.postID === postID){
-                    var userVoted = item.voted;
-                    setTimeout(function(){
-                        var votedOn = angular.element('.view-container').find('#votes-' + item.postID).find('button');
-                        votedOn.parent().find('button[name="' + userVoted + '"]').addClass('voted');
-                        votedOn.attr('disabled','disabled');
-                        return false;
-                    },50);
-                }
-            });
+                votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+                angular.forEach(votedHistory, function (item, index) {
+                    if(item.postID === postID){
+                        var userVoted = item.voted;
+                        setTimeout(function(){
+                            var votedOn = angular.element('.view-container').find('#votes-' + item.postID).find('button');
+                            votedOn.parent().find('button[name="' + userVoted + '"]').addClass('voted');
+                            votedOn.attr('disabled','disabled');
+                            return false;
+                        },50);
+                    }
+                });
+            }
+        }catch(e){
+
         }
     };
 
@@ -225,48 +233,52 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var voteButton = angular.element($event.currentTarget);
         var votedHistory = null;
 
-        if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
-            votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-        }
-        voteButton.addClass('voted');
-        var upOrDown = voteButton.attr('name');
-        var voteVal = upOrDown === 'up' ? 2 : 1;
+        try{
+            if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
+                votedHistory = JSON.parse(localStorage.getItem('user_voted'));
+            }
+            voteButton.addClass('voted');
+            var upOrDown = voteButton.attr('name');
+            var voteVal = upOrDown === 'up' ? 2 : 1;
 
-        angular.module('NewsFeed').trackEvent('voting', 'click', postID + ' - ' + upOrDown, 1, null);
-        $event.preventDefault();
+            angular.module('NewsFeed').trackEvent('voting', 'click', postID + ' - ' + upOrDown, 1, null);
+            $event.preventDefault();
 
-        var ls = [];
-        var userLS = null;
-        if(votedHistory){
-            var items = JSON.parse(localStorage.getItem('user_voted'));
-            items.push({postID:postID, voted:upOrDown});
-            userLS = JSON.stringify(items);
-        }else{
-            ls.push({postID:postID, voted:upOrDown});
-            userLS = JSON.stringify(ls);
-        }
-        localStorage.setItem('user_voted', userLS);
-        var voteCount = voteButton.closest('.post-actions').find('.vote-count').text();
-        var count = null;
+            var ls = [];
+            var userLS = null;
+            if(votedHistory){
+                var items = JSON.parse(localStorage.getItem('user_voted'));
+                items.push({postID:postID, voted:upOrDown});
+                userLS = JSON.stringify(items);
+            }else{
+                ls.push({postID:postID, voted:upOrDown});
+                userLS = JSON.stringify(ls);
+            }
+            localStorage.setItem('user_voted', userLS);
+            var voteCount = voteButton.closest('.post-actions').find('.vote-count').text();
+            var count = null;
 
-        if(upOrDown === 'up'){
-            count = voteCount === 0 ? 1 : parseInt(voteCount)+1;
-        }else{
-            count = parseInt(voteCount)-1;
-        }
+            if(upOrDown === 'up'){
+                count = voteCount === 0 ? 1 : parseInt(voteCount)+1;
+            }else{
+                count = parseInt(voteCount)-1;
+            }
 
-        voteButton.closest('.post-actions').find('.vote-count').text(count);
-        voteButton.parent().find('button').attr('disabled','disabled');
+            voteButton.closest('.post-actions').find('.vote-count').text(count);
+            voteButton.parent().find('button').attr('disabled','disabled');
 
-        var req = FeedService.vote(postID, voteVal);
-        req.addEventListener('load', function () {
-            var result = this.responseText;
-        });
+            var req = FeedService.vote(postID, voteVal);
+            req.addEventListener('load', function () {
+                var result = this.responseText;
+            });
 
-        if(voteButton.closest('.post-actions').find('.vote-count').text() === '1'){
-            voteButton.closest('.post-actions').find('.pointsTxt').text('point');
-        }else{
-            voteButton.closest('.post-actions').find('.pointsTxt').text('points');
+            if(voteButton.closest('.post-actions').find('.vote-count').text() === '1'){
+                voteButton.closest('.post-actions').find('.pointsTxt').text('point');
+            }else{
+                voteButton.closest('.post-actions').find('.pointsTxt').text('points');
+            }
+        }catch(e){
+
         }
     };
 
@@ -284,7 +296,11 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
-        localStorage.setItem('post_offset', postOffset);
+        try{
+            localStorage.setItem('post_offset', postOffset);
+        }catch(e){
+            
+        }
         window.location.href = page;
     };
 

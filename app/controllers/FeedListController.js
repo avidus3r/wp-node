@@ -39,11 +39,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.isSingle = false;
     $scope.singleParams = {};
     $scope.isMobile = $rootScope._isMobile();
-    if(localStorage.getItem('post_offset') === "NaN"){
-        localStorage.setItem('post_offset','0');
-    }
-    $scope.postIndex = 0 || Number(localStorage.getItem('post_offset'));
+    try{
+        if(localStorage.getItem('post_offset') === "NaN"){
+            localStorage.setItem('post_offset','0');
+        }
+        $scope.postIndex = 0 || Number(localStorage.getItem('post_offset'));
+    }catch(e){
 
+    }
 
     $scope.splicedItems = 0;
     $scope.paged = 1;
@@ -59,9 +62,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.post = data.post;
 
         var offset = '';
-        var postOffset = Number(localStorage.getItem('post_offset'));
-
-        if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
+        
+        try{
+            var postOffset = Number(localStorage.getItem('post_offset'));
+            if(localStorage.getItem('post_offset')) offset = '&offset=' + postOffset;
+        }catch(e){
+            
+        }
         $scope.offset = offset;
 
         $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
