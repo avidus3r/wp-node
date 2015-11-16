@@ -406,7 +406,7 @@ app.get('/:category/:slug', function(req,res, next){
                  console.log(prop,post[prop]);
                  }*/
                 // Standard meta
- 
+
                 post = post[0];
                 console.log(post);
                 metatags.published = post.date;
