@@ -13,7 +13,7 @@ require('./config/config');
 
 
 function init() {
-    env = 'stage';
+    env = 'prod';
     host = window.location.host;
 
     //appName = localStorage.getItem('appName');
