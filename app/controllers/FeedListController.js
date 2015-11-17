@@ -129,24 +129,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
-            angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
-        });
-        $scope.$on('fbReady', function(){
-            angular.element('#commentHook').on('click', function(e){
-                $scope.toggleComments(e);
-            });
-            if($location.hash() === 'comment'){
-                setTimeout(function(){
-                    $scope.toggleComments(null);
-                },1000);
-            }
-
+            //angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
         });
     };
 
     $scope.commentBtnHandler = function($event, $index, urlParams){
         if($routeParams.slug === urlParams.slug){
-            $scope.toggleComments(null);
+            $scope.toggleComments($event);
         }else{
             urlParams.slug = urlParams.slug + '#comment';
             $rootScope.goToPage($event, $index, urlParams);
@@ -490,6 +479,19 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.$on('$viewContentLoaded', function(){
         angular.element('#loading-more').hide();
         angular.element('body').find('.sidebar').removeClass('ng-hide');
+
+        if($scope.currentView === 'post'){
+            $scope.$on('fbReady', function(){
+                angular.element('#commentHook').on('click', function(e){
+                    $scope.toggleComments(e);
+                });
+
+                if($location.hash() === 'comment') {
+                    $scope.toggleComments(null);
+                }
+            });
+        }
+
         setTimeout(function(){
             angular.element('.pa-share').on('click', function(){
                 if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
