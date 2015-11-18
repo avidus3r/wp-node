@@ -133,7 +133,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.attachCommentsHandler = function(){
         $scope.$watch('$viewContentLoaded', function(){
-            //angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
+            angular.element('.fb-wrapper').css({'height': '0', 'overflow':'hidden'});
         });
     };
 
