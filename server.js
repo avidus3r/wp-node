@@ -113,13 +113,13 @@ app.get('/admin', function(req, res){
         var then = new Date(auth.d);
         var diff = new Date(now-then).getMinutes();
         if(diff < 59){
-            res.sendFile('index.html', { root: path.join(__dirname, './admin') });
+            res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
         }
     }
     if(!authorized){
         res.redirect('/auth');
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './admin') });
+        res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
     }
 
 });
@@ -344,7 +344,7 @@ app.get('/category/:category', function(req,res){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://www.altdriver.com',
+            url: 'http://admin.altdriver.com',
             remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
@@ -352,7 +352,7 @@ app.get('/category/:category', function(req,res){
         var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
 
-        request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
+        request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
                 var category = {};
                 var metatags = {};
@@ -372,7 +372,7 @@ app.get('/category/:category', function(req,res){
                 metatags.fb_title = category.name + ' Archives - alt_driver';
                 metatags.fb_description = category.description;
                 metatags.fb_url = category.link;
-                metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+                metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
@@ -389,7 +389,7 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://www.altdriver.com',
+            url: 'http://admin.altdriver.com',
             remoteUrl: 'http://altdriver.staging.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
