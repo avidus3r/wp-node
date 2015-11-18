@@ -44,7 +44,7 @@
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
     <title>alt_driver - Hottest Car Content from Social &amp; the Web {{ metatags.title }}</title>
-    
+
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
     <!-- IF site != to altdriver.com load override css as sitename.css
@@ -86,11 +86,8 @@
 
     <div id="fb-px-id" style="display: none;">{{ getAppInfo('fb_pixel_id') }}</div>
     <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
-    <div id="ga-id" style="display: none;">{{ getAppInfo('ga') }}</div>
-    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
     <ng-include src="'/views/partials/fb-px.html'"></ng-include>
 
-    <ng-include src="'/views/partials/ga.html'"></ng-include>
 
     <ng-include src="'/views/partials/header.html'"></ng-include>
     <div class="app-wrapper">
@@ -113,6 +110,9 @@
             </section>
         </div>
     </div>
+    <div id="ga-id" style="display: none;">{{ getAppInfo('ga') }}</div>
+    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
+    <ng-include src="'/views/partials/ga.html'"></ng-include>
     <script type="text/javascript">
 
         angular.module('NewsFeed').trackPageView = function(){
