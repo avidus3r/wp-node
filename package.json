@@ -6,7 +6,7 @@
   "scripts": {
     "populate": "node ./bin/populate_db.js",
     "deploy": "gulp tests; sudo npm stop; gulp build; forever start server.js",
-    "start": "npm prune; npm install forever -g; gulp build; forever start server.js",
+    "start": "npm prune; gulp build; forever start server.js",
     "stop": "forever stop server.js"
   },
   "dependencies": {
