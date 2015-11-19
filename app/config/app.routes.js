@@ -101,7 +101,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(10,'nofilter').then(
+                        /*instagram: InstagramService.get(10,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -111,8 +111,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),
-                        //instagram:null,
+                        ),*/
+                        instagram:null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -149,7 +149,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(10, 'nofilter').then(
+                        /*instagram: InstagramService.get(10, 'nofilter').then(
                             function (data) {
                                 return data;
                             },
@@ -159,8 +159,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function (notification) {
 
                             }
-                        ),
-                        //instagram:null,
+                        ),*/
+                        instagram:null,
                         sponsors: null,
                         categories: function () {
                             return FeedService.getTerms('category').then(
@@ -308,7 +308,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        instagram: InstagramService.get(10,'nofilter').then(
+                        /*instagram: InstagramService.get(10,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -318,8 +318,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),
-                        //instagram:null,
+                        ),*/
+                        instagram:null,
                         sponsors: sponsorResolve,
                         posts: null
                     });
