@@ -10,17 +10,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.package = {
         name: 'newsfeed'
     };
-
+    $scope.appConfig = app[appName];
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 0;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = 12;
-    $scope.postPrefetchAt = 12;
-    $scope.postsPerPage = 12;
-    /*$scope.feedItemScrollAmount = Number(data.config.env[0].scroll_amount);
-     $scope.postPrefetchAt = Number(data.config.env[0].prefetch_at);
-     $scope.postsPerPage = Number(data.config.env[0].per_page);*/
+    $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
+    $scope.postPrefetchAt = Number($scope.appConfig.prefetch_at);
+    $scope.postsPerPage = Number($scope.appConfig.per_page);
     $scope.pageNumber = 1;
     $scope.currentY = null;
     $scope.cardType = 'email';
@@ -35,7 +32,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.sponsorItems = [];
     $scope.sponsorCount = 0;
     $scope.feedPath = app[appName].feedPath;
-    $scope.appConfig = app[appName];
     $scope.isSingle = false;
     $scope.singleParams = {};
     $scope.isMobile = $rootScope._isMobile();
@@ -240,7 +236,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function(){
-        if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height()-1500)) {
+        if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
             angular.element('#loading-more').show();
             $scope.paged += 1;
             var state = {page: $scope.paged};
@@ -378,7 +374,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.getNext = function(params){
 
-        $scope.feedItemScrollAmount = 12;
+        $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
         $scope.clearAds();
 
         if($scope.currentView !== 'search') {
@@ -647,7 +643,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 //angular.module('NewsFeed').trackEvent('Sponsored Content', 'View', item.sponsor.title + ' ' + item.id, 1, null);
             }
 
-            FeedService.getPosts($scope.feedPath, '?per_page=12&page=1&post__not_in=' + $scope.post[0].id + offset).then(
+            FeedService.getPosts($scope.feedPath, '?per_page=' + Number($scope.appConfig.per_page) + '&page=1&post__not_in=' + $scope.post[0].id + offset).then(
                 function (data) {
                     $scope.currentView = 'list';
                     $scope.posts = data;
@@ -715,14 +711,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         postmap.push(item);
                     });
 
-                    /*if ($scope.sponsors !== null) {
-                     angular.forEach(postmap, function (item, index) {
-                     if (index > 0 && index % 2 === 0) {
-                     postmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
-                     $scope.sponsorCount++;
-                     }
-                     });
-                     }*/
+                    if ($scope.sponsors !== null) {
+                        angular.forEach(postmap, function (item, index) {
+                            if (index > 0 && index % 2 === 0) {
+                                postmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
+                                $scope.sponsorCount++;
+                            }
+                        });
+                    }
 
                     angular.forEach(postmap, function (item, index) {
                         if(item.type === 'post-list'){

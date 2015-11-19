@@ -5,6 +5,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
 
     var appConfig = app[appName];
+
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
 
@@ -30,7 +31,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.posts(12, 1).then(
+                        posts: FeedService.posts(appConfig.per_page, 1).then(
                             function (data) {
                                 return data;
                             },
@@ -60,7 +61,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
-                    /*if(Number(appSponsors) > 0){
+                    if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
                                 return data;
@@ -72,7 +73,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         )
-                    }*/
+                    }
 
                     /*if(appName === 'upshift'){
                         instagramResolve = null;
@@ -89,7 +90,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.getPosts(feedPath+'/', '?per_page=12&page=1').then(
+                        posts: FeedService.getPosts(feedPath+'/', '?per_page='+appConfig.per_page+'&page=1').then(
                             function(data){
                                 return data;
                             },
@@ -100,7 +101,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*instagram: InstagramService.get(25,'nofilter').then(
+                        instagram: InstagramService.get(10,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -110,8 +111,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),*/
-                        instagram:null,
+                        ),
+                        //instagram:null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -137,7 +138,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        posts: FeedService.getPosts('posts', '?per_page=12&page=1&category_name='+$route.current.params.category).then(
+                        posts: FeedService.getPosts('posts', '?per_page='+appConfig.per_page+'&page=1&category_name='+$route.current.params.category).then(
                             function (data) {
                                 return data;
                             },
@@ -148,7 +149,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*instagram: InstagramService.get(5, 'nofilter').then(
+                        instagram: InstagramService.get(10, 'nofilter').then(
                             function (data) {
                                 return data;
                             },
@@ -158,8 +159,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function (notification) {
 
                             }
-                        ),*/
-                        instagram:null,
+                        ),
+                        //instagram:null,
                         sponsors: null,
                         categories: function () {
                             return FeedService.getTerms('category').then(
@@ -282,6 +283,20 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                         )
                     }
 
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
+
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
@@ -307,7 +322,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),
-                        /*instagram: InstagramService.get(25,'nofilter').then(
+                        instagram: InstagramService.get(10,'nofilter').then(
                             function(data){
                                 return data;
                             },
@@ -317,8 +332,8 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
-                        ),*/
-                        instagram:null,
+                        ),
+                        //instagram:null,
                         sponsors: sponsorResolve,
                         posts: null
                     });
