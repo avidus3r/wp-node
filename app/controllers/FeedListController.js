@@ -506,7 +506,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.init = function() {
         var item = null;
 
-        if($scope.posts !== null && $scope.post !== null) {
+        if($scope.posts !== null || $scope.post !== null) {
             angular.forEach($scope.sponsors, function (item, index) {
                 if (item.campaign_active === 'true') {
                     angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
@@ -708,19 +708,24 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                             }
                         });
+
+                        if($scope.sponsors !== null){
+                            if (index > 0 && index %2 === 0) {
+                                if($scope.sponsorCount <= $scope.sponsorItems.length-1) {
+                                    $scope.sponsorItems[$scope.sponsorCount].type = 'sponsor';
+                                    postmap.push($scope.sponsorItems[$scope.sponsorCount]);
+                                    $scope.sponsorCount++;
+                                    $scope.feedItemScrollAmount += 1;
+                                    pushedItems++;
+                                }
+                            }
+                        }
+
                         postmap.push(item);
                     });
 
-                    if ($scope.sponsors !== null) {
-                        angular.forEach(postmap, function (item, index) {
-                            if (index > 0 && index % 2 === 0) {
-                                postmap.splice((index + $scope.sponsorCount), 0, $scope.sponsorItems[$scope.sponsorCount]);
-                                $scope.sponsorCount++;
-                            }
-                        });
-                    }
-
                     angular.forEach(postmap, function (item, index) {
+
                         if(item.type === 'post-list'){
                             item.post_index = $scope.postIndex;
                             $scope.postIndex++;

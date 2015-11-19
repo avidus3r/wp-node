@@ -283,20 +283,6 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                         )
                     }
 
-                    if(Number(appSponsors) > 0){
-                        sponsorResolve = FeedService.getSponsors().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        )
-                    }
-
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
