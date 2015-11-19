@@ -15,7 +15,7 @@ var express     = require('express'),
     authorized  = false,
     md5         = require('js-md5');
 
-var EXPRESS_PORT = 80,
+var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist',
     feedConfig = null;
