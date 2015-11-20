@@ -97,8 +97,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.initMeta = function(post){
         // Standard meta
-        $rootScope.metatags.title = $scope.decodeHtml(post.title.rendered);
-        document.title = $scope.decodeHtml(post.title.rendered);
+        $rootScope.metatags.title = document.title;
         $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.section = $routeParams.category;
         $rootScope.metatags.published_time = post.date;
@@ -241,7 +240,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.paged += 1;
             var state = {page: $scope.paged};
             history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
-            //angular.module('NewsFeed').trackPageView();
+            angular.module('NewsFeed').trackPageView($scope.paged, document.title);
             $scope.getNext('');
             window.removeEventListener('scroll', $scope.onScroll);
         }else{
@@ -322,7 +321,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }
             }
 
-            if ($scope.sponsors !== null) {
+            if ($scope.sponsors !== null && $scope.sponsorItems.length > 0) {
                 if (index > 0 && index % 2 === 0) {
                     if ($scope.sponsorCount < $scope.sponsorItems.length) {
                         pagedpostmap.push($scope.sponsorItems[$scope.sponsorCount]);
@@ -507,6 +506,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var item = null;
 
         if($scope.posts !== null || $scope.post !== null) {
+            if($scope.sponsors !== null && $scope.sponsors.length > 0)
             angular.forEach($scope.sponsors, function (item, index) {
                 if (item.campaign_active === 'true') {
                     angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
@@ -594,7 +594,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     });
 
-                    if($scope.sponsors !== null){
+                    if($scope.sponsors !== null && $scope.sponsorItems.length > 0){
                         if (index > 0 && index %2 === 0) {
                             postmap.push($scope.sponsorItems[$scope.sponsorCount]);
                             $scope.sponsorCount++;
@@ -709,7 +709,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                         });
 
-                        if($scope.sponsors !== null){
+                        if($scope.sponsors !== null && $scope.sponsorItems.length > 0){
                             if (index > 0 && index %2 === 0) {
                                 if($scope.sponsorCount <= $scope.sponsorItems.length-1) {
                                     $scope.sponsorItems[$scope.sponsorCount].type = 'sponsor';

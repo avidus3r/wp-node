@@ -298,6 +298,10 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                         post: FeedService.getPosts('posts', '?name=' + params.slug).then(
                             function (data) {
                                 $route.singleId = data[0].id;
+                                var txt = document.createElement('textarea');
+                                txt.innerHTML = data[0].title.rendered;
+                                var pageTitle = txt.value;
+                                document.title = pageTitle;
                                 localStorage.setItem('singID', $route.singleId);
                                 return data;
                             },
