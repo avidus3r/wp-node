@@ -16,7 +16,7 @@
       "sponsors":"1",
       "env": {
         "prod": {
-          "remoteUrl": "http://admin.altdriver.com",
+          "remoteUrl": "http://admin.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -49,7 +49,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://upshift.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -82,7 +82,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -115,7 +115,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://mamashares.altdrivermedia.com",
+          "remoteUrl": "http://mamashares.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
