@@ -399,6 +399,7 @@ app.get('/:category/:slug', function(req,res, next){
 
         var postName = req.params.slug;
         var endpoint = 'posts?name=' + postName;
+        var siteUrl = 'http://www.altdriver.com';
         var appUrl = 'http://admin.altdriver.com';
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
@@ -422,13 +423,14 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_type = 'article';
                 metatags.fb_site_name = ' alt_driver';
                 metatags.fb_title = post.title.rendered;
+                metatags.fb_url = siteUrl + req.url;
                 metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
                 metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
                 metatags.fb_image = post.featured_image_src.original_wp[0];
                 metatags.fb_image_width = post.featured_image_src.original_wp[1];
                 metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
         });
     }else {

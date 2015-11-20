@@ -501,6 +501,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         window.addEventListener('scroll', $scope.onScroll);
     });
 
+    $scope.getShareLink = function(){
+        var link = location.href;
+        if(location.hash){
+            link = link.replace(location.hash, '');
+        }
+        return link;
+    };
 
     $scope.init = function() {
         var item = null;

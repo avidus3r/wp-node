@@ -179,6 +179,67 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 }
             }
         })
+        .when('/category/:category/', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: FeedService.getPosts('posts', '?per_page='+appConfig.per_page+'&page=1&category_name='+$route.current.params.category).then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+                                return 'error';
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        /*instagram: InstagramService.get(10, 'nofilter').then(
+                         function (data) {
+                         return data;
+                         },
+                         function (error) {
+
+                         },
+                         function (notification) {
+
+                         }
+                         ),*/
+                        instagram:null,
+                        sponsors: null,
+                        categories: function () {
+                            return FeedService.getTerms('category').then(
+                                function (data) {
+                                    return data;
+                                },
+                                function (error) {
+
+                                },
+                                function (notification) {
+
+                                }
+                            );
+                        }
+                    });
+                }
+            }
+        })
         .when('/search/:query', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -264,7 +325,7 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
             resolve: {
                 data: function($q, $route) {
                     var params = {};
-                    params.slug = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
+                    params.slug = $route.current.params.slug;
 
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
@@ -323,6 +384,80 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
                             }
                         ),*/
+                        instagram:null,
+                        sponsors: sponsorResolve,
+                        posts: null
+                    });
+                }
+            }
+        })
+        .when('/:category/:slug/', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve: {
+                data: function($q, $route) {
+                    var params = {};
+                    params.slug = $route.current.params.slug;
+
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        post: FeedService.getPosts('posts', '?name=' + params.slug).then(
+                            function (data) {
+                                $route.singleId = data[0].id;
+                                var txt = document.createElement('textarea');
+                                txt.innerHTML = data[0].title.rendered;
+                                var pageTitle = txt.value;
+                                document.title = pageTitle;
+                                localStorage.setItem('singID', $route.singleId);
+                                return data;
+                            },
+                            function (error) {
+                                return 'error';
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        /*instagram: InstagramService.get(10,'nofilter').then(
+                         function(data){
+                         return data;
+                         },
+                         function(error){
+
+                         },
+                         function(notification){
+
+                         }
+                         ),*/
                         instagram:null,
                         sponsors: sponsorResolve,
                         posts: null
