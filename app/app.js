@@ -153,12 +153,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         if(!angular.element('.ad-post-companion + p').hasClass('reading')){
             closedHeight = angular.element('.ad-post-companion + p').css('height');
             angular.element('.ad-post-companion + p').addClass('reading');
-            angular.element('.ad-post-companion + p').css({'height': openHeight, 'margin-bottom':'36px'});
-            angular.element($el.currentTarget).text("Read Less");
-        }else{
-            angular.element('.ad-post-companion + p').removeClass('reading');
-            angular.element('.ad-post-companion + p').css({'height': '3.85em', 'margin-bottom':'0'});
-            angular.element($el.currentTarget).text("Read More");
+            angular.element('.ad-post-companion + p').css({'height': openHeight});
+            angular.element($el.currentTarget).remove();
         }
     };
 

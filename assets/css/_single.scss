@@ -173,8 +173,9 @@
   position: absolute;
   bottom: 0em;
   padding-top: 19px;
+  width: 98%;
+  cursor: pointer;
   text-align: center;
-  width: 100%;
   font-size: 12px;
   background: white;
   color: lighten($color-ad-blue, 20%);
