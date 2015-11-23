@@ -147,6 +147,21 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         console.debug(e);
     }
 
+    $rootScope.readMore = function($el){
+        var openHeight = 'auto';
+        var closedHeight = null;
+        if(!angular.element('.ad-post-companion + p').hasClass('reading')){
+            closedHeight = angular.element('.ad-post-companion + p').css('height');
+            angular.element('.ad-post-companion + p').addClass('reading');
+            angular.element('.ad-post-companion + p').css({'height': openHeight, 'margin-bottom':'36px'});
+            angular.element($el.currentTarget).text("Read Less");
+        }else{
+            angular.element('.ad-post-companion + p').removeClass('reading');
+            angular.element('.ad-post-companion + p').css({'height': '3.85em', 'margin-bottom':'0'});
+            angular.element($el.currentTarget).text("Read More");
+        }
+    };
+
     $rootScope._isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|Firefox|MSIE|Opera/i;
