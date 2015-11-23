@@ -240,83 +240,6 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 }
             }
         })
-        .when('/search/:query', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
-            redirectTo: false,
-            reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route) {
-                    var params = {};
-
-                    return $q.all({
-                        config: FeedService.getData('/appdata/feed.conf.json').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-                                return 'error';
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        posts: FeedService.search($route.current.params.query,1).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        ),
-                        instagram: null,
-                        sponsors: null
-                    });
-                }
-            }
-        })
-        .when('/sponsor/:sponsor', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
-            redirectTo: false,
-            reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route) {
-                    var params = {};
-
-                    return $q.all({
-                        config: FeedService.getData('/appdata/feed.conf.json').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        posts: null,
-                        instagram: null,
-                        sponsors: FeedService.getSponsor($route.current.params.sponsor).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        )
-
-                    });
-                }
-            }
-        })
         .when('/:category/:slug', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -461,6 +384,83 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                         instagram:null,
                         sponsors: sponsorResolve,
                         posts: null
+                    });
+                }
+            }
+        })
+        .when('/search/:query', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+                                return 'error';
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: FeedService.search($route.current.params.query,1).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        ),
+                        instagram: null,
+                        sponsors: null
+                    });
+                }
+            }
+        })
+        .when('/sponsor/:sponsor', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: null,
+                        instagram: null,
+                        sponsors: FeedService.getSponsor($route.current.params.sponsor).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )
+
                     });
                 }
             }
