@@ -496,8 +496,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
                     angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
             });
+            angular.element('body').find('.post-txt-more').on('click', function(e){
+                $rootScope.readMore(e);
+            });
         },1500);
-
 
         window.addEventListener('scroll', $scope.onScroll);
     });
@@ -763,6 +765,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var pieces = content.split('</iframe></p>');
             var glue = '</iframe></p><script type="text/javascript">var googletag = googletag || {}; googletag.cmd = googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];googletag.cmd.push(function() {var mapping2 = googletag.sizeMapping().addSize([0, 0], [[320, 50], [320, 100]]).addSize([1125, 200], [728, 90]).build();googletag.defineSlot("/110669458/post_companion_leaderboard_728x90", [[728, 90], [320, 50], [320, 100]], "div-gpt-ad-1434127859548-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1434127859548-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1434127859548-0"); });</script></div>';
             content = pieces.join(glue);
+            content += '<div class="post-txt-more">Read More</div>';
         }
         if(expectedEmbed.length > 0){
             expectedEmbed.addClass('video-container');

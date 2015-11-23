@@ -9,9 +9,6 @@
     </div>
     <a name="comment"></a>
     <div class="post-content" ng-bind-html="renderContent(item.content.rendered, $index, false)"></div>
-    <div ng-click="readMore($event)" class="post-txt-more">
-        Read More
-    </div>
     <!--<ng-include src="'/views/cards/post-companion-leaderboard.html'"></ng-include>-->
     <ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>
 </div>

@@ -156,6 +156,7 @@
 
 // set the height of the text that shows with a single post
 .post-content {
+  position: relative;
   .expandable-text {
     height: 3.85em;
     position: relative;
