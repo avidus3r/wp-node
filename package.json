@@ -18,6 +18,7 @@
     "async": "^1.4.2",
     "body-parser": "^1.13.3",
     "clean": "^4.0.1",
+    "consolidate": "^0.13.1",
     "continuation-local-storage": "^3.1.4",
     "event-stream": "^3.3.1",
     "express": "latest",
@@ -59,6 +60,7 @@
     "run-sequence": "latest",
     "script-loader": "latest",
     "source-map": "^0.4.4",
+    "swig": "^1.4.2",
     "underscore": "latest",
     "util": "^0.10.3"
   },

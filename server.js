@@ -13,7 +13,9 @@ var express     = require('express'),
     fs          = require('fs'),
     mongoose    = require('mongoose'),
     authorized  = false,
-    md5         = require('js-md5');
+    md5         = require('js-md5'),
+    swig        = require('swig'),
+    cons        = require('consolidate');
 
 var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
@@ -23,6 +25,10 @@ var EXPRESS_PORT = 3000,
 /*
  static paths
  */
+
+app.engine('html', cons.swig);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/assets');
 
 app.get('/', function(req,res,next){
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
@@ -386,7 +392,8 @@ app.get('/category/:category', function(req,res){
     }
 });
 
-app.get('/:category/:slug', function(req,res, next){
+app.get('/:category/:slug/', function(req,res, next){
+    //res.append('Access-Control-Allow-Origin','*');
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
 
         var feed = {};
@@ -407,10 +414,6 @@ app.get('/:category/:slug', function(req,res, next){
                 var metatags = {};
 
                 var post = JSON.parse([response.body][0]);
-                /*for(var prop in post){
-                 console.log(prop,post[prop]);
-                 }*/
-                // Standard meta
 
                 post = post[0];
                 metatags.published = post.date;
@@ -434,11 +437,13 @@ app.get('/:category/:slug', function(req,res, next){
             }
         });
     }else {
+
+        //res.render('index', {title:'test'});
         res.sendFile('index.html', {root: path.join(__dirname, './dist')});
     }
 });
 
-app.get('/:category/:slug/', function(req,res, next){
+app.get('/:category/:slug', function(req,res, next){
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
 
         var feed = {};

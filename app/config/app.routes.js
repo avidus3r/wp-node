@@ -1,9 +1,9 @@
 'use strict';
 
-var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, app, appName, $compileProvider) {
+var Router = function($routeProvider, $resourceProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, app, appName, $compileProvider) {
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
-
+    $routeProvider.stripTrailingSlashes = false;
     var appConfig = app[appName];
 
     var FeedService = FeedServiceProvider.$get();
@@ -240,32 +240,14 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 }
             }
         })
-        .when('/:category/:slug', {
+        .when('/search/:query', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve: {
+            resolve:{
                 data: function($q, $route) {
                     var params = {};
-                    params.slug = $route.current.params.slug;
-
-                    var appSponsors = Number(appConfig.sponsors);
-                    var sponsorResolve = null;
-
-                    if(Number(appSponsors) > 0){
-                        sponsorResolve = FeedService.getSponsors().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        )
-                    }
 
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
@@ -273,48 +255,30 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                                 return data;
                             },
                             function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        post: FeedService.getPosts('posts', '?name=' + params.slug).then(
-                            function (data) {
-                                $route.singleId = data[0].id;
-                                var txt = document.createElement('textarea');
-                                txt.innerHTML = data[0].title.rendered;
-                                var pageTitle = txt.value;
-                                document.title = pageTitle;
-                                localStorage.setItem('singID', $route.singleId);
-                                return data;
-                            },
-                            function (error) {
                                 return 'error';
                             },
                             function (notification) {
 
                             }
                         ),
-                        /*instagram: InstagramService.get(10,'nofilter').then(
+                        posts: FeedService.search($route.current.params.query,1).then(
                             function(data){
                                 return data;
                             },
                             function(error){
-
+                                return 'error';
                             },
                             function(notification){
 
                             }
-                        ),*/
-                        instagram:null,
-                        sponsors: sponsorResolve,
-                        posts: null
+                        ),
+                        instagram: null,
+                        sponsors: null
                     });
                 }
             }
         })
-        .when('/:category/:slug/', {
+        .when('/:category/:slug', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
@@ -388,28 +352,21 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                 }
             }
         })
-        .when('/search/:query', {
+        .when('/:category/:slug/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
+                    params.slug = $route.current.params.slug;
 
-                    return $q.all({
-                        config: FeedService.getData('/appdata/feed.conf.json').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-                                return 'error';
-                            },
-                            function (notification) {
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
 
-                            }
-                        ),
-                        posts: FeedService.search($route.current.params.query,1).then(
+                    if(Number(appSponsors) > 0){
+                        sponsorResolve = FeedService.getSponsors().then(
                             function(data){
                                 return data;
                             },
@@ -419,9 +376,52 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                             function(notification){
 
                             }
+                        )
+                    }
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
                         ),
-                        instagram: null,
-                        sponsors: null
+                        post: FeedService.getPosts('posts', '?name=' + params.slug).then(
+                            function (data) {
+                                $route.singleId = data[0].id;
+                                var txt = document.createElement('textarea');
+                                txt.innerHTML = data[0].title.rendered;
+                                var pageTitle = txt.value;
+                                document.title = pageTitle;
+                                localStorage.setItem('singID', $route.singleId);
+                                return data;
+                            },
+                            function (error) {
+                                return 'error';
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        /*instagram: InstagramService.get(10,'nofilter').then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+
+                            },
+                            function(notification){
+
+                            }
+                        ),*/
+                        instagram:null,
+                        sponsors: sponsorResolve,
+                        posts: null
                     });
                 }
             }

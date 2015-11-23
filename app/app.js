@@ -49,7 +49,7 @@ NewsFeed.constant('env', env);
 NewsFeed.constant('appName', appName);
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+    ['$routeProvider', '$resourceProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
 );
 /*
  * Module Configuration

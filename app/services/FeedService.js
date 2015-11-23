@@ -15,8 +15,10 @@ var FeedService = function(app, appName, env, $http, $q){
 
         switch(type){
             case 'get':
+
                 $http.get(url)
                     .then(function (response) {
+                        if(response.status !== 200) throw new Error('api');
                         var res = response.data;
                         deferred.resolve(res);
                     }, function (response) {
@@ -210,13 +212,17 @@ var FeedService = function(app, appName, env, $http, $q){
 
         try{
             $http.get(url)
-                .then(function (response) {
-                    var res = response.data;
-                    deferred.resolve(res);
-                    feed.navItems.push(res);
-                }, function (response) {
-                    deferred.reject(response);
-                });
+            .then(function (response) {
+                var res = response.data;
+                if (response.status !== 200) {
+                    throw new Error('api error');
+                }
+                deferred.resolve(res);
+                feed.navItems.push(res);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
         }catch(e){
             $http.jsonp(jsonpUrl)
                 .then(function (response) {
@@ -226,6 +232,7 @@ var FeedService = function(app, appName, env, $http, $q){
                 }, function (response) {
                     deferred.reject(response);
                 });
+            console.log('caught');
         }
 
         return deferred.promise;
@@ -238,15 +245,23 @@ var FeedService = function(app, appName, env, $http, $q){
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
 
         try{
+
             $http.get(url)
                 .then(function (response) {
                     var res = response.data;
+                    if (response.status !== 200) {
+                        throw new Error('api error');
+                    }
                     deferred.resolve(res);
                     feed.navItems.push(res);
                 }, function (response) {
                     deferred.reject(response);
                 });
+
+
+
         }catch(e){
+            console.log('caught');
             $http.jsonp(jsonpUrl)
                 .then(function (response) {
                     var res = response.data;
