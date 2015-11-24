@@ -60,6 +60,9 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
+                    //temporary
+                    feedPath = 'feed';
+
                     if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){

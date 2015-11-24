@@ -16,8 +16,18 @@ var FeedService = function(app, appName, env, $http, $q){
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
         $http.get(url)
             .then(function (response) {
-                var res = response.data;
-                deferred.resolve(res);
+
+                if(response.data.length === 0){
+                    url = app[appName].env.preprod.remoteUrl + app[appName].env.preprod.basePath + path + params;
+                    $http.get(url)
+                        .then(function (response) {
+                            deferred.resolve(response.data);
+                        });
+                }else{
+                    var res = response.data;
+                    deferred.resolve(res);
+                }
+
             }, function (response) {
                 deferred.reject(response);
             });

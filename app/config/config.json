@@ -53,7 +53,7 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
-          "remoteUrl": "http://altdriver.staging.wpengine.com",
+          "remoteUrl": "http://upshift.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "stage":{
