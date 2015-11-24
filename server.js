@@ -356,8 +356,8 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://upshift.altdrivermedia.com',
-            remoteUrl: 'http://upshift.altdrivermedia.com',
+            url: 'http://admin.altdriver.com',
+            remoteUrl: 'http://admin.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
@@ -365,6 +365,38 @@ app.get('/:category/:slug', function(req,res, next){
         var endpoint = 'posts?name=' + postName;
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
+            if(JSON.parse(response.body).length === 0){
+                feed.endpoints = {
+                    url: 'http://upshift.altdrivermedia.com',
+                    remoteUrl: 'http://upshift.altdrivermedia.com',
+                    basePath: '/wp-json/wp/v2/'
+                };
+
+                request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
+                    if (!error && response.statusCode == 200) {
+                        var metatags = {};
+
+                        var post = JSON.parse([response.body][0]);
+                        /*for(var prop in post){
+                         console.log(prop,post[prop]);
+                         }*/
+                        // Standard meta
+                        post = post[0];
+                        metatags.title = post.title.rendered;
+                        metatags.description = post.excerpt.rendered;
+
+                        // Facebook meta
+                        metatags.fb_type = 'article';
+                        metatags.fb_site_name = ' upshift';
+                        metatags.fb_title = post.title.rendered;
+                        metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
+                        metatags.fb_url = post.link;
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+
+                        res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://upshift.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="915136841905980"></head><body></body></html>');
+                    }
+                });
+            }
             if (!error && response.statusCode == 200) {
                 var metatags = {};
 
@@ -383,7 +415,7 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_title = post.title.rendered;
                 metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
                 metatags.fb_url = post.link;
-                metatags.fb_image = post.featured_image_src.original[0];
+                metatags.fb_image = post.featured_image_src.original_wp[0];
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://upshift.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="915136841905980"></head><body></body></html>');
             }
