@@ -49,7 +49,7 @@ NewsFeed.constant('env', env);
 NewsFeed.constant('appName', appName);
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+    ['$routeProvider', '$resourceProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
 );
 /*
  * Module Configuration
@@ -146,6 +146,17 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     }catch(e){
         console.debug(e);
     }
+
+    $rootScope.readMore = function($el){
+        var openHeight = 'auto';
+        var closedHeight = null;
+        if(!angular.element('.ad-post-companion + p').hasClass('reading')){
+            closedHeight = angular.element('.ad-post-companion + p').css('height');
+            angular.element('.ad-post-companion + p').addClass('reading');
+            angular.element('.ad-post-companion + p').css({'height': openHeight});
+            angular.element($el.currentTarget).remove();
+        }
+    };
 
     $rootScope._isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -293,7 +304,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.goToPage = function($event, $index, linkParams){
 
-        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
+        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         try {
             localStorage.setItem('post_offset', postOffset);

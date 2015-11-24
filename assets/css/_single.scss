@@ -136,7 +136,7 @@
 // THROWAY CSS #######################
 // set the height of the elements - this is throwaway
 .ad-post-companion + p {
-  height: 3.85em;
+  //height: 3.85em;
   overflow: hidden;
   position: relative;
 
@@ -156,12 +156,16 @@
 
 // set the height of the text that shows with a single post
 .post-content {
+  position: relative;
   .expandable-text {
-    height: 3.85em;
+    //height: 3.85em;
     position: relative;
   }
 }
 
+.txt-content{
+  line-height: 18px;
+}
 
 // open the text on the post
 // this is the trigger to open the text
@@ -173,8 +177,9 @@
   position: absolute;
   bottom: 0em;
   padding-top: 19px;
+  width: 98%;
+  cursor: pointer;
   text-align: center;
-  width: 100%;
   font-size: 12px;
   background: white;
   color: lighten($color-ad-blue, 20%);
