@@ -819,14 +819,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 $rootScope.readMore(e);
             });
         },1500);
-        setTimeout(function(){
-            var textLines = Math.round(Math.floor($scope.countLines(angular.element('body').find('.ad-post-companion + p'))));
-            if(textLines <= 3){
-                angular.element('body').find('.post-txt-more').remove();
-            }else{
-                angular.element('body').find('.ad-post-companion + p').css({'height':'3.85em'});
-            }
-        },250);
+        if($scope.currentView === 'post') {
+            setTimeout(function () {
+                var textLines = Math.round(Math.floor($scope.countLines(angular.element('body').find('.ad-post-companion + p'))));
+                if (textLines <= 3) {
+                    angular.element('body').find('.post-txt-more').remove();
+                } else {
+                    angular.element('body').find('.ad-post-companion + p').css({'height': '3.85em'});
+                }
+            }, 250);
+        }
         window.addEventListener('scroll', $scope.onScroll);
     });
 

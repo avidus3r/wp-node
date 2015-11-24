@@ -31,7 +31,8 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/assets');
 
 app.get('/', function(req,res,next){
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
+
+    /*if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
 
         var metatags = {
             robots: 'index, follow',
@@ -60,7 +61,7 @@ app.get('/', function(req,res,next){
     }else{
         app.use(express.static(EXPRESS_ROOT));
         res.sendFile('index.html', {root: path.join(__dirname, './dist')});
-    }
+    }*/
 });
 
 app.use(express.static(EXPRESS_ROOT));
@@ -394,7 +395,9 @@ app.get('/category/:category', function(req,res){
 
 app.get('/:category/:slug/', function(req,res, next){
     //res.append('Access-Control-Allow-Origin','*');
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
+
+
+    //if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
 
         var feed = {};
 
@@ -433,14 +436,15 @@ app.get('/:category/:slug/', function(req,res, next){
                 metatags.fb_image_width = post.featured_image_src.original_wp[1];
                 metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.render('index', {metatags:metatags});
+                //res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
         });
-    }else {
+    //}else {
 
         //res.render('index', {title:'test'});
-        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
-    }
+    //    res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+    //}
 });
 
 app.get('/:category/:slug', function(req,res, next){
