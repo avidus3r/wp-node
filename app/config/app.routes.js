@@ -90,7 +90,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),
-                        posts: FeedService.getPosts(feedPath+'/', '?per_page='+appConfig.per_page+'&page=1').then(
+                        /*posts: FeedService.getPosts(feedPath+'/', '?per_page='+appConfig.per_page+'&page=1').then(
                             function(data){
                                 return data;
                             },
@@ -99,6 +99,14 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             },
                             function(notification){
 
+                            }
+                        ),*/
+                        posts: FeedService.getDBPosts(appConfig.per_page, 1).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
                             }
                         ),
                         /*instagram: InstagramService.get(10,'nofilter').then(

@@ -55,6 +55,11 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
+    feed.getDBPosts = function(numPosts, pageNum){
+        var url = '/p/'+ numPosts + '/' + pageNum;
+        return feed.get(url, 'get');
+    };
+
     feed.search = function(query, page) {
         var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page + '&_jsonp=JSON_CALLBACK';
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page;
