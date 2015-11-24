@@ -49,7 +49,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://admin.altdriver.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
