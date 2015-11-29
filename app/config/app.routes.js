@@ -101,7 +101,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),*/
-                        posts: FeedService.getDBPosts(appConfig.per_page, 1).then(
+                        posts: FeedService.getDBPosts(10,1).then(
                             function(data){
                                 return data;
                             },

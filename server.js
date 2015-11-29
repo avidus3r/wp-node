@@ -26,6 +26,13 @@ var EXPRESS_PORT = 3000,
  static paths
  */
 
+feedConfig = {
+    prod: {
+        'remoteUrl': 'http://admin.altdriver.com',
+        'basePath': '/wp-json/wp/v2/'
+    }
+};
+
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/assets');
@@ -76,6 +83,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set('port', process.env.PORT || EXPRESS_PORT);
 
 app.locals.config = require('./app/config/feed.conf.json');
+
+
+mongoose.connect('mongodb://localhost/altdriver', function(){
+
+});
+
+var db = mongoose.connection;
 
 
 function getPagePosts(numberOfPosts, pageNumber) {
@@ -292,8 +306,10 @@ app.post('/getPosts', function(req,res){
 function getPosts(env, postsPerPage, page, res){
     var endpoints = feedConfig[env];
     var result = null;
+    page = 3;
+    postsPerPage = 20;
 
-    request(endpoints.remoteUrl + endpoints.basePath + 'feed?per_page=' + postsPerPage + '&page=' + page, function (error, response, body) {
+    request(endpoints.remoteUrl + endpoints.basePath + 'feed?per_page=' + postsPerPage + '&page=' + page +'&offset=1000', function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             fs.realpath('./data', function(err, resolvedPath){

@@ -37,6 +37,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.isMobile = $rootScope._isMobile();
     $scope.currentCategory = null;
     $scope.renderedSingleContent = null;
+    $scope.useMongo = true;
 
 
     try {
@@ -190,6 +191,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return FeedService.getPosts(path, params);
     };
 
+    $scope.getDBPosts = function(perPage, pageNum){
+        return FeedService.getDBPosts(perPage, pageNum);
+    };
+
     var postmap = [];
 
     $scope.createFeedItem = function(item,index){
@@ -243,7 +248,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var state = {page: $scope.paged};
             history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
             angular.module('NewsFeed').trackPageView($scope.paged, document.title);
-            $scope.getNext('');
+            if(!$scope.useMongo){
+                $scope.getNext('');
+            }else{
+
+            }
             window.removeEventListener('scroll', $scope.onScroll);
         }else{
             angular.element('#loading-more').hide();
