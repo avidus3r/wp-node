@@ -11,29 +11,13 @@ var angular     = require('angular'),
 require('../assets/js/angular-metatags.min');
 require('./config/config');
 
-function getQueryParamValue(variable) {
-
-    var query = window.location.search.substring(1);
-    var vars = query.split('&');
-
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) === variable) {
-            return decodeURIComponent(pair[1]);
-        }
-    }
-    return null;
-}
 
 function init() {
-    env = 'stage';
+    env = 'prod';
     host = window.location.host;
 
-    try {
-        appName = localStorage.getItem('appName');
-    }catch(e){
-        appName = getQueryParamValue('app');
-    }
+    //appName = localStorage.getItem('appName');
+    appName = 'mamashares';
     if(!appName) {
         appName = host.substring(0, host.lastIndexOf('.com'));
 
@@ -155,12 +139,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var appConfig = app[appName];
     $rootScope.orientation = null;
 
-    try {
+    try{
         if (!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined') {
             localStorage.setItem('post_offset', 0);
         }
     }catch(e){
-
+        console.debug(e);
     }
 
     $rootScope._isMobile = function(){
@@ -221,9 +205,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.voteLoad = function(postID, index){
         var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
         var votedHistory = null;
-
-        try {
-            if (typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
+        try{
+            if(typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
 
                 votedHistory = JSON.parse(localStorage.getItem('user_voted'));
                 angular.forEach(votedHistory, function (item, index) {
@@ -238,18 +221,18 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
                     }
                 });
             }
-        }catch(e){
-
+        }catch(e) {
+            console.debug(e);
         }
     };
 
     $rootScope.vote = function(postID, vote, $event){
 
         //@ltDr1v3r!
-        var voteButton = angular.element($event.currentTarget);
-        var votedHistory = null;
-
         try {
+            var voteButton = angular.element($event.currentTarget);
+            var votedHistory = null;
+
             if (typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
                 votedHistory = JSON.parse(localStorage.getItem('user_voted'));
             }
@@ -293,8 +276,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             } else {
                 voteButton.closest('.post-actions').find('.pointsTxt').text('points');
             }
-        }catch(e){
-
+        }catch(e) {
+            console.debug(e);
         }
     };
 
@@ -314,8 +297,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         try {
             localStorage.setItem('post_offset', postOffset);
-        }catch(e){
-
+        }catch(e) {
+            console.debug(e);
         }
         window.location.href = page;
     };

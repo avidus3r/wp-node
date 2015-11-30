@@ -1,7 +1,7 @@
 'use strict';
 
 require('newrelic');
-//require('./lib/connection');
+//require('./lib/connection'); 
 
 var express     = require('express'),
     http        = require('http'),
@@ -23,6 +23,40 @@ var EXPRESS_PORT = 3000,
 /*
  static paths
  */
+
+app.get('/', function(req,res,next){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
+
+        var metatags = {
+            robots: 'index, follow',
+            title: 'alt_driver - Hottest Car Content from Social & the Web',
+            description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            // Facebook
+            fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
+            fb_site_name: 'alt_driver',
+            fb_url: 'http://www.altdriver.com/',
+            fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            fb_type: 'website',
+            fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            // Twitter
+            tw_card: '',
+            tw_description: '',
+            tw_title: '',
+            tw_site: '@altdriver',
+            tw_domain: 'alt_driver',
+            tw_creator: '@altdriver',
+            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            url: 'http://admin.altdriver.com'
+        };
+
+        res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+
+    }else{
+        app.use(express.static(EXPRESS_ROOT));
+        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+    }
+});
+
 app.use(express.static(EXPRESS_ROOT));
 app.use(express.static(__dirname + './tests'));
 app.use(express.static(__dirname + './favicons'));
@@ -113,13 +147,13 @@ app.get('/admin', function(req, res){
         var then = new Date(auth.d);
         var diff = new Date(now-then).getMinutes();
         if(diff < 59){
-            res.sendFile('index.html', { root: path.join(__dirname, './admin') });
+            res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
         }
     }
     if(!authorized){
         res.redirect('/auth');
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './admin') });
+        res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
     }
 
 });
@@ -306,20 +340,26 @@ app.post('/submit', function(req,res){
     });
 });
 
+
 app.get('/category/:category', function(req,res){
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|twitterbot/i.test(req.headers['user-agent'])){
+    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])){
         var feed = {};
 
         feed.endpoints = {
+<<<<<<< HEAD
             url: 'http://www.altdriver.com',
+=======
+            url: 'http://admin.altdriver.com',
+>>>>>>> origin/origin/apps/altdriver
             remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
 
         var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
+        var appUrl = 'http://admin.altdriver.com/category';
 
-        request(feed.endpoints.remoteUrl + feed.endpoints.basePath + endpoint, function(error, response, body){
+        request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
                 var category = {};
                 var metatags = {};
@@ -338,10 +378,10 @@ app.get('/category/:category', function(req,res){
                 metatags.fb_site_name = 'alt_driver';
                 metatags.fb_title = category.name + ' Archives - alt_driver';
                 metatags.fb_description = category.description;
-                metatags.fb_url = category.link;
-                metatags.fb_image = 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+                metatags.url = appUrl + '/' + req.params.category;
+                metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
         });
 
@@ -356,13 +396,20 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
+<<<<<<< HEAD
             url: 'http://www.altdriver.com',
             remoteUrl: 'http://www.altdriver.com',
+=======
+            url: 'http://admin.altdriver.com',
+            remoteUrl: 'http://altdriver.staging.wpengine.com',
+>>>>>>> origin/origin/apps/altdriver
             basePath: '/wp-json/wp/v2/'
         };
 
         var postName = req.params.slug;
         var endpoint = 'posts?name=' + postName;
+        var siteUrl = 'http://www.altdriver.com';
+        var appUrl = 'http://admin.altdriver.com';
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
@@ -373,21 +420,27 @@ app.get('/:category/:slug', function(req,res, next){
                  console.log(prop,post[prop]);
                  }*/
                 // Standard meta
+
                 post = post[0];
+                metatags.published = post.date;
+                metatags.modified = post.modified;
+                metatags.category = post.category[0].name;
                 metatags.title = post.title.rendered;
-                metatags.description = post.excerpt.rendered;
+                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
                 // Facebook meta
                 metatags.fb_type = 'article';
                 metatags.fb_site_name = ' alt_driver';
                 metatags.fb_title = post.title.rendered;
-                metatags.fb_description = post.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '');
-                metatags.fb_url = post.link;
-                metatags.fb_image = post.featured_image_src.original[0];
+                metatags.fb_url = siteUrl + req.url;
+                metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                metatags.fb_image = post.featured_image_src.original_wp[0];
+                metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
-
         });
     }else {
         res.sendFile('index.html', {root: path.join(__dirname, './dist')});
