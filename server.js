@@ -34,10 +34,10 @@ app.get('/', function(req,res,next){
             // Facebook
             fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
             fb_site_name: 'alt_driver',
-            fb_url: 'http://www.altdriver.com/',
+            fb_url: 'http://mamashares.altmedia.com/',
             fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
             fb_type: 'website',
-            fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            fb_image: 'http://mamashares.altmedia.com/wp-content/uploads/logo.png',
             // Twitter
             tw_card: '',
             tw_description: '',
@@ -45,8 +45,8 @@ app.get('/', function(req,res,next){
             tw_site: '@altdriver',
             tw_domain: 'alt_driver',
             tw_creator: '@altdriver',
-            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-            url: 'http://admin.altdriver.com'
+            tw_image: 'http://mamashares.altmedia.com/wp-content/uploads/logo.png',
+            url: 'http://mamashares.altmedia.com'
         };
 
         res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
@@ -102,7 +102,7 @@ app.get('/posts/:perPage/:page', function(req, res) {
     var perPage = parseInt(req.params.perPage);
     var page = parseInt(req.params.page);
     post.getPosts(perPage, page, function(err,result){
-       res.send(result);
+        res.send(result);
     });
 });
 
@@ -346,18 +346,14 @@ app.get('/category/:category', function(req,res){
         var feed = {};
 
         feed.endpoints = {
-<<<<<<< HEAD
-            url: 'http://www.altdriver.com',
-=======
-            url: 'http://admin.altdriver.com',
->>>>>>> origin/origin/apps/altdriver
-            remoteUrl: 'http://www.altdriver.com',
+            url: 'http://mamashares.altmedia.com',
+            remoteUrl: 'http://mamashares.altmedia.com',
             basePath: '/wp-json/wp/v2/'
         };
 
         var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
-        var appUrl = 'http://admin.altdriver.com/category';
+        var appUrl = 'http://mamashares.altmedia.com/category';
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
@@ -379,7 +375,7 @@ app.get('/category/:category', function(req,res){
                 metatags.fb_title = category.name + ' Archives - alt_driver';
                 metatags.fb_description = category.description;
                 metatags.url = appUrl + '/' + req.params.category;
-                metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+                metatags.fb_image = 'http://mamashares.altmedia.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
                 res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
@@ -396,20 +392,15 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-<<<<<<< HEAD
-            url: 'http://www.altdriver.com',
-            remoteUrl: 'http://www.altdriver.com',
-=======
-            url: 'http://admin.altdriver.com',
+            url: 'http://mamashares.altmedia.com',
             remoteUrl: 'http://altdriver.staging.wpengine.com',
->>>>>>> origin/origin/apps/altdriver
             basePath: '/wp-json/wp/v2/'
         };
 
         var postName = req.params.slug;
         var endpoint = 'posts?name=' + postName;
-        var siteUrl = 'http://www.altdriver.com';
-        var appUrl = 'http://admin.altdriver.com';
+        var siteUrl = 'http://mamashares.altmedia.com';
+        var appUrl = 'http://mamashares.altmedia.com';
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
@@ -439,7 +430,7 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_image_width = post.featured_image_src.original_wp[1];
                 metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://www.altdriver.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://mamashares.altmedia.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
             }
         });
     }else {
