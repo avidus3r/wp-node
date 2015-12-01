@@ -29,13 +29,13 @@ app.get('/', function(req,res,next){
 
         var metatags = {
             robots: 'index, follow',
-            title: 'alt_driver - Hottest Car Content from Social & the Web',
-            description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            title: 'Mama Shares',
+            description: 'Mama Shares',
             // Facebook
-            fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
-            fb_site_name: 'alt_driver',
+            fb_title: 'Mama Shares',
+            fb_site_name: 'Mama Shares',
             fb_url: 'http://mamashares.altmedia.com/',
-            fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+            fb_description: 'Mama Shares',
             fb_type: 'website',
             fb_image: 'http://mamashares.altmedia.com/wp-content/uploads/logo.png',
             // Twitter
@@ -49,7 +49,7 @@ app.get('/', function(req,res,next){
             url: 'http://mamashares.altmedia.com'
         };
 
-        res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+        res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="505538229618503"></head><body></body></html>');
 
     }else{
         app.use(express.static(EXPRESS_ROOT));
@@ -366,18 +366,18 @@ app.get('/category/:category', function(req,res){
                     }
                 }
                 // Standard meta
-                metatags.title = category.name + ' Archives - alt_driver';
+                metatags.title = category.name + ' Archives - Mama Shares';
                 metatags.description = category.description;
 
                 // Facebook meta
                 metatags.fb_type = 'object';
-                metatags.fb_site_name = 'alt_driver';
-                metatags.fb_title = category.name + ' Archives - alt_driver';
+                metatags.fb_site_name = 'Mama Shares';
+                metatags.fb_title = category.name + ' Archives - Mama Shares';
                 metatags.fb_description = category.description;
                 metatags.url = appUrl + '/' + req.params.category;
                 metatags.fb_image = 'http://mamashares.altmedia.com/wp-content/uploads/avatar_alt_driver_500x500.png';
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="505538229618503"></head><body></body></html>');
             }
         });
 
@@ -421,7 +421,7 @@ app.get('/:category/:slug', function(req,res, next){
 
                 // Facebook meta
                 metatags.fb_type = 'article';
-                metatags.fb_site_name = ' alt_driver';
+                metatags.fb_site_name = ' Mama Shares';
                 metatags.fb_title = post.title.rendered;
                 metatags.fb_url = siteUrl + req.url;
                 metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
@@ -430,7 +430,7 @@ app.get('/:category/:slug', function(req,res, next){
                 metatags.fb_image_width = post.featured_image_src.original_wp[1];
                 metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
-                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://mamashares.altmedia.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
+                res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:image:width" content="'+ metatags.fb_image_width +'" ><meta property="og:image:height" content="'+ metatags.fb_image_height +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="http://mamashares.altmedia.com" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="article:section" content="'+ metatags.category +'" /><meta property="article:published_time" content="2015-11-06T13:30:40+00:00" /><meta property="article:modified_time" content="'+ metatags.modified +'" /><meta property="og:updated_time" content="'+ metatags.modified +'" /><meta property="og:url" content="' + metatags.fb_url + '"><meta property="fb:app_id" content="505538229618503"></head><body></body></html>');
             }
         });
     }else {
