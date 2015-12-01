@@ -495,23 +495,23 @@ var Router = function($routeProvider, $locationProvider, MetaTagsProvider, FeedS
 
     var metatagsDefaults = {
         robots: 'index, follow',
-        title: 'alt_driver - Hottest Car Content from Social & the Web',
-        description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+        title: 'Mama Shares',
+        description: 'Mama Shares',
         // Facebook
-        fb_title: 'alt_driver - Hottest Car Content from Social & the Web',
-        fb_site_name: 'alt_driver',
-        fb_url: 'http://www.altdriver.com/',
-        fb_description: 'alt_driver has the most entertaining and social car content. We feature breaking news, crazy viral videos and things you need to see and share.',
+        fb_title: 'Mama Shares',
+        fb_site_name: 'Mama Shares',
+        fb_url: 'http://www.mamashares.com/',
+        fb_description: 'Mama Shares',
         fb_type: 'website',
         fb_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
         // Twitter
         tw_card: '',
         tw_description: '',
         tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png'
+        tw_site: '',
+        tw_domain: '',
+        tw_creator: '',
+        tw_image: ''
     };
 
     MetaTagsProvider
