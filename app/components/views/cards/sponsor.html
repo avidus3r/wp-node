@@ -1,13 +1,13 @@
 <div class="post-content feed-view post-view feed {{ currentView === 'list' ? 'sponsor-list' : 'sponsor-main' }}">
 
-    <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})"><img class="featured-image" src="{{ item.featured_image_src.original[0] }}" width="{{ item.featured_image_src.original[1] }}" height="{{ item.featured_image_src.original[2] }}" /></a>
+    <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})"><img class="featured-image ga-featured-image" src="{{ item.featured_image_src.original[0] }}" width="{{ item.featured_image_src.original[1] }}" height="{{ item.featured_image_src.original[2] }}" /></a>
     <h2 class="post-title">
         <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
     </h2>
 
     <div class="author-meta">
         <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-        <p class="item-cat {{ getCategory(item.category, item.link).slug }}"><a ng-bind-html="getCategory(item.category, item.link).name" href="/{{ getCategory(item.category, item.link).taxonomy }}/{{ getCategory(item.category, item.link).slug }}"></a></p>
+        <p class="item-cat ga-item-cat {{ getCategory(item.category, item.link).slug }}"><a ng-bind-html="getCategory(item.category, item.link).name" href="/{{ getCategory(item.category, item.link).taxonomy }}/{{ getCategory(item.category, item.link).slug }}"></a></p>
 
         <span class="clearfix"></span>
     </div>

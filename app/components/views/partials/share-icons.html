@@ -3,17 +3,17 @@
 <div class="flexshare">
 
     <!-- facebook -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-facebook fs-item" href="https://www.facebook.com/sharer/sharer.php?u=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
+    <a ng-click="shareItemClick($event, item.slug)" class="flex-facebook fs-item ga-sharebar-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
         <i class="fa fa-3x fa-facebook"></i>
     </a>
 
     <!-- email -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-mail fs-item" href="mailto:?subject=Check out this video&body=You have got to see this - http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}" target="_blank">
+    <a ng-click="shareItemClick($event, item.slug)" class="flex-mail fs-item ga-sharebar-mail" href="mailto:?subject=Check out this video&body=You have got to see this - http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}" target="_blank">
         <i class="fa fa-3x fa-envelope"></i>
     </a>
 
     <!-- sms -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-sms fs-item" href="{{ getSMSLink('http://'+ getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug) }}">
+    <a ng-click="shareItemClick($event, item.slug)" class="flex-sms fs-item ga-sharebar-sms" href="{{ getSMSLink('http://'+ getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug) }}">
         <span class="fa-2x fa-stack fa-lg">
             <i class="fa fa-flip-horizontal fa-mobile fa-stack-2x fa-2x"></i>
             <i class="flex-sms-txt">...</i>
@@ -23,23 +23,23 @@
 
 
     <!-- whatsapp -->
-    <a ng-click="shareItemClick($event, item.slug)" href="whatsapp://send?text={{ decodeHtml(item.title.rendered) + ' - ' + 'http://'+ getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug }}" class="flex-whatsapp fs-item">
+    <a ng-click="shareItemClick($event, item.slug)" href="whatsapp://send?text={{ decodeHtml(item.title.rendered) + ' - ' + 'http://'+ getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug }}" class="flex-whatsapp fs-item ga-sharebar-whatsapp">
         <i class="fa fa-3x fa-whatsapp"></i>
     </a>
 
     <!-- reddit -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-reddit fs-item" href="//www.reddit.com/submit?url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&title={{ decodeHtml(item.title.rendered) }}" target="_blank">
+    <a ng-click="shareItemClick($event, item.slug)" class="flex-reddit fs-item ga-sharebar-reddit" href="//www.reddit.com/submit?url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&title={{ decodeHtml(item.title.rendered) }}" target="_blank">
         <i class="fa fa-3x fa-reddit"></i>
     </a>
 
 
     <!-- twitter -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-twitter fs-item" href="http://www.twitter.com/share?&text={{ decodeHtml(item.title.rendered) }}&url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
+    <a ng-click="shareItemClick($event, item.slug)" class="flex-twitter fs-item ga-sharebar-twitter" href="http://www.twitter.com/share?&text={{ decodeHtml(item.title.rendered) }}&url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
         <i class="fa fa-3x fa-twitter"></i>
     </a>
 
     <!-- googleplus -->
-    <a ng-click="shareItemClick($event, item.slug)" class="flex-gplus fs-item" href="https://plus.google.com/share?url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
+    <a ng-click="shareItemClick($event, item.slug)" class="flex-gplus fs-item ga-sharebar-gplus" href="https://plus.google.com/share?url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
         <i class="fa fa-3x fa-google-plus"></i>
     </a>
 </div>
