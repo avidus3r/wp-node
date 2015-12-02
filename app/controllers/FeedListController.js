@@ -37,7 +37,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.isMobile = $rootScope._isMobile();
     $scope.currentCategory = null;
     $scope.renderedSingleContent = null;
-    $scope.useMongo = true;
+    $scope.useMongo = false;
 
 
     try {
