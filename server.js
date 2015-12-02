@@ -1,7 +1,7 @@
 'use strict';
 
 require('newrelic');
-require('./lib/connection');
+//require('./lib/connection');
 
 var express     = require('express'),
     http        = require('http'),
@@ -85,11 +85,13 @@ app.set('port', process.env.PORT || EXPRESS_PORT);
 app.locals.config = require('./app/config/feed.conf.json');
 
 
+/*
 mongoose.connect('mongodb://localhost/altdriver', function(){
 
 });
 
 var db = mongoose.connection;
+*/
 
 
 function getPagePosts(numberOfPosts, pageNumber) {

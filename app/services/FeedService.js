@@ -18,7 +18,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
                 $http.get(url)
                     .then(function (response) {
-                        if(response.status !== 200) throw new Error('api');
+                        if(response.data.length === 0) throw new Error('api');
                         var res = response.data;
                         deferred.resolve(res);
                     }, function (response) {
