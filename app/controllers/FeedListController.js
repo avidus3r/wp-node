@@ -36,6 +36,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.singleParams = {};
     $scope.isMobile = $rootScope._isMobile();
     $scope.currentCategory = null;
+    $scope.renderedSingleContent = null;
+    $scope.useMongo = true;
+
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
@@ -58,7 +61,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if($scope.post === 'error' || $scope.posts === 'error' || $scope.sponsors === 'error'){
             //window.location.href = 'http://splash.altdriver.com/';
             /*var errorHtml = '<section class="view-container"> <div class="wrapper app-error" style="padding:1em; margin-top:2em;"><h2>Uh oh...</h2><p>something went wrong</p><img style="max-width: 100%;" src="/images/error.jpg"></div></section>';
-            angular.element('.app-main').html(errorHtml);*/
+             angular.element('.app-main').html(errorHtml);*/
         }
     };
 
@@ -188,6 +191,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return FeedService.getPosts(path, params);
     };
 
+    $scope.getDBPosts = function(perPage, pageNum){
+        return FeedService.getDBPosts(perPage, pageNum);
+    };
+
     var postmap = [];
 
     $scope.createFeedItem = function(item,index){
@@ -241,7 +248,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var state = {page: $scope.paged};
             history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
             angular.module('NewsFeed').trackPageView($scope.paged, document.title);
-            $scope.getNext('');
+            if(!$scope.useMongo){
+                $scope.getNext('');
+            }else{
+
+            }
             window.removeEventListener('scroll', $scope.onScroll);
         }else{
             angular.element('#loading-more').hide();
@@ -475,32 +486,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     };
 
-    $scope.$on('$viewContentLoaded', function(){
-        angular.element('#loading-more').hide();
-        angular.element('body').find('.sidebar').removeClass('ng-hide');
-
-        if($scope.currentView === 'post'){
-            $scope.$on('fbReady', function(){
-                angular.element('#commentHook').on('click', function(e){
-                    $scope.toggleComments(e);
-                });
-
-                if($location.hash() === 'comment') {
-                    $scope.toggleComments(null);
-                }
-            });
-        }
-
-        setTimeout(function(){
-            angular.element('.pa-share').on('click', function(){
-                if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
-                    angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
-            });
-        },1500);
-
-        window.addEventListener('scroll', $scope.onScroll);
-    });
-
     $scope.getShareLink = function(){
         var link = location.href;
         if(location.hash){
@@ -514,14 +499,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         if($scope.posts !== null || $scope.post !== null) {
             if($scope.sponsors !== null && $scope.sponsors.length > 0)
-            angular.forEach($scope.sponsors, function (item, index) {
-                if (item.campaign_active === 'true') {
-                    angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
-                        campaignItem.type = 'sponsor';
-                        $scope.sponsorItems.push(campaignItem);
-                    });
-                }
-            });
+                angular.forEach($scope.sponsors, function (item, index) {
+                    if (item.campaign_active === 'true') {
+                        angular.forEach(item.campaigns.campaign_items, function (campaignItem, index) {
+                            campaignItem.type = 'sponsor';
+                            $scope.sponsorItems.push(campaignItem);
+                        });
+                    }
+                });
             $scope.shuffle($scope.sponsorItems);
             console.log($scope.sponsorItems.length);
         }
@@ -750,6 +735,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     };
 
+    $scope.countLines = function(el) {
+        var divHeight = el[0].offsetHeight;
+        var lineHeight = parseInt(el.css('line-height').replace('px',''));
+        return divHeight / lineHeight;
+    };
+
     $scope.renderContent = function(content,index, fromClick){
 
         //post.html(content);
@@ -760,8 +751,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         if(content.search('</iframe>') > -1) {
             var pieces = content.split('</iframe></p>');
+
             var glue = '</iframe></p><script type="text/javascript">var googletag = googletag || {}; googletag.cmd = googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];googletag.cmd.push(function() {var mapping2 = googletag.sizeMapping().addSize([0, 0], [[320, 50], [320, 100]]).addSize([1125, 200], [728, 90]).build();googletag.defineSlot("/110669458/post_companion_leaderboard_728x90", [[728, 90], [320, 50], [320, 100]], "div-gpt-ad-1434127859548-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1434127859548-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1434127859548-0"); });</script></div>';
             content = pieces.join(glue);
+            content += '<div class="post-txt-more">Read More</div>';
         }
         if(expectedEmbed.length > 0){
             expectedEmbed.addClass('video-container');
@@ -809,6 +802,44 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
 
     };
+
+    $scope.$on('$viewContentLoaded', function(){
+        angular.element('#loading-more').hide();
+        angular.element('body').find('.sidebar').removeClass('ng-hide');
+
+        if($scope.currentView === 'post'){
+            $scope.$on('fbReady', function(){
+                angular.element('#commentHook').on('click', function(e){
+                    $scope.toggleComments(e);
+                });
+
+                if($location.hash() === 'comment') {
+                    $scope.toggleComments(null);
+                }
+            });
+        }
+
+        setTimeout(function(){
+            angular.element('.pa-share').on('click', function(){
+                if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
+                    angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
+            });
+            angular.element('body').find('.post-txt-more').on('click', function(e){
+                $rootScope.readMore(e);
+            });
+        },1500);
+        /*if($scope.currentView === 'post') {
+            setTimeout(function () {
+                var textLines = Math.round(Math.floor($scope.countLines(angular.element('body').find('.ad-post-companion + p'))));
+                if (textLines <= 3) {
+                    angular.element('body').find('.post-txt-more').remove();
+                } else {
+                    angular.element('body').find('.ad-post-companion + p').css({'height': '3.85em'});
+                }
+            }, 250);
+        }*/
+        window.addEventListener('scroll', $scope.onScroll);
+    });
 
     $scope.init();
 
