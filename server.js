@@ -46,7 +46,7 @@ app.get('/', function(req,res,next){
             tw_domain: 'alt_driver',
             tw_creator: '@altdriver',
             tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-            url: 'http://admin.altdriver.com'
+            url: 'http://altdriver.altmedia.com'
         };
 
         res.send('<html><head><meta property="og:locale" content="en_US"><meta property="og:url" content="'+ metatags.fb_url + '" ><meta property="og:title" content="'+ metatags.fb_title +'" ><meta property="og:image" content="'+ metatags.fb_image +'" ><meta property="og:description" content="'+ metatags.fb_description +'" ><meta property="og:site_name" content="'+ metatags.fb_site_name +'" ><meta property="og:type" content="'+ metatags.fb_type +'" ><meta property="fb:app_id" content="638692042912150"></head><body></body></html>');
@@ -346,7 +346,7 @@ app.get('/category/:category', function(req,res){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://admin.altdriver.com',
+            url: 'http://altdriver.altmedia.com',
             remoteUrl: 'http://www.altdriver.com',
             basePath: '/wp-json/wp/v2/'
         };
@@ -392,7 +392,7 @@ app.get('/:category/:slug', function(req,res, next){
         var feed = {};
 
         feed.endpoints = {
-            url: 'http://admin.altdriver.com',
+            url: 'http://altdriver.altmedia.com',
             remoteUrl: 'http://altdriver.staging.wpengine.com',
             basePath: '/wp-json/wp/v2/'
         };
@@ -400,7 +400,7 @@ app.get('/:category/:slug', function(req,res, next){
         var postName = req.params.slug;
         var endpoint = 'posts?name=' + postName;
         var siteUrl = 'http://www.altdriver.com';
-        var appUrl = 'http://admin.altdriver.com';
+        var appUrl = 'http://altdriver.altmedia.com';
 
         request(feed.endpoints.url + feed.endpoints.basePath + endpoint, function(error, response, body){
             if (!error && response.statusCode == 200) {
