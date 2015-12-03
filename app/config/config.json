@@ -1,22 +1,22 @@
 {
-  "app": {
-    "altdriver": {
+  "altdriver": {
+    "app": {
       "name": "altdriver",
       "title": "alt_driver",
-      "url":"www.altdriver.com",
+      "url": "www.altdriver.com",
       "per_page": "7",
       "prefetch_at": "7",
       "scroll_amount": "7",
       "fb_appid": "638692042912150",
-      "fb_pixel_id":"344487495675681",
-      "feedPath":"feed",
+      "fb_pixel_id": "344487495675681",
+      "feedPath": "feed",
       "ga": "UA-53305609-1",
-      "gtm_id":"GTM-KGR7N7",
+      "gtm_id": "GTM-KGR7N7",
       "adsPerPage": "3",
-      "sponsors":"1",
+      "sponsors": "1",
       "env": {
         "prod": {
-          "remoteUrl": "http://altdriver.altmedia.com",
+          "remoteUrl": "http://admin.altdriver.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -32,21 +32,23 @@
           "basePath": "/wp-json/wp/v2/"
         }
       }
-    },
-    "upshift": {
+    }
+  },
+  "upshift": {
+    "app": {
       "name": "upshift",
       "title": "Upshift",
-      "url":"upshift.com",
-      "per_page":"12",
-      "prefetch_at":"12",
-      "scroll_amount":"12",
-      "fb_pixel_id":"1515910288730494",
-      "fb_appid":"915136841905980",
-      "feedPath":"posts",
-      "ga":"UA-69422901-1",
-      "gtm_id":"GTM-M2Z5BM",
+      "url": "upshift.com",
+      "per_page": "12",
+      "prefetch_at": "12",
+      "scroll_amount": "12",
+      "fb_pixel_id": "1515910288730494",
+      "fb_appid": "915136841905980",
+      "feedPath": "posts",
+      "ga": "UA-69422901-1",
+      "gtm_id": "GTM-M2Z5BM",
       "adsPerPage": "",
-      "sponsors":"0",
+      "sponsors": "0",
       "env": {
         "prod": {
           "remoteUrl": "http://upshift.altdrivermedia.com",
@@ -56,30 +58,32 @@
           "remoteUrl": "http://altdriver.staging.wpengine.com",
           "basePath": "/wp-json/wp/v2/"
         },
-        "stage":{
+        "stage": {
           "remoteUrl": "http://upshift.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
-        "dev":{
+        "dev": {
           "remoteUrl": "http://upshift.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
-    },
-    "driversenvy": {
+    }
+  },
+  "driversenvy": {
+    "app": {
       "name": "driversenvy",
       "title": "Driver's Envy",
-      "url":"driversenvy.com",
-      "per_page":"12",
-      "prefetch_at":"8",
-      "scroll_amount":"6",
-      "fb_appid":"1184252158255723",
-      "fb_pixel_id":"975384505833680",
-      "feedPath":"posts",
-      "ga":"UA-69393693-1",
-      "gtm_id":"GTM-PMB65S",
+      "url": "driversenvy.com",
+      "per_page": "12",
+      "prefetch_at": "8",
+      "scroll_amount": "6",
+      "fb_appid": "1184252158255723",
+      "fb_pixel_id": "975384505833680",
+      "feedPath": "posts",
+      "ga": "UA-69393693-1",
+      "gtm_id": "GTM-PMB65S",
       "adsPerPage": "3",
-      "sponsors":"0",
+      "sponsors": "0",
       "env": {
         "prod": {
           "remoteUrl": "http://driversenvy.altdrivermedia.com",
@@ -89,30 +93,32 @@
           "remoteUrl": "http://altdriver.staging.wpengine.com",
           "basePath": "/wp-json/wp/v2/"
         },
-        "stage":{
+        "stage": {
           "remoteUrl": "http://driversenvy.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
-        "dev":{
+        "dev": {
           "remoteUrl": "http://driversenvy.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
-    },
-    "mamashares": {
+    }
+  },
+  "mamashares": {
+    "app": {
       "name": "mamashares",
       "title": "Mama Shares",
-      "url":"mamashares.com",
-      "per_page":"12",
-      "prefetch_at":"12",
-      "scroll_amount":"12",
-      "fb_appid":"505538229618503",
-      "fb_pixel_id":"1698053510431350",
-      "feedPath":"posts",
-      "ga":"UA-69395977-1",
-      "gtm_id":"GTM-MJFLCK",
+      "url": "mamashares.com",
+      "per_page": "12",
+      "prefetch_at": "12",
+      "scroll_amount": "12",
+      "fb_appid": "505538229618503",
+      "fb_pixel_id": "1698053510431350",
+      "feedPath": "posts",
+      "ga": "UA-69395977-1",
+      "gtm_id": "GTM-MJFLCK",
       "adsPerPage": "",
-      "sponsors":"0",
+      "sponsors": "0",
       "env": {
         "prod": {
           "remoteUrl": "http://mamashares.altdrivermedia.com",
@@ -122,11 +128,11 @@
           "remoteUrl": "http://altdriver.staging.wpengine.com",
           "basePath": "/wp-json/wp/v2/"
         },
-        "stage":{
+        "stage": {
           "remoteUrl": "http://mamashares.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
-        "dev":{
+        "dev": {
           "remoteUrl": "http://mamashares.altdrivermedia.com",
           "basePath": "/wp-json/wp/v2/"
         }

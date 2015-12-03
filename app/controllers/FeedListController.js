@@ -10,7 +10,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.package = {
         name: 'newsfeed'
     };
-    $scope.appConfig = app[appName];
+    $scope.appConfig = app;
     $scope.feedItems = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 0;
@@ -31,7 +31,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.sponsorPosts = [];
     $scope.sponsorItems = [];
     $scope.sponsorCount = 0;
-    $scope.feedPath = app[appName].feedPath;
+    $scope.feedPath = app.feedPath;
     $scope.isSingle = false;
     $scope.singleParams = {};
     $scope.isMobile = $rootScope._isMobile();

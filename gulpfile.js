@@ -42,13 +42,14 @@ gulp.task('templates', function(){
 });
 
 gulp.task('config', function(){
+    //process.env.appname = 'driversenvy';
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
     console.log(process.env);
 
     gulp.src('./app/config/config.json')
-        .pipe(gulpNgConfig('NewsFeed.config'))
+        .pipe(gulpNgConfig('NewsFeed.config',{environment:process.env.appname}))
         .pipe(gulp.dest('./app/config'))
 });
 
