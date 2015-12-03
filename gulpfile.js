@@ -42,7 +42,9 @@ gulp.task('templates', function(){
 });
 
 gulp.task('config', function(){
-    //process.env.appname = 'driversenvy';
+    if(!process.env.appname){
+        process.env.appname = 'altdriver';
+    }
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
