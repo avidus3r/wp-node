@@ -45,6 +45,8 @@ gulp.task('config', function(){
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
+    console.log(process.env);
+
     gulp.src('./app/config/config.json')
         .pipe(gulpNgConfig('NewsFeed.config'))
         .pipe(gulp.dest('./app/config'))

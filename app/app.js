@@ -17,7 +17,7 @@ function init() {
     host = window.location.host;
 
     //appName = localStorage.getItem('appName');
-    appName = 'altdriver';
+    //appName = 'altdriver';
     if(!appName) {
         appName = host.substring(0, host.lastIndexOf('.com'));
 
@@ -49,7 +49,7 @@ NewsFeed.constant('env', env);
 NewsFeed.constant('appName', appName);
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+    ['$routeProvider', '$resourceProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
 );
 /*
  * Module Configuration
@@ -304,7 +304,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.goToPage = function($event, $index, linkParams){
 
-        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
+        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         try {
             localStorage.setItem('post_offset', postOffset);
