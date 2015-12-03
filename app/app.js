@@ -29,11 +29,9 @@ function init() {
     env = 'stage';
     host = window.location.host;
 
-    try {
-        appName = localStorage.getItem('appName');
-    }catch(e){
-        appName = getQueryParamValue('app');
-    }
+    //appName = localStorage.getItem('appName');
+    appName = 'altdriver';
+
     if(!appName) {
         appName = host.substring(0, host.lastIndexOf('.com'));
 
@@ -65,7 +63,7 @@ NewsFeed.constant('env', env);
 NewsFeed.constant('appName', appName);
 
 NewsFeed.config(
-    ['$routeProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
+    ['$routeProvider', '$resourceProvider', '$locationProvider', 'MetaTagsProvider', 'FeedServiceProvider', 'InstagramServiceProvider', 'env', 'app', 'appName', '$compileProvider', Router]
 );
 /*
  * Module Configuration
@@ -156,12 +154,24 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.orientation = null;
 
     try {
+
         if (!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined') {
             localStorage.setItem('post_offset', 0);
         }
     }catch(e){
 
     }
+
+    $rootScope.readMore = function($el){
+        var openHeight = 'auto';
+        var closedHeight = null;
+        if(!angular.element('.ad-post-companion + p').hasClass('reading')){
+            closedHeight = angular.element('.ad-post-companion + p').css('height');
+            angular.element('.ad-post-companion + p').addClass('reading');
+            angular.element('.ad-post-companion + p').css({'height': openHeight});
+            angular.element($el.currentTarget).remove();
+        }
+    };
 
     $rootScope._isMobile = function(){
         var mobileUAStr = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -225,6 +235,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         try {
             if (typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
 
+
                 votedHistory = JSON.parse(localStorage.getItem('user_voted'));
                 angular.forEach(votedHistory, function (item, index) {
                     if (item.postID === postID) {
@@ -240,16 +251,17 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             }
         }catch(e){
 
+
         }
     };
 
     $rootScope.vote = function(postID, vote, $event){
 
         //@ltDr1v3r!
-        var voteButton = angular.element($event.currentTarget);
-        var votedHistory = null;
-
         try {
+            var voteButton = angular.element($event.currentTarget);
+            var votedHistory = null;
+
             if (typeof localStorage.getItem('user_voted') === 'string' && localStorage.getItem('user_voted') !== 'null') {
                 votedHistory = JSON.parse(localStorage.getItem('user_voted'));
             }
@@ -293,8 +305,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             } else {
                 voteButton.closest('.post-actions').find('.pointsTxt').text('points');
             }
-        }catch(e){
-
+        }catch(e) {
+            console.debug(e);
         }
     };
 
@@ -310,12 +322,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.goToPage = function($event, $index, linkParams){
 
-        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug : linkParams;
+        var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         try {
             localStorage.setItem('post_offset', postOffset);
-        }catch(e){
-
+        }catch(e) {
+            console.debug(e);
         }
         window.location.href = page;
     };
