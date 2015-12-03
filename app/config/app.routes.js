@@ -1,10 +1,10 @@
 'use strict';
 
-var Router = function($routeProvider, $resourceProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, app, appName, $compileProvider) {
+var Router = function($routeProvider, $resourceProvider, $locationProvider, MetaTagsProvider, FeedServiceProvider, InstagramServiceProvider, env, app, appame, $compileProvider) {
 
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|sms|whatsapp|mailto):/);
     $routeProvider.stripTrailingSlashes = false;
-    var appConfig = app[appName];
+    var appConfig = app;
 
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
@@ -57,7 +57,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             resolve:{
                 data: function($q, $route) {
                     var params = {};
-                    var feedPath = app[appName].feedPath;
+                    var feedPath = app.feedPath;
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
@@ -75,7 +75,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         )
                     }
 
-                    /*if(appName === 'upshift'){
+                    /*if(appame === 'upshift'){
                         instagramResolve = null;
                     }*/
                     return $q.all({

@@ -20,6 +20,7 @@ build/
 tests/src/
 data/
 data/*
+app/config/config.js
 
 #aws folders
 .elasticbeanstalk/

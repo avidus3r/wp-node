@@ -11,7 +11,7 @@ var express     = require('express'),
     request     = require('request'),
     multiparty  = require('multiparty'),
     fs          = require('fs'),
-    mongoose    = require('mongoose'),
+    //mongoose    = require('mongoose'),
     authorized  = false,
     md5         = require('js-md5'),
     swig        = require('swig'),
@@ -400,6 +400,7 @@ app.get('/category/:category/', function(req,res){
     });
 
 });
+
 
 app.get('/category/:category', function(req,res){
 

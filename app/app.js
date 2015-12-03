@@ -6,7 +6,6 @@ var angular     = require('angular'),
     host        = null,
     appName     = null;
 
-
 //Angular Dependencies
 require('../assets/js/angular-metatags.min');
 require('./config/config');
@@ -30,7 +29,6 @@ function init() {
     host = window.location.host;
 
     //appName = localStorage.getItem('appName');
-    appName = 'altdriver';
 
     if(!appName) {
         appName = host.substring(0, host.lastIndexOf('.com'));
@@ -149,8 +147,8 @@ NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
 NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
     MetaTags.initialize();
 
-    var feedConfig = app[appName].env;
-    var appConfig = app[appName];
+    var feedConfig = app.env;
+    var appConfig = app;
     $rootScope.orientation = null;
 
     try {

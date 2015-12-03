@@ -8,7 +8,7 @@ var FeedService = function(app, appName, env, $http, $q){
     feed.lastOffset = null;
     feed.singleId = null;
 
-    feed.endpoints = app[appName].env[env];
+    feed.endpoints = app.env[env];
 
     feed.get = function(url, type){
         var deferred = $q.defer();
