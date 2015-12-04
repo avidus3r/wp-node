@@ -2,15 +2,30 @@
 
 var pubad = function() {
     return {
-        restrict: 'E',
+        restrict: 'EA',
         controller: function($scope, $element, $attrs, $rootScope, app) {
-
+            //window.googletag = window.googletag || {};
+            //window.googletag.cmd = window.googletag.cmd || [];
             var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
             var ads = app.pubads[platform];
+            $scope.isDesktop = false;
+            $scope.placementIndex = null;
 
-
-            $scope.placementIndex = $scope.$parent.item.placementIndex;
-            $scope.currentPubad = ads[$scope.placementIndex];
+            if(typeof $scope.$parent.item === 'undefined'){
+                $scope.isDesktop = true;
+                $scope.placementIndex = Number($element.attr('placementIndex'));
+                $scope.currentPubad = ads[$scope.placementIndex];
+                window.googletag.cmd.push(function() {
+                    $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
+                });
+            }else{
+                $scope.isDesktop = false;
+                $scope.placementIndex = $scope.$parent.item.placementIndex;
+                $scope.currentPubad = ads[$scope.placementIndex];
+                window.googletag.cmd.push(function() {
+                    $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
+                });
+            }
 
             $scope.pubadID = $scope.currentPubad.tagID;
             if(typeof $scope.currentPubad.dimensions[0] !== 'number'){
@@ -19,6 +34,10 @@ var pubad = function() {
             }else{
                 $scope.pubadWidth = $scope.currentPubad.dimensions[0] + 'px';
                 $scope.pubadHeight = $scope.currentPubad.dimensions[1] + 'px';
+            }
+
+            if($scope.isDesktop){
+                $scope.pubadHeight = 'auto';
             }
 
             //return $scope.currentPubad;
@@ -32,27 +51,37 @@ var pubad = function() {
                 $scope.elementID = attr;
             });*/
 
-            $scope.getPubad = function(adID, placementIndex){
+            $scope.getPubad = function(adID, placementIndex, paged, isDesktop){
 
-                if(location.search.length > 0){
+                if(paged > 1){
                     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-                        window.googletag.cmd.push(function() {
-                            window.googletag.pubads().clear();
-                        });
-                    }else{
-                        window.googletag.cmd.push(function() {
-                            window.googletag.pubads().refresh($rootScope.gptAdSlots[0]);
-                            window.googletag.pubads().refresh($rootScope.gptAdSlots[1]);
-                            window.googletag.pubads().refresh($rootScope.gptAdSlots[2]);
-                        });
-                    }
-                }
 
-                window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
+                        window.googletag.pubads().clear();
+                        setTimeout(function(){
+                            window.googletag.cmd.push(function() {
+                                window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
+                            });
+                        },500);
+
+                    }else{
+                        window.googletag.pubads().clear();
+                        setTimeout(function(){
+                            window.googletag.cmd.push(function() {
+                                window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
+                            });
+                        },500);
+                    }
+                }else{
+                        console.log('pushing: ',$scope.pubadID);
+                        window.googletag.cmd.push(function () {
+                            window.googletag.display($scope.pubadID);
+                        });
+
+                }
             }
 
         },
-        template: '<div class="pubad" id="{{ pubadID }}" style="height:{{ pubadHeight }}; width:{{ pubadWidth }};" ng-init="getPubad(pubadId, placementIndex)"></div>'
+        template: '<div class="pubad" id="{{ pubadID }}" style="height:{{ pubadHeight }}; width:{{ pubadWidth }};" ng-init="getPubad(pubadId, placementIndex, paged, isDesktop)"></div>'
     };
 };
 

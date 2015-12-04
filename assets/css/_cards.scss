@@ -127,8 +127,13 @@
 .card-item.post-companion-leaderboard,
 .card-item.post-half-page,
 .card-item.ad-category,
-.card-item.site-in-content{
+.card-item.site-in-content,
+.view-container .ad-placement,
+.view-container .pubad{
   text-align: center;
+  margin: 0 auto;
+  height:auto !important;
+  width:auto !important;
 }
 
 // Sponsored posts styles

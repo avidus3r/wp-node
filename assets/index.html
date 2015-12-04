@@ -100,11 +100,11 @@
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
                 <div ng-if="!_isMobile()">
                     <div class="dt-ad dt-ad-post-half-page">
-                        <ng-include src="'/views/cards/post-half-page.html'"></ng-include>
+                        <pubad ng-init="placementIndex=4" placementIndex="4"></pubad>
                     </div>
-                    <div class="dt-ad dt-ad-site-in-content">
-                        <ng-include src="'/views/cards/ad-category.html'"></ng-include>
-                    </div>
+                    <!--<div class="dt-ad">
+                        <pubad ng-init="placementIndex=5" placementIndex="5"></pubad>
+                    </div>-->
                 </div>
                 <!-- Add a trending card for 5 most popular posts -->
             </section>

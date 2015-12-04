@@ -117,7 +117,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$compile', Controllers.FeedListController]
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.FeedListController]
 );
 
 NewsFeed.controller(
@@ -423,7 +423,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         window.googletag.cmd.push(function() {
 
             angular.forEach(ads, function(item, index){
-                $rootScope.gptAdSlots[index] = window.googletag.defineSlot(item.slot, item.dimensions, item.tagID).addService(window.googletag.pubads());
+                //$rootScope.gptAdSlots[index] = window.googletag.defineSlot(item.slot, item.dimensions, item.tagID).addService(window.googletag.pubads());
             });
 
             window.googletag.pubads().enableSingleRequest();
