@@ -304,30 +304,35 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if (Number($scope.appConfig.adsPerPage) > 0) {
 
 
-                if ($scope.isMobile) {
+                if($scope.isMobile) {
                     if (index === 5) {
                         var adItem = {};
-                        adItem.type = 'post-half-page';
-                        pagedpostmap.push(adItem);
-                        $scope.feedItemScrollAmount += 1;
+                        adItem.type = 'ad';
+                        //adItem.type = 'post-half-page';
+                        adItem.placementIndex = 0;
+                        postmap.push(adItem);
+                        $scope.feedItemScrollAmount += 3;
                         pushedItems++;
                     }
 
-
                     if (index === 3) {
                         var siteInContentAdItem = {};
-                        siteInContentAdItem.type = 'site-in-content';
-                        pagedpostmap.push(siteInContentAdItem);
+                        siteInContentAdItem.type = 'ad';
+                        //siteInContentAdItem.type = 'site-in-content';
+                        siteInContentAdItem.placementIndex = 2;
+                        postmap.push(siteInContentAdItem);
                         $scope.feedItemScrollAmount += 1;
                         pushedItems++;
                     }
                 }
+
                 if (index === 1) {
-                    console.log('pushing mainleaderboard');
                     var mainLeaderboardAdItem = {};
-                    mainLeaderboardAdItem.type = 'main-leaderboard';
-                    pagedpostmap.push(mainLeaderboardAdItem);
-                    $scope.feedItemScrollAmount += 1;
+                    mainLeaderboardAdItem.type = 'ad';
+                    //mainLeaderboardAdItem.type = 'main-leaderboard';
+                    mainLeaderboardAdItem.placementIndex = 1;
+                    postmap.push(mainLeaderboardAdItem);
+                    $scope.feedItemScrollAmount+=1;
                     pushedItems++;
                 }
             }
@@ -532,8 +537,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         if($scope.isMobile) {
                             if (index === 5) {
                                 var adItem = {};
-                                //adItem.type = 'ad';
-                                adItem.type = 'post-half-page';
+                                adItem.type = 'ad';
+                                //adItem.type = 'post-half-page';
                                 adItem.placementIndex = 0;
                                 postmap.push(adItem);
                                 $scope.feedItemScrollAmount += 3;
@@ -542,8 +547,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                             if (index === 3) {
                                 var siteInContentAdItem = {};
-                                //siteInContentAdItem.type = 'ad';
-                                siteInContentAdItem.type = 'site-in-content';
+                                siteInContentAdItem.type = 'ad';
+                                //siteInContentAdItem.type = 'site-in-content';
                                 siteInContentAdItem.placementIndex = 2;
                                 postmap.push(siteInContentAdItem);
                                 $scope.feedItemScrollAmount += 1;
@@ -554,8 +559,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                         if (index === 1) {
                             var mainLeaderboardAdItem = {};
-                            //mainLeaderboardAdItem.type = 'ad';
-                            mainLeaderboardAdItem.type = 'main-leaderboard';
+                            mainLeaderboardAdItem.type = 'ad';
+                            //mainLeaderboardAdItem.type = 'main-leaderboard';
                             mainLeaderboardAdItem.placementIndex = 1;
                             postmap.push(mainLeaderboardAdItem);
                             $scope.feedItemScrollAmount+=1;
@@ -653,8 +658,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             if($scope.isMobile) {
                                 if (index === 5) {
                                     var adItem = {};
-                                    //adItem.type = 'ad';
-                                    adItem.type = 'post-half-page';
+                                    adItem.type = 'ad';
+                                    //adItem.type = 'post-half-page';
                                     adItem.placementIndex = 0;
                                     postmap.push(adItem);
                                     $scope.feedItemScrollAmount += 3;
@@ -663,8 +668,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                                 if (index === 3) {
                                     var siteInContentAdItem = {};
-                                    //siteInContentAdItem.type = 'ad';
-                                    siteInContentAdItem.type = 'site-in-content';
+                                    siteInContentAdItem.type = 'ad';
+                                    //siteInContentAdItem.type = 'site-in-content';
                                     siteInContentAdItem.placementIndex = 2;
                                     postmap.push(siteInContentAdItem);
                                     $scope.feedItemScrollAmount += 1;
@@ -675,8 +680,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                             if (index === 1) {
                                 var mainLeaderboardAdItem = {};
-                                //mainLeaderboardAdItem.type = 'ad';
-                                mainLeaderboardAdItem.type = 'main-leaderboard';
+                                mainLeaderboardAdItem.type = 'ad';
+                                //mainLeaderboardAdItem.type = 'main-leaderboard';
                                 mainLeaderboardAdItem.placementIndex = 1;
                                 postmap.push(mainLeaderboardAdItem);
                                 $scope.feedItemScrollAmount+=1;

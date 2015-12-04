@@ -28,16 +28,31 @@ var pubad = function() {
             $attrs.$observe('placementHeight',function(attr) {
                 $scope.placementHeight = attr;
             });
-            $attrs.$observe('elementID',function(attr) {
+            $attrs.$observe('elementID',function(attr) {a
                 $scope.elementID = attr;
             });*/
 
-            $scope.getPubad = function(adID, $element){
-                console.log(adID, $element);
+            $scope.getPubad = function(adID, placementIndex){
+
+                if(location.search.length > 0){
+                    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                        window.googletag.cmd.push(function() {
+                            window.googletag.pubads().clear();
+                        });
+                    }else{
+                        window.googletag.cmd.push(function() {
+                            window.googletag.pubads().refresh($rootScope.gptAdSlots[0]);
+                            window.googletag.pubads().refresh($rootScope.gptAdSlots[1]);
+                            window.googletag.pubads().refresh($rootScope.gptAdSlots[2]);
+                        });
+                    }
+                }
+
+                window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
             }
 
         },
-        template: '<div class="pubad" id="{{ pubadID }}" style="height:{{ pubadHeight }}; width:{{ pubadWidth }};" ng-init="getPubad(pubadId, $element)"></div>'
+        template: '<div class="pubad" id="{{ pubadID }}" style="height:{{ pubadHeight }}; width:{{ pubadWidth }};" ng-init="getPubad(pubadId, placementIndex)"></div>'
     };
 };
 

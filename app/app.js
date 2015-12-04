@@ -138,7 +138,7 @@ var Directives = require('./directives/app.directives.js');
 
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
-//NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
+NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 
 /*
  * Module Directives
@@ -151,6 +151,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var feedConfig = app.env;
     var appConfig = app;
     $rootScope.orientation = null;
+    $rootScope.gptAdSlots = [];
 
     try {
 
@@ -403,8 +404,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
-        var googletag = googletag || {};
-        googletag.cmd = googletag.cmd || [];
+        window.googletag = window.googletag || {};
+        window.googletag.cmd = window.googletag.cmd || [];
         (function() {
             var gads = document.createElement('script');
             gads.async = true;
@@ -419,15 +420,16 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
         var ads = app.pubads[platform];
 
-        googletag.cmd.push(function() {
+        window.googletag.cmd.push(function() {
 
             angular.forEach(ads, function(item, index){
-                googletag.defineSlot(item.slot, item.dimensions, item.tagID).addService(googletag.pubads());
+                $rootScope.gptAdSlots[index] = window.googletag.defineSlot(item.slot, item.dimensions, item.tagID).addService(window.googletag.pubads());
             });
 
-            googletag.pubads().enableSingleRequest();
-            googletag.pubads().collapseEmptyDivs();
-            googletag.enableServices();
+            window.googletag.pubads().enableSingleRequest();
+            window.googletag.pubads().collapseEmptyDivs();
+            window.googletag.enableServices();
         });
+
     };
 });
