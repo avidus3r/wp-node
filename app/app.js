@@ -138,6 +138,7 @@ var Directives = require('./directives/app.directives.js');
 
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
+//NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 
 /*
  * Module Directives
@@ -398,7 +399,35 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.getAppInfo = function(param){
-
         return appConfig[param];
+    };
+
+    $rootScope.initAds = function(){
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' === document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') +
+            '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+
+        var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
+        var ads = app.pubads[platform];
+
+        googletag.cmd.push(function() {
+
+            angular.forEach(ads, function(item, index){
+                googletag.defineSlot(item.slot, item.dimensions, item.tagID).addService(googletag.pubads());
+            });
+
+            googletag.pubads().enableSingleRequest();
+            googletag.pubads().collapseEmptyDivs();
+            googletag.enableServices();
+        });
     };
 });

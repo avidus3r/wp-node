@@ -13,10 +13,6 @@
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-    <script type="text/javascript">
-
-    </script>
-
     <meta name="description" content="{{ metatags.description }}">
 
     <!-- facebook meta -->
@@ -82,7 +78,11 @@
 </head>
 <body class="{{ isMobile() }} {{ getOrientation() }}">
 
+    <script type='text/javascript'>
 
+    </script>
+
+    <script type="text/javascript" ng-init="initAds()"></script>
 
     <div id="fb-px-id" style="display: none;">{{ getAppInfo('fb_pixel_id') }}</div>
     <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
