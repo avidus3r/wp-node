@@ -286,7 +286,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
-        .when('/sponsor/:sponsor', {
+        .when('/sponsor/:sponsor/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
