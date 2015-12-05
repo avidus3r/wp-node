@@ -286,6 +286,45 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/sponsor/:sponsor', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: null,
+                        instagram: null,
+                        sponsors: FeedService.getSponsor($route.current.params.sponsor).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )
+
+                    });
+                }
+            }
+        })
         .when('/:category/:slug', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -430,45 +469,6 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         instagram:null,
                         sponsors: sponsorResolve,
                         posts: null
-                    });
-                }
-            }
-        })
-        .when('/sponsor/:sponsor', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
-            redirectTo: false,
-            reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route) {
-                    var params = {};
-
-                    return $q.all({
-                        config: FeedService.getData('/appdata/feed.conf.json').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        posts: null,
-                        instagram: null,
-                        sponsors: FeedService.getSponsor($route.current.params.sponsor).then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        )
-
                     });
                 }
             }
