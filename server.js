@@ -15,8 +15,7 @@ var express     = require('express'),
     authorized  = false,
     md5         = require('js-md5'),
     swig        = require('swig'),
-    cons        = require('consolidate'),
-    $           = require('jquery');
+    cons        = require('consolidate');
 
 var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
@@ -37,6 +36,7 @@ app.use(express.static(__dirname + './app/components/views/cards'));
 
 var config = require('./app/config/config.json');
 var appName = process.env.appname;
+if(!appName) appName = 'altdriver';
 var appConfig = config[appName].app;
 var env = 'prod';
 

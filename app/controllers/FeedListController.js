@@ -38,7 +38,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.currentCategory = null;
     $scope.renderedSingleContent = null;
     $scope.useMongo = false;
-
+    $scope.postCompanionAd = null;
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
@@ -52,6 +52,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.splicedItems = 0;
     $scope.paged = 1;
 
+    var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
+    $scope.postCompanionAd = app.pubads[platform][0];
 
     if($scope.instagram !== null){
         $scope.instagramItems = $scope.instagram.data.data;
@@ -243,7 +245,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.onScroll = function(){
         if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
-            angular.element('#loading-more').show();
+            angular.element('#loading-more').removeClass('hidden').show();
             $scope.paged += 1;
             var state = {page: $scope.paged};
             history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
@@ -769,7 +771,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if(content.search('</iframe>') > -1) {
             var pieces = content.split('</iframe></p>');
 
-            var glue = '</iframe></p><script type="text/javascript">var googletag = googletag || {}; googletag.cmd = googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];googletag.cmd.push(function() {var mapping2 = googletag.sizeMapping().addSize([0, 0], [[320, 50], [320, 100]]).addSize([1125, 200], [728, 90]).build();googletag.defineSlot("/110669458/post_companion_leaderboard_728x90", [[728, 90], [320, 50], [320, 100]], "div-gpt-ad-1434127859548-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1434127859548-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1434127859548-0"); });</script></div>';
+            var adSlot = $scope.postCompanionAd.slot;
+            var adDimensions = $scope.postCompanionAd.dimensions;
+            var adTagID = $scope.postCompanionAd.tagID;
+            window.googletag.cmd.push(function() {
+                $rootScope.gptAdSlots[0] = window.googletag.defineSlot(adSlot, adDimensions, adTagID).addService(window.googletag.pubads());
+            });
+            var glue = '</iframe></p><div class="ad-post-companion" id="' + adTagID + '"><script type="text/javascript">window.googletag.cmd.push(function() { window.googletag.display("'+adTagID+'"); });</script></div>';
             content = pieces.join(glue);
             content += '<div class="post-txt-more ga-post-more">Read More</div>';
         }

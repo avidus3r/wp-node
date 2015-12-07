@@ -76,11 +76,12 @@ var pubad = function() {
                         },1000);
                     }
                 }else{
-                        console.log('pushing: ',$scope.pubadID);
+                    setTimeout(function() {
+                        console.log('pushing: ', $scope.pubadID);
                         window.googletag.cmd.push(function () {
                             window.googletag.display($scope.pubadID);
                         });
-
+                    },1000);
                 }
             }
 
