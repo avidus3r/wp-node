@@ -384,24 +384,26 @@ app.get('/category/:category/', function(req,res){
                     var category = {};
                     var metatags = {};
                     var categories = JSON.parse(body);
-                    for (var i = 0; i < categories.length; i++) {
-                        if (categories[i].slug === catName) {
-                            category = categories[i];
+                    if(typeof categories !== 'undefined') {
+                        for (var i = 0; i < categories.length; i++) {
+                            if (categories[i].slug === catName) {
+                                category = categories[i];
+                            }
                         }
+                        // Standard meta
+                        metatags.title = category.name + ' Archives - alt_driver';
+                        metatags.description = category.description;
+
+                        // Facebook meta
+                        metatags.fb_type = 'object';
+                        metatags.fb_site_name = 'alt_driver';
+                        metatags.fb_title = category.name + ' Archives - alt_driver';
+                        metatags.fb_description = category.description;
+                        metatags.url = appUrl + '/' + req.params.category;
+                        metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+
+                        res.render('index', {metatags: metatags});
                     }
-                    // Standard meta
-                    metatags.title = category.name + ' Archives - alt_driver';
-                    metatags.description = category.description;
-
-                    // Facebook meta
-                    metatags.fb_type = 'object';
-                    metatags.fb_site_name = 'alt_driver';
-                    metatags.fb_title = category.name + ' Archives - alt_driver';
-                    metatags.fb_description = category.description;
-                    metatags.url = appUrl + '/' + req.params.category;
-                    metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
-
-                    res.render('index', {metatags: metatags});
                 }
             });
         } catch (e) {
@@ -433,24 +435,26 @@ app.get('/category/:category', function(req,res){
                     var category = {};
                     var metatags = {};
                     var categories = JSON.parse(body);
-                    for (var i = 0; i < categories.length; i++) {
-                        if (categories[i].slug === catName) {
-                            category = categories[i];
+                    if(typeof categories !== 'undefined') {
+                        for (var i = 0; i < categories.length; i++) {
+                            if (categories[i].slug === catName) {
+                                category = categories[i];
+                            }
                         }
+                        // Standard meta
+                        metatags.title = category.name + ' Archives - alt_driver';
+                        metatags.description = category.description;
+
+                        // Facebook meta
+                        metatags.fb_type = 'object';
+                        metatags.fb_site_name = 'alt_driver';
+                        metatags.fb_title = category.name + ' Archives - alt_driver';
+                        metatags.fb_description = category.description;
+                        metatags.url = appUrl + '/' + req.params.category;
+                        metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
+
+                        res.render('index', {metatags: metatags});
                     }
-                    // Standard meta
-                    metatags.title = category.name + ' Archives - alt_driver';
-                    metatags.description = category.description;
-
-                    // Facebook meta
-                    metatags.fb_type = 'object';
-                    metatags.fb_site_name = 'alt_driver';
-                    metatags.fb_title = category.name + ' Archives - alt_driver';
-                    metatags.fb_description = category.description;
-                    metatags.url = appUrl + '/' + req.params.category;
-                    metatags.fb_image = 'http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png';
-
-                    res.render('index', {metatags: metatags});
                 }
             });
         } catch (e) {
@@ -488,24 +492,26 @@ app.get('/:category/:slug/', function(req,res, next){
                     var post = JSON.parse([response.body][0]);
 
                     post = post[0];
-                    metatags.published = post.date;
-                    metatags.modified = post.modified;
-                    metatags.category = post.category[0].name;
-                    metatags.title = post.title.rendered;
-                    metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                    if(typeof post !== 'undefined') {
+                        metatags.published = post.date;
+                        metatags.modified = post.modified;
+                        metatags.category = post.category[0].name;
+                        metatags.title = post.title.rendered;
+                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
-                    // Facebook meta
-                    metatags.fb_type = 'article';
-                    metatags.fb_site_name = ' alt_driver';
-                    metatags.fb_title = post.title.rendered;
-                    metatags.fb_url = siteUrl + req.url;
-                    metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                    metatags.fb_image = post.featured_image_src.original_wp[0];
-                    metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                    metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                        // Facebook meta
+                        metatags.fb_type = 'article';
+                        metatags.fb_site_name = ' alt_driver';
+                        metatags.fb_title = post.title.rendered;
+                        metatags.fb_url = siteUrl + req.url;
+                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
-                    res.render('index', {metatags: metatags});
+                        res.render('index', {metatags: metatags});
+                    }
                 }
             });
         } catch (e) {
@@ -538,24 +544,27 @@ app.get('/:category/:slug', function(req,res, next){
                     var post = JSON.parse([response.body][0]);
 
                     post = post[0];
-                    metatags.published = post.date;
-                    metatags.modified = post.modified;
-                    metatags.category = post.category[0].name;
-                    metatags.title = post.title.rendered;
-                    metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
-                    // Facebook meta
-                    metatags.fb_type = 'article';
-                    metatags.fb_site_name = ' alt_driver';
-                    metatags.fb_title = post.title.rendered;
-                    metatags.fb_url = siteUrl + req.url;
-                    metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                    metatags.fb_image = post.featured_image_src.original_wp[0];
-                    metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                    metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                    if(typeof post !== 'undefined') {
+                        metatags.published = post.date;
+                        metatags.modified = post.modified;
+                        metatags.category = post.category[0].name;
+                        metatags.title = post.title.rendered;
+                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
-                    res.render('index', {metatags: metatags});
+                        // Facebook meta
+                        metatags.fb_type = 'article';
+                        metatags.fb_site_name = ' alt_driver';
+                        metatags.fb_title = post.title.rendered;
+                        metatags.fb_url = siteUrl + req.url;
+                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+
+                        res.render('index', {metatags: metatags});
+                    }
                 }
             });
         } catch (e) {
