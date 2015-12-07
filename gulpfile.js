@@ -25,7 +25,8 @@ var paths   = {
     assets:['assets/**/*.*', '!assets/**/*.scss'],
     templates: ['app/components/**/*.html'],
     tests: ['tests/spec/**/*.js'],
-    config: ['app/config/*.json', 'app/config.json']
+    config: ['app/config/*.json', 'app/config.json'],
+    package:['app/package/**/*.*']
 };
 
 gulp.task('scripts', ['lint'], function(){
@@ -47,8 +48,6 @@ gulp.task('config', function(){
     }
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
-
-    console.log(process.env);
 
     gulp.src('./app/config/config.json')
         .pipe(gulpNgConfig('NewsFeed.config',{environment:process.env.appname}))
@@ -83,8 +82,28 @@ gulp.task('lint', function() {
 });
 
 gulp.task('assets', function() {
-    return gulp.src(paths.assets)
+    gulp.src(paths.assets)
         .pipe(gulp.dest('./dist/'));
+
+    if(!process.env.appname){
+        process.env.appname = 'altdriver';
+    }
+
+    var iconsPath = './app/package/favicons/'+process.env.appname;
+    try{
+        fs.lstatSync(iconsPath).isDirectory()
+    }catch(e){
+        iconsPath = './app/package/favicons/altmedia';
+    };
+    /*fs.realpath('./assets/favicons/'+process.env.appname, function(err, resolvedPath) {
+        fs.readdir(resolvedPath, function(err, files) {
+            if (err) iconsPath = './assets/favicons/altmedia';
+        });
+    });
+    console.log(iconsPath);*/
+    gulp.src(iconsPath + '/*.*')
+        .pipe(gulp.dest('./dist/favicons/'));
+
 });
 
 gulp.task('css',['css:min']);
