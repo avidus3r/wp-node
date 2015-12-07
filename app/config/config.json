@@ -17,9 +17,9 @@
       "pubads": {
         "desktop": [
           {"slot": "/110669458/AD_Desktop_Companion_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-0"},
-          {"slot": "/110669458/AD_Desktop_Feed01_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-1"},
-          {"slot": "/110669458/AD_Desktop_Feed02_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-2"},
-          {"slot": "/110669458/AD_Desktop_Feed03_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-3"},
+          {"slot": "/110669458/AD_Desktop_Feed01_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-1"},
+          {"slot": "/110669458/AD_Desktop_Feed02_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-2"},
+          {"slot": "/110669458/AD_Desktop_Feed03_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-3"},
           {"slot": "/110669458/AD_Desktop_RR01_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-4"},
           {"slot": "/110669458/AD_Desktop_RR02_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-5"}
         ],
@@ -68,9 +68,9 @@
       "pubads": {
         "desktop": [
           {"slot": "/110669458/UP_Desktop_Companion_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-0"},
-          {"slot": "/110669458/UP_Desktop_Feed01_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-1"},
-          {"slot": "/110669458/UP_Desktop_Feed02_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-2"},
-          {"slot": "/110669458/UP_Desktop_Feed03_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-3"},
+          {"slot": "/110669458/UP_Desktop_Feed01_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-1"},
+          {"slot": "/110669458/UP_Desktop_Feed02_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-2"},
+          {"slot": "/110669458/UP_Desktop_Feed03_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-3"},
           {"slot": "/110669458/UP_Desktop_RR01_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-4"},
           {"slot": "/110669458/UP_Desktop_RR02_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-5"}
         ],
@@ -119,9 +119,9 @@
       "pubads": {
         "desktop": [
           {"slot": "/110669458/DE_Desktop_Companion_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-0"},
-          {"slot": "/110669458/DE_Desktop_Feed01_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-1"},
-          {"slot": "/110669458/DE_Desktop_Feed02_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-2"},
-          {"slot": "/110669458/DE_Desktop_Feed03_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-3"},
+          {"slot": "/110669458/DE_Desktop_Feed01_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-1"},
+          {"slot": "/110669458/DE_Desktop_Feed02_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-2"},
+          {"slot": "/110669458/DE_Desktop_Feed03_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-3"},
           {"slot": "/110669458/DE_Desktop_RR01_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-4"},
           {"slot": "/110669458/DE_Desktop_RR02_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-5"}
         ],
@@ -170,9 +170,9 @@
       "pubads": {
         "desktop": [
           {"slot": "/110669458/MS_Desktop_Companion_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-0"},
-          {"slot": "/110669458/MS_Desktop_Feed01_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-1"},
-          {"slot": "/110669458/MS_Desktop_Feed02_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-2"},
-          {"slot": "/110669458/MS_Desktop_Feed03_Leaderboard", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1448906851482-3"},
+          {"slot": "/110669458/MS_Desktop_Feed01_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-1"},
+          {"slot": "/110669458/MS_Desktop_Feed02_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-2"},
+          {"slot": "/110669458/MS_Desktop_Feed03_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-3"},
           {"slot": "/110669458/MS_Desktop_RR01_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-4"},
           {"slot": "/110669458/MS_Desktop_RR02_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-5"}
         ],

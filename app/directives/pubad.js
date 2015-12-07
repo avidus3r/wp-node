@@ -15,16 +15,20 @@ var pubad = function() {
                 $scope.isDesktop = true;
                 $scope.placementIndex = Number($element.attr('placementIndex'));
                 $scope.currentPubad = ads[$scope.placementIndex];
-                window.googletag.cmd.push(function() {
-                    $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
-                });
+                if(!$rootScope.gptAdSlots[$scope.placementIndex]) {
+                    window.googletag.cmd.push(function () {
+                        $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
+                    });
+                }
             }else{
                 $scope.isDesktop = false;
                 $scope.placementIndex = $scope.$parent.item.placementIndex;
                 $scope.currentPubad = ads[$scope.placementIndex];
-                window.googletag.cmd.push(function() {
-                    $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
-                });
+                if(!$rootScope.gptAdSlots[$scope.placementIndex]) {
+                    window.googletag.cmd.push(function () {
+                        $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
+                    });
+                }
             }
 
             $scope.pubadID = $scope.currentPubad.tagID;
@@ -61,7 +65,7 @@ var pubad = function() {
                             window.googletag.cmd.push(function() {
                                 window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
                             });
-                        },500);
+                        },1000);
 
                     }else{
                         window.googletag.pubads().clear();
@@ -69,7 +73,7 @@ var pubad = function() {
                             window.googletag.cmd.push(function() {
                                 window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
                             });
-                        },500);
+                        },1000);
                     }
                 }else{
                         console.log('pushing: ',$scope.pubadID);

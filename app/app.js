@@ -423,10 +423,6 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
         window.googletag.cmd.push(function() {
 
-            angular.forEach(ads, function(item, index){
-                //$rootScope.gptAdSlots[index] = window.googletag.defineSlot(item.slot, item.dimensions, item.tagID).addService(window.googletag.pubads());
-            });
-
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
