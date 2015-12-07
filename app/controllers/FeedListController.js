@@ -849,6 +849,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 if(angular.element('.share-icon-wrapper').not('.ng-hide').length >1)
                     angular.element(angular.element('.share-icon-wrapper').not('.ng-hide')[0]).addClass('ng-hide');
             });
+            angular.element('body').find('.ad-post-companion + p').addClass('expandable-text');
             angular.element('body').find('.post-txt-more').on('click', function(e){
                 $rootScope.readMore(e);
             });
