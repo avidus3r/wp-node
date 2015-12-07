@@ -61,7 +61,6 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
 
     $scope.renderMenu = function(){
         angular.forEach($scope.menuItems, function (item, index) {
-            console.log(item);
             angular.forEach(item, function (navItem, index) {
                 if (navItem.object === 'page') {
                     navItem.class = 'legal';

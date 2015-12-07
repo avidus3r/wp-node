@@ -78,18 +78,14 @@
 </head>
 <body class="{{ isMobile() }} {{ getOrientation() }}">
 
-    <script type='text/javascript'>
-
-    </script>
-
     <script type="text/javascript" ng-init="initAds()"></script>
 
     <div id="fb-px-id" style="display: none;">{{ getAppInfo('fb_pixel_id') }}</div>
     <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
-    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
-
+    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
 
     <ng-include src="'/views/partials/header.html'"></ng-include>
+
     <div class="app-wrapper">
         <div class="app-main">
             <section class="view-container ng-view"></section>
@@ -110,12 +106,14 @@
             </section>
         </div>
     </div>
-    <div id="ga-id" style="display: none;">{{ getAppInfo('ga') }}</div>
-    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
+
     <ng-include src="'/views/partials/ga.html'"></ng-include>
+    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
+
     <script type="text/javascript">
 
         angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
+            console.log('trackPageView: ', pageNum, pageTitle);
             var path = location.pathname === '/' ? '' : location.pathname;
             dataLayer.push({
                 'event': 'VirtualPageview',

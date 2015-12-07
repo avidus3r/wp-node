@@ -139,6 +139,7 @@ var Directives = require('./directives/app.directives.js');
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
 NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
+NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
 
 /*
  * Module Directives

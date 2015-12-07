@@ -1,4 +1,4 @@
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KGR7N7"
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ getAppInfo('gtm_id') }}"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
     setTimeout(function() {
@@ -13,22 +13,8 @@
             j.src =
                     '//www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-M2KSWB');
+        })(window, document, 'script', 'dataLayer', document.getElementById('gtm-id').innerText);
         var googletag = {};
         googletag.cmd = [];
-    },2500);</script>
-
-<!--
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    setTimeout(function(){
-        ga('create', 'UA-66153561-1', 'auto');
-        //ga('send', 'pageview');
     },2500);
-
-
-</script>-->
+</script>
