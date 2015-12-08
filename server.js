@@ -538,7 +538,7 @@ app.get('/:category/:slug/', function(req,res, next){
                         // Facebook meta
 
                         metatags.fb_appid = fbAppId;
-                        metatags.fb_url = fbUrl;
+                        metatags.fb_publisher = fbUrl;
                         metatags.fb_type = 'article';
                         metatags.fb_site_name = ' alt_driver';
                         if(post.hasOwnProperty('title') && post.title.length > 0 && post.title.hasOwnProperty('rendered')) metatags.fb_title = post.title.rendered;
