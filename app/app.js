@@ -390,7 +390,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var attrs = {'src': 0, 'width': 1, 'height': 2};
 
         if(/ios/i.test($rootScope.isMobile())){
-            return img.large[attrs[attr]];
+            return img.medium[attrs[attr]];
         }
         else if(/mobile/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
