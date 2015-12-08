@@ -527,22 +527,24 @@ app.get('/:category/:slug/', function(req,res, next){
 
                     post = post[0];
                     if(typeof post !== 'undefined') {
-                        metatags.published = post.date;
-                        metatags.modified = post.modified;
-                        metatags.category = post.category[0].name;
-                        metatags.title = post.title.rendered;
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        if(post.hasOwnProperty('date')) metatags.published = post.date;
+                        if(post.hasOwnProperty('modified')) metatags.modified = post.modified;
+                        if(post.hasOwnProperty('category') && post.category.length > 0 && post.category.hasOwnProperty('name')) metatags.category = post.category[0].name;
+                        if(post.hasOwnProperty('title') && post.title.length > 0 && post.title.hasOwnProperty('rendered')) metatags.title = post.title.rendered;
+                        if(post.hasOwnProperty('postmeta') && post.postmeta.length > 0 && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0) metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
                         // Facebook meta
                         metatags.fb_type = 'article';
                         metatags.fb_site_name = ' alt_driver';
-                        metatags.fb_title = post.title.rendered;
+                        if(post.hasOwnProperty('title') && post.title.length > 0 && post.title.hasOwnProperty('rendered')) metatags.fb_title = post.title.rendered;
                         metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        if(post.hasOwnProperty('postmeta') && post.postmeta.length > 0 && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0) metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
                         metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                        if(post.hasOwnProperty('featured_image_src') && post.featured_image_src.length > 0 && post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0){
+                            metatags.fb_image = post.featured_image_src.original_wp[0];
+                            metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                            metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                        }
 
                         var template = swig.compileFile('./dist/bots.html');
                         var output = template({metatags: metatags, app: appName, posts:post});
