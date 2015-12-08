@@ -513,6 +513,8 @@ app.get('/:category/:slug/', function(req,res, next){
         basePath: '/wp-json/wp/v2/'
     };
 
+    var fbAppId = appConfig.fb_appid;
+    var fbUrl = appConfig.fb_url;
     var postName = req.params.slug;
     var endpoint = 'posts?name=' + postName;
     var siteUrl = 'http://www.altdriver.com';
@@ -534,6 +536,9 @@ app.get('/:category/:slug/', function(req,res, next){
                         if(post.hasOwnProperty('postmeta') && post.postmeta.length > 0 && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0) metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
                         // Facebook meta
+
+                        metatags.fb_appid = fbAppId;
+                        metatags.fb_url = fbUrl;
                         metatags.fb_type = 'article';
                         metatags.fb_site_name = ' alt_driver';
                         if(post.hasOwnProperty('title') && post.title.length > 0 && post.title.hasOwnProperty('rendered')) metatags.fb_title = post.title.rendered;
