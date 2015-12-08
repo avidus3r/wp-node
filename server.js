@@ -517,7 +517,7 @@ app.get('/:category/:slug/', function(req,res, next){
     var fbUrl = appConfig.fb_url;
     var postName = req.params.slug;
     var endpoint = 'posts?name=' + postName;
-    var siteUrl = 'http://www.altdriver.com';
+    var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
         try {
@@ -579,7 +579,7 @@ app.get('/:category/:slug', function(req,res, next){
     var fbUrl = appConfig.fb_url;
     var postName = req.params.slug;
     var endpoint = 'posts?name=' + postName;
-    var siteUrl = 'http://www.altdriver.com';
+    var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
     if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
         try {
