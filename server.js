@@ -529,11 +529,12 @@ app.get('/:category/:slug/', function(req,res, next){
 
                     post = post[0];
                     if(typeof post !== 'undefined') {
+                        console.log(post.hasOwnProperty('featured_image_src') && typeof post.featured_image_src === 'object' && post.featured_image_src.hasOwnProperty('original_wp') && typeof post.featured_image_src.original_wp === 'object');
                         if(post.hasOwnProperty('date')) metatags.published = post.date;
                         if(post.hasOwnProperty('modified')) metatags.modified = post.modified;
                         if(post.hasOwnProperty('category') && post.category.length > 0 && post.category.hasOwnProperty('name')) metatags.category = post.category[0].name;
-                        if(post.hasOwnProperty('title') && post.title.length > 0 && post.title.hasOwnProperty('rendered')) metatags.title = post.title.rendered;
-                        if(post.hasOwnProperty('postmeta') && post.postmeta.length > 0 && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0) metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        if(post.hasOwnProperty('postmeta') && typeof post.postmeta === 'object' && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')  && typeof post.postmeta['_yoast_wpseo_opengraph-title'] === 'object') metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                        if(post.hasOwnProperty('postmeta') && typeof post.postmeta === 'object' && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && typeof post.postmeta['_yoast_wpseo_opengraph-description'] === 'object') metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
                         // Facebook meta
 
@@ -541,11 +542,11 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.fb_publisher = fbUrl;
                         metatags.fb_type = 'article';
                         metatags.fb_site_name = appConfig.fb_sitename;
-                        if(post.hasOwnProperty('title') && post.title.length > 0 && post.title.hasOwnProperty('rendered')) metatags.fb_title = post.title.rendered;
+                        if(post.hasOwnProperty('postmeta') && typeof post.postmeta === 'object' && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')  && typeof post.postmeta['_yoast_wpseo_opengraph-title'] === 'object') metatags.fb_title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
                         metatags.fb_url = siteUrl + req.url;
-                        if(post.hasOwnProperty('postmeta') && post.postmeta.length > 0 && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0) metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        if(post.hasOwnProperty('postmeta') && typeof post.postmeta === 'object' && post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && typeof post.postmeta['_yoast_wpseo_opengraph-description'] === 'object') metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
                         metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        if(post.hasOwnProperty('featured_image_src') && post.featured_image_src.length > 0 && post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0){
+                        if(post.hasOwnProperty('featured_image_src') && typeof post.featured_image_src === 'object' && post.featured_image_src.hasOwnProperty('original_wp') && typeof post.featured_image_src.original_wp === 'object'){
                             metatags.fb_image = post.featured_image_src.original_wp[0];
                             metatags.fb_image_width = post.featured_image_src.original_wp[1];
                             metatags.fb_image_height = post.featured_image_src.original_wp[2];

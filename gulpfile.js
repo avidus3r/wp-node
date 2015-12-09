@@ -44,7 +44,7 @@ gulp.task('templates', function(){
 
 gulp.task('config', function(){
     if(!process.env.appname){
-        process.env.appname = 'mamashares';
+        process.env.appname = 'altdriver';
     }
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
