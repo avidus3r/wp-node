@@ -170,9 +170,7 @@
       "name": "mamashares",
       "title": "Mama Shares",
       "description": "Mama Shares is the most entertaining and sharable content from social media and the web.",
-      "constants":{
-        "loading_message":"Getting more awesome Mama stuff..."
-      },
+      "loading_message":"Getting more awesome Mama stuff...",
       "url": "mamashares.com",
       "per_page": "12",
       "prefetch_at": "12",
