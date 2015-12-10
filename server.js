@@ -1,6 +1,6 @@
 'use strict';
 
-require('newrelic');
+var newrelic = require('newrelic');
 //require('./lib/connection');
 
 var express     = require('express'),
@@ -44,7 +44,7 @@ feedConfig = appConfig.env[env];
 
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
-app.set('views', __dirname + '/assets');
+app.set('views', __dirname + '/dist');
 
 function htmlEntities(str) {
     str = str.replace('&lt;','<');
@@ -98,7 +98,8 @@ app.get('/', function(req,res,next){
         }
 
     }else{
-        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+        //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+        res.render('index',{newrelic:newrelic});
     }
 });
 
@@ -441,7 +442,8 @@ app.get('/category/:category/', function(req,res){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        res.render('index',{newrelic:newrelic});
     }
 });
 
@@ -495,7 +497,8 @@ app.get('/category/:category', function(req,res){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        res.render('index',{newrelic:newrelic});
     }
 
 });
@@ -561,7 +564,8 @@ app.get('/:category/:slug/', function(req,res, next){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        res.render('index',{newrelic:newrelic});
     }
 });
 
@@ -622,12 +626,14 @@ app.get('/:category/:slug', function(req,res, next){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        res.render('index',{newrelic:newrelic});
     }
 });
 
 app.get('*', function(req,res){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    res.render('index',{newrelic:newrelic});
 });
 
 /*
