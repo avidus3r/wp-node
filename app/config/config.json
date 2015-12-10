@@ -9,6 +9,7 @@
       "prefetch_at": "7",
       "scroll_amount": "7",
       "avatar": "http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png",
+      "loading_message":"Getting Awesome Car Stuff...",
       "fb_sitename":"alt_driver",
       "fb_appid": "638692042912150",
       "fb_pixel_id": "344487495675681",
@@ -71,6 +72,7 @@
       "ga": "UA-69422901-1",
       "gtm_id": "GTM-M2Z5BM",
       "adsPerPage": "3",
+      "loading_message":"Getting More Car Stuff...",
       "sponsors": "0",
       "pubads": {
         "desktop": [
@@ -125,6 +127,7 @@
       "ga": "UA-69393693-1",
       "gtm_id": "GTM-PMB65S",
       "adsPerPage": "3",
+      "loading_message":"Getting More Car Stuff...",
       "sponsors": "0",
       "pubads": {
         "desktop": [
@@ -167,6 +170,7 @@
       "name": "mamashares",
       "title": "Mama Shares",
       "description": "Mama Shares is the most entertaining and sharable content from social media and the web.",
+      "loading_message":"Getting more awesome Mama stuff...",
       "url": "mamashares.com",
       "per_page": "12",
       "prefetch_at": "12",
@@ -199,7 +203,7 @@
       },
       "env": {
         "prod": {
-          "remoteUrl": "http://mamashares.altdrivermedia.com",
+          "remoteUrl": "http://mamashares.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
