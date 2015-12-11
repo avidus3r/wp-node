@@ -1,6 +1,6 @@
 'use strict';
 
-var newrelic = require('newrelic');
+require('newrelic');
 //require('./lib/connection');
 
 var express     = require('express'),
@@ -98,8 +98,8 @@ app.get('/', function(req,res,next){
         }
 
     }else{
-        //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
-        var metatags = {
+        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+        /*var metatags = {
             robots: 'index, follow',
             title: appConfig.title,
             description: appConfig.description,
@@ -122,7 +122,7 @@ app.get('/', function(req,res,next){
             url: 'http://admin.altdriver.com'
         };
 
-        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});*/
     }
 });
 
@@ -465,8 +465,8 @@ app.get('/category/:category/', function(req,res){
             console.error(e);
         }
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        var catName = req.params.category;
+        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        /*var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
@@ -499,7 +499,7 @@ app.get('/category/:category/', function(req,res){
             });
         } catch (e) {
             console.error(e);
-        }
+        }*/
     }
 });
 
@@ -553,8 +553,8 @@ app.get('/category/:category', function(req,res){
             console.error(e);
         }
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        var catName = req.params.category;
+        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        /*var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
@@ -587,13 +587,13 @@ app.get('/category/:category', function(req,res){
             });
         } catch (e) {
             console.error(e);
-        }
+        }*/
     }
 
 });
 
 app.get('/search/:query/', function(req,res, next){
-    res.render('index');
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
 });
 
 app.get('/:category/:slug/', function(req,res, next){
@@ -653,8 +653,8 @@ app.get('/:category/:slug/', function(req,res, next){
             console.error(e);
         }
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        try {
+        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        /*try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
@@ -690,7 +690,7 @@ app.get('/:category/:slug/', function(req,res, next){
             });
         } catch (e) {
             console.error(e);
-        }
+        }*/
     }
 });
 
@@ -751,8 +751,8 @@ app.get('/:category/:slug', function(req,res, next){
             console.error(e);
         }
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        try {
+        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        /*try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
@@ -788,13 +788,13 @@ app.get('/:category/:slug', function(req,res, next){
             });
         } catch (e) {
             console.error(e);
-        }
+        }*/
     }
 });
 
 app.get('*', function(req,res){
-    //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-    res.render('index',{newrelic:newrelic});
+    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    //res.render('index',{newrelic:newrelic});
 });
 
 /*

@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" xmlns="http://www.w3.org/1999/html" ng-app="NewsFeed">
 
 <head>
-    {{ newrelic.getBrowserTimingHeader() }}
+    <!--{{ newrelic.getBrowserTimingHeader() }}-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <meta charset="utf-8"/>
@@ -39,7 +39,7 @@
     <meta name="twitter:image:src" content="{{ metatags.tw_image }}">
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
-    <title>{{ metatags.title }}</title>
+    <title>{{ getAppInfo('title') }}</title>
 
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
@@ -80,18 +80,18 @@
 
     <script type="text/javascript" ng-init="initAds()"></script>
 
-    <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
-    <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
-    <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
+    <div id="fb-px-id" style="display: none;">{{ getAppInfo('fb_pixel_id') }}</div>
+    <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
+    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
 
     <ng-include src="'/views/partials/header.html'"></ng-include>
 
     <div class="app-wrapper">
         <div class="app-main">
             <section class="view-container ng-view"></section>
-            <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
+            <p id="loading-more" class="center alert alert-info hidden">{{ getAppInfo('loading_message') }}</p>
         </div>
-        <div ng-if="appConfig.adsPerPage" class="app-rail">
+        <div ng-if="getAppInfo('adsPerPage')" class="app-rail">
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
                 <div ng-if="!_isMobile()">
