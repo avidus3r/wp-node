@@ -255,6 +255,22 @@
   }
 }
 
+#submitPage{
+  iframe{
+    font-family: $font-body;
+    position:relative;
+
+    form{
+      width:100%;
+
+      label,input{
+        width:100%;
+        display: block;
+      }
+    }
+  }
+}
+
 // single post view CSS
 @import 'single';
 
