@@ -2,6 +2,7 @@
 <html xmlns:ng="http://angularjs.org" xmlns="http://www.w3.org/1999/html" ng-app="NewsFeed">
 
 <head>
+    <!--{{ newrelic.getBrowserTimingHeader() }}-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <meta charset="utf-8"/>
@@ -22,7 +23,7 @@
     <meta property="og:description" content="{{ metatags.fb_description }}" >
     <meta property="og:site_name" content="{{ metatags.fb_site_name }}" >
     <meta property="og:type" content="{{ metatags.fb_type }}" >
-    <meta property="fb:app_id" content="{{ getAppInfo('fb_app_id') }}">
+    <meta property="fb:app_id" content="{{ metatags.fb_appid }}">
 
     <!-- extra -->
     <meta property="article:publisher" content="http://facebook.com/altdriver" />

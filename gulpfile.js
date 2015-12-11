@@ -101,6 +101,8 @@ gulp.task('assets', function() {
         });
     });
     console.log(iconsPath);*/
+    gulp.src(iconsPath + '/favicon.ico')
+        .pipe(gulp.dest('./dist/'));
     gulp.src(iconsPath + '/*.*')
         .pipe(gulp.dest('./dist/favicons/'));
 

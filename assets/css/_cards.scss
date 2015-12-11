@@ -112,6 +112,15 @@
   }
 }
 
+@media all and (min-width: 728px) {
+  .ad-post-companion{
+
+    iframe{
+      max-height:90px !important;
+    }
+}
+}
+
 @media all and (min-width: 1125px) {
   .ad-post-companion{
     height:90px;

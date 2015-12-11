@@ -107,19 +107,21 @@ html, body{
   }
 
 // ipad landscape ad fixes temp
-.ipad.landscape .app-main {
-  float: none;
-  width: 100%;
-  max-width: 728px;
-  margin-left: auto;
-  margin-right: auto;
-  .feed-item{
-    margin: 1em auto !important;
+@media all and (min-width:1024px) {
+  .ipad .app-main {
+    float: none;
+    width: 100%;
+    max-width: 732px;
+    margin-left: auto;
+    margin-right: auto;
+    .feed-item{
+      margin: 1em auto !important;
+    }
   }
-}
 
-.ipad.landscape .app-rail {
-  display: none;
+  .ipad .app-rail {
+    display: none;
+  }
 }
 
 .upshift .app-main{

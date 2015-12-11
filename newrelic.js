@@ -8,7 +8,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['altD Feed Application'],
+  app_name: [process.env.appname + ' feed'],
   /**
    * Your New Relic license key.
    */
