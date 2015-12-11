@@ -653,8 +653,8 @@ app.get('/:category/:slug/', function(req,res, next){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        /*try {
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
@@ -690,7 +690,7 @@ app.get('/:category/:slug/', function(req,res, next){
             });
         } catch (e) {
             console.error(e);
-        }*/
+        }
     }
 });
 
