@@ -26,6 +26,16 @@ var EXPRESS_PORT = 3000,
  static paths
  */
 
+app.get('/feed/:feedname/', function(req,res){
+    var feedName = req.params.feedname;
+    request('http://admin.altdriver.com/'+feedName, function (error, response, body) {
+        var result = body.replace(/admin./g,'www.');
+
+        res.set('Content-Type', 'text/xml; charset=UTF-8');
+        res.send(result);
+    });
+});
+
 app.use(express.static(__dirname + './tests'));
 app.use(express.static(__dirname + './favicons'));
 app.use(express.static(__dirname + './favicons.ico'));
