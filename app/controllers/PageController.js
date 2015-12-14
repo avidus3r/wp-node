@@ -29,11 +29,9 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     $scope.getSubmit = function(){
         angular.element('#submitPage').css({'overflow':'hidden'});
         var iframeEl = angular.element('#submitPage').find('iframe');
-        iframeEl.css({'margin-top':'-50px', 'border':'none'});
         var iframe = document.querySelector('#submitIframe');
 
         setTimeout(function(){
-            iframe.contentWindow.postMessage('hide elements','http://altdriver.altmedia.com');
             iframeEl.css({'margin-top':'0px'});
             angular.element('.view-container').height(angular.element(iframe).height());
         },3000);
@@ -61,9 +59,13 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     };
 
     $scope.$on('$viewContentLoaded', function(){
-        var minHeight = window.innerHeight;
-        angular.element('html, body, .view-container, #staticPage, .content').css({'min-height':minHeight+'px'});
+        var minHeight = window.innerHeight-100;
+        angular.element('html, body, .view-container, #staticPage, .content, iframe').css({'min-height':minHeight+'px'});
         angular.element('strong').css({'font-weight': 'bold', 'font-size': '1.2em'});
+        setTimeout(function(){
+
+        },500);
+
     });
 
 };

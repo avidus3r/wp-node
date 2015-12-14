@@ -26,6 +26,16 @@ var EXPRESS_PORT = 3000,
  static paths
  */
 
+app.get('/feed/:feedname/', function(req,res){
+    var feedName = req.params.feedname;
+    request('http://admin.altdriver.com/'+feedName, function (error, response, body) {
+        var result = body.replace(/admin./g,'www.');
+
+        res.set('Content-Type', 'text/xml; charset=UTF-8');
+        res.send(result);
+    });
+});
+
 app.use(express.static(__dirname + './tests'));
 app.use(express.static(__dirname + './favicons'));
 app.use(express.static(__dirname + './favicons.ico'));
@@ -405,12 +415,48 @@ app.post('/submit', function(req,res){
     var form = new multiparty.Form();
 
     form.parse(req, function(err, fields, files) {
-        var uri = fields['remoteHost'];
-        request.post({url:'http://altdriver.wpengine.com/submit', form:fields.fields}, function(error, response, body){
-            console.log('error: ', error,'body: ',body,'response: ',response);
-            res.writeHead(200, {'content-type': 'text/plain'});
-            res.write(body);
-            res.end();
+        fields['_wp_http_referer'] = '/submit/';
+
+        var options = {
+            host: 'admin.altdriver.com',
+            port: 80,
+            path: '/submit/',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(fields),
+                'Host': 'admin.altdriver.com',
+                'Origin':null
+            }
+        };
+
+        /*var creq = http.request(options, function(cres){
+            cres.setEncoding('utf8');
+
+            // wait for data
+            cres.on('data', function(chunk){
+                res.write(chunk);
+            });
+
+            cres.on('close', function(){
+                // closed, let's end client request as well
+                res.writeHead(cres.statusCode);
+                res.end();
+            });
+
+            cres.on('end', function(){
+                // finished, let's finish client request as well
+                res.writeHead(cres.statusCode);
+                res.end();
+            });
+            creq.end();
+        });*/
+        request.post({url:'http://admin.altdriver.com/submit/', form:fields.fields, headers:{'Host':'admin.altdriver.com','Origin':'http://admin.altdriver.com','Referer':'http://admin.altdriver.com/submit/'}}, function(error, response, body){
+
+            var template = swig.compileFile('./dist/res.html');
+            var output = template({res: body});
+
+            res.send(output);
         });
     });
 });
