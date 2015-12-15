@@ -60,7 +60,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var feedPath = app.feedPath;
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
-
+                    document.title = appConfig.title;
                     if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
