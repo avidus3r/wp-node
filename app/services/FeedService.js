@@ -18,7 +18,9 @@ var FeedService = function(app, appName, env, $http, $q){
 
                 $http.get(url)
                     .then(function (response) {
-                        if(response.data.length === 0) throw new Error('api call: '+ url);
+                        if(response.data.length === 0){
+                            deferred.reject('end');
+                        }
                         var res = response.data;
                         deferred.resolve(res);
                     }, function (response) {
@@ -71,6 +73,9 @@ var FeedService = function(app, appName, env, $http, $q){
             data = feed.get(jsonpUrl, 'jsonp');
         }
 
+        /*if(data.$$sate.value === 'end' && page = 1){
+
+        }*/
         return data;
     };
 

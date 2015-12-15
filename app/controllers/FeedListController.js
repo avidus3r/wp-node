@@ -40,6 +40,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.useMongo = false;
     $scope.postCompanionAd = null;
     $scope.initialOffset = null;
+    $scope.hideLoading = true;
+
+    if(location.href.indexOf('local.') > -1){
+        $scope.appConfig.displayAds = 'false';
+    }
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
@@ -313,9 +318,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var pagedpostmap = [];
         angular.forEach(data, function (item, index) {
             item.type = 'post-list';
-            if (Number($scope.appConfig.adsPerPage) > 0) {
-
-
+            if (Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true') {
 
                 if (index === 5) {
                     var adItem = {};
@@ -426,7 +429,17 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     },
                     function (reason) {   //error
-                        console.error('Failed: ', reason);
+
+                        if(reason === 'end'){
+
+                            angular.element('#loading-more').text('');
+                            angular.element('#loading-more')
+                                .append(
+                                angular.element('<a/>')
+                                    .attr('href','/')
+                                    .text('You\'ve reached the end - Start Over')
+                            );
+                        }
                     },
                     function (update) {  //notification
                         console.info('Got notification: ' + update);
@@ -450,7 +463,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     },
                     function (reason) {   //error
-                        console.error('Failed: ', reason);
+                        if(reason === 'end'){
+
+                            angular.element('#loading-more').text('');
+                            angular.element('#loading-more')
+                                .append(
+                                angular.element('<a/>')
+                                    .attr('href','/')
+                                    .text('You\'ve reached the end - Start Over')
+                            );
+                        }
                     },
                     function (update) {  //notification
                         console.info('Got notification: ' + update);
@@ -535,6 +557,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 item = {};
                 item.type = 'post-'+$scope.currentView + '-empty';
                 item.noresults = true;
+                angular.element('#loading-more').text('');
+                angular.element('#loading-more')
+                    .append(
+                    angular.element('<a/>')
+                        .attr('href','/')
+                        .text('Sorry, Nothing Found - Start Over')
+                );
+                angular.element('#loading-more').removeClass('hidden').css({'position':'fixed','bottom':'0','left':0});
+                $scope.hideLoading = false;
                 postmap.push(item);
             }
             else{
@@ -545,7 +576,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     if($scope.currentView === 'category') item.type = 'post-list';
 
-                    if(Number($scope.appConfig.adsPerPage) > 0){
+                    if(Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true'){
 
                         if (index === 5) {
                             var adItem = {};
@@ -670,7 +701,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         angular.forEach($scope.posts, function (item, index) {
                             item.type = 'post-list';
 
-                            if (Number($scope.appConfig.adsPerPage) > 0) {
+                            if (Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true') {
 
                                 if (index === 5) {
                                     var adItem = {};
@@ -835,7 +866,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.$on('$viewContentLoaded', function(){
-        angular.element('#loading-more').hide();
+        if($scope.hideLoading) angular.element('#loading-more').hide();
         angular.element('body').find('.sidebar').removeClass('ng-hide');
 
         if($scope.currentView === 'post'){
