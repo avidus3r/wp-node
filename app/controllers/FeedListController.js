@@ -46,6 +46,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.appConfig.displayAds = 'false';
     }
 
+    $scope.appConfig.displayAds = 'true';
+
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
             localStorage.setItem('post_offset', '0');
@@ -302,8 +304,21 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             deferred.resolve();
         }else{
             adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]')[0]).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]')[0]).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
+
             angular.element('pubad[placementIndex="1"]').css({
                 'height': adHeights[0] + 'px',
+                'width': '100%',
+                'display': 'block'
+            }).children().remove();
+            angular.element('pubad[placementIndex="2"]').css({
+                'height': adHeights[1] + 'px',
+                'width': '100%',
+                'display': 'block'
+            }).children().remove();
+            angular.element('pubad[placementIndex="3"]').css({
+                'height': adHeights[2] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
