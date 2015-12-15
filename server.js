@@ -1,7 +1,7 @@
 'use strict';
 
 require('newrelic');
-//require('./lib/connection');
+require('./lib/connection');
 
 var express     = require('express'),
     http        = require('http'),
@@ -11,7 +11,7 @@ var express     = require('express'),
     request     = require('request'),
     multiparty  = require('multiparty'),
     fs          = require('fs'),
-    //mongoose    = require('mongoose'),
+    mongoose    = require('mongoose'),
     authorized  = false,
     md5         = require('js-md5'),
     swig        = require('swig'),
@@ -25,6 +25,12 @@ var EXPRESS_PORT = 3000,
 /*
  static paths
  */
+
+mongoose.connect('mongodb://52.35.102.123/altdriver', function(){
+
+});
+
+var db = mongoose.connection;
 
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
