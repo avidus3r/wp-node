@@ -108,7 +108,7 @@ app.get('/', function(req,res,next){
         }
 
     }else{
-        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+        res.sendFile('index.html', {root: path.join(__dirname, './dist'), title:appConfig.title});
         /*var metatags = {
             robots: 'index, follow',
             title: appConfig.title,
