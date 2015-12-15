@@ -53,15 +53,15 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://upshift.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "stage":{
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://upshift.altmedia.com",
           "baseParh": "/wp-json/wp/v2/"
         },
         "dev":{
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://upshift.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
@@ -82,7 +82,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -90,11 +90,11 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "stage":{
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "baseParh": "/wp-json/wp/v2/"
         },
         "dev":{
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
@@ -115,7 +115,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://mamashares.altdrivermedia.com",
+          "remoteUrl": "http://mamashares.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -123,11 +123,11 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "stage":{
-          "remoteUrl": "http://mamashares.altdrivermedia.com",
+          "remoteUrl": "http://mamashares.altmedia.com",
           "baseParh": "/wp-json/wp/v2/"
         },
         "dev":{
-          "remoteUrl": "http://mamashares.altdrivermedia.com",
+          "remoteUrl": "http://mamashares.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
