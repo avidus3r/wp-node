@@ -1,7 +1,7 @@
 'use strict';
 
 require('newrelic');
-require('./lib/connection');
+var conn = require('./lib/connection');
 
 var express     = require('express'),
     http        = require('http'),
@@ -26,11 +26,8 @@ var EXPRESS_PORT = 3000,
  static paths
  */
 
-mongoose.connect('mongodb://52.35.102.123/altdriver', function(){
-
-});
-
-var db = mongoose.connection;
+var db = conn.db;
+var Post = conn.Post;
 
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
@@ -157,6 +154,7 @@ app.set('port', process.env.PORT || EXPRESS_PORT);
 app.locals.config = require('./app/config/feed.conf.json');
 
 
+
 /*
 mongoose.connect('mongodb://localhost/altdriver', function(){
 
@@ -165,11 +163,43 @@ mongoose.connect('mongodb://localhost/altdriver', function(){
 var db = mongoose.connection;
 */
 
+function censor(censor) {
+    var i = 0;
+
+    return function(key, value) {
+        if(i !== 0 && typeof(censor) === 'object' && typeof(value) == 'object' && censor == value)
+            return '[Circular]';
+
+        if(i >= 29) // seems to be a harded maximum of 30 serialized objects?
+            return '[Unknown]';
+
+        ++i; // so we know we aren't using the original object anymore
+
+        return value;
+    }
+}
 
 function getPagePosts(numberOfPosts, pageNumber) {
     var skip = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
     return db.collection('posts').find().limit(numberOfPosts).skip(skip);
 }
+
+
+function getMongoPost(slug){
+    var query = Post.findOne({'slug': slug});
+
+    query.select('id date campaign_active sponsor parent guid modified modified_gmt slug type link title content excerpt author featured_image comment_status ping_status sticky format votes comment_count postmeta category featured_image_src author_meta');
+
+    return query;
+}
+
+app.get('/p/:slug', function(req,res){
+    var post = getMongoPost(req.params.slug);
+    post.exec(function(err,post){
+        if(err) return 'error';
+        res.send(JSON.stringify([post]));
+    });
+});
 
 app.get('/p/:perPage/:page', function(req,res){
     var data = getPagePosts(parseInt(req.params.perPage),req.params.page);
@@ -179,6 +209,7 @@ app.get('/p/:perPage/:page', function(req,res){
     data.forEach(function(item, index, collection){
         posts.push(item);
         if(i === parseInt(req.params.perPage)-1){
+            console.log(item);
             res.send(JSON.stringify(posts));
         }
         i++;

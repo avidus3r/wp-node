@@ -651,7 +651,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 //angular.module('NewsFeed').trackEvent('Sponsored Content', 'View', item.sponsor.title + ' ' + item.id, 1, null);
             }
 
-            FeedService.getPosts($scope.feedPath, '?per_page=' + Number($scope.appConfig.per_page) + '&page=1&post__not_in=' + $scope.post[0].id + offset).then(
+            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged).then(
                 function (data) {
                     $scope.currentView = 'list';
                     $scope.posts = data;

@@ -438,7 +438,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),
-                        post: FeedService.getPosts('posts', '?name=' + params.slug).then(
+                        /*post: FeedService.getPosts('posts', '?name=' + params.slug).then(
                             function (data) {
                                 $route.singleId = data[0].id;
                                 var txt = document.createElement('textarea');
@@ -453,6 +453,15 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             },
                             function (notification) {
 
+                            }
+                        ),*/
+                        post: FeedService.getDBPost(params.slug).then(
+                            function(data){
+                                console.log(data);
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
                             }
                         ),
                         /*instagram: InstagramService.get(10,'nofilter').then(
