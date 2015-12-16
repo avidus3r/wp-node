@@ -37,7 +37,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.isMobile = $rootScope._isMobile();
     $scope.currentCategory = null;
     $scope.renderedSingleContent = null;
-    $scope.useMongo = false;
+    $scope.useMongo = true;
     $scope.postCompanionAd = null;
 
     try {
@@ -253,7 +253,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if(!$scope.useMongo){
                 $scope.getNext('');
             }else{
-
+                $scope.getNext('');
             }
             window.removeEventListener('scroll', $scope.onScroll);
         }else{
@@ -401,33 +401,56 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if($scope.currentView !== 'search') {
                 $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params;
 
-                if($scope.currentView === 'category'){
+                if ($scope.currentView === 'category') {
                     $scope.feedPath = 'posts';
                     $scope.postParams += '&category_name=' + $scope.currentCategory;
                 }
-                $scope.getPosts($scope.feedPath, $scope.postParams).then(
-                    function (data) { //success
-                        if(data.length > 0) {
-                            $scope.mapPosts(data);
-                        }else{
-                            angular.element('#loading-more').text('');
-                            angular.element('#loading-more')
-                                .append(
-                                angular.element('<a/>')
-                                    .attr('href','/')
-                                    .text('You\'ve reached the end - Start Over')
-                            );
+                if (!$scope.useMongo) {
+                    $scope.getPosts($scope.feedPath, $scope.postParams).then(
+                        function (data) { //success
+                            if (data.length > 0) {
+                                $scope.mapPosts(data);
+                            } else {
+                                angular.element('#loading-more').text('');
+                                angular.element('#loading-more')
+                                    .append(
+                                    angular.element('<a/>')
+                                        .attr('href', '/')
+                                        .text('You\'ve reached the end - Start Over')
+                                );
+                            }
+                        },
+                        function (reason) {   //error
+                            console.error('Failed: ', reason);
+                        },
+                        function (update) {  //notification
+                            console.info('Got notification: ' + update);
                         }
-                    },
-                    function (reason) {   //error
-                        console.error('Failed: ', reason);
-                    },
-                    function (update) {  //notification
-                        console.info('Got notification: ' + update);
-                    }
-                );
+                    );
+                } else {
+                    $scope.getDBPosts($scope.postsPerPage, $scope.paged).then(
+                        function (data) { //success
+                            if (data.length > 0) {
+                                $scope.mapPosts(data);
+                            } else {
+                                angular.element('#loading-more').text('');
+                                angular.element('#loading-more')
+                                    .append(
+                                    angular.element('<a/>')
+                                        .attr('href', '/')
+                                        .text('You\'ve reached the end - Start Over')
+                                );
+                            }
+                        },
+                        function (reason) {   //error
+                            console.error('Failed: ', reason);
+                        },
+                        function (update) {  //notification
+                            console.info('Got notification: ' + update);
+                        }
+                    );
+                }
             }
-
             if($scope.currentView === 'search'){
                 FeedService.search($routeParams.query, $scope.paged).then(
                     function (data) { //success
