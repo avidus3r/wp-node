@@ -39,7 +39,7 @@
     <meta name="twitter:image:src" content="{{ metatags.tw_image }}">
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
-    <title>{{ getAppInfo('title') }}</title>
+    <title></title>
 
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
@@ -91,7 +91,7 @@
             <section class="view-container ng-view"></section>
             <p id="loading-more" class="center alert alert-info hidden">{{ getAppInfo('loading_message') }}</p>
         </div>
-        <div ng-if="getAppInfo('adsPerPage')" class="app-rail">
+        <div ng-if="getAppInfo('adsPerPage') && displayAds === true" class="app-rail">
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
                 <div ng-if="!_isMobile() && isMobile().indexOf('ipad') === -1">

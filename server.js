@@ -114,7 +114,7 @@ app.get('/', function(req,res,next){
         }
 
     }else{
-        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+        res.sendFile('index.html', {root: path.join(__dirname, './dist'), title:appConfig.title});
         /*var metatags = {
             robots: 'index, follow',
             title: appConfig.title,
@@ -507,7 +507,7 @@ app.get('/category/:category/', function(req,res){
                         metatags.fb_image = appConfig.avatar;
 
                         var template = swig.compileFile('./dist/bots.html');
-                        var output = template({metatags: metatags, app: appName, posts:post});
+                        var output = template({metatags: metatags, app: appName, posts:category});
 
                         res.send(output);
                     }
@@ -595,7 +595,7 @@ app.get('/category/:category', function(req,res){
                         metatags.fb_image = appConfig.avatar;
 
                         var template = swig.compileFile('./dist/bots.html');
-                        var output = template({metatags: metatags, app: appName, posts:post});
+                        var output = template({metatags: metatags, app: appName, posts:category});
 
                         res.send(output);
                     }

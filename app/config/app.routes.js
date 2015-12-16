@@ -60,7 +60,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var feedPath = app.feedPath;
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
-
+                    document.title = appConfig.title;
                     if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
@@ -271,9 +271,15 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         ),
                         posts: FeedService.search($route.current.params.query,1).then(
                             function(data){
+                                debugger
+                                console.log(data);
                                 return data;
                             },
-                            function(error){
+                            function(reason){
+                                if(reason === 'end'){
+                                    var data = [];
+                                    return data;
+                                }
                                 return 'error';
                             },
                             function(notification){

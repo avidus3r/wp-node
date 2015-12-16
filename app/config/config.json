@@ -18,6 +18,7 @@
       "ga": "UA-53305609-1",
       "gtm_id": "GTM-M2KSWB",
       "adsPerPage": "3",
+      "displayAds": "true",
       "sponsors": "1",
       "pubads": {
         "desktop": [
@@ -71,6 +72,7 @@
       "feedPath": "posts",
       "ga": "UA-69422901-1",
       "gtm_id": "GTM-M2Z5BM",
+      "displayAds": "true",
       "adsPerPage": "3",
       "loading_message":"Getting More Car Stuff...",
       "sponsors": "0",
@@ -126,6 +128,7 @@
       "feedPath": "posts",
       "ga": "UA-69393693-1",
       "gtm_id": "GTM-PMB65S",
+      "displayAds": "true",
       "adsPerPage": "3",
       "loading_message":"Getting More Car Stuff...",
       "sponsors": "0",
@@ -184,6 +187,7 @@
       "ga": "UA-69395977-1",
       "gtm_id": "GTM-MJFLCK",
       "adsPerPage": "3",
+      "displayAds": "true",
       "sponsors": "0",
       "pubads": {
         "desktop": [
