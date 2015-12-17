@@ -154,9 +154,11 @@ app.set('port', process.env.PORT || EXPRESS_PORT);
 app.locals.config = require('./app/config/feed.conf.json');
 
 
-function getPagePosts(numberOfPosts, pageNumber) {
-    var skip = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
-    return db.collection('posts').find().limit(numberOfPosts).skip(skip);
+function getPagePosts(numberOfPosts, pageNumber, skip) {
+    var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
+    skipItems += Number(skip);
+    console.log(skipItems);
+    return db.collection('posts').find().limit(numberOfPosts).skip(skipItems);
 }
 
 
@@ -176,8 +178,8 @@ app.get('/p/:slug', function(req,res){
     });
 });
 
-app.get('/p/:perPage/:page', function(req,res){
-    var data = getPagePosts(parseInt(req.params.perPage),req.params.page);
+app.get('/p/:perPage/:page/:skip', function(req,res){
+    var data = getPagePosts(parseInt(req.params.perPage),req.params.page, req.params.skip);
 
     var posts = [];
     var i = 0;

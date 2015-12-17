@@ -193,8 +193,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return FeedService.getPosts(path, params);
     };
 
-    $scope.getDBPosts = function(perPage, pageNum){
-        return FeedService.getDBPosts(perPage, pageNum);
+    $scope.getDBPosts = function(perPage, pageNum, skip){
+        return FeedService.getDBPosts(perPage, pageNum. skip);
     };
 
     var postmap = [];
@@ -428,7 +428,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     );
                 } else {
-                    $scope.getDBPosts($scope.postsPerPage, $scope.paged).then(
+                    var skip = null;
+                    try{
+                        skip = Number(localStorage.getItem('post_offset'));
+                    }catch(e){
+                        skip = 0;
+                    }
+
+                    $scope.getDBPosts($scope.postsPerPage, $scope.paged, skip).then(
                         function (data) { //success
                             if (data.length > 0) {
                                 $scope.mapPosts(data);
@@ -673,8 +680,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if (item.sponsor !== null) {
                 //angular.module('NewsFeed').trackEvent('Sponsored Content', 'View', item.sponsor.title + ' ' + item.id, 1, null);
             }
-
-            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged).then(
+            var skip = null;
+            try{
+                skip = Number(localStorage.getItem('post_offset'));
+            }catch(e){
+                skip = 0;
+            }
+            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip).then(
                 function (data) {
                     $scope.currentView = 'list';
                     $scope.posts = data;
