@@ -154,31 +154,6 @@ app.set('port', process.env.PORT || EXPRESS_PORT);
 app.locals.config = require('./app/config/feed.conf.json');
 
 
-
-/*
-mongoose.connect('mongodb://localhost/altdriver', function(){
-
-});
-
-var db = mongoose.connection;
-*/
-
-function censor(censor) {
-    var i = 0;
-
-    return function(key, value) {
-        if(i !== 0 && typeof(censor) === 'object' && typeof(value) == 'object' && censor == value)
-            return '[Circular]';
-
-        if(i >= 29) // seems to be a harded maximum of 30 serialized objects?
-            return '[Unknown]';
-
-        ++i; // so we know we aren't using the original object anymore
-
-        return value;
-    }
-}
-
 function getPagePosts(numberOfPosts, pageNumber) {
     var skip = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
     return db.collection('posts').find().limit(numberOfPosts).skip(skip);
