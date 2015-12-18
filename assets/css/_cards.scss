@@ -131,6 +131,12 @@
   }
 }
 
+// center everything in an ad-placement div
+.ad-placement * {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 //ad cards
 .card-item.main-leaderboard,
 .card-item.post-companion-leaderboard,
