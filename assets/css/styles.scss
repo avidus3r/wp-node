@@ -276,6 +276,23 @@
   padding-top: 2em;
 }
 
+.page.thanks{
+  padding: .75em;
+  .sc-button {
+    margin: .5em;
+    padding: .5em;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    &:first-child{
+      margin-left: 0;
+    }
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+}
+
 // single post view CSS
 @import 'single';
 
