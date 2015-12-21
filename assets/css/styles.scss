@@ -261,6 +261,7 @@
     position:relative;
 
     form{
+      padding-top: 2em;
       width:100%;
 
       label,input{
@@ -269,6 +270,10 @@
       }
     }
   }
+}
+
+.submit-content-form{
+  padding-top: 2em;
 }
 
 // single post view CSS

@@ -483,6 +483,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             controller: 'PageController',
             templateUrl: '/views/submit.html'
         })
+        .when('/thanks',{
+            controller: 'PageController',
+            templateUrl: '/views/thanks.html'
+        })
         .when('/visitor-agreement',{
             templateUrl: '/views/static-page.html',
             controller: 'PageController'

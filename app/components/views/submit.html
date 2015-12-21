@@ -1,9 +1,30 @@
-<!--
-<div id="submitPage" ng-init="getSubmit()">
-    <header class="post-header"><h1 class="main-heading"> Submit Content</h1> </header>
-    <div class="content"></div>
-
-</div>-->
-<div id="submitPage" class="page wrapper" ng-init="getSubmit()">
-    <iframe id="submitIframe" width="100%" height="100%" src="http://admin.altdriver.com/user-content"></iframe>
-</div>
+<form enctype="multipart/form-data" method="post" name="" action="" class="submit-content-form">
+    <fieldset>
+        <div class="text-field form-group">
+            <label for="fname">First Name:</label>
+            <input id="fname" type="text" name="fname" class="form-control">
+        </div>
+        <div class="text-field form-group">
+            <label for="lname">Last Name:</label>
+            <input id="lname" type="text" name="lname" class="form-control">
+        </div>
+        <div class="email-field form-group">
+            <label for="email">Email:</label>
+            <input id="email" type="email" name="email" class="form-control">
+        </div>
+        <div class="file-field form-group">
+            <label for="file-upload">Upload Videos & Photos</label>
+            <input id="file-upload" type="file" name="fileUpload" class="form-control">
+        </div>
+        <div class="link-field form-group">
+            <label for="link-url">Link or URL</label>
+            <input id="link-url" type="text" name="linkUrl" class="form-control">
+        </div>
+        <div class="message-field form-group">
+            <label>Message</label>
+            <p class="desc">Share some info about your content</p>
+            <textarea rows="5" name="messageContent" class="form-control" data-input-limit="" data-input-limit-type="char" data-input-limit-msg="character(s) left"></textarea>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </fieldset>
+</form>

@@ -414,51 +414,71 @@ app.get('/data/:file', function(req, res){
 app.post('/submit', function(req,res){
     var form = new multiparty.Form();
 
-    form.parse(req, function(err, fields, files) {
-        fields['_wp_http_referer'] = '/submit/';
+    var aws = require('aws-sdk');
+    aws.config.update({region:'us-west-2'});
+    var ses = new aws.SES({apiVersion: '2010-12-01'});
+    //var client = ses.createClient({key: 'AKIAINNUHXXUND27LA4A', secret: '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'});
 
-        var options = {
-            host: 'admin.altdriver.com',
-            port: 80,
-            path: '/submit/',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': Buffer.byteLength(fields),
-                'Host': 'admin.altdriver.com',
-                'Origin':null
-            }
-        };
+    // send to list
+    var to = ['dev@altdriver.com'];
 
-        /*var creq = http.request(options, function(cres){
-            cres.setEncoding('utf8');
+    // this must relate to a verified SES account
+    var from = 'dev@altdriver.com';
 
-            // wait for data
-            cres.on('data', function(chunk){
-                res.write(chunk);
-            });
+    var bucket = 'user-content.altdriver';
+    var fileName = '';
+    var s3Client = new aws.S3({params: {Bucket: bucket, Key: 'AKIAINNUHXXUND27LA4A'}});
 
-            cres.on('close', function(){
-                // closed, let's end client request as well
-                res.writeHead(cres.statusCode);
-                res.end();
-            });
-
-            cres.on('end', function(){
-                // finished, let's finish client request as well
-                res.writeHead(cres.statusCode);
-                res.end();
-            });
-            creq.end();
-        });*/
-        request.post({url:'http://admin.altdriver.com/submit/', form:fields.fields, headers:{'Host':'admin.altdriver.com','Origin':'http://admin.altdriver.com','Referer':'http://admin.altdriver.com/submit/'}}, function(error, response, body){
-
-            var template = swig.compileFile('./dist/res.html');
-            var output = template({res: body});
-
-            res.send(output);
-        });
+    form.on('field', function(name, value){
+        console.log(name, value);
     });
+    form.on('part', function(part) {
+        console.log(part)
+
+    });
+
+    form.parse(req, function(err, fields, files) {
+
+        if(files){
+            fileName = fields.fname + '-' + fields.lname + '-' + files.fileUpload[0].originalFilename;
+
+
+            var file = fs.createReadStream(files.fileUpload[0].path);
+
+            s3Client.putObject({
+                Bucket: bucket,
+                Key: fileName,
+                ACL: 'public-read',
+                Body: file,
+                ContentLength: file.byteCount,
+            }, function(err, data) {
+                if (err) throw err;
+                var message = '\n\nFile URL:\n' + 'http://user-content.altdriver.s3.amazonaws.com/' + encodeURIComponent(fileName) + '\n\nFile:\n' + fileName + '\n\nFile ETag:\n' + data.ETag;
+                message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.fname + ' ' + fields.lname;
+
+                ses.sendEmail( {
+                        Source: from,
+                        Destination: { ToAddresses: to },
+                        Message: {
+                            Subject:{
+                                Data: 'User Submitted Content'
+                            },
+                            Body: {
+                                Text: {
+                                    Data: message
+                                }
+                            }
+                        }
+                    },
+                    function(err, data) {
+                        if(err) throw err;
+                    });
+            });
+        }
+    });
+
+    res.redirect('/thanks');
+
 });
 
 app.get('/category/:category/', function(req,res){
