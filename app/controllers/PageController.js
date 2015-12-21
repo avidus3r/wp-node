@@ -62,6 +62,10 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
         var minHeight = window.innerHeight-100;
         angular.element('html, body, .view-container, #staticPage, .content, iframe').css({'min-height':minHeight+'px'});
         angular.element('strong').css({'font-weight': 'bold', 'font-size': '1.2em'});
+        if($scope.routeParams === 'thanks'){
+
+        }
+        angular.element('body').addClass($scope.routeParams);
         setTimeout(function(){
 
         },500);

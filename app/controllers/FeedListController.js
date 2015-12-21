@@ -699,6 +699,50 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
             $scope.createFeedItem(item, $scope.feedItems.length);
 
+            if(typeof item.postmeta.voting !== 'undefined'){
+                var pollVotes = JSON.parse(item.postmeta.poll_votes);
+
+                $scope.$on('$viewContentLoaded', function(){
+                    var votedHistory = null;
+                    try {
+                        if (typeof localStorage.getItem('poll_voted') === 'string' && localStorage.getItem('poll_voted') !== 'null') {
+                            votedHistory = true;
+                        }
+                    }catch(e){
+
+                    }
+                    setTimeout(function () {
+
+                        var btns = angular.element('#feed-item-0').find('button.voting-group');
+
+                        angular.forEach(btns, function(el, index){
+                            var pollPostName = el.id;
+                            var pollVoteVal = pollVotes[pollPostName];
+                            var pollVotesStr = pollVoteVal === 1 ? 'vote' : 'votes';
+                            angular.element(el).parent().append('<p id="poll-answer-'+ pollPostName +'" class="pull-right" style="line-height:2.5em;">' + '<span class="pvoteval">' + pollVoteVal + '</span>' + ' ' + pollVotesStr + '</p>');
+                        });
+
+                        if(!votedHistory) {
+                            angular.element('#feed-item-0').find('button.voting-group').on('click', function (e) {
+                                var voteVal = e.currentTarget.id;
+                                var voteText = angular.element('#poll-answer-'+voteVal).find('.pvoteval').text();
+                                var newVoteText = parseInt(voteText) + 1;
+                                angular.element('#poll-answer-'+voteVal).find('.pvoteval').text(newVoteText);
+                                try {
+                                    localStorage.setItem('poll_voted', voteVal);
+                                    FeedService.vote($scope.singlePostID,{'poll_vote':voteVal});
+                                } catch (e) {
+
+                                }
+                                angular.element('#feed-item-0').find('button.voting-group').attr('disabled','disabled');
+                            });
+                        }else{
+                            angular.element('#feed-item-0').find('button.voting-group').attr('disabled','disabled');
+                        }
+                    }, 500);
+                });
+            }
+
             if (item.sponsor !== null) {
                 //angular.module('NewsFeed').trackEvent('Sponsored Content', 'View', item.sponsor.title + ' ' + item.id, 1, null);
             }
