@@ -719,7 +719,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             var pollPostName = el.id;
                             var pollVoteVal = pollVotes[pollPostName];
                             var pollVotesStr = pollVoteVal === 1 ? 'vote' : 'votes';
-                            angular.element(el).parent().append('<p id="poll-answer-'+ pollPostName +'" class="pull-right" style="line-height:2.5em;">' + '<span class="pvoteval">' + pollVoteVal + '</span>' + ' ' + pollVotesStr + '</p>');
+                            angular.element(el).parent().append('<p id="poll-answer-'+ pollPostName +'" class="pull-right" style="line-height:4em;">' + '<span class="pvoteval">' + pollVoteVal + '</span>' + ' ' + pollVotesStr + '</p>');
                         });
 
                         if(!votedHistory) {
