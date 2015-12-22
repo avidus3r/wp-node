@@ -1,26 +1,30 @@
-<form enctype="multipart/form-data" method="post" name="" action="" class="submit-content-form">
-    <fieldset>
-        <div class="file-field form-group">
-            <label for="file-upload">Upload Videos & Photos</label>
-            <input id="file-upload" type="file" name="fileUpload" class="form-control">
-        </div>
-        <div class="link-field form-group">
-            <label for="link-url">Link or URL</label>
-            <input id="link-url" type="text" name="linkUrl" class="form-control">
-        </div>
-        <div class="message-field form-group">
-            <label>Message</label>
-            <p class="desc">Share some info about your content</p>
-            <textarea rows="5" name="messageContent" class="form-control" data-input-limit="" data-input-limit-type="char" data-input-limit-msg="character(s) left"></textarea>
-        </div>
-        <div class="email-field form-group">
-            <label for="email">Email:</label>
-            <input id="email" type="email" name="email" class="form-control">
-        </div>
-        <div class="text-field form-group">
-            <label for="name">Name:</label>
-            <input id="name" type="text" name="name" class="form-control">
-        </div>
-        <input type="submit" value="Submit" class="btn btn-primary">
-    </fieldset>
-</form>
+<div class="page">
+    <p><strong style="font-weight: bold; color: #0092d7;">Send us your videos, photos, links and story ideas to be featured on alt_driver</strong><br><span style="color: #555555;">Share links and upload photos and videos below, or email us directly at submit [at] altdriver.com.</span></p>
+
+    <form enctype="multipart/form-data" method="post" name="" action="" class="submit-content-form">
+        <fieldset>
+            <div class="file-field form-group">
+                <label for="file-upload">Upload Videos & Photos</label>
+                <input id="file-upload" type="file" name="fileUpload" required="required" class="form-control">
+            </div>
+            <div class="link-field form-group">
+                <label for="link-url">Link or URL</label>
+                <input id="link-url" type="url" name="linkUrl" required="required" class="form-control">
+            </div>
+            <div class="message-field form-group">
+                <label>Message</label>
+                <p class="desc">Share some info about your content</p>
+                <textarea rows="5" name="messageContent" class="form-control" data-input-limit="" data-input-limit-type="char" data-input-limit-msg="character(s) left"></textarea>
+            </div>
+            <div class="email-field form-group">
+                <label for="email">Email:</label>
+                <input id="email" type="email" name="email" required="required" class="form-control">
+            </div>
+            <div class="text-field form-group">
+                <label for="name">Name:</label>
+                <input id="name" type="text" name="name" required="required" class="form-control">
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary">
+        </fieldset>
+    </form>
+</div>

@@ -712,7 +712,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     }
                     setTimeout(function () {
-
+                        angular.element('.post-txt-more').remove();
                         var btns = angular.element('#feed-item-0').find('button.voting-group');
 
                         angular.forEach(btns, function(el, index){

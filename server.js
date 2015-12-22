@@ -417,7 +417,6 @@ app.post('/submit', function(req,res){
     var aws = require('aws-sdk');
     aws.config.update({region:'us-west-2'});
     var ses = new aws.SES({apiVersion: '2010-12-01'});
-    //var client = ses.createClient({key: 'AKIAINNUHXXUND27LA4A', secret: '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'});
 
     // send to list
     var to = ['dev@altdriver.com'];
@@ -430,18 +429,18 @@ app.post('/submit', function(req,res){
     var s3Client = new aws.S3({params: {Bucket: bucket, Key: 'AKIAINNUHXXUND27LA4A'}});
 
     form.on('field', function(name, value){
-        console.log(name, value);
+        //console.log(name, value);
     });
     form.on('part', function(part) {
-        console.log(part)
-
+        //console.log(part);
     });
 
     form.parse(req, function(err, fields, files) {
 
-        if(files){
-            fileName = fields.fname + '-' + fields.lname + '-' + files.fileUpload[0].originalFilename;
+        var message = '';
 
+        if(files.fileUpload[0].size > 0){
+            fileName = fields.fname + '-' + fields.lname + '-' + files.fileUpload[0].originalFilename;
 
             var file = fs.createReadStream(files.fileUpload[0].path);
 
@@ -450,10 +449,10 @@ app.post('/submit', function(req,res){
                 Key: fileName,
                 ACL: 'public-read',
                 Body: file,
-                ContentLength: file.byteCount,
+                ContentLength: file.byteCount
             }, function(err, data) {
                 if (err) throw err;
-                var message = '\n\nFile URL:\n' + 'http://user-content.altdriver.s3.amazonaws.com/' + encodeURIComponent(fileName) + '\n\nFile:\n' + fileName + '\n\nFile ETag:\n' + data.ETag;
+                message += '\n\nFile URL:\n' + 'http://user-content.altdriver.s3.amazonaws.com/' + encodeURIComponent(fileName) + '\n\nFile:\n' + fileName + '\n\nFile ETag:\n' + data.ETag;
                 message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.fname + ' ' + fields.lname;
 
                 ses.sendEmail( {
@@ -474,6 +473,26 @@ app.post('/submit', function(req,res){
                         if(err) throw err;
                     });
             });
+        }else{
+
+            message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.fname + ' ' + fields.lname;
+            ses.sendEmail( {
+                    Source: from,
+                    Destination: { ToAddresses: to },
+                    Message: {
+                        Subject:{
+                            Data: 'User Submitted Content'
+                        },
+                        Body: {
+                            Text: {
+                                Data: message
+                            }
+                        }
+                    }
+                },
+                function(err, data) {
+                    if(err) throw err;
+                });
         }
     });
 
