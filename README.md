@@ -57,6 +57,14 @@ build
 default 
 	runs dependency task(s): build, devServe, watch
 
+### TODO update with full EBS steps and remove EC2 instructions
+
+### EBS Required Environment Variables
+appname - the app's nicename (eg. altdriver)
+AWS_SECRET_KEY - aws secret key
+AWS_ACCESS_KEY_ID - asw access key
+SES_USER_CONTENT_EMAIL - email address for SES (defaults to dev@altdriver.com if not provided)
+
 
 ### Running on ec2
 
