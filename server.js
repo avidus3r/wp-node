@@ -419,10 +419,15 @@ app.post('/submit', function(req,res){
     var ses = new aws.SES({apiVersion: '2010-12-01'});
 
     // send to list
-    var to = ['dev@altdriver.com'];
+    //var to = ['dev@altdriver.com'];
+    if(!process.env.SES_USER_CONTENT_EMAIL){
+        process.env.SES_USER_CONTENT_EMAIL = 'dev@altdriver.com';
+    }
+    var to = [process.env.SES_USER_CONTENT_EMAIL];
 
     // this must relate to a verified SES account
-    var from = 'dev@altdriver.com';
+    //var from = 'dev@altdriver.com';
+    var from = process.env.SES_USER_CONTENT_EMAIL;
 
     var bucket = 'user-content.altdriver';
     var fileName = '';

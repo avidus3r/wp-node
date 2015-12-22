@@ -145,8 +145,7 @@ gulp.task('env:production', function () {
 });
 
 gulp.task('devServe', ['env:development'], function () {
-    process.env.AWS_ACCESS_KEY_ID = 'AKIAINNUHXXUND27LA4A';
-    process.env.AWS_SECRET_ACCESS_KEY = '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';
+
     plugins.nodemon({
         script: 'server.js',
         ext: 'html js',
