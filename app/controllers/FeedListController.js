@@ -951,6 +951,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             });
         },1500);
 
+        //debugger
         window.addEventListener('scroll', $scope.onScroll);
     });
 

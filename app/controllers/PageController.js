@@ -81,7 +81,7 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
                         var linkVal = angular.element(e.currentTarget).val();
 
                         if(linkVal.length > 0){
-                            angular.element('#file-upload').removeAttr('required');
+                            angular.element('#file-u`load').removeAttr('required');
                         }else{
                             angular.element('#file-upload').attr('required','required');
                         }
@@ -92,7 +92,7 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
 
             });
         },500);
-
+        window.removeEventListener('scroll');
     });
 
 };
