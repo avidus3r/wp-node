@@ -1,6 +1,6 @@
 'use strict';
 
-//require('newrelic');
+require('newrelic');
 //require('./lib/connection');
 
 var express     = require('express'),
@@ -20,7 +20,13 @@ var express     = require('express'),
 var EXPRESS_PORT = 3000,
     EXPRESS_HOST = '127.0.0.1',
     EXPRESS_ROOT = './dist',
-    feedConfig = null;
+    feedConfig = null,
+    itsABot = null;
+
+app.get('*', function(req,res,next){
+    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+    next();
+});
 
 /*
  static paths
@@ -682,8 +688,12 @@ app.get('/category/:category', function(req,res){
 
 });
 
-app.get('/search/:query/', function(req,res, next){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+app.get('/search/(:query/|:query)', function(req,res, next){
+    if(itsABot){
+        res.send();
+    }else{
+        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    }
 });
 
 app.get('/:category/:slug/', function(req,res, next){
@@ -701,7 +711,7 @@ app.get('/:category/:slug/', function(req,res, next){
     var endpoint = 'posts?name=' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -793,13 +803,15 @@ app.get('/:category/:slug', function(req,res, next){
         basePath: '/wp-json/wp/v2/'
     };
 
+    console.log(itsABot);
+
     var fbAppId = appConfig.fb_appid;
     var fbUrl = appConfig.fb_url;
     var postName = req.params.slug;
     var endpoint = 'posts?name=' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
