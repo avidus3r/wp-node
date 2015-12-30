@@ -865,9 +865,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         //post.html(content);
 
+
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
         var expectedEmbed = post.find('iframe');
+        var fbEmbed = post.find('.fb-video');
 
         if(content.search('</iframe>') > -1) {
             var pieces = content.split('</iframe></p>');
@@ -877,9 +879,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             content = pieces.join(glue);
             content += '<div class="post-txt-more ga-post-more">Read More</div>';
         }
-        if(expectedEmbed.length > 0){
+        if(expectedEmbed.length > 0 && fbEmbed.length === 0){
             expectedEmbed.addClass('video-container');
             $scope.resizeEmbed(expectedEmbed);
+        }
+
+        if(fbEmbed.length > 0){
+
+            fbEmbed.addClass('video-container').addClass('fb-embed').css({width:'100%'});
+            $scope.resizeEmbed(fbEmbed);
         }
 
         return $sce.trustAsHtml(content);
@@ -887,7 +895,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.resizeEmbed = function(embed){
         var iframe = embed;
-
+        console.log(embed);
         var maxWidth = iframe.closest('.post-content').width(); // Max width for the image
         var maxHeight = 10000;    // Max height for the image
         var ratio = 0;  // Used for aspect ratio
