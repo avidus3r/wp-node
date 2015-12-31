@@ -1,6 +1,6 @@
 'use strict';
 
-require('newrelic');
+var newrelic = require('newrelic');
 //require('./lib/connection');
 
 var express     = require('express'),
@@ -111,8 +111,8 @@ app.get('/', function(req,res,next){
         }
 
     }else{
-        res.sendFile('index.html', {root: path.join(__dirname, './dist'), title:appConfig.title});
-        /*var metatags = {
+        //res.sendFile('index.html', {root: path.join(__dirname, './dist'), title:appConfig.title});
+        var metatags = {
             robots: 'index, follow',
             title: appConfig.title,
             description: appConfig.description,
@@ -135,7 +135,7 @@ app.get('/', function(req,res,next){
             url: 'http://admin.altdriver.com'
         };
 
-        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});*/
+        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
     }
 });
 
