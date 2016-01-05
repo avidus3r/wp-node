@@ -25,7 +25,7 @@ function getQueryParamValue(variable) {
 }
 
 function init() {
-    env = 'prod';
+    env = 'awsprod';
     host = window.location.host;
 
     //appName = localStorage.getItem('appName');
