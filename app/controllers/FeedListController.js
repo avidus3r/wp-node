@@ -190,11 +190,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
     $scope.getPosts = function(path, params){
+        console.log('getPosts');
         return FeedService.getPosts(path, params);
     };
 
     $scope.getDBPosts = function(perPage, pageNum, skip){
-        return FeedService.getDBPosts(perPage, pageNum. skip);
+        return FeedService.getDBPosts(perPage, pageNum, skip);
     };
 
     var postmap = [];
@@ -234,10 +235,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if($scope.feedItemPosition % $scope.postPrefetchAt === 0){
             $scope.pageNumber += 1;
 
-            if($scope.post){
+            /*if($scope.post){
                 $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + '&post__not_in=' + $scope.singlePostID;
                 $scope.getPosts('feed/', $scope.pagingParams);
-            }
+            }*/
 
         }
         $scope.feedItemPosition += 1;
@@ -435,7 +436,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         skip = 0;
                     }
 
-                    $scope.getDBPosts($scope.postsPerPage, $scope.paged, skip).then(
+                    $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postsPerPage).then(
                         function (data) { //success
                             if (data.length > 0) {
                                 $scope.mapPosts(data);
