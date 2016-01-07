@@ -717,13 +717,18 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.title = '';
                         metatags.description = '';
 
-                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
-                            metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        }
+                        try{
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
+                                metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                            }
 
-                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0){
-                            metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0){
+                                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                            }
+                        }catch(e){
+                            console.error(JSON.stringify(e));
                         }
+                        
 
 
                         // Facebook meta
