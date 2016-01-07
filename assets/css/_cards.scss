@@ -151,5 +151,35 @@
   width:auto !important;
 }
 
+// subscribe hub styles
+.subscribe-hub {
+  padding: 0 .5em;
+
+  // social buttons
+  .social-follow {
+    @extend .ad-m-lr;
+
+    // individual social buttons
+    .sc {
+      //icons inside links
+      .fa {
+        margin-right: .5em;
+      }
+
+      display: block;
+      width:100%;
+      max-width: 480px;
+      font-size: 1.5em;
+      padding: .25em;
+      @extend .ad-m-tb;
+    }
+  }
+
+  .feeds li {
+    font-size: 1.25em;
+    margin-bottom: 1em;
+  }
+}
+
 // Sponsored posts styles
 @import 'sponsors';

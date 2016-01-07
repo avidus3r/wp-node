@@ -1,6 +1,6 @@
 'use strict';
 
-//require('newrelic');
+require('newrelic');
 //require('./lib/connection');
 
 var express     = require('express'),
@@ -17,15 +17,18 @@ var express     = require('express'),
     swig        = require('swig'),
     cons        = require('consolidate');
 
-var EXPRESS_PORT = 3000,
-    EXPRESS_HOST = '127.0.0.1',
-    EXPRESS_ROOT = './dist',
-    feedConfig = null;
+var EXPRESS_ROOT = './dist',
+    feedConfig = null,
+    itsABot = null;
+
+app.get('*', function(req,res,next){
+    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+    next();
+});
 
 /*
  static paths
  */
-
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
     request('http://admin.altdriver.com/'+feedName, function (error, response, body) {
@@ -64,7 +67,7 @@ function htmlEntities(str) {
 
 app.get('/', function(req,res,next){
 
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
 
         try {
             var endpoint = feedConfig.remoteUrl + feedConfig.basePath + appConfig.feedPath + '?page=1&per_page=' + appConfig.per_page;
@@ -146,7 +149,7 @@ app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.set('port', process.env.PORT || EXPRESS_PORT);
+app.set('port', process.env.PORT || 3000);
 
 app.locals.config = require('./app/config/feed.conf.json');
 
@@ -519,7 +522,7 @@ app.get('/category/:category/', function(req,res){
     var endpoint = 'terms/category?name=' + catName;
     var appUrl = 'http://admin.altdriver.com/category';
 
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -607,7 +610,7 @@ app.get('/category/:category', function(req,res){
     var catName = req.params.category;
     var endpoint = 'terms/category?name=' + catName;
     var appUrl = 'http://admin.altdriver.com/category';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -682,8 +685,12 @@ app.get('/category/:category', function(req,res){
 
 });
 
-app.get('/search/:query/', function(req,res, next){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+app.get('/search/(:query/|:query)', function(req,res, next){
+    if(itsABot){
+        res.send();
+    }else{
+        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    }
 });
 
 app.get('/:category/:slug/', function(req,res, next){
@@ -701,7 +708,7 @@ app.get('/:category/:slug/', function(req,res, next){
     var endpoint = 'posts?name=' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -807,13 +814,15 @@ app.get('/:category/:slug', function(req,res, next){
         basePath: '/wp-json/wp/v2/'
     };
 
+    console.log(itsABot);
+
     var fbAppId = appConfig.fb_appid;
     var fbUrl = appConfig.fb_url;
     var postName = req.params.slug;
     var endpoint = 'posts?name=' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {

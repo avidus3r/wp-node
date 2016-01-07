@@ -271,7 +271,6 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         ),
                         posts: FeedService.search($route.current.params.query,1).then(
                             function(data){
-                                debugger
                                 console.log(data);
                                 return data;
                             },
@@ -501,6 +500,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
         })
         .when('/about',{
             templateUrl: '/views/static-page.html',
+            controller: 'PageController'
+        })
+        .when('/subscribe-hub',{
+            templateUrl: '/views/subscribe-hub.html',
             controller: 'PageController'
         })
         .when('/subscribe',{
