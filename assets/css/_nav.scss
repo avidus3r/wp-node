@@ -27,6 +27,25 @@
   top: -1px;
 }
 
+// make the logos correct
+.navbar-brand {
+  display: inline-block;
+  width: 120px;
+  height: 50px;
+  cursor: pointer;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+.navbar-brand .site-title {
+  text-indent: -100%;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  height: 0;
+} 
+
 .navbar-nav {
   font-family: $font-headline;
 }
@@ -110,5 +129,46 @@
   // 4 columns nav
   .nav > li {
     width: 25%;
+  }
+}
+
+// submit story button
+.btn-submit-story {
+  @extend .ad-m-r;
+  float: right;
+  cursor: pointer;
+
+  // temp hide button
+  display: none !important;
+}
+
+// navigation submit button wide view
+.navbar-nav > li > a.btn-submit-story {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+.collapse.in, .collapsing{
+  .nav-submit {
+      display: none;
+  }
+}
+
+// search box
+// make the searchbox look good
+.header-search-txt {
+  padding: .3em;
+  border: 1px solid #e3e3e3;
+  color:#333;
+  top: 1px;
+  position: relative;
+  min-width: 250px;
+}
+
+ // match the btn padding
+.nav > li.search {
+  
+  .btn-search {
+    padding: 4px 10px;
   }
 }
