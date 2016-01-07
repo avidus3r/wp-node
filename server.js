@@ -157,9 +157,8 @@ app.locals.config = require('./app/config/feed.conf.json');
 function getPagePosts(numberOfPosts, pageNumber, skip) {
     var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
     skipItems += Number(skip);
-    console.log(skipItems);
     var query = Post.find().limit(numberOfPosts).skip(skipItems);
-    //query.$where('this.postmeta.hasOwnProperty("run_dates_0_channel")');
+    query.$where('this.postmeta.hasOwnProperty("run_dates_0_channel")').sort({date:'desc'});
     return query;
 }
 
