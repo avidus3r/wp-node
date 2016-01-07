@@ -158,9 +158,19 @@ function getPagePosts(numberOfPosts, pageNumber, skip) {
     var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
     skipItems += Number(skip);
     console.log(skipItems);
-    return db.collection('posts').find().limit(numberOfPosts).skip(skipItems);
+    var query = Post.find().limit(numberOfPosts).skip(skipItems);
+    //query.$where('this.postmeta.hasOwnProperty("run_dates_0_channel")');
+    return query;
 }
 
+function getCategoryPagePosts(numberOfPosts, pageNumber, skip, category) {
+    var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
+    skipItems += Number(skip);
+    console.log(skipItems);
+    var query = Post.find().limit(numberOfPosts).skip(skipItems);
+    query.$where('this.category[0].slug === "' + category + '"');
+    return query;
+}
 
 function getMongoPost(slug){
     var query = Post.findOne({'slug': slug});
@@ -178,19 +188,31 @@ app.get('/p/:slug', function(req,res){
     });
 });
 
+app.get('/p/category/:category', function(req, res){
+    var data = getCategoryPagePosts(parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.category);
+    data.exec(function(err,post){
+        if(err) return 'error';
+        res.send(JSON.stringify(post));
+    });
+});
+
 app.get('/p/:perPage/:page/:skip', function(req,res){
     var data = getPagePosts(parseInt(req.params.perPage),req.params.page, req.params.skip);
-
+    data.exec(function(err,post){
+        if(err) return 'error';
+        res.send(JSON.stringify(post));
+    });
     var posts = [];
     var i = 0;
-    data.forEach(function(item, index, collection){
+
+    /*data.forEach(function(item, index, collection){
         posts.push(item);
         if(i === parseInt(req.params.perPage)-1){
             console.log(item);
             res.send(JSON.stringify(posts));
         }
         i++;
-    });
+    });*/
 });
 
 
