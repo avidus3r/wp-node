@@ -71,7 +71,8 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.search = function(query, page) {
-        var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page + '&_jsonp=JSON_CALLBACK';
+
+        /*var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page + '&_jsonp=JSON_CALLBACK';
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page;
         var data = null;
 
@@ -79,9 +80,10 @@ var FeedService = function(app, appName, env, $http, $q){
             data = feed.get(url, 'get');
         }catch(e){
             data = feed.get(jsonpUrl, 'jsonp');
-        }
+        }*/
+        var url = '/p/search/'+query;
 
-        return data;
+        return feed.get(url, 'get');
     };
 
     feed.getSponsor = function(sponsorName) {

@@ -29,6 +29,15 @@ var EXPRESS_PORT = 3000,
 var db = conn.db;
 var Post = conn.Post;
 
+app.get('/api/list', function(req, res){
+    var query = Post.find({'format':'video'}).limit(10);
+    query.exec(function(err, posts){
+        if(err) return 'error';
+        res.end(JSON.stringify(posts));
+    });
+});
+
+
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
     request('http://admin.altdriver.com/'+feedName, function (error, response, body) {
@@ -181,11 +190,30 @@ function getMongoPost(slug){
     return query;
 }
 
+function searchPosts(term){
+    console.log(term);
+    var s = decodeURIComponent(term);
+    console.log(s);
+
+    var query = Post.find({'content.rendered' : {$regex: (s), $options:'i' },'title.rendered' : {$regex: (s), $options:'i' } } ).limit(10);
+    return query;
+}
+
+
+
 app.get('/p/:slug', function(req,res){
     var post = getMongoPost(req.params.slug);
     post.exec(function(err,post){
         if(err) return 'error';
         res.send(JSON.stringify([post]));
+    });
+});
+
+app.get('/p/search/:slug', function(req,res){
+    var data = searchPosts(encodeURIComponent(req.params.slug));
+    data.exec(function(err, results){
+        if(err) return 'error';
+        res.send(JSON.stringify(results));
     });
 });
 
