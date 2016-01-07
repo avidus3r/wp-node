@@ -187,7 +187,7 @@ app.get('/p/:slug', function(req,res){
     });
 });
 
-app.get('/p/category/:category', function(req, res){
+app.get('/p/category/:category/:perPage/:page/:skip', function(req, res){
     var data = getCategoryPagePosts(parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.category);
     data.exec(function(err,post){
         if(err) return 'error';

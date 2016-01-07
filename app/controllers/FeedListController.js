@@ -198,6 +198,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return FeedService.getDBPosts(perPage, pageNum, skip);
     };
 
+    $scope.getDBCategoryPosts = function(category, perPage, pageNum, skip){
+        return FeedService.getDBCategoryPosts(category, perPage, pageNum, skip);
+    };
+
     var postmap = [];
 
     $scope.createFeedItem = function(item,index){
@@ -436,27 +440,51 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         skip = 0;
                     }
 
-                    $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postsPerPage).then(
-                        function (data) { //success
-                            if (data.length > 0) {
-                                $scope.mapPosts(data);
-                            } else {
-                                angular.element('#loading-more').text('');
-                                angular.element('#loading-more')
-                                    .append(
-                                    angular.element('<a/>')
-                                        .attr('href', '/')
-                                        .text('You\'ve reached the end - Start Over')
-                                );
+                    if ($scope.currentView === 'category') {
+                        $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postsPerPage).then(
+                            function (data) { //success
+                                if (data.length > 0) {
+                                    $scope.mapPosts(data);
+                                } else {
+                                    angular.element('#loading-more').text('');
+                                    angular.element('#loading-more')
+                                        .append(
+                                        angular.element('<a/>')
+                                            .attr('href', '/')
+                                            .text('You\'ve reached the end - Start Over')
+                                    );
+                                }
+                            },
+                            function (reason) {   //error
+                                console.error('Failed: ', reason);
+                            },
+                            function (update) {  //notification
+                                console.info('Got notification: ' + update);
                             }
-                        },
-                        function (reason) {   //error
-                            console.error('Failed: ', reason);
-                        },
-                        function (update) {  //notification
-                            console.info('Got notification: ' + update);
-                        }
-                    );
+                        );
+                    }else{
+                        $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postsPerPage).then(
+                            function (data) { //success
+                                if (data.length > 0) {
+                                    $scope.mapPosts(data);
+                                } else {
+                                    angular.element('#loading-more').text('');
+                                    angular.element('#loading-more')
+                                        .append(
+                                        angular.element('<a/>')
+                                            .attr('href', '/')
+                                            .text('You\'ve reached the end - Start Over')
+                                    );
+                                }
+                            },
+                            function (reason) {   //error
+                                console.error('Failed: ', reason);
+                            },
+                            function (update) {  //notification
+                                console.info('Got notification: ' + update);
+                            }
+                        );
+                    }
                 }
             }
             if($scope.currentView === 'search'){
@@ -683,7 +711,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             var skip = null;
             try{
-                skip = Number(localStorage.getItem('post_offset'));
+                skip = Number(localStorage.getItem('post_offset'))+1;
             }catch(e){
                 skip = 0;
             }

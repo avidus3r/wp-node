@@ -65,6 +65,11 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
+    feed.getDBCategoryPosts = function(category, numPosts, pageNum, skip){
+        var url = '/p/category/'+ category + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
+        return feed.get(url, 'get');
+    };
+
     feed.search = function(query, page) {
         var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page + '&_jsonp=JSON_CALLBACK';
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page;

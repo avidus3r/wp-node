@@ -207,7 +207,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),
-                        posts: FeedService.getPosts('posts', '?per_page='+appConfig.per_page+'&page=1&category_name='+$route.current.params.category).then(
+                        posts: FeedService.getDBCategoryPosts($route.current.params.category,10,1,0).then(
                             function (data) {
                                 return data;
                             },
