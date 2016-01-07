@@ -166,9 +166,9 @@ function getPagePosts(numberOfPosts, pageNumber, skip) {
 }
 
 function getCategoryPagePosts(numberOfPosts, pageNumber, skip, category) {
-    var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
-    skipItems += Number(skip-1);
-    var query = Post.find().limit(numberOfPosts).skip(skipItems);
+    //var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
+    var skipItems = Number(skip);
+    var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
     query.$where('this.category[0].slug === "' + category + '"');
     return query;
 }
@@ -548,8 +548,8 @@ app.get('/category/:category/', function(req,res){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        /*var catName = req.params.category;
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        var catName = req.params.category;
         var endpoint = 'terms/category?name=' + catName;
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
@@ -582,7 +582,7 @@ app.get('/category/:category/', function(req,res){
             });
         } catch (e) {
             console.error(e);
-        }*/
+        }
     }
 });
 
