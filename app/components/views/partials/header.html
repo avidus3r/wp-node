@@ -26,11 +26,20 @@
                     <li ng-repeat="item in navItems" class="{{item.class}}">
                         <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item"></a>
                     </li>
-                    <li class="legal" ng-click="goToPage($event, $index, '/about')">
-                        <a href="/about" class="ga-nav-about">About</a>
+                    <li class="subscribe" ng-click="goToPage($event, $index, '/subscribe-hub')">
+                        <a href="/subscribe-hub" class="ga-nav-about">Subscribe</a>
                     </li>
                     <li class="search">
                         <ng-include src="'/views/partials/search.html'"></ng-include>
+                    </li>
+                    <li class="about legal" ng-click="goToPage($event, $index, '/about')">
+                        <a href="/about" class="ga-nav-about">Contact</a>
+                    </li>
+                    <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+                        <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+                    </li>
+                    <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+                        <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
                     </li>
                 </ul>
             </div>

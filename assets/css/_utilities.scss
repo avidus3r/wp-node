@@ -11,6 +11,10 @@
 .italic{
   font-style: italic;
 }
+.unstyled {
+  list-style-type: none;
+  padding: 0;
+}
 
 // display
 .inline       { display: inline       !important; }

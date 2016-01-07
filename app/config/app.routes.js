@@ -502,6 +502,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
         })
+        .when('/subscribe-hub',{
+            templateUrl: '/views/subscribe-hub.html',
+            controller: 'PageController'
+        })
         .when('/subscribe',{
             templateUrl: '/views/subscribe.html',
             controller: 'PageController'

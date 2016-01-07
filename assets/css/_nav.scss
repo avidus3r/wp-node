@@ -1,0 +1,114 @@
+// use the sitename for individual channels/urls on the body - where sitename = brand
+
+.altdriver .navbar-brand {
+  background-image: url('http://admin.altdriver.com/wp-content/uploads/logo_alt_driver_250x51.png');
+  position: relative;
+  top: 14px;
+  left: .75em;
+  margin-right: 1.75em;
+}
+
+@media all and (min-width: 480px) {
+  .altdriver .navbar-brand {
+    width: 142px;
+    top: 12px;
+  }
+}
+
+@media all and (min-width: $nav-switch) {
+  .altdriver .navbar-brand {
+    top: 10px;
+  }
+}
+
+// align the logo using the underscore
+.navbar-brand {
+  position: relative;
+  top: -1px;
+}
+
+.navbar-nav {
+  font-family: $font-headline;
+}
+
+// custom navigation styles Bootstrap overrides
+@media all and (max-width:$nav-switch) {
+  .navbar-nav {
+    background: #444;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: .5em;
+    padding-top: .5em;
+  }
+
+  // make the expandable nav colors different
+  .nav > li {
+    display: inline-block;
+
+    color: #fff;
+
+    a,
+    a:visited {
+      text-transform: uppercase;
+      color: #fff !important; //shame
+    }
+
+    //small secondary menu
+    &.legal {
+      text-align: center;
+      display: inline-block;
+      width: auto;
+      font-family: $font-system;
+
+      a,
+      a:visited {
+        display: inline;
+        text-transform: none;
+        font-size: .75em;
+        color: rgba(255,255,255,.5) !important; //shame
+      }
+    }
+
+    // centering the legal menu a bit
+    &.about,
+    &privacy {
+      width: 25%;
+    }
+
+    &.visitor {
+      width: 50%;
+    }
+
+    // add a nice border to the search box
+    &.search {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }    
+  }
+
+  .navbar-nav > li > a {
+    padding-top: .5em;
+    padding-bottom: .5em;
+  }
+}
+
+// two columns in nav
+@media all and (max-width: 669px) {
+  .nav > li {
+    width: 50%;
+  }
+}
+
+// @media all and (min-width: 400px ) and (max-width: 669px) {
+//   // 3 columns nav
+//   .nav > li {
+//     width: 33.3333%;
+//   }
+// }
+
+@media all and (min-width: 670px ) and (max-width:$nav-switch) {
+  // 4 columns nav
+  .nav > li {
+    width: 25%;
+  }
+}
