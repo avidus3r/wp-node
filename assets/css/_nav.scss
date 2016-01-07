@@ -111,6 +111,23 @@
   }
 }
 
+@media all and (min-width: 800px) {
+  // UN-centering the legal menu a bit
+  .nav > li {  
+
+    &.legal,
+    &.about,
+    &privacy,
+    &.visitor {
+      text-align: left;
+      display: inline !important;
+    } 
+    &.search {
+      text-align: left;
+    } 
+  }
+}
+
 // two columns in nav
 @media all and (max-width: 669px) {
   .nav > li {
@@ -118,18 +135,20 @@
   }
 }
 
-// @media all and (min-width: 400px ) and (max-width: 669px) {
-//   // 3 columns nav
-//   .nav > li {
-//     width: 33.3333%;
-//   }
-// }
 
-@media all and (min-width: 670px ) and (max-width:$nav-switch) {
+@media all and (min-width: 670px ) and (max-width:1800px) {
   // 4 columns nav
   .nav > li {
     width: 25%;
   }
+}
+
+@media all and (min-width: 1801px ) {
+  // 4 columns nav
+  .nav > li {
+    width: 10%;
+  }
+
 }
 
 // submit story button
@@ -139,7 +158,7 @@
   cursor: pointer;
 
   // temp hide button
-  display: none !important;
+  display: none;
 }
 
 // navigation submit button wide view
