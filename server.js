@@ -1,6 +1,6 @@
 'use strict';
 
-require('newrelic');
+var newrelic = require('newrelic');
 var conn = require('./lib/connection');
 
 var express     = require('express'),
@@ -111,8 +111,8 @@ app.get('/', function(req,res,next){
         }
 
     }else{
-        res.sendFile('index.html', {root: path.join(__dirname, './dist')});
-        /*var metatags = {
+        //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+        var metatags = {
             robots: 'index, follow',
             title: appConfig.title,
             description: appConfig.description,
@@ -135,7 +135,7 @@ app.get('/', function(req,res,next){
             url: 'http://admin.altdriver.com'
         };
 
-        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});*/
+        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
     }
 });
 
@@ -155,17 +155,19 @@ app.locals.config = require('./app/config/feed.conf.json');
 
 
 function getPagePosts(numberOfPosts, pageNumber, skip) {
-    var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
-    skipItems += Number(skip);
-    var query = Post.find().limit(numberOfPosts).skip(skipItems);
-    query.$where('this.postmeta.hasOwnProperty("run_dates_0_channel")').sort({date:'desc'});
+    //var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
+    var skipItems = Number(skip);
+    console.log('getting ' + numberOfPosts + ' items - on page ' + pageNumber + ' - skipping ' + skipItems);
+    var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
+    query.$where(function(){
+        return this.postmeta.hasOwnProperty("run_dates_0_channel");
+    });
     return query;
 }
 
 function getCategoryPagePosts(numberOfPosts, pageNumber, skip, category) {
     var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
-    skipItems += Number(skip);
-    console.log(skipItems);
+    skipItems += Number(skip-1);
     var query = Post.find().limit(numberOfPosts).skip(skipItems);
     query.$where('this.category[0].slug === "' + category + '"');
     return query;
@@ -705,6 +707,7 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.published = post.date;
                         metatags.modified = post.modified;
                         metatags.category = post.category[0].name;
+
                         metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
                         metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
 
@@ -734,8 +737,8 @@ app.get('/:category/:slug/', function(req,res, next){
             console.error(e);
         }
     }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        /*try {
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
@@ -771,7 +774,7 @@ app.get('/:category/:slug/', function(req,res, next){
             });
         } catch (e) {
             console.error(e);
-        }*/
+        }
     }
 });
 

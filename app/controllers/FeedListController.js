@@ -440,8 +440,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         skip = 0;
                     }
 
+                    if(skip === 0){
+                        skip = $scope.postsPerPage*($scope.paged-1);
+                    }
+
                     if ($scope.currentView === 'category') {
-                        $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postsPerPage).then(
+                        $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, skip).then(
                             function (data) { //success
                                 if (data.length > 0) {
                                     $scope.mapPosts(data);
@@ -463,7 +467,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                         );
                     }else{
-                        $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postsPerPage).then(
+                        $scope.getDBPosts($scope.postsPerPage, $scope.paged, skip).then(
                             function (data) { //success
                                 if (data.length > 0) {
                                     $scope.mapPosts(data);
