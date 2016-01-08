@@ -209,7 +209,9 @@ app.get('/p/:slug', function(req,res){
     });
 });
 
-var Poster = {};
+var Poster = {
+    updating: false
+};
 
 Poster.updatePost = function(postID, data, cb){
     Post.update({'_id': postID}, data[0],{multi:true}, function(err, nItems){
@@ -411,33 +413,38 @@ app.post('/admin', function(req, res){
 });
 
 app.get('/update/:postId', function(req,res){
-    console.log('requested update');
+
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
-    request(url, function (error, response, body) {
-        var post = JSON.parse(body);
-        Poster.hasPost(post.id).then(function(result){
-            if(result.length === 0){
+    if(!Poster.updating){
+        Poster.updating = true;
+        request(url, function (error, response, body) {
+            var post = JSON.parse(body);
+            Poster.hasPost(post.id).then(function(result){
+                if(result.length === 0){
 
-                var newPost = post;
+                    var newPost = post;
 
-                Poster.insertPost(newPost, function(success){
-                    if(!success) res.sendStatus(500);
+                    Poster.insertPost(newPost, function(success){
+                        if(!success) res.sendStatus(500);
 
-                    res.sendStatus(200);
-                });
+                        res.sendStatus(200);
+                        Poster.updating = false;
+                    });
 
-            }else{
-                var updatePost = result[0];
+                }else{
+                    var updatePost = result[0];
 
-                Poster.updatePost(updatePost._id, post, function(success){
-                    if(!success) res.sendStatus(500);
+                    Poster.updatePost(updatePost._id, post, function(success){
+                        if(!success) res.sendStatus(500);
 
-                    res.sendStatus(200);
-                });
-            }
+                        res.sendStatus(200);
+                        Poster.updating = false;
+                    });
+                }
+            });
         });
-    });
+    }
 });
 
 app.put('/update', function(req,res){
