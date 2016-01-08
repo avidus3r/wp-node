@@ -182,7 +182,6 @@ app.get('/p/:perPage/:page', function(req,res){
     });
 });
 
-
 app.get('/posts/:perPage/:page', function(req, res) {
     var post = require('./lib/post');
     var perPage = parseInt(req.params.perPage);
