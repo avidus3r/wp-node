@@ -445,6 +445,7 @@ app.get('/update/:postId', function(req,res){
             });
         });
     }
+    res.end();
 });
 
 app.put('/update', function(req,res){
