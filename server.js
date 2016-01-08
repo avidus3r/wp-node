@@ -209,6 +209,76 @@ app.get('/p/:slug', function(req,res){
     });
 });
 
+var Poster = {};
+
+Poster.updatePost = function(postID, data, cb){
+    Post.update({'_id': postID}, data[0],{multi:true}, function(err, nItems){
+        if(err){
+            cb(false);
+        }else{
+            cb(true);
+        }
+    });
+};
+
+Poster.insertPost = function(newPost, cb){
+    var post = new Post(newPost);
+
+    post.save(function(err){
+        if(err){
+            cb(false);
+        }else{
+            cb(true);
+        }
+    });
+};
+
+Poster.hasPost = function(id){
+    var query = Post.find({'id': id});
+    var promise = query.exec();
+    return promise;
+};
+
+app.put('/post', function(req,res){
+
+    try{
+        var item = JSON.parse(req.body.item);
+
+        Poster.hasPost(item[0].id).then(function(result){
+            if(result.length === 0){
+
+                var newPost = item[0];
+
+                Poster.insertPost(newPost, function(success){
+                    if(!success) res.sendStatus(500);
+
+                    res.sendStatus(200);
+                });
+
+            }else{
+                var updatePost = result[0];
+
+                Poster.updatePost(updatePost._id, item, function(success){
+                    if(!success) res.sendStatus(500);
+
+                    res.sendStatus(200);
+                });
+            }
+        });
+
+
+        /*var query = Post.find({'id': item[0].id}).limit(1);
+        query.exec(function(err, results){
+            if(err) return 'error';
+
+        });*/
+
+    }catch(e){
+        console.error(JSON.stringify(e));
+        res.sendStatus(500);
+    }
+});
+
 app.get('/p/search/:slug', function(req,res){
     var data = searchPosts(encodeURIComponent(req.params.slug));
     data.exec(function(err, results){
@@ -343,17 +413,31 @@ app.post('/admin', function(req, res){
 app.get('/update/:postId', function(req,res){
     console.log('requested update');
     var postId = req.params.postId;
+    var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
+    request(url, function (error, response, body) {
+        var post = JSON.parse(body);
+        Poster.hasPost(post.id).then(function(result){
+            if(result.length === 0){
 
-    fs.realpath('./data', function(err, resolvedPath){
-        fs.readdir(resolvedPath, function(err, files){
-            if(err) throw err;
-            fs.writeFile(resolvedPath + '/updated.json', postId, function(err){
-                if(err) throw err;
-            });
+                var newPost = post;
+
+                Poster.insertPost(newPost, function(success){
+                    if(!success) res.sendStatus(500);
+
+                    res.sendStatus(200);
+                });
+
+            }else{
+                var updatePost = result[0];
+
+                Poster.updatePost(updatePost._id, post, function(success){
+                    if(!success) res.sendStatus(500);
+
+                    res.sendStatus(200);
+                });
+            }
         });
     });
-
-    res.end();
 });
 
 app.put('/update', function(req,res){
