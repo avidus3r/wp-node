@@ -22,7 +22,7 @@
                         <a href="/submit" type="button" class="btn btn-default navbar-btn btn-submit-story ga-btn-submit-story">Upload</a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav">
+                <!--<ul class="nav navbar-nav">
                     <li ng-repeat="item in navItems" class="{{item.class}}">
                         <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item"></a>
                     </li>
@@ -31,6 +31,42 @@
                     </li>
                     <li class="search">
                         <ng-include src="'/views/partials/search.html'"></ng-include>
+                    </li>
+                </ul>-->
+
+                <ul class="nav navbar-nav">
+                    <li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Insane Stunts</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Crash &amp; Burn</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Gaming</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Sports Car</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Lux</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Motorcycles</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Classics</a>
+                </li><!-- end ngRepeat: item in navItems --><li class="">
+                    <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item ng-binding">Off Road</a>
+                </li><!-- end ngRepeat: item in navItems -->
+                    <li class="subscribe" ng-click="goToPage($event, $index, '/subscribe-hub')">
+                        <a href="/subscribe-hub" class="ga-nav-about">Subscribe</a>
+                    </li>
+                    <li class="search">
+                        <!-- ngInclude: undefined --><ng-include src="'/views/partials/search.html'" class="ng-scope"><input type="text" name="s" class="header-search-txt ng-scope" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+                        <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search ng-scope"><i class="fa fa-search"></i></button></ng-include>
+                    </li>
+                    <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
+                        <a href="/contact" class="ga-nav-about">Contact</a>
+                    </li>
+                    <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+                        <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+                    </li>
+                    <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+                        <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
                     </li>
                 </ul>
             </div>
