@@ -214,7 +214,7 @@ var Poster = {
 };
 
 Poster.updatePost = function(postID, data, cb){
-    Post.update({'_id': postID}, data[0],{multi:true}, function(err, nItems){
+    Post.update({'_id': postID}, data,{multi:true}, function(err, nItems){
         if(err){
             cb(false);
         }else{
@@ -260,7 +260,7 @@ app.put('/post', function(req,res){
             }else{
                 var updatePost = result[0];
 
-                Poster.updatePost(updatePost._id, item, function(success){
+                Poster.updatePost(updatePost._id, item[0], function(success){
                     if(!success) res.sendStatus(500);
 
                     res.sendStatus(200);
