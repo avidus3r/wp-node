@@ -801,7 +801,7 @@ app.get('/search/:query/', function(req,res, next){
 
 app.get('/:category/:slug/', function(req,res, next){
     var feed = {};
-
+    console.log(req.params.slug);
     feed.endpoints = {
         url: 'http://admin.altdriver.com',
         remoteUrl: 'http://altdriver.staging.wpengine.com',
@@ -870,8 +870,16 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.published = post.date;
                         metatags.modified = post.modified;
                         metatags.category = post.category[0].name;
-                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        metatags.title = '';
+                        metatags.description = '';
+
+                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
+                            metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        }
+
+                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
+                            post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                        }
 
                         // Facebook meta
 
@@ -879,9 +887,9 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.fb_publisher = fbUrl;
                         metatags.fb_type = 'article';
                         metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                        metatags.fb_title = metatags.title;
                         metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        metatags.fb_description = metatags.description;
                         metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
                         metatags.fb_image = post.featured_image_src.original_wp[0];
                         metatags.fb_image_width = post.featured_image_src.original_wp[1];
