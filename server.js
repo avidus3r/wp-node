@@ -413,7 +413,7 @@ app.post('/admin', function(req, res){
 });
 
 app.get('/update/:postId', function(req,res){
-
+    console.log(req.headers.host);
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
     if(!Poster.updating){
