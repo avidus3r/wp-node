@@ -56,17 +56,17 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.getDBPosts = function(numPosts, pageNum, skip){
-        var url = '/p/'+ numPosts + '/' + pageNum + '/' + skip || 0;
+        var url = '/api/'+ numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');
     };
 
     feed.getDBPost = function(slug){
-        var url = '/p/'+ slug;
+        var url = '/api/'+ slug;
         return feed.get(url, 'get');
     };
 
     feed.getDBCategoryPosts = function(category, numPosts, pageNum, skip){
-        var url = '/p/category/'+ category + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
+        var url = '/api/category/'+ category + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');
     };
 
@@ -81,7 +81,7 @@ var FeedService = function(app, appName, env, $http, $q){
         }catch(e){
             data = feed.get(jsonpUrl, 'jsonp');
         }*/
-        var url = '/p/search/'+query;
+        var url = '/api/search/'+query;
 
         return feed.get(url, 'get');
     };

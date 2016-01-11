@@ -122,7 +122,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     if($scope.currentView === 'post'){
-        $scope.initMeta($scope.post[0]);
+        $scope.initMeta($scope.post);
     }
 
     $scope.decodeHtml = function(html) {
@@ -699,8 +699,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
         }
         if($scope.currentView === 'post') {
-            item = $scope.post[0];
-
+            item = $scope.post;
 
             $scope.singlePostID = item.id;
             item.type = 'post-single';

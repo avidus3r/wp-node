@@ -10,45 +10,6 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
     var InstagramService = InstagramServiceProvider.$get();
 
     $routeProvider
-        .when('/posts',{
-            controller: 'PostsController',
-            templateUrl: '/views/post.html',
-            redirectTo: false,
-            reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route) {
-                    var params = {};
-
-                    return $q.all({
-                        config: FeedService.getData('/appdata/feed.conf.json').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        posts: FeedService.posts(appConfig.per_page, 1).then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        instagram: null,
-                        sponsors: null
-
-                    });
-                }
-            }
-        })
         .when('/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',

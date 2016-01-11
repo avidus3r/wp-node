@@ -1,7 +1,6 @@
 'use strict';
 
 var newrelic = require('newrelic');
-var conn = require('./lib/connection');
 
 var express     = require('express'),
     http        = require('http'),
@@ -23,11 +22,18 @@ var EXPRESS_PORT = 3000,
     feedConfig = null;
 
 /*
- static paths
+data
  */
 
-var db = conn.db;
-var Post = conn.Post;
+var api = require('./server/index');
+var PostController = api.PostController;
+var Post = api.Post;
+var apiRouter = api.routes;
+
+
+/*
+ static paths
+ */
 
 app.get('/server', function(req,res){
     res.send(JSON.stringify(process.env));
@@ -171,168 +177,99 @@ app.set('port', process.env.PORT || EXPRESS_PORT);
 app.locals.config = require('./app/config/feed.conf.json');
 
 
-function getPagePosts(numberOfPosts, pageNumber, skip) {
-    //var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
-    var skipItems = Number(skip);
-    console.log('getting ' + numberOfPosts + ' items - on page ' + pageNumber + ' - skipping ' + skipItems);
-    var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
-    query.$where(function(){
-        return this.postmeta.hasOwnProperty("run_dates_0_channel");
-    });
-    return query;
-}
-
-function getCategoryPagePosts(numberOfPosts, pageNumber, skip, category) {
-    //var skipItems = pageNumber > 1 ? numberOfPosts * pageNumber : 0;
-    var skipItems = Number(skip);
-    var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
-    query.$where('this.category[0].slug === "' + category + '"');
-    return query;
-}
-
-function getMongoPost(slug){
-    var query = Post.findOne({'slug': slug});
-
-    query.select('id date campaign_active sponsor parent guid modified modified_gmt slug type link title content excerpt author featured_image comment_status ping_status sticky format votes comment_count postmeta category featured_image_src author_meta');
-
-    return query;
-}
-
-function searchPosts(term){
-    console.log(term);
-    var s = decodeURIComponent(term);
-    console.log(s);
-
-    var query = Post.find({'content.rendered' : {$regex: (s), $options:'i' },'title.rendered' : {$regex: (s), $options:'i' } } ).limit(10);
-    return query;
-}
-
-
-
-app.get('/p/:slug', function(req,res){
-    var post = getMongoPost(req.params.slug);
-    post.exec(function(err,post){
-        if(err) return 'error';
-        res.send(JSON.stringify([post]));
-    });
-});
-
-var PostManager = {
-    updating: false
-};
-
-PostManager.updatePost = function(postID, data, cb){
-    Post.update({'_id': postID}, data,{multi:true}, function(err, nItems){
-        if(err){
-            cb(false);
-        }else{
-            cb(true);
-        }
-    });
-};
-
-PostManager.insertPost = function(newPost, cb){
-    var post = new Post(newPost);
-
-    post.save(function(err){
-        if(err){
-            cb(false);
-        }else{
-            cb(true);
-        }
-    });
-};
-
-PostManager.hasPost = function(id){
-    var query = Post.find({'id': id});
-    var promise = query.exec();
-    return promise;
-};
-
 app.put('/post', function(req,res){
 
     try{
         var item = JSON.parse(req.body.item);
-
-        PostManager.hasPost(item[0].id).then(function(result){
+        PostsController.hasPost(item[0].id).then(function(result){
             if(result.length === 0){
-
                 var newPost = item[0];
-
-                PostManager.insertPost(newPost, function(success){
+                PostsController.insert(newPost, function(success){
                     if(!success) res.sendStatus(500);
-
                     res.sendStatus(200);
                 });
-
             }else{
                 var updatePost = result[0];
-
-                PostManager.updatePost(updatePost._id, item[0], function(success){
+                PostsController.update(updatePost._id, item[0], function(success){
                     if(!success) res.sendStatus(500);
-
                     res.sendStatus(200);
                 });
             }
         });
-
-
-        /*var query = Post.find({'id': item[0].id}).limit(1);
-        query.exec(function(err, results){
-            if(err) return 'error';
-
-        });*/
-
     }catch(e){
         console.error(JSON.stringify(e));
         res.sendStatus(500);
     }
 });
 
-app.get('/p/search/:slug', function(req,res){
-    var data = searchPosts(encodeURIComponent(req.params.slug));
-    data.exec(function(err, results){
-        if(err) return 'error';
-        res.send(JSON.stringify(results));
-    });
-});
-
-app.get('/p/category/:category/:perPage/:page/:skip', function(req, res){
-    var data = getCategoryPagePosts(parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.category);
-    data.exec(function(err,post){
-        if(err) return 'error';
-        res.send(JSON.stringify(post));
-    });
-});
-
-app.get('/p/:perPage/:page/:skip', function(req,res){
-    var data = getPagePosts(parseInt(req.params.perPage),req.params.page, req.params.skip);
-    data.exec(function(err,post){
-        if(err) return 'error';
-        res.send(JSON.stringify(post));
-    });
-    var posts = [];
-    var i = 0;
-
-    /*data.forEach(function(item, index, collection){
-        posts.push(item);
-        if(i === parseInt(req.params.perPage)-1){
-            console.log(item);
-            res.send(JSON.stringify(posts));
+/*
+ Search
+ */
+app.get('/api/search/:slug', function(req,res){
+    var data = PostController.search(encodeURIComponent(req.params.slug));
+    data.then(function(result){
+        if(result.length === 0){
+            res.send();
+        }else{
+            res.send(JSON.stringify(result));
         }
-        i++;
-    });*/
+    });
 });
 
 
-app.get('/posts/:perPage/:page', function(req, res) {
+/*
+Single Post
+ */
+app.get('/api/:slug', function(req,res){
+    var data = PostController.post(req.params.slug);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+
+/*
+ Category List
+ */
+app.get('/api/category/:category/:perPage/:page/:skip', function(req, res){
+    var data = PostController.listByCategory(parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.category);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+
+/*
+ Post List
+ */
+app.get('/api/:perPage/:page/:skip', function(req,res){
+    var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+
+/*app.get('/posts/:perPage/:page', function(req, res) {
     var post = require('./lib/post');
     var perPage = parseInt(req.params.perPage);
     var page = parseInt(req.params.page);
     post.getPosts(perPage, page, function(err,result){
        res.send(result);
     });
-});
+});*/
 
 app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
@@ -434,32 +371,32 @@ app.get('/update/:postId', function(req,res){
     }
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
-    if(!PostManager.updating){
-        PostManager.updating = true;
+    if(!PostController.updating){
+        PostController.updating = true;
         try{
             request(url, function (error, response, body) {
                 if(response.statusCode === 200) {
                     var post = JSON.parse(body);
-                    PostManager.hasPost(post.id).then(function (result) {
+                    PostController.exists(post.id).then(function (result) {
                         if (result.length === 0) {
 
                             var newPost = post;
 
-                            PostManager.insertPost(newPost, function (success) {
+                            PostController.insert(newPost, function (success) {
                                 if (!success) res.sendStatus(500);
 
                                 res.sendStatus(200);
-                                PostManager.updating = false;
+                                PostController.updating = false;
                             });
 
                         } else {
                             var updatePost = result[0];
 
-                            PostManager.updatePost(updatePost._id, post, function (success) {
+                            PostController.update(updatePost._id, post, function (success) {
                                 if (!success) res.sendStatus(500);
 
                                 res.sendStatus(200);
-                                PostManager.updating = false;
+                                PostController.updating = false;
                             });
                         }
                     });
