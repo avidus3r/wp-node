@@ -421,7 +421,17 @@ app.post('/admin', function(req, res){
 });
 
 app.get('/update/:postId', function(req,res){
-    console.log(req.headers);
+
+    if(req.headers.hasOwnProperty('secret')){
+        var apisecret = JSON.parse(process.env.apisecret);
+        if(md5(req.headers.secret) !== apisecret.uname){
+            res.sendStatus(403);
+            return false;
+        }
+    }else if(req.headers['user-agent'] !== 'WordPress/4.3.1; http://altdriver.altmedia.com'){
+        res.sendStatus(403);
+        return false;
+    }
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
     if(!PostManager.updating){

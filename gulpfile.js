@@ -46,6 +46,8 @@ gulp.task('config', function(){
     if(!process.env.appname){
         process.env.appname = 'altdriver';
     }
+    var creds = require('./app/config/creds.json');
+    process.env.apisecret = JSON.stringify(creds);
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
