@@ -418,34 +418,42 @@ app.get('/update/:postId', function(req,res){
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
     if(!Poster.updating){
         Poster.updating = true;
-        request(url, function (error, response, body) {
-            var post = JSON.parse(body);
-            Poster.hasPost(post.id).then(function(result){
-                if(result.length === 0){
+        try{
+            request(url, function (error, response, body) {
+                if(response.statusCode === 200) {
+                    var post = JSON.parse(body);
+                    Poster.hasPost(post.id).then(function (result) {
+                        if (result.length === 0) {
 
-                    var newPost = post;
+                            var newPost = post;
 
-                    Poster.insertPost(newPost, function(success){
-                        if(!success) res.sendStatus(500);
+                            Poster.insertPost(newPost, function (success) {
+                                if (!success) res.sendStatus(500);
 
-                        res.sendStatus(200);
-                        Poster.updating = false;
+                                res.sendStatus(200);
+                                Poster.updating = false;
+                            });
+
+                        } else {
+                            var updatePost = result[0];
+
+                            Poster.updatePost(updatePost._id, post, function (success) {
+                                if (!success) res.sendStatus(500);
+
+                                res.sendStatus(200);
+                                Poster.updating = false;
+                            });
+                        }
                     });
-
                 }else{
-                    var updatePost = result[0];
-
-                    Poster.updatePost(updatePost._id, post, function(success){
-                        if(!success) res.sendStatus(500);
-
-                        res.sendStatus(200);
-                        Poster.updating = false;
-                    });
+                    res.sendStatus(response.statusCode);
                 }
             });
-        });
+        }catch(e){
+            console.error(JSON.stringify(e));
+        }
     }
-    res.end();
+    //res.end();
 });
 
 app.put('/update', function(req,res){
