@@ -592,6 +592,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 item = {};
                 item.type = 'post-'+$scope.currentView + '-empty';
                 item.noresults = true;
+                angular.element('#loading-more').text('');
+                angular.element('#loading-more')
+                    .append(
+                    angular.element('<a/>')
+                        .attr('href','/')
+                        .text('Sorry, Nothing Found - Start Over')
+                );
+                angular.element('#loading-more').removeClass('hidden').css({'position':'fixed','bottom':'0','left':0});
+                $scope.hideLoading = false;
                 postmap.push(item);
             }
             else{

@@ -18,7 +18,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
                 $http.get(url)
                     .then(function (response) {
-                        if(response.data.length === 0) throw new Error('api call: '+ url);
+                        if(response.data.length === 0) deferred.reject("zero");
                         var res = response.data;
                         deferred.resolve(res);
                     }, function (response) {
@@ -81,9 +81,16 @@ var FeedService = function(app, appName, env, $http, $q){
         }catch(e){
             data = feed.get(jsonpUrl, 'jsonp');
         }*/
-        var url = '/api/search/'+query;
+        var data = null;
 
-        return feed.get(url, 'get');
+        try{
+            var url = '/api/search/'+query;
+            data = feed.get(url, 'get');
+        }catch(e){
+            data = 'end';
+        }
+
+        return data;
     };
 
     feed.getSponsor = function(sponsorName) {

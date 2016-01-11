@@ -209,7 +209,7 @@ app.get('/api/search/:slug', function(req,res){
     var data = PostController.search(encodeURIComponent(req.params.slug));
     data.then(function(result){
         if(result.length === 0){
-            res.send();
+            res.send(JSON.stringify(result));
         }else{
             res.send(JSON.stringify(result));
         }
