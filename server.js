@@ -66,6 +66,10 @@ if(!appName) appName = 'altdriver';
 var appConfig = config[appName].app;
 var env = 'prod';
 
+if(!process.env.envhost){
+    process.env.envhost = 'www.altdriver.com';
+}
+
 feedConfig = appConfig.env[env];
 
 app.engine('html', cons.swig);
@@ -417,7 +421,7 @@ app.post('/admin', function(req, res){
 });
 
 app.get('/update/:postId', function(req,res){
-    console.log(req.headers.host);
+    console.log(req.headers);
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
     if(!PostManager.updating){
@@ -454,7 +458,7 @@ app.get('/update/:postId', function(req,res){
                 }
             });
         }catch(e){
-            console.error(JSON.stringify(e));
+            res.send(JSON.stringify(e));
         }
     }
     //res.end();
