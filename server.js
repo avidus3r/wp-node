@@ -29,6 +29,10 @@ var EXPRESS_PORT = 3000,
 var db = conn.db;
 var Post = conn.Post;
 
+app.get('/server', function(req,res){
+    res.send(JSON.stringify(process.env));
+});
+
 app.get('/api/list', function(req, res){
     var query = Post.find({'format':'video'}).limit(10);
     query.exec(function(err, posts){
@@ -209,11 +213,11 @@ app.get('/p/:slug', function(req,res){
     });
 });
 
-var Poster = {
+var PostManager = {
     updating: false
 };
 
-Poster.updatePost = function(postID, data, cb){
+PostManager.updatePost = function(postID, data, cb){
     Post.update({'_id': postID}, data,{multi:true}, function(err, nItems){
         if(err){
             cb(false);
@@ -223,7 +227,7 @@ Poster.updatePost = function(postID, data, cb){
     });
 };
 
-Poster.insertPost = function(newPost, cb){
+PostManager.insertPost = function(newPost, cb){
     var post = new Post(newPost);
 
     post.save(function(err){
@@ -235,7 +239,7 @@ Poster.insertPost = function(newPost, cb){
     });
 };
 
-Poster.hasPost = function(id){
+PostManager.hasPost = function(id){
     var query = Post.find({'id': id});
     var promise = query.exec();
     return promise;
@@ -246,12 +250,12 @@ app.put('/post', function(req,res){
     try{
         var item = JSON.parse(req.body.item);
 
-        Poster.hasPost(item[0].id).then(function(result){
+        PostManager.hasPost(item[0].id).then(function(result){
             if(result.length === 0){
 
                 var newPost = item[0];
 
-                Poster.insertPost(newPost, function(success){
+                PostManager.insertPost(newPost, function(success){
                     if(!success) res.sendStatus(500);
 
                     res.sendStatus(200);
@@ -260,7 +264,7 @@ app.put('/post', function(req,res){
             }else{
                 var updatePost = result[0];
 
-                Poster.updatePost(updatePost._id, item[0], function(success){
+                PostManager.updatePost(updatePost._id, item[0], function(success){
                     if(!success) res.sendStatus(500);
 
                     res.sendStatus(200);
@@ -416,32 +420,32 @@ app.get('/update/:postId', function(req,res){
     console.log(req.headers.host);
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
-    if(!Poster.updating){
-        Poster.updating = true;
+    if(!PostManager.updating){
+        PostManager.updating = true;
         try{
             request(url, function (error, response, body) {
                 if(response.statusCode === 200) {
                     var post = JSON.parse(body);
-                    Poster.hasPost(post.id).then(function (result) {
+                    PostManager.hasPost(post.id).then(function (result) {
                         if (result.length === 0) {
 
                             var newPost = post;
 
-                            Poster.insertPost(newPost, function (success) {
+                            PostManager.insertPost(newPost, function (success) {
                                 if (!success) res.sendStatus(500);
 
                                 res.sendStatus(200);
-                                Poster.updating = false;
+                                PostManager.updating = false;
                             });
 
                         } else {
                             var updatePost = result[0];
 
-                            Poster.updatePost(updatePost._id, post, function (success) {
+                            PostManager.updatePost(updatePost._id, post, function (success) {
                                 if (!success) res.sendStatus(500);
 
                                 res.sendStatus(200);
-                                Poster.updating = false;
+                                PostManager.updating = false;
                             });
                         }
                     });
