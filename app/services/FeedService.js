@@ -18,7 +18,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
                 $http.get(url)
                     .then(function (response) {
-                        if(response.data.length === 0) deferred.reject("zero");
+                        if(response.data.length === 0) deferred.reject("end");
                         var res = response.data;
                         deferred.resolve(res);
                     }, function (response) {

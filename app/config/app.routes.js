@@ -235,7 +235,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return data;
                             },
                             function(reason){
-                                console.log(reason);
+                                if(reason === 'end'){
+                                    var data = [];
+                                    return data;
+                                }
                                 return 'error';
                             },
                             function(notification){
