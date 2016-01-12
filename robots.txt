@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /search
+Disallow: /admin
+Disallow: /tests
+Disallow: /auth
+Disallow: /data

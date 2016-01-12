@@ -147,6 +147,7 @@ gulp.task('env:production', function () {
 });
 
 gulp.task('devServe', ['env:development'], function () {
+
     plugins.nodemon({
         script: 'server.js',
         ext: 'html js',

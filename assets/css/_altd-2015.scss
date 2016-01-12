@@ -1,25 +1,7 @@
-// use the sitename on the body - where sitename = brand
 
-.altdriver .navbar-brand {
-  background-image: url('https://s3-us-west-2.amazonaws.com/assets.altdriver/logo_alt_driver.png');
-  position: relative;
-  top: 14px;
-  left: .75em;
-  margin-right: 1.75em;
-}
+// navigation styles in nav.scss
+@import 'nav';
 
-@media all and (min-width: 480px) {
-  .altdriver .navbar-brand {
-    width: 142px;
-    top: 12px;
-  }
-}
-
-@media all and (min-width: $nav-switch) {
-  .altdriver .navbar-brand {
-    top: 10px;
-  }
-}
 
 // typography
 body{
@@ -44,57 +26,6 @@ header {
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-headline;
 }
-
-// align the logo using the underscore
-.navbar-brand {
-  position: relative;
-  top: -1px;
-}
-
-    // custom navigation styles Bootstrap overrides
-    @media all and (max-width:$nav-switch) {
-      .navbar-nav {
-        background: #666;
-      }
-
-      // make the expandable nav colors different
-      .nav > li {
-        display: inline-block;
-
-        color: #fff;
-
-        a,
-        a:visited {
-          color: #fff !important;
-        }
-      }
-
-      .navbar-nav > li > a {
-        padding-top: .5em;
-        padding-bottom: .5em;
-      }
-    }
-
-    // two columns in nav
-    @media all and (max-width: 399px) {
-      .nav > li {
-        width: 50%;
-      }
-    }
-
-    @media all and (min-width: 400px ) and (max-width: 669px) {
-      // 3 columns nav
-      .nav > li {
-        width: 33.3333%;
-      }
-    }
-
-    @media all and (min-width: 670px ) and (max-width:$nav-switch) {
-      // 4 columns nav
-      .nav > li {
-        width: 25%;
-      }
-    }
 
 .btn-primary {
   background-color: $color-ad-green;

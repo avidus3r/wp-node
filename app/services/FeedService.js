@@ -18,7 +18,11 @@ var FeedService = function(app, appName, env, $http, $q){
 
                 $http.get(url)
                     .then(function (response) {
-                        if(response.data.length === 0) deferred.reject("end");
+
+                        if(response.data.length === 0){
+                            deferred.reject('end');
+                        }
+
                         var res = response.data;
                         deferred.resolve(res);
                     }, function (response) {
@@ -90,6 +94,9 @@ var FeedService = function(app, appName, env, $http, $q){
             data = 'end';
         }
 
+        /*if(data.$$sate.value === 'end' && page = 1){
+
+        }*/
         return data;
     };
 
@@ -190,12 +197,18 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.vote = function(postID, voteVal){
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
+        var vote = voteVal;
 
         var oReq = new XMLHttpRequest();
-
         oReq.open('POST', url, true);
+
         var formData = new FormData();
-        formData.append('vote', voteVal);
+
+        if(typeof voteVal === 'object'){
+            formData.append('poll_vote',voteVal.poll_vote);
+        }
+
+        formData.append('vote', vote);
         oReq.send(formData);
         return oReq;
     };

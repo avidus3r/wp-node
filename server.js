@@ -15,10 +15,14 @@ var express     = require('express'),
     swig        = require('swig'),
     cons        = require('consolidate');
 
-var EXPRESS_PORT = 3000,
-    EXPRESS_HOST = '127.0.0.1',
-    EXPRESS_ROOT = './dist',
-    feedConfig = null;
+var EXPRESS_ROOT = './dist',
+    feedConfig = null,
+    itsABot = null;
+
+app.get('*', function(req,res,next){
+    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+    next();
+});
 
 /*
 Server Routes
@@ -76,7 +80,7 @@ function htmlEntities(str) {
 
 app.get('/', function(req,res,next){
 
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
 
         try {
             var endpoint = feedConfig.remoteUrl + feedConfig.basePath + appConfig.feedPath + '?page=1&per_page=' + appConfig.per_page;
@@ -122,6 +126,7 @@ app.get('/', function(req,res,next){
     }else{
         //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
         var metatags = {
+
             robots: 'index, follow',
             title: appConfig.title,
             description: appConfig.description,
@@ -158,7 +163,7 @@ app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.set('port', process.env.PORT || EXPRESS_PORT);
+app.set('port', process.env.PORT || 3000);
 
 app.locals.config = require('./app/config/feed.conf.json');
 
@@ -249,179 +254,101 @@ app.post('/admin', function(req, res){
     res.end();
 });
 
-
-
-app.put('/update', function(req,res){
-    console.log('requested update');
-
-    var input = new multiparty.Form();
-    var postId = null;
-    input.parse(req, function(err, fields, files) {
-        postId = fields['id'];
-    });
-
-
-    fs.realpath('./data', function(err, resolvedPath){
-        fs.readdir(resolvedPath, function(err, files){
-            if(err) throw err;
-            fs.writeFile(resolvedPath + '/updated.json', postId, function(err){
-                if(err) throw err;
-            });
-        });
-    });
-
-    res.end();
-});
-
-app.get('/getPosts/:env/:postsPerPage/:page', function(req,res){
-
-    fs.realpath('./data', function(err, resolvedPath) {
-        fs.readdir(resolvedPath, function (err, files) {
-            if (files.indexOf('updated.json') > -1) {
-                for(var i=0; i<files.length;i++){
-                    var file = files[i];
-                    var count = i;
-                    fs.unlink('./data/'+ file, function(){
-
-                    });
-                    if((files.length-1) === count){
-                        getPosts(req.params.env, req.params.postsPerPage, req.params.page, res);
-                    }
-                }
-            }
-            else if(files.indexOf('posts_'+req.params.page+'.json') > -1){
-                var index = files.indexOf('posts_'+req.params.page+'.json');
-                var filepath = './data/'+files[index];
-
-                fs.open(filepath, 'r', function(err, fd) {
-                    fs.fstat(fd, function (err, stats) {
-                        var d = new Date(stats.birthtime).getTime();
-                        var now = Date.now();
-                        var hoursAge = ((now-d)/(60 * 60 * 1000));
-
-
-                        if(hoursAge > 24){
-                            fs.unlink(filepath, function(){
-                                getPosts(req.params.env, req.params.postsPerPage, req.params.page, res);
-                            });
-                        }else{
-                            res.sendFile(files[index], { root: path.join(__dirname, './data') });
-                        }
-                    });
-                });
-            }else{
-                getPosts(req.params.env, req.params.postsPerPage, req.params.page, res);
-            }
-
-        });
-    });
-});
-
-app.post('/getPosts', function(req,res){
-    var input = new multiparty.Form();
-
-    input.parse(req, function(err, fields, files) {
-        var env = fields.env[0];
-        var page = fields.page[0];
-        var postsPerPage = fields.postsPerPage[0];
-        var posts = getPosts(env, postsPerPage, page, res);
-    });
-
-    //res.send(req.body);
-    //getPosts(req);
-});
-
-function getPosts(env, postsPerPage, page, res){
-    var endpoints = feedConfig[env];
-    var result = null;
-    page = 3;
-    postsPerPage = 20;
-
-    request(endpoints.remoteUrl + endpoints.basePath + 'feed?per_page=' + postsPerPage + '&page=' + page +'&offset=1000', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-
-            fs.realpath('./data', function(err, resolvedPath){
-                fs.readdir(resolvedPath, function(err, files){
-                    if(err) throw err;
-                    fs.writeFile(resolvedPath + '/posts_'+ page +'.json', body, function(err){
-                        if(err) throw err;
-                    });
-                });
-            });
-            result = body;
-            res.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-            res.write(result);
-            res.end();
-        }
-    });
-}
-
-app.get('/data/:file', function(req, res){
-    fs.realpath('./data', function(err, resolvedPath) {
-        fs.readdir(resolvedPath, function (err, files) {
-            if(files.indexOf(req.params.file) === -1){
-                var pageNum = req.params.file.search(/[0-9]/);
-                req.params.perPage = 100;
-                req.params.pageNum = pageNum;
-                getPosts(req, res);
-            }else{
-                res.sendFile(req.params.file, { root: path.join(__dirname, './data') });
-            }
-        });
-    });
-});
-
 app.post('/submit', function(req,res){
     var form = new multiparty.Form();
 
-    form.parse(req, function(err, fields, files) {
-        fields['_wp_http_referer'] = '/submit/';
+    var aws = require('aws-sdk');
+    aws.config.update({region:'us-west-2'});
+    var ses = new aws.SES({apiVersion: '2010-12-01'});
 
-        var options = {
-            host: 'admin.altdriver.com',
-            port: 80,
-            path: '/submit/',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': Buffer.byteLength(fields),
-                'Host': 'admin.altdriver.com',
-                'Origin':null
-            }
-        };
+    // send to list
+    //var to = ['dev@altdriver.com'];
+    if(!process.env.SES_USER_CONTENT_EMAIL){
+        process.env.SES_USER_CONTENT_EMAIL = 'dev@altdriver.com';
+    }
+    var to = [process.env.SES_USER_CONTENT_EMAIL];
 
-        /*var creq = http.request(options, function(cres){
-            cres.setEncoding('utf8');
+    // this must relate to a verified SES account
+    //var from = 'dev@altdriver.com';
+    var from = process.env.SES_USER_CONTENT_EMAIL;
 
-            // wait for data
-            cres.on('data', function(chunk){
-                res.write(chunk);
-            });
+    var bucket = 'user-content.altdriver';
+    var fileName = '';
+    var s3Client = new aws.S3({params: {Bucket: bucket, Key: 'AKIAINNUHXXUND27LA4A'}});
 
-            cres.on('close', function(){
-                // closed, let's end client request as well
-                res.writeHead(cres.statusCode);
-                res.end();
-            });
-
-            cres.on('end', function(){
-                // finished, let's finish client request as well
-                res.writeHead(cres.statusCode);
-                res.end();
-            });
-            creq.end();
-        });*/
-        request.post({url:'http://admin.altdriver.com/submit/', form:fields.fields, headers:{'Host':'admin.altdriver.com','Origin':'http://admin.altdriver.com','Referer':'http://admin.altdriver.com/submit/'}}, function(error, response, body){
-
-            var template = swig.compileFile('./dist/res.html');
-            var output = template({res: body});
-
-            res.send(output);
-        });
+    form.on('field', function(name, value){
+        //console.log(name, value);
     });
+    form.on('part', function(part) {
+        //console.log(part);
+    });
+
+    form.parse(req, function(err, fields, files) {
+
+        var message = '';
+
+        if(files.fileUpload[0].size > 0){
+            fileName = fields.name + '-' + files.fileUpload[0].originalFilename;
+
+            var file = fs.createReadStream(files.fileUpload[0].path);
+
+            s3Client.putObject({
+                Bucket: bucket,
+                Key: fileName,
+                ACL: 'public-read',
+                Body: file,
+                ContentLength: file.byteCount
+            }, function(err, data) {
+                if (err) throw err;
+                message += '\n\nFile URL:\n' + 'http://user-content.altdriver.s3.amazonaws.com/' + encodeURIComponent(fileName) + '\n\nFile:\n' + fileName + '\n\nFile ETag:\n' + data.ETag;
+                message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.name;
+
+                ses.sendEmail( {
+                        Source: from,
+                        Destination: { ToAddresses: to },
+                        Message: {
+                            Subject:{
+                                Data: 'User Submitted Content'
+                            },
+                            Body: {
+                                Text: {
+                                    Data: message
+                                }
+                            }
+                        }
+                    },
+                    function(err, data) {
+                        if(err) throw err;
+                    });
+            });
+        }else{
+
+            message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.name;
+            ses.sendEmail( {
+                    Source: from,
+                    Destination: { ToAddresses: to },
+                    Message: {
+                        Subject:{
+                            Data: 'User Submitted Content'
+                        },
+                        Body: {
+                            Text: {
+                                Data: message
+                            }
+                        }
+                    }
+                },
+                function(err, data) {
+                    if(err) throw err;
+                });
+        }
+    });
+
+    res.redirect('/thanks');
+
 });
 
-app.get('/category/:category/', function(req,res){
+app.get('/category/(:category/|:category)', function(req,res){
 
     var feed = {};
 
@@ -435,7 +362,7 @@ app.get('/category/:category/', function(req,res){
     var endpoint = 'terms/category?name=' + catName;
     var appUrl = 'http://admin.altdriver.com/category';
 
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -461,7 +388,7 @@ app.get('/category/:category/', function(req,res){
                         metatags.fb_image = appConfig.avatar;
 
                         var template = swig.compileFile('./dist/bots.html');
-                        var output = template({metatags: metatags, app: appName, posts:post});
+                        var output = template({metatags: metatags, app: appName, posts:category});
 
                         res.send(output);
                     }
@@ -509,100 +436,15 @@ app.get('/category/:category/', function(req,res){
     }
 });
 
-
-app.get('/category/:category', function(req,res){
-
-    var feed = {};
-
-    feed.endpoints = {
-        url: 'http://admin.altdriver.com',
-        remoteUrl: 'http://www.altdriver.com',
-        basePath: '/wp-json/wp/v2/'
-    };
-
-    var catName = req.params.category;
-    var endpoint = 'terms/category?name=' + catName;
-    var appUrl = 'http://admin.altdriver.com/category';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
-        try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var category = {};
-                    var metatags = {};
-                    var categories = JSON.parse(body);
-                    if(typeof categories !== 'undefined') {
-                        for (var i = 0; i < categories.length; i++) {
-                            if (categories[i].slug === catName) {
-                                category = categories[i];
-                            }
-                        }
-                        // Standard meta
-                        metatags.title = category.name + ' Archives';
-                        metatags.description = category.description;
-
-                        // Facebook meta
-                        metatags.fb_type = 'object';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = category.name + ' Archives';
-                        metatags.fb_description = category.description;
-                        metatags.url = appUrl + '/' + req.params.category;
-                        metatags.fb_image = appConfig.avatar;
-
-                        var template = swig.compileFile('./dist/bots.html');
-                        var output = template({metatags: metatags, app: appName, posts:post});
-
-                        res.send(output);
-                    }
-                }
-            });
-        } catch (e) {
-            console.error(e);
-        }
+app.get('/search/(:query/|:query)', function(req,res, next){
+    if(itsABot){
+        res.send();
     }else{
         res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        /*var catName = req.params.category;
-        var endpoint = 'terms/category?name=' + catName;
-        try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var category = {};
-                    var metatags = {};
-                    var categories = JSON.parse(body);
-                    if(typeof categories !== 'undefined') {
-                        for (var i = 0; i < categories.length; i++) {
-                            if (categories[i].slug === catName) {
-                                category = categories[i];
-                            }
-                        }
-                        // Standard meta
-                        metatags.title = category.name + ' Archives';
-                        metatags.description = category.description;
-
-                        // Facebook meta
-                        metatags.fb_type = 'object';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = category.name + ' Archives';
-                        metatags.fb_description = category.description;
-                        metatags.url = appUrl + '/' + req.params.category;
-                        metatags.fb_image = appConfig.avatar;
-
-
-                        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
-                    }
-                }
-            });
-        } catch (e) {
-            console.error(e);
-        }*/
     }
-
 });
 
-app.get('/search/:query/', function(req,res, next){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-});
-
-app.get('/:category/:slug/', function(req,res, next){
+app.get('/:category/(:slug/|:slug)', function(req,res, next){
     var feed = {};
     console.log(req.params.slug);
     feed.endpoints = {
@@ -617,7 +459,7 @@ app.get('/:category/:slug/', function(req,res, next){
     var endpoint = 'posts?name=' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
+    if(itsABot) {
         try {
             request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -631,8 +473,20 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.modified = post.modified;
                         metatags.category = post.category[0].name;
 
-                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        metatags.title = '';
+                        metatags.description = '';
+
+                        try{
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
+                                metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                            }
+
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0){
+                                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                            }
+                        }catch(e){
+                            console.error(JSON.stringify(e));
+                        }
 
                         // Facebook meta
 
@@ -640,9 +494,9 @@ app.get('/:category/:slug/', function(req,res, next){
                         metatags.fb_publisher = fbUrl;
                         metatags.fb_type = 'article';
                         metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                        metatags.fb_title = metatags.title;
                         metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        metatags.fb_description = metatags.description;
                         metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
                         metatags.fb_image = post.featured_image_src.original_wp[0];
                         metatags.fb_image_width = post.featured_image_src.original_wp[1];
@@ -681,7 +535,7 @@ app.get('/:category/:slug/', function(req,res, next){
                         }
 
                         if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
-                            post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                            metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
                         }
 
                         // Facebook meta
@@ -706,104 +560,6 @@ app.get('/:category/:slug/', function(req,res, next){
         } catch (e) {
             console.error(e);
         }
-    }
-});
-
-app.get('/:category/:slug', function(req,res, next){
-    var feed = {};
-
-    feed.endpoints = {
-        url: 'http://admin.altdriver.com',
-        remoteUrl: 'http://altdriver.staging.wpengine.com',
-        basePath: '/wp-json/wp/v2/'
-    };
-
-    var fbAppId = appConfig.fb_appid;
-    var fbUrl = appConfig.fb_url;
-    var postName = req.params.slug;
-    var endpoint = 'posts?name=' + postName;
-    var siteUrl = 'http://'+ appConfig.url;
-    var appUrl = 'http://admin.altdriver.com';
-    if(/bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent'])) {
-        try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var metatags = {};
-
-                    var post = JSON.parse([response.body][0]);
-
-                    post = post[0];
-                    if(typeof post !== 'undefined') {
-                        metatags.published = post.date;
-                        metatags.modified = post.modified;
-                        metatags.category = post.category[0].name;
-                        post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        post.postmeta['_yoast_wpseo_opengraph-description'][0];
-
-                        // Facebook meta
-
-                        metatags.fb_appid = fbAppId;
-                        metatags.fb_publisher = fbUrl;
-                        metatags.fb_type = 'article';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
-
-
-                        var template = swig.compileFile('./dist/bots.html');
-                        var output = template({metatags: metatags, app: appName, posts:post});
-
-                        res.send(output);
-                    }
-                }
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        /*try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var metatags = {};
-
-                    var post = JSON.parse([response.body][0]);
-
-                    post = post[0];
-                    if(typeof post !== 'undefined') {
-                        metatags.published = post.date;
-                        metatags.modified = post.modified;
-                        metatags.category = post.category[0].name;
-                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-
-                        // Facebook meta
-
-                        metatags.fb_appid = fbAppId;
-                        metatags.fb_publisher = fbUrl;
-                        metatags.fb_type = 'article';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
-
-
-                        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
-                    }
-                }
-            });
-        } catch (e) {
-            console.error(e);
-        }*/
     }
 });
 

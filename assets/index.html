@@ -39,6 +39,7 @@
     <meta name="twitter:image:src" content="{{ metatags.tw_image }}">
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
+
     <title>{{ appConfig.title }}</title>
 
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
@@ -91,6 +92,7 @@
             <section class="view-container ng-view"></section>
             <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
         </div>
+
         <div ng-if="appConfig.adsPerPage" class="app-rail">
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->

@@ -22,7 +22,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
+                    document.title = appConfig.title;
+
                     /*if(Number(appSponsors) > 0){
+
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
                                 return data;
@@ -51,18 +54,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),
-                        /*posts: FeedService.getPosts(feedPath+'/', '?per_page='+appConfig.per_page+'&page=1').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        ),*/
                         posts: FeedService.getDBPosts(7,1,0).then(
+
                             function(data){
                                 return data;
                             },
@@ -232,6 +225,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         ),
                         posts: FeedService.search($route.current.params.query,1).then(
                             function(data){
+                                console.log(data);
                                 return data;
                             },
                             function(reason){
@@ -451,6 +445,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             controller: 'PageController',
             templateUrl: '/views/submit.html'
         })
+        .when('/thanks',{
+            controller: 'PageController',
+            templateUrl: '/views/thanks.html'
+        })
         .when('/visitor-agreement',{
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
@@ -465,6 +463,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
         })
         .when('/about',{
             templateUrl: '/views/static-page.html',
+            controller: 'PageController'
+        })
+        .when('/subscribe-hub',{
+            templateUrl: '/views/subscribe-hub.html',
             controller: 'PageController'
         })
         .when('/subscribe',{

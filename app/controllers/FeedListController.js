@@ -39,12 +39,24 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.renderedSingleContent = null;
     $scope.useMongo = true;
     $scope.postCompanionAd = null;
+    $scope.initialOffset = null;
+    $scope.hideLoading = true;
+
+    if(location.href.indexOf('local.') > -1){
+        $scope.appConfig.displayAds = 'false';
+    }
+
+    $scope.appConfig.displayAds = 'true';
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
             localStorage.setItem('post_offset', '0');
         }
         $scope.postIndex = 0 || Number(localStorage.getItem('post_offset'));
+        if(Number(localStorage.getItem('post_offset')) > 0){
+            $scope.initialOffset = Number(localStorage.getItem('post_offset'));
+        }
+
     }catch(e){
 
     }
@@ -85,7 +97,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
         $scope.offset = offset;
 
-        $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset;
+        $scope.pagingParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber + $scope.offset + '&post__not_in=' + $scope.singlePostID;
         $scope.postParams = '?name=' + $routeParams.slug;
 
         $scope.currentView = 'post';
@@ -297,8 +309,21 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             deferred.resolve();
         }else{
             adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]')[0]).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]')[0]).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
+
             angular.element('pubad[placementIndex="1"]').css({
                 'height': adHeights[0] + 'px',
+                'width': '100%',
+                'display': 'block'
+            }).children().remove();
+            angular.element('pubad[placementIndex="2"]').css({
+                'height': adHeights[1] + 'px',
+                'width': '100%',
+                'display': 'block'
+            }).children().remove();
+            angular.element('pubad[placementIndex="3"]').css({
+                'height': adHeights[2] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
@@ -313,9 +338,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var pagedpostmap = [];
         angular.forEach(data, function (item, index) {
             item.type = 'post-list';
-            if (Number($scope.appConfig.adsPerPage) > 0) {
-
-
+            if (Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true') {
 
                 if (index === 5) {
                     var adItem = {};
@@ -404,7 +427,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.clearAds().then(function(){
 
             if($scope.currentView !== 'search') {
-                $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params;
+
+                $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params + '&post__not_in=' + $scope.singlePostID;
 
                 if ($scope.currentView === 'category') {
                     $scope.feedPath = 'posts';
@@ -434,10 +458,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     );
                 } else {
                     var skip = null;
+
                     try{
                         skip = Number(localStorage.getItem('post_offset'));
                     }catch(e){
                         skip = 0;
+
                     }
 
                     if(skip === 0){
@@ -507,7 +533,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     },
                     function (reason) {   //error
-                        console.error('Failed: ', reason);
+                        if(reason === 'end'){
+
+                            angular.element('#loading-more').text('');
+                            angular.element('#loading-more')
+                                .append(
+                                angular.element('<a/>')
+                                    .attr('href','/')
+                                    .text('You\'ve reached the end - Start Over')
+                            );
+                        }
                     },
                     function (update) {  //notification
                         console.info('Got notification: ' + update);
@@ -840,9 +875,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         //post.html(content);
 
+
         var feedItem = angular.element('.feed-item:eq('+ index +')');
         var post = feedItem.find('.post-content');
         var expectedEmbed = post.find('iframe');
+        var fbEmbed = post.find('.fb-video');
 
         if(content.search('</iframe>') > -1) {
             var pieces = content.split('</iframe></p>');
@@ -852,9 +889,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             content = pieces.join(glue);
             content += '<div class="post-txt-more ga-post-more">Read More</div>';
         }
-        if(expectedEmbed.length > 0){
+        if(expectedEmbed.length > 0 && fbEmbed.length === 0){
             expectedEmbed.addClass('video-container');
             $scope.resizeEmbed(expectedEmbed);
+        }
+
+        if(fbEmbed.length > 0){
+
+            fbEmbed.addClass('video-container').addClass('fb-embed').css({width:'100%'});
+            $scope.resizeEmbed(fbEmbed);
         }
 
         return $sce.trustAsHtml(content);
@@ -862,7 +905,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.resizeEmbed = function(embed){
         var iframe = embed;
-
+        console.log(embed);
         var maxWidth = iframe.closest('.post-content').width(); // Max width for the image
         var maxHeight = 10000;    // Max height for the image
         var ratio = 0;  // Used for aspect ratio
@@ -900,7 +943,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.$on('$viewContentLoaded', function(){
-        angular.element('#loading-more').hide();
+        if($scope.hideLoading) angular.element('#loading-more').hide();
         angular.element('body').find('.sidebar').removeClass('ng-hide');
 
         if($scope.currentView === 'post'){
@@ -926,6 +969,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             });
         },1500);
 
+        //debugger
         window.addEventListener('scroll', $scope.onScroll);
     });
 

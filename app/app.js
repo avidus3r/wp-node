@@ -154,6 +154,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.orientation = null;
     $rootScope.gptAdSlots = [];
 
+    if(location.href.indexOf('local.') > -1){
+        $rootScope.displayAds = false;
+    }
+    $rootScope.displayAds = true;
     try {
 
         if (!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined') {

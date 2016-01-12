@@ -62,10 +62,37 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
         var minHeight = window.innerHeight-100;
         angular.element('html, body, .view-container, #staticPage, .content, iframe').css({'min-height':minHeight+'px'});
         angular.element('strong').css({'font-weight': 'bold', 'font-size': '1.2em'});
+        if($scope.routeParams === 'thanks'){
+
+        }
+        angular.element('body').addClass($scope.routeParams);
         setTimeout(function(){
+            angular.element('.submit-content-form').find('#file-upload, #link-url').on('change', function(e){
+                switch(e.currentTarget.id){
+                    case "file-upload":
+                        var fileCount = e.currentTarget.files.length;
+                        if(fileCount > 0){
+                            angular.element('#link-url').removeAttr('required');
+                        }else{
+                            angular.element('#link-url').attr('required','required');
+                        }
+                        break;
+                    case "link-url":
+                        var linkVal = angular.element(e.currentTarget).val();
 
+                        if(linkVal.length > 0){
+                            angular.element('#file-u`load').removeAttr('required');
+                        }else{
+                            angular.element('#file-upload').attr('required','required');
+                        }
+                        break;
+                }
+            });
+            angular.element('.submit-content-form').on('submit', function(e){
+
+            });
         },500);
-
+        window.removeEventListener('scroll');
     });
 
 };
