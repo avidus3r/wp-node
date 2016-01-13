@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose    = require('mongoose'),
-    Post        = mongoose.model('Post');
+    Post        = mongoose.model('Post'),
+    Menu        = mongoose.model('Menu');
 
 var PostsController = {
     updating: false,
@@ -35,6 +36,21 @@ var PostsController = {
         });
     },
 
+    destroy: function(postId){
+        console.log(postId);
+
+        this.exists(postId).then(function(result){
+            if(result.length > 0){
+                console.log('deleting...');
+                Post.remove({'id': result[0].id}, function(err) {
+                    if (err) {
+                        console.error(JSON.stringify(err));
+                    }
+                });
+            }
+        });
+    },
+
     exists: function(id){
         var query = Post.find({'id': id});
         return query.exec();
@@ -59,6 +75,21 @@ var PostsController = {
         var skipItems = Number(skip);
         var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
         query.$where('this.category[0].slug === "' + category + '"');
+        return query.exec();
+    },
+
+    sponsor: function(name){
+        var query = Post.find({ 'sponsor.name': name});
+        return query.exec();
+    },
+
+    postByType: function(type){
+        var query = Post.find({ 'type': type});
+        return query.exec();
+    },
+
+    menu: function(name){
+        var query = Menu.find({ 'name': name});
         return query.exec();
     }
 };

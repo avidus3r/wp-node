@@ -74,17 +74,12 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
+    feed.sponsor = function(name){
+        var url = '/api/sponsor/' + name;
+        return feed.get(url, 'get');
+    };
+
     feed.search = function(query, page) {
-
-        /*var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page + '&_jsonp=JSON_CALLBACK';
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'posts/?s=' + query + '&per_page=12&page='+page;
-        var data = null;
-
-        try{
-            data = feed.get(url, 'get');
-        }catch(e){
-            data = feed.get(jsonpUrl, 'jsonp');
-        }*/
         var data = null;
 
         try{
@@ -93,37 +88,22 @@ var FeedService = function(app, appName, env, $http, $q){
         }catch(e){
             data = 'end';
         }
-
-        /*if(data.$$sate.value === 'end' && page = 1){
-
-        }*/
         return data;
     };
 
     feed.getSponsor = function(sponsorName) {
-
-        var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors/?name=' + sponsorName + '&_jsonp=JSON_CALLBACK';
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors/?name=' + sponsorName;
-        var data = null;
-
-        try{
-            data = feed.get(url, 'get');
-        }catch(e){
-            data = feed.get(jsonpUrl, 'jsonp');
-        }
-
-        return data;
+        var url = '/api/sponsor/' + name;
+        return feed.get(url, 'get');
     };
 
     feed.getSponsors = function() {
-        var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors?_jsonp=JSON_CALLBACK';
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'sponsors';
+        var url = '/api/sponsors';
         var data = null;
 
         try{
             data = feed.get(url, 'get');
         }catch(e){
-            data = feed.get(jsonpUrl, 'jsonp');
+
         }
 
         return data;
@@ -278,8 +258,7 @@ var FeedService = function(app, appName, env, $http, $q){
     feed.getMainMenu = function(name){
         var deferred = $q.defer();
 
-        var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name) + '&_jsonp=JSON_CALLBACK';
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/menu?name='+encodeURIComponent(name);
+        var url = '/api/menu?name='+encodeURIComponent(name);
 
         try{
 
@@ -298,15 +277,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
 
         }catch(e){
-            console.log('caught');
-            $http.jsonp(jsonpUrl)
-                .then(function (response) {
-                    var res = response.data;
-                    deferred.resolve(res);
-                    feed.navItems.push(res);
-                }, function (response) {
-                    deferred.reject(response);
-                });
+            deferred.reject(e);
         }
 
         return deferred.promise;

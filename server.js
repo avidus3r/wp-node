@@ -24,6 +24,34 @@ app.get('*', function(req,res,next){
     next();
 });
 
+app.get('/sponsor/:name', function(req,res){
+    var metatags = {
+
+        robots: 'index, follow',
+        title: appConfig.title,
+        description: appConfig.description,
+        // Facebook
+        fb_title: appConfig.title,
+        fb_site_name: appConfig.fb_sitename,
+        fb_url: appConfig.url,
+        fb_description: appConfig.description,
+        fb_type: 'website',
+        fb_image: appConfig.avatar,
+        fb_appid: appConfig.fb_appid,
+        // Twitter
+        tw_card: '',
+        tw_description: '',
+        tw_title: '',
+        tw_site: '@altdriver',
+        tw_domain: 'alt_driver',
+        tw_creator: '@altdriver',
+        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+        url: 'http://admin.altdriver.com'
+    };
+
+    res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+});
+
 /*
 Server Routes
  */
@@ -561,6 +589,34 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
             console.error(e);
         }
     }
+});
+
+app.get('/:page', function(req,res){
+    var metatags = {
+
+        robots: 'index, follow',
+        title: appConfig.title,
+        description: appConfig.description,
+        // Facebook
+        fb_title: appConfig.title,
+        fb_site_name: appConfig.fb_sitename,
+        fb_url: appConfig.url,
+        fb_description: appConfig.description,
+        fb_type: 'website',
+        fb_image: appConfig.avatar,
+        fb_appid: appConfig.fb_appid,
+        // Twitter
+        tw_card: '',
+        tw_description: '',
+        tw_title: '',
+        tw_site: '@altdriver',
+        tw_domain: 'alt_driver',
+        tw_creator: '@altdriver',
+        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+        url: 'http://admin.altdriver.com'
+    };
+
+    res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
 });
 
 app.get('*', function(req,res){

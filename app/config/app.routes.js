@@ -245,7 +245,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
-        .when('/sponsor/:sponsor/', {
+        .when('/sponsor/:sponsor', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,
@@ -253,7 +253,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             resolve:{
                 data: function($q, $route) {
                     var params = {};
-
+                    console.log('app.route sponsor');
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
                             function (data) {
@@ -268,7 +268,48 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         ),
                         posts: null,
                         instagram: null,
-                        sponsors: FeedService.getSponsor($route.current.params.sponsor).then(
+                        sponsors: FeedService.sponsor($route.current.params.sponsor).then(
+                            function(data){
+                                console.log('data',data);
+                                return data;
+                            },
+                            function(error){
+                                console.log('error', error);
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )
+
+                    });
+                }
+            }
+        })
+        .when('/sponsor/:sponsor/', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    console.log('app.route sponsor');
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: null,
+                        instagram: null,
+                        sponsors: FeedService.sponsor($route.current.params.sponsor).then(
                             function(data){
                                 return data;
                             },

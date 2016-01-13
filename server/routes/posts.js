@@ -1,9 +1,11 @@
 'use strict';
 
-var express = require('express'),
-    app = express(),
-    router = express.Router(),
-    PostController = require('../controllers/posts');
+var express         = require('express'),
+    app             = express(),
+    router          = express.Router(),
+    request         = require('request'),
+    md5             = require('js-md5'),
+    PostController  = require('../controllers/posts');
 
 router.put('/post', function(req,res){
 
@@ -28,6 +30,46 @@ router.put('/post', function(req,res){
         console.error(JSON.stringify(e));
         res.sendStatus(500);
     }
+});
+
+/*
+ Menus
+ */
+router.get('/api/menu', function(req, res){
+    PostController.menu(req.params.name).then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+
+/*
+ Sponsor List
+
+router.get('/api/sponsors', function(req, res){
+    PostController.postByType('altdsc_sponsor').then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+ */
+/*
+ Sponsor Single
+ */
+router.get('/api/sponsor/:sponsor', function(req, res){
+    PostController.sponsor(req.params.sponsor).then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
 });
 
 /*
@@ -74,20 +116,6 @@ router.get('/api/category/:category/:perPage/:page/:skip', function(req, res){
     });
 });
 
-/*
- Sponsor List
- */
-router.get('/api/sponsors', function(req, res){
-    // PostController.getSponsors();
-});
-
-/*
- Sponsor Single
- */
-router.get('/api/sponsors/:sponsor', function(req, res){
-    // PostController.getSponsor(req.params.sponsor);
-});
-
 
 /*
  Post List
@@ -117,12 +145,19 @@ router.get('/update/:postId', function(req,res){
     }
     var postId = req.params.postId;
     var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
-    if(!PostController.updating){
+    PostController.updating = false;
+
         PostController.updating = true;
         try{
             request(url, function (error, response, body) {
+
+                if(response.statusCode === 403){
+                    PostController.destroy(postId);
+                }
+
                 if(response.statusCode === 200) {
                     var post = JSON.parse(body);
+
                     PostController.exists(post.id).then(function (result) {
                         if (result.length === 0) {
 
@@ -146,12 +181,15 @@ router.get('/update/:postId', function(req,res){
                     });
                 }else{
                     res.sendStatus(response.statusCode);
+                    PostController.updating = false;
                 }
             });
         }catch(e){
-            res.send(JSON.stringify(e));
+            var error = {'error':e};
+            console.log(e);
+            res.send(JSON.stringify(error));
         }
-    }
+
     //res.end();
 });
 

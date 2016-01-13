@@ -202,7 +202,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.pageNumber;
 
     $scope.getPosts = function(path, params){
-        console.log('getPosts');
         return FeedService.getPosts(path, params);
     };
 
@@ -375,7 +374,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 if (index > 0 && index % 2 === 0) {
                     if ($scope.sponsorCount < $scope.sponsorItems.length) {
                         pagedpostmap.push($scope.sponsorItems[$scope.sponsorCount]);
-                        console.log('pushing sponsor: ', index);
                         $scope.sponsorCount++;
                         $scope.feedItemScrollAmount++;
                         pushedItems++;
@@ -617,7 +615,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     }
                 });
             $scope.shuffle($scope.sponsorItems);
-            console.log($scope.sponsorItems.length);
         }
 
         if($scope.currentView === 'list' || $scope.currentView === 'search' || $scope.currentView === 'category') {
@@ -905,7 +902,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.resizeEmbed = function(embed){
         var iframe = embed;
-        console.log(embed);
+
         var maxWidth = iframe.closest('.post-content').width(); // Max width for the image
         var maxHeight = 10000;    // Max height for the image
         var ratio = 0;  // Used for aspect ratio
@@ -970,7 +967,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         },1500);
 
         //debugger
-        window.addEventListener('scroll', $scope.onScroll);
+        if($scope.currentView !== 'post' && ($scope.posts.length >= $scope.postsPerPage || $scope.sponsors.length >= $scope.postsPerPage)){
+            window.addEventListener('scroll', $scope.onScroll);
+        }
+
     });
 
     $scope.getAdvertisementGlue = function(){

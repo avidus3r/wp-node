@@ -42,7 +42,7 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "prod": {
-          "remoteUrl": "http://altdriver.altmedia.com",
+          "remoteUrl": "http://admin.altdriver.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
