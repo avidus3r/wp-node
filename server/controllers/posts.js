@@ -15,6 +15,7 @@ var PostsController = {
     },
 
     update: function(postID, data, cb){
+
         Post.update({'_id': postID}, data,{multi:true}, function(err, nItems){
             if(err){
                 cb(false);
@@ -90,6 +91,11 @@ var PostsController = {
 
     menu: function(name){
         var query = Menu.find({ 'name': name});
+        return query.exec();
+    },
+
+    vote: function(postId){
+        var query = Post.find({ 'id': postId});
         return query.exec();
     }
 };

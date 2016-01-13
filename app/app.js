@@ -301,9 +301,6 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             voteButton.parent().find('button').attr('disabled', 'disabled');
 
             var req = FeedService.vote(postID, voteVal);
-            req.addEventListener('load', function () {
-                var result = this.responseText;
-            });
 
             if (voteButton.closest('.post-actions').find('.vote-count').text() === '1') {
                 voteButton.closest('.post-actions').find('.pointsTxt').text('point');

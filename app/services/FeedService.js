@@ -176,21 +176,8 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.vote = function(postID, voteVal){
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + 'feed/vote/' + postID;
-        var vote = voteVal;
-
-        var oReq = new XMLHttpRequest();
-        oReq.open('POST', url, true);
-
-        var formData = new FormData();
-
-        if(typeof voteVal === 'object'){
-            formData.append('poll_vote',voteVal.poll_vote);
-        }
-
-        formData.append('vote', vote);
-        oReq.send(formData);
-        return oReq;
+        var url = '/api/vote/' + postID + '/' + voteVal;
+        return feed.get(url, 'get');
     };
 
     feed.getPage = function(page){

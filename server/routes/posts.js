@@ -45,6 +45,45 @@ router.get('/api/menu', function(req, res){
     });
 });
 
+router.get('/api/vote/:id/:val', function(req, res){
+    var val = Number(req.params.val);
+    console.log(val);
+    var field = val === 2 ? 'votes_up' : 'votes_down';
+    console.log(field);
+    PostController.vote(req.params.id, val).then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            PostController.updating = true;
+            var post = result[0];
+
+            if(typeof post.votes === 'undefined'){
+                console.log('no votes');
+                post.votes = {
+                    votes_up:0,
+                    votes_down:0,
+                    total_votes:0
+                };
+                post.votes[field] += 1;
+                post.votes.total_votes += 1;
+            }else{
+                console.log('has votes');
+                var votes = Number(post.votes[field]);
+                var total = Number(post.votes.total_votes);
+                votes = votes + 1;
+                total = total + 1;
+                post.votes[field] = votes;
+                post.votes.total_votes = total;
+            }
+            PostController.update(result[0]._id, post, function (success) {
+                if (!success) res.sendStatus(500);
+
+                res.sendStatus(200);
+                PostController.updating = false;
+            });
+        }
+    });
+});
 
 /*
  Sponsor List

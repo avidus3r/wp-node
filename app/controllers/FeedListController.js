@@ -967,7 +967,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         },1500);
 
         //debugger
-        if($scope.currentView !== 'post' && ($scope.posts.length >= $scope.postsPerPage || $scope.sponsors.length >= $scope.postsPerPage)){
+        if($scope.post !== null || ($scope.posts.length >= $scope.postsPerPage || $scope.sponsors.length >= $scope.postsPerPage)){
             window.addEventListener('scroll', $scope.onScroll);
         }
 

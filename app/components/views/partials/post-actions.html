@@ -1,6 +1,6 @@
 <div class="post-actions clearfix">
     <div class="ad-m">
-        <div class="share-meta"><span class="vote-count" ng-init="totalVotes = item.votes.total_votes - (item.votes.votes_down || 0)">{{ totalVotes*3 }}</span> <span class="pointsTxt">{{ totalVotes === 1 ? "point" : "points" }}</span></div>
+        <div class="share-meta"><span class="vote-count" ng-init="totalVotes = item.votes.total_votes - (item.votes.votes_down || 0)">{{ totalVotes*7 }}</span> <span class="pointsTxt">{{ totalVotes*7 === 1 ? "point" : "points" }}</span></div>
         <div class="left pa-voting">
             <ng-include src="'/views/partials/voting.html'"></ng-include>
         </div>
