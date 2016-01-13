@@ -59,6 +59,7 @@ var PostsController = {
 
     search: function(term){
         var s = decodeURIComponent(term);
+        console.log(s);
         var query = Post.find({'content.rendered' : {$regex: (s), $options:'i' },'title.rendered' : {$regex: (s), $options:'i' } } ).limit(10);
         return query.exec();
     },

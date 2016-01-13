@@ -60,7 +60,7 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.getDBPosts = function(numPosts, pageNum, skip){
-        var url = '/api/'+ numPosts + '/' + pageNum + '/' + skip || 0;
+        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');
     };
 
@@ -81,7 +81,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.search = function(query, page) {
         var data = null;
-
+        console.log(query);
         try{
             var url = '/api/search/'+query;
             data = feed.get(url, 'get');

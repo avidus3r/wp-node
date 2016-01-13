@@ -270,7 +270,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         instagram: null,
                         sponsors: FeedService.sponsor($route.current.params.sponsor).then(
                             function(data){
-                                console.log('data',data);
+
                                 return data;
                             },
                             function(error){

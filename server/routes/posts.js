@@ -115,6 +115,7 @@ router.get('/api/sponsor/:sponsor', function(req, res){
  Search
  */
 router.get('/api/search/:slug', function(req,res){
+    console.log('api search');
     var data = PostController.search(encodeURIComponent(req.params.slug));
     data.then(function(result){
         if(result.length === 0){
@@ -159,7 +160,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', function(req, res){
 /*
  Post List
  */
-router.get('/api/:perPage/:page/:skip', function(req,res){
+router.get('/api/posts/:perPage/:page/:skip', function(req,res){
     var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
     data.then(function(result){
         if(result.length === 0){

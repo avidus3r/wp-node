@@ -48,8 +48,11 @@ app.get('/sponsor/:name', function(req,res){
         tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
         url: 'http://admin.altdriver.com'
     };
+    var template = swig.compileFile('./dist/index.html');
+    var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
-    res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+    res.send(output);
+    //res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
 });
 
 /*
@@ -177,7 +180,12 @@ app.get('/', function(req,res,next){
             url: 'http://admin.altdriver.com'
         };
 
-        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+        var template = swig.compileFile('./dist/index.html');
+        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+
+        res.send(output);
+
+        //res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig});
     }
 });
 
@@ -376,18 +384,44 @@ app.post('/submit', function(req,res){
 
 });
 
+app.get('/search/(:query/|:query)', function(req,res, next){
+    if(itsABot){
+        res.send();
+    }else{
+        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+        var metatags = {
+
+            robots: 'index, follow',
+            title: appConfig.title,
+            description: appConfig.description,
+            // Facebook
+            fb_title: appConfig.title,
+            fb_site_name: appConfig.fb_sitename,
+            fb_url: appConfig.url,
+            fb_description: appConfig.description,
+            fb_type: 'website',
+            fb_image: appConfig.avatar,
+            fb_appid: appConfig.fb_appid,
+            // Twitter
+            tw_card: '',
+            tw_description: '',
+            tw_title: '',
+            tw_site: '@altdriver',
+            tw_domain: 'alt_driver',
+            tw_creator: '@altdriver',
+            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            url: 'http://admin.altdriver.com'
+        };
+        var template = swig.compileFile('./dist/index.html');
+        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+
+        res.send(output);
+    }
+});
+
 app.get('/category/(:category/|:category)', function(req,res){
-
-    var feed = {};
-
-    feed.endpoints = {
-        url: 'http://admin.altdriver.com',
-        remoteUrl: 'http://www.altdriver.com',
-        basePath: '/wp-json/wp/v2/'
-    };
-
     var catName = req.params.category;
-    var endpoint = 'terms/category?name=' + catName;
+    var endpoint = 'http://' + req.headers.host + '/api/category/' + catName + '/7/1/0';
     var appUrl = 'http://admin.altdriver.com/category';
 
     if(itsABot) {
@@ -427,10 +461,8 @@ app.get('/category/(:category/|:category)', function(req,res){
         }
     }else{
         //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-        var catName = req.params.category;
-        var endpoint = 'terms/category?name=' + catName;
         try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
+            request(endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var category = {};
                     var metatags = {};
@@ -454,7 +486,10 @@ app.get('/category/(:category/|:category)', function(req,res){
                         metatags.fb_image = appConfig.avatar;
 
 
-                        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+                        var template = swig.compileFile('./dist/index.html');
+                        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+
+                        res.send(output);
                     }
                 }
             });
@@ -464,38 +499,21 @@ app.get('/category/(:category/|:category)', function(req,res){
     }
 });
 
-app.get('/search/(:query/|:query)', function(req,res, next){
-    if(itsABot){
-        res.send();
-    }else{
-        res.sendFile('index.html', { root: path.join(__dirname, './dist') });
-    }
-});
-
 app.get('/:category/(:slug/|:slug)', function(req,res, next){
-    var feed = {};
-    console.log(req.params.slug);
-    feed.endpoints = {
-        url: 'http://admin.altdriver.com',
-        remoteUrl: 'http://altdriver.staging.wpengine.com',
-        basePath: '/wp-json/wp/v2/'
-    };
-
     var fbAppId = appConfig.fb_appid;
     var fbUrl = appConfig.fb_url;
     var postName = req.params.slug;
-    var endpoint = 'posts?name=' + postName;
+    var endpoint = 'http://' + req.headers.host + '/api/' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
     if(itsABot) {
         try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
+            request(endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
 
-                    var post = JSON.parse([response.body][0]);
+                    var post = JSON.parse(body);
 
-                    post = post[0];
                     if(typeof post !== 'undefined') {
                         metatags.published = post.date;
                         metatags.modified = post.modified;
@@ -544,13 +562,13 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
     }else{
         //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
         try {
-            request(feedConfig.remoteUrl + feedConfig.basePath + endpoint, function (error, response, body) {
+            request(endpoint, function (error, response, body) {
+
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
 
-                    var post = JSON.parse([response.body][0]);
+                    var post = JSON.parse(body);
 
-                    post = post[0];
                     if(typeof post !== 'undefined') {
                         metatags.published = post.date;
                         metatags.modified = post.modified;
@@ -581,7 +599,10 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                         metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
 
-                        res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+                        var template = swig.compileFile('./dist/index.html');
+                        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+
+                        res.send(output);
                     }
                 }
             });
@@ -616,11 +637,40 @@ app.get('/:page', function(req,res){
         url: 'http://admin.altdriver.com'
     };
 
-    res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+    var template = swig.compileFile('./dist/index.html');
+    var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+
+    res.send(output);
 });
 
 app.get('*', function(req,res){
-    res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+    var metatags = {
+
+        robots: 'index, follow',
+        title: appConfig.title,
+        description: appConfig.description,
+        // Facebook
+        fb_title: appConfig.title,
+        fb_site_name: appConfig.fb_sitename,
+        fb_url: appConfig.url,
+        fb_description: appConfig.description,
+        fb_type: 'website',
+        fb_image: appConfig.avatar,
+        fb_appid: appConfig.fb_appid,
+        // Twitter
+        tw_card: '',
+        tw_description: '',
+        tw_title: '',
+        tw_site: '@altdriver',
+        tw_domain: 'alt_driver',
+        tw_creator: '@altdriver',
+        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+        url: 'http://admin.altdriver.com'
+    };
+
+    var template = swig.compileFile('./dist/index.html');
+    var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+    res.send(output);
     //res.render('index',{newrelic:newrelic});
 });
 
