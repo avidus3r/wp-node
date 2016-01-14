@@ -114,9 +114,10 @@ router.get('/api/sponsor/:sponsor', function(req, res){
 /*
  Search
  */
-router.get('/api/search/:slug', function(req,res){
-    console.log('api search');
-    var data = PostController.search(encodeURIComponent(req.params.slug));
+router.get('/api/search/:query/:perPage/:page/:skip', function(req,res){
+
+    var data = PostController.search(encodeURIComponent(req.params.query), req.params.perPage, req.params.page, req.params.skip);
+    //res.send(data);
     data.then(function(result){
         if(result.length === 0){
             res.send(JSON.stringify(result));

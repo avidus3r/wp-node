@@ -79,11 +79,10 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
-    feed.search = function(query, page) {
+    feed.search = function(query, numPosts, pageNum, skip) {
         var data = null;
-        console.log(query);
         try{
-            var url = '/api/search/'+query;
+            var url = '/api/search/'+query + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
             data = feed.get(url, 'get');
         }catch(e){
             data = 'end';

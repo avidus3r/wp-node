@@ -57,10 +57,22 @@ var PostsController = {
         return query.exec();
     },
 
-    search: function(term){
+    search: function(term, numberOfPosts, pageNumber, skip){
+        //var db = mongoose.connection;
+        var skipItems = Number(skip);
         var s = decodeURIComponent(term);
-        console.log(s);
-        var query = Post.find({'content.rendered' : {$regex: (s), $options:'i' },'title.rendered' : {$regex: (s), $options:'i' } } ).limit(10);
+        var reggie = new RegExp(s, 'i');
+        /*var dbQuery = db.collection('posts').find({ $or:[ {'content.rendered': reggie}, {'title.rendered': reggie} ]}).limit(Number(numberOfPosts)).skip(Number(skipItems));
+
+        var results = [];
+
+        dbQuery.forEach( function(doc){
+            results.push(doc);
+        });
+
+        console.log(dbQuery.itcount());
+        return results;*/
+        var query = Post.find({'title.rendered': reggie}).limit(Number(numberOfPosts)).skip(Number(skipItems));
         return query.exec();
     },
 
