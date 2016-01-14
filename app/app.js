@@ -215,15 +215,17 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.gaID = appConfig.ga;
     $rootScope.app = appConfig;
 
-    angular.element('body').addClass($rootScope.app.name);
-    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name +'.css">');
-
     $rootScope.getOrientation = function(){
         if(!$rootScope.orientation){
             $rootScope.orientation = (window.outerWidth > window.outerHeight) ? 'landscape' : 'portrait';
         }
         return $rootScope.orientation;
     };
+
+    angular.element('body').addClass($rootScope.isMobile());
+    angular.element('body').addClass($rootScope.getOrientation());
+    angular.element('body').addClass($rootScope.app.name);
+    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name +'.css">');
 
     //$rootScope.lastIndex = 0;
 
@@ -407,6 +409,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
+        console.log('initAds');
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {

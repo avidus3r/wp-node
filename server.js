@@ -48,11 +48,12 @@ app.get('/sponsor/:name', function(req,res){
         tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
         url: 'http://admin.altdriver.com'
     };
-    var template = swig.compileFile('./dist/index.html');
-    var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
-    res.send(output);
-    //res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
+    /*var template = swig.compileFile('./dist/index.html');
+    var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+    res.send(output);*/
+
+    res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
 });
 
 /*
@@ -156,6 +157,7 @@ app.get('/', function(req,res,next){
 
     }else{
         //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
+
         var metatags = {
 
             robots: 'index, follow',
@@ -180,12 +182,11 @@ app.get('/', function(req,res,next){
             url: 'http://admin.altdriver.com'
         };
 
-        var template = swig.compileFile('./dist/index.html');
+        /*var template = swig.compileFile('./dist/index.html');
         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+        res.send(output);*/
 
-        res.send(output);
-
-        //res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig});
     }
 });
 
