@@ -41,6 +41,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.postCompanionAd = null;
     $scope.initialOffset = null;
     $scope.hideLoading = true;
+    $scope.fbReady = false;
 
     if(location.href.indexOf('local.') > -1){
         $scope.appConfig.displayAds = 'false';
@@ -588,7 +589,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.receiveMessage = function(event){
         if(typeof event.data === 'string') {
             if (event.data.search('action=plugin_ready') > -1) {
-                $scope.$emit('fbReady');
+                if(!$scope.fbReady){
+                    $scope.$emit('fbReady');
+                }
+                $scope.fbReady = true;
             }
         }
     };
@@ -945,13 +949,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         if($scope.currentView === 'post'){
             $scope.$on('fbReady', function(){
+                if(location.hash.indexOf('comment') > -1) {
+                    console.log(true);
+                    $scope.toggleComments(null);
+                }
                 angular.element('#commentHook').on('click', function(e){
                     $scope.toggleComments(e);
                 });
-
-                if($location.hash() === 'comment') {
-                    $scope.toggleComments(null);
-                }
             });
         }
 
