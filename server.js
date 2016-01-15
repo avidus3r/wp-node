@@ -596,10 +596,13 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
 
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
+                    var post = null;
 
-                    var post = JSON.parse(body);
-
-                    console.log(post);
+                    try{
+                        post = JSON.parse(body);
+                    }catch(e){
+                        console.error(JSON.stringify(e));
+                    }
 
                     if(typeof post !== 'undefined') {
                         metatags.published = post.date;
