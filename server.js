@@ -292,6 +292,11 @@ app.post('/admin', function(req, res){
 });
 
 app.post('/submit', function(req,res){
+
+    if(req.headers.origin !== 'http://' + req.headers.host){
+        res.status(403).end();
+        return false;
+    }
     var form = new multiparty.Form();
 
     var aws = require('aws-sdk');
@@ -435,10 +440,11 @@ app.get('/search/(:query/|:query)', function(req,res, next){
             tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
             url: 'http://admin.altdriver.com'
         };
-        var template = swig.compileFile('./dist/index.html');
+        /*var template = swig.compileFile('./dist/index.html');
         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
-        res.send(output);
+        res.send(output);*/
+        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
     }
 });
 
@@ -509,10 +515,11 @@ app.get('/category/(:category/|:category)', function(req,res){
                         metatags.fb_image = appConfig.avatar;
 
 
-                        var template = swig.compileFile('./dist/index.html');
+                        /*var template = swig.compileFile('./dist/index.html');
                         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
-                        res.send(output);
+                        res.send(output);*/
+                        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
                     }
                 }
             });
@@ -592,6 +599,8 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
 
                     var post = JSON.parse(body);
 
+                    console.log(post);
+
                     if(typeof post !== 'undefined') {
                         metatags.published = post.date;
                         metatags.modified = post.modified;
@@ -622,10 +631,11 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                         metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
 
-                        var template = swig.compileFile('./dist/index.html');
+                        /*var template = swig.compileFile('./dist/index.html');
                         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
-                        res.send(output);
+                        res.send(output);*/
+                        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
                     }
                 }
             });
@@ -660,10 +670,11 @@ app.get('/:page', function(req,res){
         url: 'http://admin.altdriver.com'
     };
 
-    var template = swig.compileFile('./dist/index.html');
+    /*var template = swig.compileFile('./dist/index.html');
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
-    res.send(output);
+    res.send(output);*/
+    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
 });
 
 app.get('*', function(req,res){
@@ -691,10 +702,11 @@ app.get('*', function(req,res){
         url: 'http://admin.altdriver.com'
     };
 
-    var template = swig.compileFile('./dist/index.html');
+    /*var template = swig.compileFile('./dist/index.html');
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-    res.send(output);
-    //res.render('index',{newrelic:newrelic});
+    res.send(output);*/
+
+    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
 });
 
 /*
