@@ -261,7 +261,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function(){
-        if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
+        var feedItemEl = angular.element('.feed-item:last');
+        if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height()) - (feedItemEl.height() * 2)) {
             angular.element('#loading-more').removeClass('hidden').show();
             $scope.paged += 1;
             var state = {page: $scope.paged};

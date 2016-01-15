@@ -14,6 +14,8 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
 
     angular.element('#loading-more').hide();
 
+    $scope.formErrors = null;
+
     $scope.getPage = function(){
 
         FeedService.getPage($scope.routeParams).then(
@@ -58,6 +60,43 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
         angular.element('#subscribePage').find('iframe').contents().find('#main-head').hide();
     };
 
+    $scope.validate = function(fields){
+        var homewrecker = [];
+        var happiness = false;
+
+        angular.forEach(fields, function(item, index){
+            var valerie = item.value;
+            var reggie = null;
+            angular.element(item).parent().removeClass('has-error');
+            switch(item.type){
+                case 'url':
+                    reggie = /^(http(?:s)?\:\/\/[a-zA-Z0-9]+(?:(?:\.|\-)[a-zA-Z0-9]+)+(?:\:\d+)?(?:\/[\w\-]+)*(?:\/?|\/\w+\.[a-zA-Z]{2,4}(?:\?[\w]+\=[\w\-]+)?)?(?:\&[\w]+\=[\w\-]+)*)$/;
+                    happiness = reggie.test(valerie);
+                    if(!happiness) homewrecker.push(fields[index]);
+                    break;
+                case 'file':
+                    happiness = valerie.length > 0;
+                    if(!happiness) homewrecker.push(fields[index]);
+                    break;
+                case 'email':
+                    reggie = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    happiness = reggie.test(valerie);
+                    if(!happiness) homewrecker.push(fields[index]);
+                    break;
+                case 'text':
+                    happiness = valerie.length > 0;
+                    if(!happiness) homewrecker.push(fields[index]);
+                    break;
+            }
+
+        });
+        if(homewrecker.length > 0){
+            $scope.formErrors = homewrecker;
+            return false;
+        }
+        return true;
+    };
+
     $scope.$on('$viewContentLoaded', function(){
         var minHeight = window.innerHeight-100;
         angular.element('html, body, .view-container, #staticPage, .content, iframe').css({'min-height':minHeight+'px'});
@@ -81,7 +120,7 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
                         var linkVal = angular.element(e.currentTarget).val();
 
                         if(linkVal.length > 0){
-                            angular.element('#file-u`load').removeAttr('required');
+                            angular.element('#file-upload').removeAttr('required');
                         }else{
                             angular.element('#file-upload').attr('required','required');
                         }
@@ -89,6 +128,24 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
                 }
             });
             angular.element('.submit-content-form').on('submit', function(e){
+                console.log('submit');
+                var requiredFields = angular.element(e.currentTarget).find('input[required="required"]');
+                var shouldIStayOrShouldIGo;
+
+                try{
+                    shouldIStayOrShouldIGo = $scope.validate(requiredFields);
+                    if(!shouldIStayOrShouldIGo){
+                        angular.forEach($scope.formErrors, function(item, index){
+                           angular.element(item).parent().addClass('has-error');
+                        });
+                    }
+
+                    return shouldIStayOrShouldIGo;
+
+                }catch(e){
+                    console.error(JSON.stringify(e));
+                    return false;
+                }
 
             });
         },500);

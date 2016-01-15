@@ -320,16 +320,32 @@ app.post('/submit', function(req,res){
         //console.log(part);
     });
 
+    var ua = req.headers['user-agent'];
+    var cookie = req.headers.cookie;
+
+    var status = 200;
+
     form.parse(req, function(err, fields, files) {
 
-        var message = '';
 
-        if(files.fileUpload[0].size > 0){
+        if(typeof fields === 'undefined' || (fields.name[0].length === 0 && fields.email[0].length === 0) || typeof files === 'undefined'){
+            status = 403;
+            return false;
+        }
+
+        if(fields.linkUrl === undefined || fields.name === undefined || fields.email === undefined){
+            status = 403;
+            return false;
+        }
+
+
+        var message = '';
+        if(files.hasOwnProperty('fileUpload') && files.fileUpload[0].size > 0){
             fileName = fields.name + '-' + files.fileUpload[0].originalFilename;
 
             var file = fs.createReadStream(files.fileUpload[0].path);
 
-            s3Client.putObject({
+            return s3Client.putObject({
                 Bucket: bucket,
                 Key: fileName,
                 ACL: 'public-read',
@@ -340,7 +356,8 @@ app.post('/submit', function(req,res){
                 message += '\n\nFile URL:\n' + 'http://user-content.altdriver.s3.amazonaws.com/' + encodeURIComponent(fileName) + '\n\nFile:\n' + fileName + '\n\nFile ETag:\n' + data.ETag;
                 message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.name;
 
-                ses.sendEmail( {
+                message += '\n\nSession Info:\n' + '\nUser Agent:\n' + ua + '\n\nSession Cookie:\n' + cookie;
+                return ses.sendEmail( {
                         Source: from,
                         Destination: { ToAddresses: to },
                         Message: {
@@ -361,7 +378,8 @@ app.post('/submit', function(req,res){
         }else{
 
             message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.name;
-            ses.sendEmail( {
+            message += '\n\nSession Info:\n' + '\nUser Agent:\n' + ua + '\n\nSession Cookie:\n' + cookie;
+            return ses.sendEmail( {
                     Source: from,
                     Destination: { ToAddresses: to },
                     Message: {
@@ -380,8 +398,12 @@ app.post('/submit', function(req,res){
                 });
         }
     });
-
-    res.redirect('/thanks');
+    if(status === 403){
+        console.log(403);
+        res.status(403).end();
+    }else{
+        res.redirect('/thanks');
+    }
 
 });
 
