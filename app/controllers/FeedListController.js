@@ -51,7 +51,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
-            localStorage.setItem('post_offset', '0');
+            localStorage.setItem('post_offset', '1');
         }
         $scope.postIndex = 0 || Number(localStorage.getItem('post_offset'));
         if(Number(localStorage.getItem('post_offset')) > 0){
@@ -461,11 +461,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         skip = Number(localStorage.getItem('post_offset'));
                     }catch(e){
                         skip = 0;
-
                     }
 
                     if(skip === 0){
                         skip = $scope.postsPerPage*($scope.paged-1);
+                    }
+                    if(Number(skip) === 1){
+                        skip = $scope.postsPerPage*($scope.paged-1)+1;
                     }
 
                     if ($scope.currentView === 'category') {
@@ -521,10 +523,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     skip = Number(localStorage.getItem('post_offset'));
                 }catch(e){
                     skip = 0;
-
                 }
 
-                if(skip === 0){
+                if(skip === 0 || Number(skip) === 1){
                     skip = $scope.postsPerPage*($scope.paged-1);
                 }
 
@@ -770,7 +771,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             var skip = null;
             try{
-                skip = Number(localStorage.getItem('post_offset'))+1;
+                skip = Number(localStorage.getItem('post_offset'));
             }catch(e){
                 skip = 0;
             }

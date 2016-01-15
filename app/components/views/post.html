@@ -1,7 +1,7 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container">
 
-        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index }}">
+        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
             <div ng-if="currentView === 'sponsor' && $index === 0">
                 <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
