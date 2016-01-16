@@ -530,9 +530,26 @@ app.get('/category/(:category/|:category)', function(req,res){
 });
 
 app.get('/:category/(:slug/|:slug)', function(req,res, next){
+
+    var rawUrl = req.url.substr(0,req.url.length-1);
+
+    rawUrl = rawUrl.split('/');
+    var originalUrl = rawUrl[rawUrl.length-1]
+
     var fbAppId = appConfig.fb_appid;
     var fbUrl = appConfig.fb_url;
-    var postName = req.params.slug;
+    var postName = null;
+    try{
+        postName = req.params.slug;
+    }catch(e){
+
+    }
+
+    if(postName === undefined || postName === null){
+        console.log('no params present... trying raw url');
+        postName = originalUrl;
+    }
+
     var endpoint = 'http://' + req.headers.host + '/api/' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
@@ -542,9 +559,15 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
 
-                    var post = JSON.parse(body);
+                    var post = null;
 
-                    if(typeof post !== 'undefined') {
+                    try{
+                        post = JSON.parse(body);
+                    }catch(e){
+                        console.error(JSON.stringify(e));
+                    }
+
+                    if(typeof post !== 'undefined' && post !== null) {
                         metatags.published = post.date;
                         metatags.modified = post.modified;
                         metatags.category = post.category[0].name;
@@ -583,6 +606,10 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                         var output = template({metatags: metatags, app: appName, posts:post});
 
                         res.send(output);
+                    }else{
+                        console.log('post could not be retrieved...\n\n');
+                        console.log('headers:\n ',req.headers + '\n\n');
+                        console.log('rawHeaders:\n ',req.rawHeaders);
                     }
                 }
             });
@@ -604,7 +631,7 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                         console.error(JSON.stringify(e));
                     }
 
-                    if(typeof post !== 'undefined') {
+                    if(typeof post !== 'undefined' && post !== null) {
                         metatags.published = post.date;
                         metatags.modified = post.modified;
                         metatags.category = post.category[0].name;
@@ -639,6 +666,10 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
 
                         res.send(output);*/
                         res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+                    }else{
+                        console.log('post could not be retrieved...\n\n');
+                        console.log('headers:\n ',req.headers + '\n\n');
+                        console.log('rawHeaders:\n ',req.rawHeaders);
                     }
                 }
             });
