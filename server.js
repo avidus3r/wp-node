@@ -609,6 +609,7 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                     }else{
                         console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
                         console.log('headers:\n ', req.headers);
+                        console.log('\n\nparams:\n', req.params);
                         console.log('\n\nrawHeaders:\n ',req.rawHeaders);
                         console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
                     }
@@ -670,7 +671,10 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                     }else{
                         console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
                         console.log('headers:\n ', req.headers);
+                        console.log('\n\nparams:\n', req.params);
                         console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+
                     }
                 }
             });
