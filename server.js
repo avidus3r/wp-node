@@ -534,7 +534,7 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
     var rawUrl = req.url.substr(0,req.url.length-1);
 
     rawUrl = rawUrl.split('/');
-    var originalUrl = rawUrl[rawUrl.length-1]
+    var originalUrl = rawUrl[rawUrl.length-1];
 
     var fbAppId = appConfig.fb_appid;
     var fbUrl = appConfig.fb_url;
@@ -607,9 +607,10 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
 
                         res.send(output);
                     }else{
-                        console.log('post could not be retrieved...\n\n');
-                        console.log('headers:\n ',req.headers + '\n\n');
-                        console.log('rawHeaders:\n ',req.rawHeaders);
+                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                        console.log('headers:\n ', req.headers);
+                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
                     }
                 }
             });
@@ -667,9 +668,9 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                         res.send(output);*/
                         res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
                     }else{
-                        console.log('post could not be retrieved...\n\n');
-                        console.log('headers:\n ',req.headers + '\n\n');
-                        console.log('rawHeaders:\n ',req.rawHeaders);
+                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                        console.log('headers:\n ', req.headers);
+                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
                     }
                 }
             });
