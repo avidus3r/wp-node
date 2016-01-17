@@ -2,25 +2,40 @@
 
 var newrelic = require('newrelic');
 
-var express     = require('express'),
-    http        = require('http'),
-    app         = express(),
-    bodyParser  = require('body-parser'),
-    path        = require('path'),
-    request     = require('request'),
-    multiparty  = require('multiparty'),
-    fs          = require('fs'),
-    authorized  = false,
-    md5         = require('js-md5'),
-    swig        = require('swig'),
-    cons        = require('consolidate');
+var express         = require('express'),
+    http            = require('http'),
+    app             = express(),
+    bodyParser      = require('body-parser'),
+    cookieParser    = require('body-parser'),
+    path            = require('path'),
+    request         = require('request'),
+    multiparty      = require('multiparty'),
+    fs              = require('fs'),
+    authorized      = false,
+    md5             = require('js-md5'),
+    swig            = require('swig'),
+    cons            = require('consolidate'),
+    cc              = require('coupon-code');
 
 var EXPRESS_ROOT = './dist',
     feedConfig = null,
     itsABot = null;
 
+/*
+ middleware
+ */
+app.use(cookieParser());
+app.use(bodyParser.raw({extended:true}));
+app.use(bodyParser.json({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.set('port', process.env.PORT || 3000);
+
+app.locals.config = require('./app/config/feed.conf.json');
+
 app.get('*', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+
     next();
 });
 
@@ -111,6 +126,40 @@ function htmlEntities(str) {
 }
 
 app.get('/', function(req,res,next){
+    var user = null;
+    var uuid = cc.generate({parts:4,partLen:6});
+    var userUUID = null;
+
+    if(req.headers.cookie === undefined){
+        api.UserController.create(uuid);
+        res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+    }else{
+        if(req.headers.cookie.indexOf('altduuid') > -1){
+
+            var cookies = req.headers.cookie.split('; ');
+
+            for(var i=0;i<cookies.length;i++){
+                var chip = cookies[0].split('=');
+                if(chip[0].indexOf('altduuid') > -1){
+                    userUUID = chip[1];
+                    console.log('server:', userUUID);
+                    api.UserController.me(userUUID).then( function(result){
+                        /*var user = result[0];
+                        user.lastseen = Date.now;
+                        api.UserController.update(user);*/
+                    });
+                }
+            }
+        }else{
+            console.log('setting cookie');
+            api.UserController.create(uuid);
+            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+        }
+    }
+    next();
+});
+
+app.get('/', function(req,res,next){
 
     if(itsABot) {
 
@@ -193,16 +242,7 @@ app.get('/', function(req,res,next){
 app.use(express.static(EXPRESS_ROOT));
 
 
-/*
- middleware
- */
-app.use(bodyParser.raw({extended:true}));
-app.use(bodyParser.json({extended:true}));
-app.use(bodyParser.urlencoded({extended:true}));
 
-app.set('port', process.env.PORT || 3000);
-
-app.locals.config = require('./app/config/feed.conf.json');
 
 
 app.get('/tests', function(req, res){

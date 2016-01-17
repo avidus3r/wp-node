@@ -16,5 +16,7 @@ process.on('SIGINT', function(){
 exports.db = db;
 exports.Post = require('./models/post');
 exports.Menu = require('./models/menu');
+exports.User = require('./models/user');
 exports.PostController = require('./controllers/posts');
+exports.UserController = require('./controllers/users');
 exports.routes = require('./routes/posts');

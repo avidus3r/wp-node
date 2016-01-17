@@ -11,6 +11,10 @@ var mongoose = require('mongoose'),
  * Post Schema
  */
 var schema = {
+    created: {
+        type: Date,
+        default: Date.now
+    },
     username: {
         type: String
     },
@@ -22,8 +26,10 @@ var schema = {
     },
     uuid:{
         type: String,
-        required: true,
-        index: { unique: true }
+        index: 1
+    },
+    lastseen:{
+        type:Date
     }
 };
 
@@ -56,4 +62,4 @@ UserSchema.statics.load = function(id, cb) {
     }).populate(fields).exec(cb);
 };
 
-module.exports = mongoose.model('Menu', MenuSchema);
+module.exports = mongoose.model('User', UserSchema);
