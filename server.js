@@ -95,12 +95,12 @@ app.get('/feed/:feedname/', function(req,res){
  static paths
  */
 app.use(express.static(__dirname + './tests'));
-app.use(express.static(__dirname + './favicons'));
-app.use(express.static(__dirname + './favicons.ico'));
+app.use(express.static(__dirname + './favicons', {maxAge:300000}));
+app.use(express.static(__dirname + './favicons.ico', {maxAge:300000} ));
 app.use(express.static('./admin'));
 app.use(express.static(__dirname + './data'));
 app.use(express.static(__dirname + './app/config'));
-app.use(express.static(__dirname + './app/components/views/cards'));
+app.use(express.static(__dirname + './app/components/views/cards', {maxAge:300000}));
 
 var config = require('./app/config/config.json');
 var appName = process.env.appname;
@@ -272,7 +272,7 @@ app.get('/', function(req,res,next){
     }
 });
 
-app.use(express.static(EXPRESS_ROOT));
+app.use(express.static(EXPRESS_ROOT, {maxAge:300000}));
 
 
 
@@ -605,6 +605,8 @@ app.get('/category/(:category/|:category)', function(req,res){
 app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
     if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1){
+        
+        //me 7D6QL2-EDCA4A-XQMY5F-TGRXKC
         var user = null;
         var uuid = cc.generate({parts:4,partLen:6});
         var userUUID = null;
@@ -620,7 +622,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                     var chip = cookies[i].split('=');
                     if(chip[0].indexOf('altduuid') > -1){
                         userUUID = chip[1];
-                        
+
                         api.UserController.me(userUUID).then( function(result){
                             if(result.length === 0 && userUUID.length > 0){
                                 api.UserController.create(userUUID,{'headers':req.headers, 'rawHeaders':req.rawHeaders});
@@ -779,7 +781,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                      res.send(output);*/
 
-                    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
                 }
 
             });
