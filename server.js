@@ -35,7 +35,36 @@ app.locals.config = require('./app/config/feed.conf.json');
 
 app.get('*', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+    var user = null;
+    var uuid = cc.generate({parts:4,partLen:6});
+    var userUUID = null;
 
+    if(req.headers.cookie === undefined){
+        api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
+        res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+    }else{
+        if(req.headers.cookie.indexOf('altduuid') > -1){
+
+            var cookies = req.headers.cookie.split('; ');
+
+            for(var i=0;i<cookies.length;i++){
+                var chip = cookies[0].split('=');
+                if(chip[0].indexOf('altduuid') > -1){
+                    userUUID = chip[1];
+                    console.log('server:', userUUID);
+                    api.UserController.me(userUUID).then( function(result){
+                        /*var user = result[0];
+                         user.lastseen = Date.now;
+                         api.UserController.update(user);*/
+                    });
+                }
+            }
+        }else{
+            console.log('setting cookie');
+            api.UserController.create(uuid);
+            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+        }
+    }
     next();
 });
 
