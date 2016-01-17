@@ -11,7 +11,6 @@ var UsersController = {
         });
     },
     update: function(user){
-        console.log(user);
         User.update({'_id': user._id}, user,{multi:true}, function(err, nItems){
             if(err){
                 //cb(false);
@@ -23,7 +22,7 @@ var UsersController = {
         });
     },
     me: function(uuid){
-        console.log('controller: ', uuid);
+
         var q = User.find({
             'uuid': uuid
         });
