@@ -4,8 +4,8 @@ var mongoose    = require('mongoose'),
     User        = mongoose.model('User');
 
 var UsersController = {
-    create: function(uuid){
-        var user = new User({uuid:uuid});
+    create: function(uuid, customData){
+        var user = new User({uuid:uuid, customData:customData});
         user.save(function(err, result){
             if(err) console.error(err);
         });

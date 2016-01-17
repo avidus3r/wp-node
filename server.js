@@ -131,7 +131,7 @@ app.get('/', function(req,res,next){
     var userUUID = null;
 
     if(req.headers.cookie === undefined){
-        api.UserController.create(uuid);
+        api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
         res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
     }else{
         if(req.headers.cookie.indexOf('altduuid') > -1){
