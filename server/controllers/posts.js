@@ -78,11 +78,11 @@ var PostsController = {
 
     list: function(numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
-        var query = Post.find().limit(numberOfPosts).skip(skipItems);
-        query.$where(function(){
+        var query = Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts);
+        /*query.$where(function(){
             return this.postmeta.hasOwnProperty("run_dates_0_channel");
-        });
-        query.sort({'postmeta.run_dates_0_run_time':'desc'});
+        });*/
+        query.sort({'postmeta.run_dates_0_run_time':-1});
         return query.exec();
     },
 

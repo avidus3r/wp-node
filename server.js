@@ -530,7 +530,7 @@ app.get('/category/(:category/|:category)', function(req,res){
 });
 
 app.get('/:category/(:slug|:slug/)', function(req,res, next){
-    
+
     var rawUrl = req.url.substr(0,req.url.length-1);
 
     rawUrl = rawUrl.split('/');
