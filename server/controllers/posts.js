@@ -78,10 +78,11 @@ var PostsController = {
 
     list: function(numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
-        var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
+        var query = Post.find().limit(numberOfPosts).skip(skipItems);
         query.$where(function(){
             return this.postmeta.hasOwnProperty("run_dates_0_channel");
         });
+        query.sort({'postmeta.run_dates_0_run_time':'desc'});
         return query.exec();
     },
 

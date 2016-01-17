@@ -7,6 +7,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     this.$routeParams = $routeParams;
     this.$location = $location;
 
+    if(window.history){
+        window.history.scrollRestoration = 'manual';
+    }
+
     $scope.package = {
         name: 'newsfeed'
     };
@@ -266,7 +270,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             angular.element('#loading-more').removeClass('hidden').show();
             $scope.paged += 1;
             var state = {page: $scope.paged};
-            history.pushState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
+            history.replaceState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
             angular.module('NewsFeed').trackPageView($scope.paged, document.title);
             if(!$scope.useMongo){
                 $scope.getNext('');
@@ -956,7 +960,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     };
 
+
     $scope.$on('$viewContentLoaded', function(){
+
+        setTimeout(function(){
+            if(window.location.search){
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+        },500);
+
         if($scope.hideLoading) angular.element('#loading-more').hide();
         angular.element('body').find('.sidebar').removeClass('ng-hide');
 

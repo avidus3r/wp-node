@@ -214,7 +214,7 @@ router.get('/update/:postId', function(req,res){
 
                             PostController.update(updatePost._id, post, function (success) {
                                 if (!success) res.sendStatus(500);
-                                apicache.clear(updatePost.slug);
+                                //apicache.clear(updatePost.slug);
                                 res.sendStatus(200);
                                 PostController.updating = false;
                             });

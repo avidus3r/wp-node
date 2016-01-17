@@ -529,8 +529,8 @@ app.get('/category/(:category/|:category)', function(req,res){
     }
 });
 
-app.get('/:category/(:slug/|:slug)', function(req,res, next){
-
+app.get('/:category/(:slug|:slug/)', function(req,res, next){
+    console.log(req);
     var rawUrl = req.url.substr(0,req.url.length-1);
 
     rawUrl = rawUrl.split('/');
@@ -621,7 +621,7 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
     }else{
         //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
         try {
-            api.PostController.post(originalUrl).then(function(result){
+            api.PostController.post(postName).then(function(result){
 
                 var metatags = {};
                 var post = null;
@@ -631,6 +631,8 @@ app.get('/:category/(:slug/|:slug)', function(req,res, next){
                     console.log('\n\nparams:\n', req.params);
                     console.log('\n\nrawHeaders:\n ',req.rawHeaders);
                     console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+
+                    console.log(req._parsedOriginalUrl);
                     res.sendStatus(404);
                 }else{
                     post = result;
