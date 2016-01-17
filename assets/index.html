@@ -147,16 +147,31 @@
     <ng-include src="'/views/partials/fb-px.html'"></ng-include>
 
     <script type="text/javascript">
-
         angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
-            console.log('trackPageView: ', pageNum, pageTitle);
             var path = location.pathname === '/' ? '' : location.pathname;
-            dataLayer.push({
-                'event': 'VirtualPageview',
-                'virtualUrl': path + 'page/' + pageNum,
-                'virtualPageTitle': pageTitle
-            });
-        };
+            try{
+                dataLayer.push({
+                    'event': 'VirtualPageview',
+                    'virtualUrl': path + 'page/' + pageNum,
+                    'virtualPageTitle': pageTitle
+                });
+            }catch(e){
+                console.error(e);
+                setTimeout(function(){
+                    try{
+                        dataLayer.push({
+                            'event': 'VirtualPageview',
+                            'virtualUrl': path + 'page/' + pageNum,
+                            'virtualPageTitle': pageTitle
+                        });
+                    }catch(e){
+                        console.error('could not load gtm dataLayer', e);
+                    }
+                }, 4000);
+            }
+        }
+
+        ;
 
         angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
 
