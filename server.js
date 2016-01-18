@@ -19,7 +19,8 @@ var express         = require('express'),
 
 var EXPRESS_ROOT = './dist',
     feedConfig = null,
-    itsABot = null;
+    itsABot = null,
+    createUser = false;
 
 /*
  middleware
@@ -160,7 +161,7 @@ function htmlEntities(str) {
 
 app.get('/', function(req,res,next){
 
-    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1){
+    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
         var user = null;
         var uuid = cc.generate({parts:4,partLen:6});
         var userUUID = null;
@@ -604,8 +605,8 @@ app.get('/category/(:category/|:category)', function(req,res){
 
 app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
-    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1){
-        
+    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
+
         //me 7D6QL2-EDCA4A-XQMY5F-TGRXKC
         var user = null;
         var uuid = cc.generate({parts:4,partLen:6});
