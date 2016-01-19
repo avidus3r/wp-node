@@ -6,7 +6,12 @@ var express         = require('express'),
     request         = require('request'),
     md5             = require('js-md5'),
     PostController  = require('../controllers/posts'),
-    apicache        = require('apicache').options({ debug: true }).middleware;
+    ApiCache        = require('apicache'),
+    apicache        = ApiCache.options({ debug: true }).middleware;
+
+router.get('/api/cache/index', function(req, res, next) {
+    res.send(ApiCache.getIndex());
+});
 
 router.put('/post', function(req,res){
 
@@ -102,7 +107,7 @@ router.get('/api/sponsors', function(req, res){
 /*
  Sponsor Single
  */
-router.get('/api/sponsor/:sponsor', apicache('20 minutes'), function(req, res){
+router.get('/api/sponsor/:sponsor', apicache('45 minutes'), function(req, res){
     PostController.sponsor(req.params.sponsor).then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
@@ -115,7 +120,7 @@ router.get('/api/sponsor/:sponsor', apicache('20 minutes'), function(req, res){
 /*
  Search
  */
-router.get('/api/search/:query/:perPage/:page/:skip', apicache('20 minutes'), function(req,res){
+router.get('/api/search/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
 
     var data = PostController.search(encodeURIComponent(req.params.query), req.params.perPage, req.params.page, req.params.skip);
     //res.send(data);
@@ -132,7 +137,7 @@ router.get('/api/search/:query/:perPage/:page/:skip', apicache('20 minutes'), fu
 /*
  Single Post
  */
-router.get('/api/:slug', apicache('20 minutes'), function(req,res){
+router.get('/api/:slug', apicache('45 minutes'), function(req,res){
     var data = PostController.post(req.params.slug);
     data.then(function(result){
         if(result.length === 0){
@@ -147,7 +152,7 @@ router.get('/api/:slug', apicache('20 minutes'), function(req,res){
 /*
  Category List
  */
-router.get('/api/category/:category/:perPage/:page/:skip', apicache('20 minutes'), function(req, res){
+router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'), function(req, res){
     var data = PostController.listByCategory(parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.category);
     data.then(function(result){
         if(result.length === 0){
@@ -162,7 +167,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('20 minutes'
 /*
  Post List
  */
-router.get('/api/posts/:perPage/:page/:skip', apicache('20 minutes'), function(req,res){
+router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
     var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
     data.then(function(result){
         if(result.length === 0){
@@ -214,7 +219,7 @@ router.get('/update/:postId', function(req,res){
 
                             PostController.update(updatePost._id, post, function (success) {
                                 if (!success) res.sendStatus(500);
-                                //apicache.clear(updatePost.slug);
+                                ApiCache.clear('/api/' + updatePost.slug);
                                 res.sendStatus(200);
                                 PostController.updating = false;
                             });
