@@ -262,7 +262,7 @@ router.get('/update/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },10000);
+            },20000);
         }catch(e){
             var error = {'error':e};
             console.log(e);
