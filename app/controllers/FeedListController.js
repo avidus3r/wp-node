@@ -210,12 +210,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return FeedService.getPosts(path, params);
     };
 
-    $scope.getDBPosts = function(perPage, pageNum, skip){
-        return FeedService.getDBPosts(perPage, pageNum, skip);
+    $scope._getPosts = function(perPage, pageNum, skip){
+        return FeedService._getPosts(perPage, pageNum, skip);
     };
 
-    $scope.getDBCategoryPosts = function(category, perPage, pageNum, skip){
-        return FeedService.getDBCategoryPosts(category, perPage, pageNum, skip);
+    $scope._getCategoryPosts = function(category, perPage, pageNum, skip){
+        return FeedService._getCategoryPosts(category, perPage, pageNum, skip);
     };
 
     var postmap = [];
@@ -476,7 +476,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     }
 
                     if ($scope.currentView === 'category') {
-                        $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
+                        $scope._getCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
                             function (data) { //success
                                 if (data.length > 0) {
                                     $scope.mapPosts(data);
@@ -498,7 +498,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                         );
                     }else{
-                        $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postIndex).then(
+                        $scope._getPosts($scope.postsPerPage, $scope.paged, $scope.postIndex).then(
                             function (data) { //success
                                 if (data.length > 0) {
                                     $scope.mapPosts(data);
@@ -780,7 +780,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }catch(e){
                 skip = 0;
             }
-            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip).then(
+            FeedService._getPosts(Number($scope.appConfig.per_page), $scope.paged, skip).then(
                 function (data) {
                     $scope.currentView = 'list';
                     $scope.posts = data;

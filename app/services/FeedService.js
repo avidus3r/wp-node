@@ -45,6 +45,44 @@ var FeedService = function(app, appName, env, $http, $q){
         return deferred.promise;
     };
 
+    feed._get = function(url, options){
+        var deferred = $q.defer();
+
+        switch(options.type){
+            case 'get':
+
+                $http({
+                    url:url,
+                    method: 'GET',
+                    params: options
+                }).then(function (response) {
+
+                        if(response.data.length === 0){
+                            deferred.reject('end');
+                        }
+
+                        var res = response.data;
+                        deferred.resolve(res);
+                    }, function (response) {
+                        console.error(response);
+                        deferred.reject(response);
+                    });
+                break;
+            case 'jsonp':
+                $http.jsonp(url)
+                    .then(function (response) {
+                        var res = response.data;
+                        deferred.resolve(res);
+                    }, function (response) {
+                        console.error(response);
+                        deferred.reject(response);
+                    });
+                break;
+        }
+
+        return deferred.promise;
+    };
+
     feed.getPosts = function(path, params) {
         var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params + '&_jsonp=JSON_CALLBACK';
         var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
@@ -59,17 +97,18 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
-    feed.getDBPosts = function(numPosts, pageNum, skip){
-        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip || 0;
-        return feed.get(url, 'get');
+    feed._getPosts = function(numPosts, pageNum, skip){
+        var options = {type:'get', perPage: numPosts, page:pageNum, skip:skip};
+        var url = '/api/posts/page/'+ pageNum;
+        return feed._get(url, options);
     };
 
-    feed.getDBPost = function(slug){
+    feed._getPost = function(slug){
         var url = '/api/'+ slug;
         return feed.get(url, 'get');
     };
 
-    feed.getDBCategoryPosts = function(category, numPosts, pageNum, skip){
+    feed._getCategoryPosts = function(category, numPosts, pageNum, skip){
         var url = '/api/category/'+ category + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');
     };

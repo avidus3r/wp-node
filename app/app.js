@@ -74,7 +74,34 @@ NewsFeed.config(
 //Services
 var Services = require('./services/app.services');
 var FeedService = Services.FeedService;
+//var PostService = Services.PostService;
 var InstagramService = Services.InstagramService;
+
+/*NewsFeed.factory('PostService', ['ngResource', FeedService]);
+NewsFeed.provider('PostService',function(){
+    return {
+        $get: function(){
+            return PostService;
+        }
+    }
+});*/
+
+angular.module('NewsFeed').factory('PostService', ['$resource',
+    function($resource) {
+        return $resource('/api/posts/:slug', {
+            slug: '@slug'
+        }, {
+            update: {
+                method: 'PUT'
+            },
+            query:{
+                method: 'GET',
+                url: '/api/posts',
+                isArray: true
+            }
+        });
+    }
+]);
 
 NewsFeed.factory('FeedService', ['app', 'appName', 'env', '$http', '$q', FeedService]);
 NewsFeed.provider('FeedServiceProvider',function(){
@@ -122,7 +149,7 @@ NewsFeed.controller(
 
 NewsFeed.controller(
     'PostsController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
+    ['$rootScope', '$scope', 'PostService', 'InstagramService', '$route', '$routeParams', '$location', Controllers.PostsController]
 );
 
 /*

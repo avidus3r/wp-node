@@ -77,6 +77,23 @@ router.put('/post', function(req,res){
     }
 });
 
+
+/*router.get('/api/posts', apicache('2 seconds'), function(req,res){
+    apicache.clear();
+    var perPage = 10,
+        page    = 1,
+        skip    = 0;
+
+    var query = PostController.list(perPage, page, skip).then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+
+});*/
+
 /*
  Menus
  */
@@ -186,6 +203,19 @@ router.get('/api/:slug', apicache('45 minutes'), function(req,res){
 });
 
 
+
+router.get('/api/posts/:slug', apicache('20 minutes'), function(req,res){
+    var data = PostController.post(req.params.slug);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+
 /*
  Category List
  */
@@ -204,7 +234,8 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'
 /*
  Post List
  */
-router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
+router.get('/api/posts/page/:page', apicache('20 minutes'), function(req,res){
+
     var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
     data.then(function(result){
         if(result.length === 0){

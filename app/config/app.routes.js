@@ -54,7 +54,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),
-                        posts: FeedService.getDBPosts(7,1,0).then(
+                        posts: FeedService._getPosts(7,1,0).then(
 
                             function(data){
                                 return data;
@@ -79,6 +79,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     });
                 }
             }
+        })
+        .when('/posts/', {
+            controller: 'PostsController',
+            templateUrl: '/views/list.html'
         })
         .when('/category/:category', {
             controller: 'FeedListController',
@@ -161,7 +165,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),
-                        posts: FeedService.getDBCategoryPosts($route.current.params.category,10,1,0).then(
+                        posts: FeedService._getCategoryPosts($route.current.params.category,10,1,0).then(
                             function (data) {
                                 return data;
                             },
@@ -455,7 +459,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),*/
-                        post: FeedService.getDBPost(params.slug).then(
+                        post: FeedService._getPost(params.slug).then(
                             function(data){
                                 console.log(data);
                                 return data;
