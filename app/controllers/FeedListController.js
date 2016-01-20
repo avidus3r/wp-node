@@ -964,7 +964,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.$on('$viewContentLoaded', function(){
 
         setTimeout(function(){
-            if(window.location.search){
+            if(window.location.search && window.location.search.indexOf('page') !== -1){
                 window.history.replaceState({}, '', window.location.pathname);
             }
         },500);

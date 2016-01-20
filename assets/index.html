@@ -39,7 +39,7 @@
     <meta name="twitter:image:src" content="{{ metatags.tw_image }}">
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
-    <title>{{ appConfig.title }}</title>
+    <title>{{ metatags.title }}</title>
 
 
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
@@ -117,7 +117,8 @@
     <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
     <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
     <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
-
+    <ng-include src="'/views/partials/ga.html'"></ng-include>
+    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
     <ng-include src="'/views/partials/header.html'"></ng-include>
 
     <div class="app-wrapper">
@@ -143,20 +144,12 @@
         </div>
     </div>
 
-    <ng-include src="'/views/partials/ga.html'"></ng-include>
-    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
+
 
     <script type="text/javascript">
         angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
             var path = location.pathname === '/' ? '' : location.pathname;
-            try{
-                dataLayer.push({
-                    'event': 'VirtualPageview',
-                    'virtualUrl': path + 'page/' + pageNum,
-                    'virtualPageTitle': pageTitle
-                });
-            }catch(e){
-                console.error(e);
+            if(typeof dataLayer === undefined){
                 setTimeout(function(){
                     try{
                         dataLayer.push({
@@ -167,11 +160,15 @@
                     }catch(e){
                         console.error('could not load gtm dataLayer', e);
                     }
-                }, 6000);
+                }, 2000);
+            }else{
+                dataLayer.push({
+                    'event': 'VirtualPageview',
+                    'virtualUrl': path + 'page/' + pageNum,
+                    'virtualPageTitle': pageTitle
+                });
             }
-        }
-
-        ;
+        };
 
         angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
 
