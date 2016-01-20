@@ -411,7 +411,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
-
+        console.log('initads');
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {

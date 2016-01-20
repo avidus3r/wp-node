@@ -112,8 +112,6 @@
 </head>
 <body>
 
-    <script type="text/javascript" ng-init="initAds()"></script>
-
     <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
     <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
     <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
@@ -162,11 +160,14 @@
                     }
                 }, 2000);
             }else{
-                dataLayer.push({
-                    'event': 'VirtualPageview',
-                    'virtualUrl': path + 'page/' + pageNum,
-                    'virtualPageTitle': pageTitle
-                });
+                setTimeout(function(){
+                    dataLayer.push({
+                        'event': 'VirtualPageview',
+                        'virtualUrl': path + 'page/' + pageNum,
+                        'virtualPageTitle': pageTitle
+                    });
+                },550);
+
             }
         };
 
@@ -175,6 +176,8 @@
         };
 
     </script>
+
+    <script type="text/javascript" ng-init="initAds()"></script>
 
 </body>
 </html>
