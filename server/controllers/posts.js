@@ -9,6 +9,8 @@ var PostsController = {
 
     post: function(slug){
         var query = Post.findOne({'slug': slug});
+        var db = mongoose.connection;
+
         query.select('id date campaign_active sponsor parent guid modified modified_gmt slug type link title content excerpt author featured_image comment_status ping_status sticky format votes comment_count postmeta category featured_image_src author_meta');
         var promise = query.exec();
         return promise;

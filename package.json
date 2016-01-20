@@ -25,6 +25,7 @@
     "coupon-code": "^0.4.3",
     "event-stream": "^3.3.1",
     "express": "latest",
+    "external-ip": "^0.2.4",
     "forever": "latest",
     "fs": "0.0.2",
     "gulp": "latest",

@@ -5,12 +5,44 @@ var express         = require('express'),
     router          = express.Router(),
     request         = require('request'),
     md5             = require('js-md5'),
+    multiparty      = require('multiparty'),
+    extIP	        = require('external-ip'),
     PostController  = require('../controllers/posts'),
     ApiCache        = require('apicache'),
     apicache        = ApiCache.options({ debug: true }).middleware;
 
 router.get('/api/cache/index', function(req, res, next) {
     res.send(ApiCache.getIndex());
+});
+
+router.post('/api/cache/clear', function(req, res, next) {
+    var form = new multiparty.Form();
+    var getIP = extIP({
+        replace: true,
+        services: ['http://ifconfig.co/x-real-ip', 'http://ifconfig.io/ip'],
+        timeout: 600,
+        getIP: 'parallel'
+    });
+
+    getIP(function (err, ip) {
+        if (err) {
+            throw err;
+        }
+        if(ip.indexOf('159.63.144.2') === -1) return false;
+        form.parse(req, function(err, fields, files) {
+            if(fields.hasOwnProperty('secret') && fields.hasOwnProperty('pwd')){
+                var apisecret = JSON.parse(process.env.apisecret);
+                if(md5(fields.secret[0]) !== apisecret.uname || md5(fields.pwd[0]) !== apisecret.pwd){
+                    res.sendStatus(403);
+                    return false;
+                }
+                var key = fields.key[0];
+                ApiCache.clear(key);
+            }
+        });
+        res.send(200);
+    });
+
 });
 
 router.put('/post', function(req,res){
@@ -53,9 +85,7 @@ router.get('/api/menu', apicache('3600 minutes'), function(req, res){
 
 router.get('/api/vote/:id/:val', function(req, res){
     var val = Number(req.params.val);
-    console.log(val);
     var field = val === 2 ? 'votes_up' : 'votes_down';
-    console.log(field);
     PostController.vote(req.params.id, val).then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
@@ -196,40 +226,42 @@ router.get('/update/:postId', function(req,res){
 
         PostController.updating = true;
         try{
-            request(url, function (error, response, body) {
+            setTimeout(function(){
+                request(url, function (error, response, body) {
 
-                if(response.statusCode === 403){
-                    PostController.destroy(postId);
-                }
+                    if(response.statusCode === 403){
+                        PostController.destroy(postId);
+                    }
 
-                if(response.statusCode === 200) {
-                    var post = JSON.parse(body);
+                    if(response.statusCode === 200) {
+                        var post = JSON.parse(body);
 
-                    PostController.exists(post.id).then(function (result) {
-                        if (result.length === 0) {
+                        PostController.exists(post.id).then(function (result) {
+                            if (result.length === 0) {
 
-                            PostController.insert(post, function (success) {
-                                if (!success) res.sendStatus(500);
-                                res.sendStatus(200);
-                                PostController.updating = false;
-                            });
+                                PostController.insert(post, function (success) {
+                                    if (!success) res.sendStatus(500);
+                                    res.sendStatus(200);
+                                    PostController.updating = false;
+                                });
 
-                        } else {
-                            var updatePost = result[0];
+                            } else {
+                                var updatePost = result[0];
 
-                            PostController.update(updatePost._id, post, function (success) {
-                                if (!success) res.sendStatus(500);
-                                ApiCache.clear('/api/' + updatePost.slug);
-                                res.sendStatus(200);
-                                PostController.updating = false;
-                            });
-                        }
-                    });
-                }else{
-                    res.sendStatus(response.statusCode);
-                    PostController.updating = false;
-                }
-            });
+                                PostController.update(updatePost._id, post, function (success) {
+                                    if (!success) res.sendStatus(500);
+                                    ApiCache.clear('/api/' + updatePost.slug);
+                                    res.sendStatus(200);
+                                    PostController.updating = false;
+                                });
+                            }
+                        });
+                    }else{
+                        res.sendStatus(response.statusCode);
+                        PostController.updating = false;
+                    }
+                });
+            },10000);
         }catch(e){
             var error = {'error':e};
             console.log(e);
