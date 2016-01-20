@@ -31,9 +31,15 @@ router.post('/api/cache/clear', function(req, res, next) {
         if(ip.indexOf('159.63.144.2') === -1) return false;
 
     });*/
+    var apisecret = null;
     form.parse(req, function(err, fields, files) {
         if(fields.hasOwnProperty('secret') && fields.hasOwnProperty('pwd')){
-            var apisecret = JSON.parse(process.env.apisecret);
+
+            try{
+                apisecret = JSON.parse(process.env.apisecret);
+            }catch(e){
+                apisecret = process.env.apisecret;
+            }
             if(md5(fields.secret[0]) !== apisecret.uname || md5(fields.pwd[0]) !== apisecret.pwd){
                 res.sendStatus(403);
                 return false;
@@ -151,7 +157,7 @@ router.get('/api/sponsor/:sponsor', apicache('45 minutes'), function(req, res){
 /*
  Search
  */
-router.get('/api/search/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
+router.get('/api/search/:query/:perPage/:page/:skip', apicache('5 minutes'), function(req,res){
 
     var data = PostController.search(encodeURIComponent(req.params.query), req.params.perPage, req.params.page, req.params.skip);
     //res.send(data);

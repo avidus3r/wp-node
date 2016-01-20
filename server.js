@@ -36,6 +36,21 @@ app.locals.config = require('./app/config/feed.conf.json');
 
 app.get('*', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
+        var user = null;
+        var uuid = cc.generate({parts:4,partLen:6});
+        var userUUID = null;
+
+        try{
+            if(req.headers.cookie.indexOf('altduuid') === -1){
+                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+            }else{
+
+            }
+        }catch(e){
+            console.error(e);
+        }
+    }
     next();
 });
 
@@ -162,7 +177,7 @@ function htmlEntities(str) {
 
 app.get('/', function(req,res,next){
 
-    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
+    /*if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
         var user = null;
         var uuid = cc.generate({parts:4,partLen:6});
         var userUUID = null;
@@ -183,9 +198,9 @@ app.get('/', function(req,res,next){
                             if(result.length === 0 && userUUID.length > 0){
                                 api.UserController.create(userUUID,{'headers':req.headers, 'rawHeaders':req.rawHeaders});
                             }
-                            /*var user = result[0];
+                            *//*var user = result[0];
                              user.lastseen = Date.now;
-                             api.UserController.update(user);*/
+                             api.UserController.update(user);*//*
                         });
                     }
                 }
@@ -194,7 +209,7 @@ app.get('/', function(req,res,next){
                 res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
             }
         }
-    }
+    }*/
 
     if(itsABot) {
 
