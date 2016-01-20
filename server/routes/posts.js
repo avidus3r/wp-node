@@ -42,7 +42,7 @@ router.post('/api/cache/clear', function(req, res, next) {
             ApiCache.clear(key);
         }
     });
-    res.send(200);
+    res.sendStatus(200);
 
 });
 
