@@ -80,11 +80,9 @@ var PostsController = {
 
     list: function(numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
-        var query = Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts);
-        /*query.$where(function(){
-            return this.postmeta.hasOwnProperty("run_dates_0_channel");
-        });*/
-        query.sort({'postmeta.run_dates_0_run_time':-1});
+        var appName = process.env.appname;
+
+        var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
         return query.exec();
     },
 
