@@ -136,14 +136,14 @@ app.get('/', function(req,res,next){
 
         if(req.headers.cookie === undefined){
             api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-            res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
         }else{
-            if(req.headers.cookie.indexOf('deuuid') > -1){
+            if(req.headers.cookie.indexOf('altduuid') > -1){
 
                 var cookies = req.headers.cookie.split('; ');
                 for(var i=0;i<cookies.length;i++){
                     var chip = cookies[i].split('=');
-                    if(chip[0].indexOf('deuuid') > -1){
+                    if(chip[0].indexOf('altduuid') > -1){
                         userUUID = chip[1];
 
                         api.UserController.me(userUUID).then( function(result){
@@ -158,7 +158,7 @@ app.get('/', function(req,res,next){
                 }
             }else{
                 api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
             }
         }
     }*/
@@ -171,8 +171,8 @@ app.get('/', function(req,res,next){
 
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('deuuid') === -1) {
-                        res.cookie('deuuid', uuid, {
+                    if (req.headers.cookie.indexOf('altduuid') === -1) {
+                        res.cookie('altduuid', uuid, {
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
                         });
@@ -487,8 +487,8 @@ app.get('/search/(:query/|:query)', function(req,res, next){
 
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('deuuid') === -1) {
-                        res.cookie('deuuid', uuid, {
+                    if (req.headers.cookie.indexOf('altduuid') === -1) {
+                        res.cookie('altduuid', uuid, {
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
                         });
@@ -546,8 +546,8 @@ app.get('/category/(:category/|:category)', function(req,res){
 
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('deuuid') === -1) {
-                        res.cookie('deuuid', uuid, {
+                    if (req.headers.cookie.indexOf('altduuid') === -1) {
+                        res.cookie('altduuid', uuid, {
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
                         });
@@ -650,8 +650,8 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('deuuid') === -1) {
-                        res.cookie('deuuid', uuid, {
+                    if (req.headers.cookie.indexOf('altduuid') === -1) {
+                        res.cookie('altduuid', uuid, {
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
                         });
@@ -673,14 +673,14 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
         if(req.headers.cookie === undefined){
             api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-            res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
         }else{
-            if(req.headers.cookie.indexOf('deuuid') > -1){
+            if(req.headers.cookie.indexOf('altduuid') > -1){
 
                 var cookies = req.headers.cookie.split('; ');
                 for(var i=0;i<cookies.length;i++){
                     var chip = cookies[i].split('=');
-                    if(chip[0].indexOf('deuuid') > -1){
+                    if(chip[0].indexOf('altduuid') > -1){
                         userUUID = chip[1];
 
                         api.UserController.me(userUUID).then( function(result){
@@ -695,7 +695,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                 }
             }else{
                 api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
             }
         }
     }*/
