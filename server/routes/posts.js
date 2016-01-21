@@ -223,7 +223,7 @@ router.get('/update/:postId', function(req,res){
             res.sendStatus(403);
             return false;
         }
-    }else if(req.headers['user-agent'] !== 'WordPress/4.3.1; http://altdriver.altmedia.com'){
+    }else if(req.headers['user-agent'].indexOf('WordPress/4.3.1; http://alt') === -1){
         res.sendStatus(403);
         return false;
     }

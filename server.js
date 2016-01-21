@@ -136,14 +136,14 @@ app.get('/', function(req,res,next){
 
         if(req.headers.cookie === undefined){
             api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+            res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
         }else{
-            if(req.headers.cookie.indexOf('altduuid') > -1){
+            if(req.headers.cookie.indexOf('deuuid') > -1){
 
                 var cookies = req.headers.cookie.split('; ');
                 for(var i=0;i<cookies.length;i++){
                     var chip = cookies[i].split('=');
-                    if(chip[0].indexOf('altduuid') > -1){
+                    if(chip[0].indexOf('deuuid') > -1){
                         userUUID = chip[1];
 
                         api.UserController.me(userUUID).then( function(result){
@@ -158,22 +158,27 @@ app.get('/', function(req,res,next){
                 }
             }else{
                 api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+                res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
             }
         }
     }*/
 
-    if(req.headers['user-agent'] !== undefined) {
+    if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
             var uuid = cc.generate({parts: 4, partLen: 6});
             var userUUID = null;
 
             try {
-                if (req.headers.cookie.indexOf('altduuid') === -1) {
-                    res.cookie('altduuid', uuid, {expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true});
-                } else {
+                if(typeof req.headers.cookie !== 'undefined') {
+                    if (req.headers.cookie.indexOf('deuuid') === -1) {
+                        res.cookie('deuuid', uuid, {
+                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
+                            httpOnly: true
+                        });
+                    } else {
 
+                    }
                 }
             } catch (e) {
                 console.error(e);
@@ -474,17 +479,22 @@ app.post('/submit', function(req,res){
 
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    if(req.headers['user-agent'] !== undefined) {
+    if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
             var uuid = cc.generate({parts: 4, partLen: 6});
             var userUUID = null;
 
             try {
-                if (req.headers.cookie.indexOf('altduuid') === -1) {
-                    res.cookie('altduuid', uuid, {expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true});
-                } else {
+                if(typeof req.headers.cookie !== 'undefined') {
+                    if (req.headers.cookie.indexOf('deuuid') === -1) {
+                        res.cookie('deuuid', uuid, {
+                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
+                            httpOnly: true
+                        });
+                    } else {
 
+                    }
                 }
             } catch (e) {
                 console.error(e);
@@ -528,17 +538,22 @@ app.get('/search/(:query/|:query)', function(req,res, next){
 
 app.get('/category/(:category/|:category)', function(req,res){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    if(req.headers['user-agent'] !== undefined) {
+    if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
             var uuid = cc.generate({parts: 4, partLen: 6});
             var userUUID = null;
 
             try {
-                if (req.headers.cookie.indexOf('altduuid') === -1) {
-                    res.cookie('altduuid', uuid, {expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true});
-                } else {
+                if(typeof req.headers.cookie !== 'undefined') {
+                    if (req.headers.cookie.indexOf('deuuid') === -1) {
+                        res.cookie('deuuid', uuid, {
+                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
+                            httpOnly: true
+                        });
+                    } else {
 
+                    }
                 }
             } catch (e) {
                 console.error(e);
@@ -627,17 +642,22 @@ app.get('/category/(:category/|:category)', function(req,res){
 
 app.get('/:category/(:slug|:slug/)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    if(req.headers['user-agent'] !== undefined) {
+    if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
             var uuid = cc.generate({parts: 4, partLen: 6});
             var userUUID = null;
 
             try {
-                if (req.headers.cookie.indexOf('altduuid') === -1) {
-                    res.cookie('altduuid', uuid, {expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true});
-                } else {
+                if(typeof req.headers.cookie !== 'undefined') {
+                    if (req.headers.cookie.indexOf('deuuid') === -1) {
+                        res.cookie('deuuid', uuid, {
+                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
+                            httpOnly: true
+                        });
+                    } else {
 
+                    }
                 }
             } catch (e) {
                 console.error(e);
@@ -653,14 +673,14 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
         if(req.headers.cookie === undefined){
             api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+            res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
         }else{
-            if(req.headers.cookie.indexOf('altduuid') > -1){
+            if(req.headers.cookie.indexOf('deuuid') > -1){
 
                 var cookies = req.headers.cookie.split('; ');
                 for(var i=0;i<cookies.length;i++){
                     var chip = cookies[i].split('=');
-                    if(chip[0].indexOf('altduuid') > -1){
+                    if(chip[0].indexOf('deuuid') > -1){
                         userUUID = chip[1];
 
                         api.UserController.me(userUUID).then( function(result){
@@ -675,7 +695,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                 }
             }else{
                 api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+                res.cookie('deuuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
             }
         }
     }*/
