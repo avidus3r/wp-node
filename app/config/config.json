@@ -154,19 +154,19 @@
       },
       "env": {
         "prod": {
-          "remoteUrl": "http://admin.altdriver.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
-          "remoteUrl": "http://altdriver.staging.wpengine.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "stage": {
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "dev": {
-          "remoteUrl": "http://driversenvy.altdrivermedia.com",
+          "remoteUrl": "http://driversenvy.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
