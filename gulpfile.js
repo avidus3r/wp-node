@@ -20,10 +20,7 @@ var gulp            = require('gulp'),
     gulpNgConfig    = require('gulp-ng-config'),
     uglify          = require('gulp-uglify'),
     ngAnnotate      = require('gulp-ng-annotate'),
-    source          = require('vinyl-source-stream'),
-    streamify       = require('gulp-streamify'),
-    vinylPaths      = require('vinyl-paths'),
-    del             = require('del');
+    streamify       = require('gulp-streamify');
 
 var paths   = {
     root:'app/',
@@ -170,9 +167,14 @@ gulp.task('css:sass', function () {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('clean', function () {
-    gulp.src(['./dist','app/ngAnnotate'], { read: false })
-        .pipe(clean());
+gulp.task('cleanApp', function () {
+    return gulp.src('./app/ngAnnotate/', { read: false })
+        .pipe(clean({force:true}));
+});
+
+gulp.task('clean', ['cleanApp'], function () {
+    return gulp.src('./dist/', { read: false })
+        .pipe(clean({force:true}));
 });
 
 gulp.task('env:development', function () {
@@ -189,7 +191,7 @@ gulp.task('devServe', ['env:development'], function () {
         script: 'server.js',
         ext: 'html js',
         env: { 'NODE_ENV': 'development' } ,
-        ignore: ['node_modules/', 'bower_components/', 'logs/', 'packages/*/*/public/assets/lib/', 'packages/*/*/node_modules/', '.DS_Store', '**/.DS_Store', '.bower-*', '**/.bower-*'],
+        ignore: ['node_modules/', 'dist', 'bower_components/', 'logs/', 'packages/*/*/public/assets/lib/', 'packages/*/*/node_modules/', '.DS_Store', '**/.DS_Store', '.bower-*', '**/.bower-*'],
         nodeArgs: ['--debug'],
         stdout: false
     }).on('readable', function() {
