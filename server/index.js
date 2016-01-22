@@ -1,19 +1,15 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var appName = process.env.appname;
-var dbUrl = null;
 
-switch(appName){
-    case 'altdriver':
-        dbUrl = 'mongodb://altdriver-0.altdriver.5600.mongodbdns.com:27000/altdriver';
-        mongoose.connect(dbUrl,{user:'admin', pass:'@ltDr1v3r!'});
-        break;
-    case 'driversenvy':
-        dbUrl = 'mongodb://52.35.102.123:27017/altdriver';
-        mongoose.connect(dbUrl);
-        break;
-}
+var dbName = process.env.mdbname;
+var dbHost = process.env.mdbhost;
+var dbUser = process.env.mdbuser;
+var dbPass = process.env.mdbpass;
+
+var dbUrl = 'mongodb://' + dbHost + '/' + dbName;
+
+mongoose.connect(dbUrl,{user:dbUser, pass:dbPass});
 
 var db = mongoose.connection;
 
