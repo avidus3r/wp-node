@@ -44,9 +44,9 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
  * Module Configuration
  */
 
-angular.module('NewsFeed').run(function(MetaTags){
+angular.module('NewsFeed').run(["MetaTags", function(MetaTags){
     MetaTags.initialize();
-});
+}]);
 
 NewsFeed.factory(
     'FeedService',

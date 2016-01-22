@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" xmlns="http://www.w3.org/1999/html" ng-app="NewsFeed">
 
 <head>
-    <!--{{ newrelic.getBrowserTimingHeader() }}-->
+    {{ newrelic.getBrowserTimingHeader() }}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <meta charset="utf-8"/>
@@ -39,7 +39,7 @@
     <meta name="twitter:image:src" content="{{ metatags.tw_image }}">
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
-    <title></title>
+    <title>{{ metatags.title }}</title>
 
     <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
@@ -75,23 +75,57 @@
     <meta name="msapplication-TileImage" content="/favicons/mstile-310x310.png" sizes="310x310">
     <!-- END Favicons -->
 
+    <script type="text/javascript">
+
+        function _isMobile(){
+            var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
+
+            if ( mobileUAStr.test(navigator.userAgent) ){
+                return true;
+            }else if( desktopUAStr.test(navigator.userAgent) ){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function isMobile(){
+            var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
+            var result = null;
+
+            if ( mobileUAStr.test(navigator.userAgent) ){
+                result = mobileUAStr.exec(navigator.userAgent);
+                var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
+                return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
+            }else if( desktopUAStr.test(navigator.userAgent) ){
+                result = desktopUAStr.exec(navigator.userAgent);
+                return 'desktop ' + result[0].toLowerCase().replace(' ','-');
+            }else{
+                return 'unknown';
+            }
+        }
+    </script>
+
 </head>
-<body class="{{ isMobile() }} {{ getOrientation() }}">
+<body>
 
-    <script type="text/javascript" ng-init="initAds()"></script>
-
-    <div id="fb-px-id" style="display: none;">{{ getAppInfo('fb_pixel_id') }}</div>
-    <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
-    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
-
+    <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
+    <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
+    <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
+    <ng-include src="'/views/partials/ga.html'"></ng-include>
+    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
     <ng-include src="'/views/partials/header.html'"></ng-include>
 
     <div class="app-wrapper">
         <div class="app-main">
             <section class="view-container ng-view"></section>
-            <p id="loading-more" class="center alert alert-info hidden">{{ getAppInfo('loading_message') }}</p>
+            <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
         </div>
-        <div ng-if="getAppInfo('adsPerPage') && displayAds === true" class="app-rail">
+
+        <div class="app-rail">
+
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
                 <div ng-if="!_isMobile() && isMobile().indexOf('ipad') === -1">
@@ -107,19 +141,33 @@
         </div>
     </div>
 
-    <ng-include src="'/views/partials/ga.html'"></ng-include>
-    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
+
 
     <script type="text/javascript">
-
         angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
-            console.log('trackPageView: ', pageNum, pageTitle);
             var path = location.pathname === '/' ? '' : location.pathname;
-            dataLayer.push({
-                'event': 'VirtualPageview',
-                'virtualUrl': path + 'page/' + pageNum,
-                'virtualPageTitle': pageTitle
-            });
+            if(typeof dataLayer === undefined){
+                setTimeout(function(){
+                    try{
+                        dataLayer.push({
+                            'event': 'VirtualPageview',
+                            'virtualUrl': path + 'page/' + pageNum,
+                            'virtualPageTitle': pageTitle
+                        });
+                    }catch(e){
+                        console.error('could not load gtm dataLayer', e);
+                    }
+                }, 2000);
+            }else{
+                setTimeout(function(){
+                    dataLayer.push({
+                        'event': 'VirtualPageview',
+                        'virtualUrl': path + 'page/' + pageNum,
+                        'virtualPageTitle': pageTitle
+                    });
+                },550);
+
+            }
         };
 
         angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
@@ -127,6 +175,8 @@
         };
 
     </script>
+
+    <script type="text/javascript" ng-init="initAds()"></script>
 
 </body>
 </html>

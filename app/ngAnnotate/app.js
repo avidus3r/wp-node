@@ -146,7 +146,7 @@ NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
  */
 
 //run
-NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
+NewsFeed.run(["MetaTags", "$rootScope", "FeedService", "$routeParams", "$sce", "app", function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
     MetaTags.initialize();
 
     var feedConfig = app.env;
@@ -436,4 +436,4 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         });
 
     };
-});
+}]);
