@@ -971,7 +971,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 window.history.replaceState({}, '', window.location.pathname);
             }
         },500);
- 
+
         if($scope.hideLoading) angular.element('#loading-more').hide();
         angular.element('body').find('.sidebar').removeClass('ng-hide');
 
