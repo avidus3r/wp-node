@@ -766,8 +766,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.singlePostID = item.id;
             item.type = 'post-single';
 
-            item.post_index = $scope.postIndex;
-            $scope.postIndex++;
+            item.post_index = $scope.postIndex-1;
+            //$scope.postIndex++;
 
             $scope.createFeedItem(item, $scope.feedItems.length);
 
@@ -900,8 +900,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var fbEmbed = post.find('.fb-video');
 
         if(content.search('</iframe>') > -1) {
-            var pieces = content.split('</iframe></p>');
 
+            var pieces = content.split('</iframe></p>');
+            if(pieces.length === 1){
+                pieces = content.split('</iframe> </p>');
+            }
             var glue = $scope.getAdvertisementGlue();
 
             content = pieces.join(glue);
@@ -968,7 +971,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 window.history.replaceState({}, '', window.location.pathname);
             }
         },500);
-
+ 
         if($scope.hideLoading) angular.element('#loading-more').hide();
         angular.element('body').find('.sidebar').removeClass('ng-hide');
 
