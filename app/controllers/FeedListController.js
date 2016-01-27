@@ -84,6 +84,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     };
 
+
+    if($location.$$path === '/articles'){
+        $scope.appConfig.adsPerPage = '';
+        $scope.postsPerPage = 20;
+    }
+
     $scope.errorCheck();
 
 
@@ -211,7 +217,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getDBPosts = function(perPage, pageNum, skip){
-        return FeedService.getDBPosts(perPage, pageNum, skip);
+        if($location.$$path === '/articles'){
+            return FeedService.getArticles(perPage, pageNum, skip);
+        }else{
+            return FeedService.getDBPosts(perPage, pageNum, skip);
+        }
     };
 
     $scope.getDBCategoryPosts = function(category, perPage, pageNum, skip){

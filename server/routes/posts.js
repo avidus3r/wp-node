@@ -202,7 +202,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'
 
 
 /*
- Post List
+ Feed Posts List
  */
 router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
     var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
