@@ -97,7 +97,7 @@ app.get('/sponsor/:name', function(req,res){
 });
 
 app.get('/server', function(req,res){
-    res.send(JSON.stringify(process.env));
+    //res.send(JSON.stringify(process.env));
 });
 
 app.get('/feed/:feedname/', function(req,res){
