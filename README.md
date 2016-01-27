@@ -64,22 +64,9 @@ appname - the app's nicename (eg. altdriver)
 AWS_SECRET_KEY - aws secret key
 AWS_ACCESS_KEY_ID - asw access key
 SES_USER_CONTENT_EMAIL - email address for SES (defaults to dev@altdriver.com if not provided)
-
-
-### Running on ec2
-
-#ssh into the ec2 host (check ec2 console for host ip address <HOST_ADDRESS>)
-ssh -i "<path/to/your_pem_file.pem>" ec2-user@<HOST_ADDRESS>
-
-#change directory to the 'feed' directory'
-cd feed/
-
-** run npm install - only if new packages were added **
-
-#start server
-sudo PORT 80 = npm start
-
-#stop server
-sudo PORT 80 = npm stop
-
-* npm start will run the gulp:build task and then user forever to start the server
+NODE_ENV - development or production
+apisecret - shhhh!
+mdbhost - mongo hostname
+mdbname - mongo database name
+mdbuser - mongo user name
+mdbpass - mongo user pwd
