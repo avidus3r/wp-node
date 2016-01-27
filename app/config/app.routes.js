@@ -80,6 +80,76 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/articles', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    var feedPath = app.feedPath;
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    document.title = appConfig.title;
+
+                    /*if(Number(appSponsors) > 0){
+
+                     sponsorResolve = FeedService.getSponsors().then(
+                     function(data){
+                     return data;
+                     },
+                     function(error){
+                     return 'error';
+                     },
+                     function(notification){
+
+                     }
+                     )
+                     }*/
+
+                    /*if(appame === 'upshift'){
+                     instagramResolve = null;
+                     }*/
+                    return $q.all({
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        posts: FeedService.getArticles(20,1,0).then(
+
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            }
+                        ),
+                        /*instagram: InstagramService.get(10,'nofilter').then(
+                         function(data){
+                         return data;
+                         },
+                         function(error){
+
+                         },
+                         function(notification){
+
+                         }
+                         ),*/
+                        instagram:null,
+                        sponsors: sponsorResolve
+                    });
+                }
+            }
+        })
         .when('/category/:category', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',

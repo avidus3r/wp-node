@@ -58,6 +58,7 @@ gulp.task('ngAnnotate', function () {
 });
 
 gulp.task('browserify-min', ['ngAnnotate'], function () {
+    if(process.env.NODE_ENV === 'development') return;
     return gulp.src('app/ngAnnotate/app.js')
         .pipe(browserify({
             insertGlobals: true
@@ -215,8 +216,11 @@ gulp.task('watch', function () {
     gulp.watch(paths.tests, ['tests']);
 });
 
-gulp.task('default',['build','devServe']);
+gulp.task('default',['build','devServe', 'watch']);
 
 gulp.task('build', function(callback) {
+    if(!process.env.NODE_ENV){
+        process.env.NODE_ENV = 'development';
+    }
     runSequence('clean','config', 'css:sass', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });
