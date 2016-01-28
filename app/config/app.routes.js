@@ -24,7 +24,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    /*if(Number(appSponsors) > 0){
+                    if(Number(appSponsors) > 0){
 
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
@@ -37,7 +37,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }*/
+                    }
 
                     /*if(appame === 'upshift'){
                         instagramResolve = null;
@@ -483,7 +483,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var sponsorResolve = null;
 
                     /*if(Number(appSponsors) > 0){
-                        sponsorResolve = FeedService.getSponsors().then(
+                        sponsorResolve = FeedService._getSponsors().then(
                             function(data){
                                 return data;
                             },

@@ -104,6 +104,12 @@ var PostsController = {
         return query.exec();
     },
 
+    sponsorList: function(){
+        var query = Post.find().limit(10);
+        query.$where('this.campaigns.length > 0');
+        return query.exec();
+    },
+
     postByType: function(type){
         var query = Post.find({ 'type': type});
         return query.exec();

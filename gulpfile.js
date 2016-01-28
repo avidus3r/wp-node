@@ -147,7 +147,7 @@ gulp.task('assets', function() {
 
 gulp.task('css',['css:min']);
 
-gulp.task('css:min', function() {
+gulp.task('css:min', ['css:sass'], function() {
     return gulp.src('./dist/css/styles.css')
         .pipe(cssmin())
         .pipe(plugins.rename({suffix: '.min'}))
