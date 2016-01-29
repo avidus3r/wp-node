@@ -1,3 +1,4 @@
+@import 'vendor/font-awesome';
 @import 'globals';
 @import "mixins";
 @import 'root';
@@ -72,7 +73,7 @@
     padding: 0;
     line-height: 1.5em;
   }
-  
+
   .votes{
     button{
       background: none;
@@ -273,7 +274,7 @@ body.submit{
 // themes
 @import 'altd-2015';
 
-@import 'vendor/bootstrap.css';
+@import 'vendor/bootstrap';
 
 // bootstrap overrides
 // change breakpoint for Menu
