@@ -32,6 +32,7 @@ var PostsController = {
 
         post.save(function(err){
             if(err){
+                console.log(err);
                 cb(false);
             }else{
                 cb(true);
