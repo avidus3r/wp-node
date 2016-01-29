@@ -128,11 +128,14 @@ router.get('/api/vote/:id/:val', function(req, res){
     });
 });
 
+
 /*
  Sponsor List
+*/
+
 
 router.get('/api/sponsors', function(req, res){
-    PostController.postByType('altdsc_sponsor').then(function(result){
+    PostController.sponsorList().then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
         }else{
@@ -140,7 +143,7 @@ router.get('/api/sponsors', function(req, res){
         }
     });
 });
- */
+
 /*
  Sponsor Single
  */
@@ -202,7 +205,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'
 
 
 /*
- Post List
+ Feed Posts List
  */
 router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
     var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
@@ -215,20 +218,36 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
     });
 });
 
-router.get('/update/:postId', function(req,res){
-
+router.get('/update/:restParent/:restBase/:postId', function(req,res){
+    console.log(req.headers, req.params, req.body);
     if(req.headers.hasOwnProperty('secret')){
         var apisecret = JSON.parse(process.env.apisecret);
         if(md5(req.headers.secret) !== apisecret.uname){
             res.sendStatus(403);
             return false;
         }
-    }else if(req.headers['user-agent'].indexOf('WordPress/4.3.1; http://alt') === -1){
+    }else if(req.headers['user-agent'].indexOf('WordPress/') === -1 || req.headers['user-agent'].indexOf('altmedia.com') === -1){
         res.sendStatus(403);
         return false;
     }
     var postId = req.params.postId;
-    var url = 'http://altdriver.altmedia.com/wp-json/wp/v2/posts/' + postId;
+    var restBase = req.params.restBase;
+    var restParent = req.params.restParent;
+
+    var host = null;
+    switch(process.env.NODE_ENV){
+        case 'production':
+            host = restParent + '.altmedia.com';
+            break;
+        case 'development':
+            host = restParent + '.staging.altmedia.com';
+            break;
+        default:
+            host = restParent + '.local.altmedia.com';
+            break;
+    }
+    var url = 'http://' + host + '/wp-json/wp/v2/' + restBase + '/' + postId;
+    console.log(url);
     PostController.updating = false;
 
         PostController.updating = true;
@@ -268,7 +287,7 @@ router.get('/update/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },20000);
+            },10000);
         }catch(e){
             var error = {'error':e};
             console.log(e);

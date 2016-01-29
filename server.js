@@ -35,11 +35,34 @@ app.set('port', process.env.PORT || 3000);
 app.locals.config = require('./app/config/feed.conf.json');
 
 /*
+ Server Routes
+ */
+var api = require('./server/index');
+var apiRouter = api.routes;
+app.use(apiRouter);
+
+/*
 app.get('*', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     next();
 });
 */
+
+app.get('/api/articles/:perPage/:page/:skip', function(req,res){
+    var itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+    if(itsABot){
+        res.redirect('/');
+    }else{
+        var data = api.PostController.posts(parseInt(req.params.perPage),req.params.page, req.params.skip);
+        data.then(function(result){
+            if(result.length === 0){
+                res.sendStatus(404);
+            }else{
+                res.send(JSON.stringify(result));
+            }
+        });
+    }
+});
 
 app.get('/sponsor/:name', function(req,res){
     var metatags = {
@@ -73,15 +96,8 @@ app.get('/sponsor/:name', function(req,res){
     res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
 });
 
-/*
-Server Routes
- */
-var api = require('./server/index');
-var apiRouter = api.routes;
-app.use(apiRouter);
-
 app.get('/server', function(req,res){
-    res.send(JSON.stringify(process.env));
+    //res.send(JSON.stringify(process.env));
 });
 
 app.get('/feed/:feedname/', function(req,res){

@@ -76,7 +76,13 @@
     <!-- END Favicons -->
 
     <script type="text/javascript">
+        var adsEnabled = true;
 
+        if(location.pathname === '/articles'){
+            adsEnabled = false;
+        }else{
+            adsEnabled = true;
+        }
         function _isMobile(){
             var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
             var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
@@ -128,7 +134,7 @@
 
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
-                <div ng-if="!_isMobile() && isMobile().indexOf('ipad') === -1">
+                <div ng-if="!_isMobile() && isMobile().indexOf('ipad') === -1 && adsEnabled">
                     <div class="dt-ad dt-ad-post-half-page">
                         <pubad ng-init="placementIndex=4" placementIndex="4"></pubad>
                     </div>

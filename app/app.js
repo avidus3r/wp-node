@@ -154,6 +154,14 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.orientation = null;
     $rootScope.gptAdSlots = [];
 
+    $rootScope.adsEnabled = true;
+
+    if(location.pathname === '/articles'){
+        $rootScope.adsEnabled = false;
+    }else{
+        $rootScope.adsEnabled = true;
+    }
+
     if(location.href.indexOf('local.') > -1){
         $rootScope.displayAds = false;
     }
@@ -411,7 +419,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
-        console.log('initads');
+        if(location.pathname === '/articles') return;
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {

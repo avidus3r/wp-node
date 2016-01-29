@@ -59,6 +59,11 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
+    feed.getArticles = function(numPosts, pageNum, skip){
+        var url = '/api/articles/'+ numPosts + '/' + pageNum + '/' + skip || 0;
+        return feed.get(url, 'get');
+    };
+
     feed.getDBPosts = function(numPosts, pageNum, skip){
         var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');

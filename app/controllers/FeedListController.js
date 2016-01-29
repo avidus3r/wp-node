@@ -84,6 +84,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
     };
 
+
+    if($location.$$path === '/articles'){
+        $scope.appConfig.adsPerPage = '';
+        $scope.postsPerPage = 20;
+    }
+
     $scope.errorCheck();
 
 
@@ -211,7 +217,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getDBPosts = function(perPage, pageNum, skip){
-        return FeedService.getDBPosts(perPage, pageNum, skip);
+        if($location.$$path === '/articles'){
+            return FeedService.getArticles(perPage, pageNum, skip);
+        }else{
+            return FeedService.getDBPosts(perPage, pageNum, skip);
+        }
     };
 
     $scope.getDBCategoryPosts = function(category, perPage, pageNum, skip){
@@ -766,8 +776,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.singlePostID = item.id;
             item.type = 'post-single';
 
-            item.post_index = $scope.postIndex;
-            $scope.postIndex++;
+            item.post_index = $scope.postIndex-1;
+            //$scope.postIndex++;
 
             $scope.createFeedItem(item, $scope.feedItems.length);
 
@@ -900,8 +910,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var fbEmbed = post.find('.fb-video');
 
         if(content.search('</iframe>') > -1) {
-            var pieces = content.split('</iframe></p>');
 
+            var pieces = content.split('</iframe></p>');
+            if(pieces.length === 1){
+                pieces = content.split('</iframe> </p>');
+            }
             var glue = $scope.getAdvertisementGlue();
 
             content = pieces.join(glue);

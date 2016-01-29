@@ -32,6 +32,7 @@ var PostsController = {
 
         post.save(function(err){
             if(err){
+                console.log(err);
                 cb(false);
             }else{
                 cb(true);
@@ -78,6 +79,12 @@ var PostsController = {
         return query.exec();
     },
 
+    posts: function(numberOfPosts, pageNumber, skip){
+        var skipItems = Number(skip);
+        var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
+        return query.exec();
+    },
+
     list: function(numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
         var appName = process.env.appname;
@@ -95,6 +102,12 @@ var PostsController = {
 
     sponsor: function(name){
         var query = Post.find({ 'sponsor.name': name});
+        return query.exec();
+    },
+
+    sponsorList: function(){
+        var query = Post.find().limit(10);
+        query.$where('this.campaigns.length > 0');
         return query.exec();
     },
 
