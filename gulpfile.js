@@ -213,13 +213,15 @@ gulp.task('watch', function () {
 gulp.task('default',['build', 'devServe', 'watch']);
 
 gulp.task('build', function(callback) {
-    process.env.NODE_ENV = 'local';
-    var currPath = __dirname.split('/');
-    var appName = currPath[currPath.length-1];
-    process.env.appname = appName;
-    process.env.mdbname = appName;
-    process.env.mdbhost = 'localhost:27017';
-    process.env.mdbuser = 'admin';
-    process.env.mdbpass = '@ltDr1v3r!';
+    if(!process.env.NODE_ENV){
+        process.env.NODE_ENV = 'local';
+        var currPath = __dirname.split('/');
+        var appName = currPath[currPath.length-1];
+        process.env.appname = appName;
+        process.env.mdbname = appName;
+        process.env.mdbhost = 'localhost:27017';
+        process.env.mdbuser = 'admin';
+        process.env.mdbpass = '@ltDr1v3r!';
+    }
     runSequence('clean','config', 'css:sass', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });
