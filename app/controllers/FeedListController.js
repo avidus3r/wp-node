@@ -1,5 +1,9 @@
 'use strict';
 
+/*
+TODO: consolidate ad display config
+*/
+
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q) {
 
     this.name = 'list';
@@ -46,6 +50,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
+
 
     if(location.href.indexOf('local.') > -1){
         $scope.appConfig.displayAds = 'false';
@@ -187,6 +192,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
         return arr;
     };
+
+    if($scope.sponsors !== null && $scope.sponsors.length > 0){
+        angular.forEach($scope.shuffle($scope.sponsors), function(item, index){
+            item.type = 'sponsor';
+            $scope.sponsorItems.push(item);
+        });
+    }
 
     $scope.getParams = function(param, encode){
         var val = null;

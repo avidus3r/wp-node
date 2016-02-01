@@ -4,3 +4,4 @@ Disallow: /admin
 Disallow: /tests
 Disallow: /auth
 Disallow: /data
+Disallow: /update

@@ -49,6 +49,7 @@ gulp.task('compress', function() {
 });
 
 gulp.task('ngAnnotate', function () {
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src([
         paths.src + '**/*.js',
         '!' + paths.src + 'third-party/**',
@@ -58,7 +59,7 @@ gulp.task('ngAnnotate', function () {
 });
 
 gulp.task('browserify-min', ['ngAnnotate'], function () {
-    if(process.env.NODE_ENV === 'development') return;
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src('app/ngAnnotate/app.js')
         .pipe(browserify({
             insertGlobals: true
@@ -73,14 +74,6 @@ gulp.task('templates', function(){
 });
 
 gulp.task('config', function(){
-    if(!process.env.appname){
-        process.env.appname = 'altdriver';
-
-        process.env.mdbname = 'altdriver';
-        process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
-        process.env.mdbuser = 'admin';
-        process.env.mdbpass = '@ltDr1v3r!';
-    }
     var creds = require('./app/config/creds.json');
     process.env.apisecret = JSON.stringify(creds);
     gulp.src(paths.config)
@@ -169,6 +162,7 @@ gulp.task('css:sass', function () {
 });
 
 gulp.task('cleanApp', function () {
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src('./app/ngAnnotate/', { read: false })
         .pipe(clean({force:true}));
 });
@@ -179,7 +173,7 @@ gulp.task('clean', ['cleanApp'], function () {
 });
 
 gulp.task('env:development', function () {
-    process.env.NODE_ENV = 'development';
+    process.env.NODE_ENV = 'local';
 });
 
 gulp.task('env:production', function () {
@@ -191,7 +185,7 @@ gulp.task('devServe', ['env:development'], function () {
     plugins.nodemon({
         script: 'server.js',
         ext: 'html js',
-        env: { 'NODE_ENV': 'development' } ,
+        env: { 'NODE_ENV': 'local' } ,
         ignore: ['node_modules/', 'dist', 'bower_components/', 'logs/', 'packages/*/*/public/assets/lib/', 'packages/*/*/node_modules/', '.DS_Store', '**/.DS_Store', '.bower-*', '**/.bower-*'],
         nodeArgs: ['--debug'],
         stdout: false
@@ -216,11 +210,18 @@ gulp.task('watch', function () {
     gulp.watch(paths.tests, ['tests']);
 });
 
-gulp.task('default',['build','devServe', 'watch']);
+gulp.task('default',['build', 'devServe', 'watch']);
 
 gulp.task('build', function(callback) {
     if(!process.env.NODE_ENV){
-        process.env.NODE_ENV = 'development';
+        process.env.NODE_ENV = 'local';
+        var currPath = __dirname.split('/');
+        var appName = currPath[currPath.length-1];
+        process.env.appname = appName;
+        process.env.mdbname = appName;
+        process.env.mdbhost = 'localhost:27017';
+        process.env.mdbuser = 'admin';
+        process.env.mdbpass = '@ltDr1v3r!';
     }
     runSequence('clean','config', 'css:sass', 'css:min',  'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });

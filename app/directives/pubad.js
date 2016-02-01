@@ -6,6 +6,7 @@ var pubad = function() {
         controller: function($scope, $element, $attrs, $rootScope, app) {
             //window.googletag = window.googletag || {};
             //window.googletag.cmd = window.googletag.cmd || [];
+            if(!$rootScope.adsEnabled) return;
             var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
             var ads = app.pubads[platform];
             $scope.isDesktop = false;

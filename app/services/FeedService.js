@@ -113,55 +113,19 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
-    feed.getCampaigns = function(path, params) {
-        var deferred = $q.defer();
-        var jsonpUrl = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params + '&_jsonp=JSON_CALLBACK';
-        var url = feed.endpoints.remoteUrl + feed.endpoints.basePath + path + params;
+    feed.getCampaigns = function() {
+        console.log('FeedService :: getCampaigns');
+        var url = '/api/campaigns';
+
+        var data = null;
 
         try{
-            $http.get(url)
-                .then(function (response) {
-                    var res = response.data;
-                    angular.forEach(res,function(item, index){
-
-                        if(item.campaign_active !== null){
-                            var campaignID = item.parent;
-                            feed.getCampaign(campaignID).then(
-                                function(data){
-                                    deferred.resolve(data);
-                                }
-                            )
-                        }else{
-                            deferred.resolve(null);
-                        }
-                    });
-
-                }, function (response) {
-                    deferred.reject(response);
-                });
+            data = feed.get(url, 'get');
         }catch(e){
-            $http.jsonp(jsonpUrl)
-                .then(function (response) {
-                    var res = response.data;
-                    angular.forEach(res,function(item, index){
-                        if(item.campaign_active !== null){
-                            var campaignID = item.parent;
-                            feed.getCampaign(campaignID).then(
-                                function(data){
-                                    deferred.resolve(data);
-                                }
-                            )
-                        }else{
-                            deferred.resolve(null);
-                        }
-                    });
 
-                }, function (response) {
-                    deferred.reject(response);
-                });
         }
 
-        return deferred.promise;
+        return data;
     };
 
     feed.getCampaign = function(id) {
