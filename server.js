@@ -23,6 +23,8 @@ var EXPRESS_ROOT = './dist',
     itsABot = null,
     createUser = false;
 
+app.use(compression());
+
 /*
  middleware
  */
@@ -993,7 +995,6 @@ app.get('*', function(req,res){
     res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
 });
 
-app.use(compression());
 
 /*
  create server
