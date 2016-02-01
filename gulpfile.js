@@ -223,5 +223,5 @@ gulp.task('build', function(callback) {
         process.env.mdbuser = 'admin';
         process.env.mdbpass = '@ltDr1v3r!';
     }
-    runSequence('clean','config', 'css:sass', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
+    runSequence('clean','config', 'css:sass', 'css:min', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });
