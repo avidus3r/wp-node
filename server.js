@@ -15,7 +15,8 @@ var express         = require('express'),
     md5             = require('js-md5'),
     swig            = require('swig'),
     cons            = require('consolidate'),
-    cc              = require('coupon-code');
+    cc              = require('coupon-code'),
+    compression     = require('compression');
 
 var EXPRESS_ROOT = './dist',
     feedConfig = null,
@@ -276,14 +277,12 @@ app.get('/', function(req,res,next){
         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
         res.send(output);*/
 
-        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true});
     }
 });
 
+
 app.use(express.static(EXPRESS_ROOT, {maxAge:300000}));
-
-
-
 
 
 app.get('/tests', function(req, res){
@@ -993,6 +992,8 @@ app.get('*', function(req,res){
 
     res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
 });
+
+app.use(compression());
 
 /*
  create server
