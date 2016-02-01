@@ -49,7 +49,7 @@ gulp.task('compress', function() {
 });
 
 gulp.task('ngAnnotate', function () {
-    if(process.env.NODE_ENV !== 'production') return;
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src([
         paths.src + '**/*.js',
         '!' + paths.src + 'third-party/**',
@@ -162,7 +162,7 @@ gulp.task('css:sass', function () {
 });
 
 gulp.task('cleanApp', function () {
-    if(process.env.NODE_ENV !== 'production') return;
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src('./app/ngAnnotate/', { read: false })
         .pipe(clean({force:true}));
 });
@@ -205,7 +205,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
-    //gulp.watch(paths.config, ['config']);
+    gulp.watch(paths.config, ['config']);
     gulp.watch(paths.sass, ['css:sass']);
     gulp.watch(paths.tests, ['tests']);
 });
