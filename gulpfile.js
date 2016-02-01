@@ -59,7 +59,7 @@ gulp.task('ngAnnotate', function () {
 });
 
 gulp.task('browserify-min', ['ngAnnotate'], function () {
-    if(process.env.NODE_ENV !== 'production') return;
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src('app/ngAnnotate/app.js')
         .pipe(browserify({
             insertGlobals: true
