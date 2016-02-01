@@ -49,6 +49,7 @@ gulp.task('compress', function() {
 });
 
 gulp.task('ngAnnotate', function () {
+    if(process.env.NODE_ENV !== 'production') return;
     return gulp.src([
         paths.src + '**/*.js',
         '!' + paths.src + 'third-party/**',
@@ -161,6 +162,7 @@ gulp.task('css:sass', function () {
 });
 
 gulp.task('cleanApp', function () {
+    if(process.env.NODE_ENV !== 'production') return;
     return gulp.src('./app/ngAnnotate/', { read: false })
         .pipe(clean({force:true}));
 });

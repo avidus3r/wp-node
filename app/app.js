@@ -156,7 +156,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.adsEnabled = true;
 
-    if(location.pathname === '/articles'){
+    if(location.pathname === '/articles' || location.hostname.indexOf('local.') > -1){
         $rootScope.adsEnabled = false;
     }else{
         $rootScope.adsEnabled = true;
@@ -419,7 +419,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
-        if(location.pathname === '/articles') return;
+
+        if(!$rootScope.adsEnabled) return;
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {

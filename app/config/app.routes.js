@@ -24,9 +24,9 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    /*if(Number(appSponsors) > 0){
+                    if(Number(appSponsors) > 0){
 
-                        sponsorResolve = FeedService.getSponsors().then(
+                        sponsorResolve = FeedService.getCampaigns().then(
                             function(data){
                                 return data;
                             },
@@ -37,7 +37,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }*/
+                    }
 
                     /*if(appame === 'upshift'){
                         instagramResolve = null;
@@ -315,7 +315,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
-        .when('/sponsor/:sponsor', {
+        .when('/sponsors/:sponsor', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
             redirectTo: false,

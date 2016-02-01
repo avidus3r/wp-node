@@ -144,6 +144,34 @@ router.get('/api/sponsors', function(req, res){
     });
 });
 
+
+/*
+ Campaign List
+ */
+
+
+router.get('/api/campaigns', function(req, res){
+    PostController.campaignList().then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            var activeCampaigns = [];
+            for(var i=0;i<result.length;i++){
+                var postId = result[i].id;
+                activeCampaigns.push(postId.toString());
+            }
+            PostController.sponsoredPosts(activeCampaigns).then(function(sponsorPosts){
+                if(result.length === 0){
+                    res.sendStatus(404);
+                }else{
+                    res.send(JSON.stringify(sponsorPosts));
+                }
+            });
+            //res.send(JSON.stringify(result));
+        }
+    });
+});
+
 /*
  Sponsor Single
  */
@@ -287,7 +315,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },10000);
+            },15000);
         }catch(e){
             var error = {'error':e};
             console.log(e);
