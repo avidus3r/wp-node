@@ -402,7 +402,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.getFeaturedImage = function(img, attr){
         var attrs = {'src': 0, 'width': 1, 'height': 2};
-
+        img.original[0] = img.original[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','assets.altdriver.s3.amazonaws.com');
+        img.medium[0] = img.medium[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','assets.altdriver.s3.amazonaws.com');
         if(/ios/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
         }
