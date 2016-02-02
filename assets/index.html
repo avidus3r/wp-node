@@ -41,8 +41,6 @@
 
     <title>{{ metatags.title }}</title>
 
-    <link type="text/css" rel="stylesheet" href="/css/styles.min.css"/>
-
     <!-- START Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
@@ -111,9 +109,99 @@
     <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
     <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
     <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
-    <ng-include src="'/views/partials/ga.html'"></ng-include>
-    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
-    <ng-include src="'/views/partials/header.html'"></ng-include>
+
+    <!--
+        TODO: testing removal of ng-include
+        <ng-include src="'/views/partials/header.html'"></ng-include>
+        <ng-include src="'/views/partials/ga.html'"></ng-include>
+        <ng-include src="'/views/partials/fb-px.html'"></ng-include>
+    -->
+
+    <!-- GTM -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ getAppInfo('gtm_id') }}"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>
+        setTimeout(function() {
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                        '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', document.getElementById('gtm-id').innerText);
+            var googletag = {};
+            googletag.cmd = [];
+        },500);
+    </script>
+    <!-- End GTM -->
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        var fbPixID = document.getElementById('fb-px-id').innerText;
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', fbPixID);
+        fbq('track', "PageView");</script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=344487495675681&ev=PageView&noscript=1"/></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <header class="feed-header clearfix" ng-controller="HeaderController">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed ga-navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" ng-click="navClick()">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ng-click="goToPage($event, $index, '/')">
+
+                        <span class="site-title">{{ app.title }}</span>
+
+                    </a>
+                    <a ng-click="goToPage($event, $index, '/submit')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Upload</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right nav-submit">
+                        <li>
+                            <a ng-click="goToPage($event, $index, '/submit')" type="button" class="btn btn-default navbar-btn btn-submit-story ga-btn-submit-story">Upload</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li ng-repeat="item in navItems" class="{{item.class}}">
+                            <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item"></a>
+                        </li>
+                        <li class="subscribe" ng-click="goToPage($event, $index, '/subscribe-hub')">
+                            <a href="/subscribe-hub" class="ga-nav-about">Subscribe</a>
+                        </li>
+                        <li class="search">
+                            <input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+                            <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
+                        </li>
+                        <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
+                            <a href="/contact" class="ga-nav-about">Contact</a>
+                        </li>
+                        <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+                            <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+                        </li>
+                        <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+                            <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <div class="app-wrapper">
         <div class="app-main">

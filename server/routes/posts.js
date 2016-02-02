@@ -85,6 +85,7 @@ router.get('/api/menu', apicache('3600 minutes'), function(req, res){
         if(result.length === 0){
             res.sendStatus(404);
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -139,6 +140,7 @@ router.get('/api/sponsors', function(req, res){
         if(result.length === 0){
             res.sendStatus(404);
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -164,6 +166,7 @@ router.get('/api/campaigns', function(req, res){
                 if(result.length === 0){
                     res.sendStatus(404);
                 }else{
+                    res.set('Cache-Control','max-age=600');
                     res.send(JSON.stringify(sponsorPosts));
                 }
             });
@@ -180,6 +183,7 @@ router.get('/api/sponsor/:sponsor', apicache('45 minutes'), function(req, res){
         if(result.length === 0){
             res.sendStatus(404);
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -196,6 +200,7 @@ router.get('/api/search/:query/:perPage/:page/:skip', apicache('5 minutes'), fun
         if(result.length === 0){
             res.send(JSON.stringify(result));
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -211,6 +216,7 @@ router.get('/api/:slug', apicache('45 minutes'), function(req,res){
         if(result.length === 0){
             res.sendStatus(404);
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -226,6 +232,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'
         if(result.length === 0){
             res.sendStatus(404);
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -241,6 +248,7 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
         if(result.length === 0){
             res.sendStatus(404);
         }else{
+            res.set('Cache-Control','max-age=600');
             res.send(JSON.stringify(result));
         }
     });
@@ -324,7 +332,6 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
 
     //res.end();
 });
-
 
 /*router.get('/posts/:perPage/:page', function(req, res) {
  var post = require('./lib/post');

@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.set('port', process.env.PORT || 3000);
 
-app.locals.config = require('./app/config/feed.conf.json');
+//app.locals.config = require('./app/config/feed.conf.json');
 
 /*
  Server Routes
@@ -116,13 +116,13 @@ app.get('/feed/:feedname/', function(req,res){
 /*
  static paths
  */
-app.use(express.static(__dirname + './tests'));
-app.use(express.static(__dirname + './favicons', {maxAge:300000}));
-app.use(express.static(__dirname + './favicons.ico', {maxAge:300000} ));
-app.use(express.static('./admin'));
-app.use(express.static(__dirname + './data'));
-app.use(express.static(__dirname + './app/config'));
-app.use(express.static(__dirname + './app/components/views/cards', {maxAge:300000}));
+//app.use(express.static(__dirname + './tests'));
+app.use(express.static(__dirname + './favicons', {maxAge:600000, cache:true}));
+app.use(express.static(__dirname + './favicons.ico', {maxAge:600000, cache:true} ));
+//app.use(express.static('./admin'));
+//app.use(express.static(__dirname + './data'));
+//app.use(express.static(__dirname + './app/config'));
+app.use(express.static(__dirname + './app/components/views/cards', {maxAge:600000, cache:true}));
 
 var config = require('./app/config/config.json');
 var appName = process.env.appname;
@@ -279,15 +279,15 @@ app.get('/', function(req,res,next){
         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
         res.send(output);*/
 
-        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true});
+        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000});
     }
 });
 
 
-app.use(express.static(EXPRESS_ROOT, {maxAge:300000}));
+app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
 
-app.get('/tests', function(req, res){
+/*app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
 });
 
@@ -371,7 +371,7 @@ app.post('/admin', function(req, res){
     });
     res.writeHead(200);
     res.end();
-});
+});*/
 
 app.post('/submit', function(req,res){
 
@@ -549,7 +549,7 @@ app.get('/search/(:query/|:query)', function(req,res, next){
         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
         res.send(output);*/
-        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
     }
 });
 
@@ -647,7 +647,7 @@ app.get('/category/(:category/|:category)', function(req,res){
                         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
                         res.send(output);*/
-                        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+                        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
                     }
                 }
             });
@@ -858,7 +858,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                      res.send(output);*/
 
-                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
                 }
 
             });
@@ -960,7 +960,7 @@ app.get('/:page', function(req,res){
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
     res.send(output);*/
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
 });
 
 app.get('*', function(req,res){
@@ -992,7 +992,7 @@ app.get('*', function(req,res){
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
     res.send(output);*/
 
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
+    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
 });
 
 
