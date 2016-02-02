@@ -54,26 +54,31 @@ var schema = {
     },
     link: {
         type: String,
-        required: true
+        required: true,
+        default: null
     },
     title: {
         type: Object,
-        required: true
+        required: true,
+        default: null
     },
     content: {
         type: Object,
-        required: true
+        required: true,
+        default: {}
     },
     excerpt: {
         type: Object
     },
     author: {
         type: Number,
-        required: true
+        required: true,
+        default: 17
     },
     featured_image: {
         type: Number,
-        required: true
+        required: true,
+        default:0
     },
     comment_status: {
         type: String
@@ -98,7 +103,8 @@ var schema = {
     },
     category: {
         type: Array,
-        required: true
+        required: true,
+        default: null
     },
     featured_image_src: {
         type: Object

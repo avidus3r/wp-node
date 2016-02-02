@@ -32,6 +32,7 @@ var PostsController = {
 
         post.save(function(err){
             if(err){
+                console.log(err);
                 cb(false);
             }else{
                 cb(true);
@@ -80,7 +81,7 @@ var PostsController = {
 
     posts: function(numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
-        var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
+        var query = Post.find({'type':'post'}).skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
         return query.exec();
     },
 
@@ -101,6 +102,26 @@ var PostsController = {
 
     sponsor: function(name){
         var query = Post.find({ 'sponsor.name': name});
+        return query.exec();
+    },
+
+    sponsorList: function(){
+        var query = Post.find({'type':'altdsc_sponsor'}).limit(10);
+        return query.exec();
+    },
+
+    campaignList: function(){
+        var query = Post.find({'type':'altdsc-campaign', 'campaign_active':true});
+        query.select('id');
+        return query.exec();
+    },
+
+    sponsoredPosts: function(campaigns){
+        console.log(campaigns);
+        var query = Post.find({'postmeta._altdsc_campaign_id': { $in: campaigns} });
+        /*query.$where(function(){
+            return this.postmeta.hasOwnProperty("_altdsc_campaign_id");
+        });*/
         return query.exec();
     },
 
