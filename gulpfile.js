@@ -49,6 +49,7 @@ gulp.task('compress', function() {
 });
 
 gulp.task('ngAnnotate', function () {
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src([
         paths.src + '**/*.js',
         '!' + paths.src + 'third-party/**',
@@ -58,7 +59,7 @@ gulp.task('ngAnnotate', function () {
 });
 
 gulp.task('browserify-min', ['ngAnnotate'], function () {
-    if(process.env.NODE_ENV !== 'production') return;
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src('app/ngAnnotate/app.js')
         .pipe(browserify({
             insertGlobals: true
@@ -161,6 +162,7 @@ gulp.task('css:sass', function () {
 });
 
 gulp.task('cleanApp', function () {
+    if(process.env.NODE_ENV === 'local') return;
     return gulp.src('./app/ngAnnotate/', { read: false })
         .pipe(clean({force:true}));
 });
@@ -203,7 +205,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.js, ['scripts']);
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
-    //gulp.watch(paths.config, ['config']);
+    gulp.watch(paths.config, ['config']);
     gulp.watch(paths.sass, ['css:sass']);
     gulp.watch(paths.tests, ['tests']);
 });
@@ -211,13 +213,15 @@ gulp.task('watch', function () {
 gulp.task('default',['build', 'devServe', 'watch']);
 
 gulp.task('build', function(callback) {
-    process.env.NODE_ENV = 'local';
-    var currPath = __dirname.split('/');
-    var appName = currPath[currPath.length-1];
-    process.env.appname = appName;
-    process.env.mdbname = appName;
-    process.env.mdbhost = 'localhost:27017';
-    process.env.mdbuser = 'admin';
-    process.env.mdbpass = '@ltDr1v3r!';
-    runSequence('clean','config', 'css:sass', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
+    if(!process.env.NODE_ENV){
+        process.env.NODE_ENV = 'local';
+        var currPath = __dirname.split('/');
+        var appName = currPath[currPath.length-1];
+        process.env.appname = appName;
+        process.env.mdbname = appName;
+        process.env.mdbhost = 'localhost:27017';
+        process.env.mdbuser = 'admin';
+        process.env.mdbpass = '@ltDr1v3r!';
+    }
+    runSequence('clean','config', 'css:sass', 'css:min', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });

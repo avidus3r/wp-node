@@ -156,7 +156,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.adsEnabled = true;
 
-    if(location.pathname === '/articles'){
+    if(location.pathname === '/articles' || location.hostname.indexOf('local.') > -1){
         $rootScope.adsEnabled = false;
     }else{
         $rootScope.adsEnabled = true;
@@ -402,7 +402,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.getFeaturedImage = function(img, attr){
         var attrs = {'src': 0, 'width': 1, 'height': 2};
-
+        img.original[0] = img.original[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','d2unpp88mdyuuu.cloudfront.net');
+        img.medium[0] = img.medium[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','d2unpp88mdyuuu.cloudfront.net');
         if(/ios/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
         }
@@ -419,7 +420,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
-        if(location.pathname === '/articles') return;
+
+        if(!$rootScope.adsEnabled) return;
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {

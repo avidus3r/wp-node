@@ -1,5 +1,9 @@
 'use strict';
 
+/*
+TODO: consolidate ad display config
+*/
+
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q) {
 
     this.name = 'list';
@@ -26,7 +30,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.currentY = null;
     $scope.cardType = 'email';
     $scope.instagramPost = null;
-    $scope.feedConfig = data.config;
+    //$scope.feedConfig = data.config;
     $scope.sponsors = data.sponsors;
     $scope.instagram = data.instagram;
     $scope.instagramItems = [];
@@ -46,6 +50,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
+
 
     if(location.href.indexOf('local.') > -1){
         $scope.appConfig.displayAds = 'false';
@@ -187,6 +192,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
         return arr;
     };
+
+    if($scope.sponsors !== null && $scope.sponsors.length > 0){
+        angular.forEach($scope.shuffle($scope.sponsors), function(item, index){
+            item.type = 'sponsor';
+            $scope.sponsorItems.push(item);
+        });
+    }
 
     $scope.getParams = function(param, encode){
         var val = null;
@@ -397,12 +409,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }
             }
 
-            angular.forEach($scope.feedConfig.cards, function (item, cardIndex) {
+            /*angular.forEach($scope.feedConfig.cards, function (item, cardIndex) {
                 if (item.card.perPage === 'on') {
 
                     var card = item.card;
 
-                    /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                    *//*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
                      card = $scope.sponsorItems[$scope.paged];
                      card.type = 'sponsor';
                      card.position = Number(item.card.position);
@@ -410,7 +422,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                      pagedpostmap.splice((card.position*$scope.paged), 0, card);
                      $scope.splicedItems++;
                      $scope.sponsorPosts.push(card.position*$scope.paged);
-                     }*/
+                     }*//*
                     if (card.type === 'instagram') {
                         if (index === Number(card.position)) {
                             if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > $scope.instagramIndex) {
@@ -426,7 +438,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     }
                 }
-            });
+            });*/
 
             pagedpostmap.push(item);
         });
@@ -651,7 +663,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if($scope.currentView === 'list' || $scope.currentView === 'search' || $scope.currentView === 'category') {
 
             if($scope.posts.length === 0){
-                $scope.feedConfig = null;
+                //$scope.feedConfig = null;
                 item = {};
                 item.type = 'post-'+$scope.currentView + '-empty';
                 item.noresults = true;
@@ -707,18 +719,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
                     }
 
-                    angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
+                    /*angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
 
                         var card = cardItem.card;
 
-                        /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                        *//*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
                          card = $scope.sponsorItems[$scope.paged];
                          card.type = 'sponsor';
                          card.position = Number(item.card.position);
                          postmap.splice(card.position, 0, card);
                          $scope.splicedItems++;
                          $scope.sponsorPosts.push(index);
-                         }*/
+                         }*//*
                         if (card.type === 'instagram' && index === Number(card.position)) {
 
                             if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
@@ -733,7 +745,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
 
                         }
-                    });
+                    });*/
 
                     if($scope.sponsors !== null && $scope.sponsorItems.length > 0){
                         if (index > 0 && index %2 === 0) {
@@ -831,18 +843,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 pushedItems++;
                             }
                         }
-                        angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
+                        /*angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
 
                             var card = cardItem.card;
 
-                            /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                            *//*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
                              card = $scope.sponsorItems[$scope.paged];
                              card.type = 'sponsor';
                              card.position = Number(item.card.position);
                              postmap.splice(card.position, 0, card);
                              $scope.splicedItems++;
                              $scope.sponsorPosts.push(index);
-                             }*/
+                             }*//*
                             if (card.type === 'instagram' && index === Number(card.position)) {
 
                                 if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
@@ -857,7 +869,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 }
 
                             }
-                        });
+                        });*/
 
                         if($scope.sponsors !== null && $scope.sponsorItems.length > 0){
                             if (index > 0 && index %2 === 0) {
