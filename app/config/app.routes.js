@@ -24,7 +24,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    if(Number(appSponsors) > 0){
+                    /*if(Number(appSponsors) > 0){
 
                         sponsorResolve = FeedService.getCampaigns().then(
                             function(data){
@@ -37,7 +37,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }
+                    }*/
 
                     /*if(appame === 'upshift'){
                         instagramResolve = null;
