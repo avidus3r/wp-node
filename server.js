@@ -741,66 +741,70 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     var appUrl = 'http://admin.altdriver.com';
     if(itsABot) {
         try {
-            api.PostController.post(postName).then(function(result){
+            request(endpoint, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var metatags = {};
 
-                var metatags = {};
-                var post = null;
-                if(result.length === 0){
-                    console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-                    console.log('headers:\n ', req.headers);
-                    console.log('\n\nparams:\n', req.params);
-                    console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-                    console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+                    var post = null;
 
-                    console.log(req._parsedOriginalUrl);
-                    res.sendStatus(404);
-                }else{
-                    post = result;
-
-                    metatags.published = post.date.toString();
-                    metatags.modified = post.modified.toString();
-
-                    metatags.category = post.category[0].name;
-                    metatags.title = '';
-                    metatags.description = '';
-
-                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                    try{
+                        post = JSON.parse(body);
+                    }catch(e){
+                        console.error(JSON.stringify(e));
                     }
 
-                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
-                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                    if(typeof post !== 'undefined' && post !== null) {
+                        metatags.published = post.date;
+                        metatags.modified = post.modified;
+                        metatags.category = post.category[0].name;
+
+                        metatags.title = '';
+                        metatags.description = '';
+
+                        try{
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
+                                metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                            }
+
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0){
+                                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                            }
+                        }catch(e){
+                            console.error(JSON.stringify(e));
+                        }
+
+                        // Facebook meta
+
+                        metatags.fb_appid = fbAppId;
+                        metatags.fb_publisher = fbUrl;
+                        metatags.fb_type = 'article';
+                        metatags.fb_site_name = appConfig.fb_sitename;
+                        metatags.fb_title = metatags.title;
+                        metatags.fb_url = siteUrl + req.url;
+                        metatags.fb_description = metatags.description;
+                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+
+
+
+
+                        res.send(output);
+                    }else{
+                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                        console.log('headers:\n ', req.headers);
+                        console.log('\n\nparams:\n', req.params);
+                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
                     }
-
-                    // Facebook meta
-
-                    metatags.fb_appid = fbAppId;
-                    metatags.fb_publisher = fbUrl;
-                    metatags.fb_type = 'article';
-                    metatags.fb_site_name = appConfig.fb_sitename;
-                    metatags.fb_title = metatags.title;
-                    metatags.fb_url = siteUrl + req.url;
-                    metatags.fb_description = metatags.description;
-                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                    metatags.fb_image = post.featured_image_src.original_wp[0];
-                    metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                    metatags.fb_image_height = post.featured_image_src.original_wp[2];
-
-
-                    /*var template = swig.compileFile('./dist/index.html');
-                     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-
-                     res.send(output);*/
-                    var template = swig.compileFile('./dist/bots.html');
-                    var output = template({metatags: metatags, app: appName, posts:post});
-                    res.send(output);
                 }
-
             });
         } catch (e) {
             console.error(e);
         }
-    }else{
+    }else{var template = swig.compileFile('./dist/bots.html');
+        var output = template({metatags: metatags, app: appName, posts:post});
         //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
         try {
             api.PostController.post(postName).then(function(result){
