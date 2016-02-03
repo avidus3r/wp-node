@@ -317,11 +317,14 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                                     var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
                                     var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
                                     console.log('posturl: ', postUrl);
-                                    request
-                                        .post('https://graph.facebook.com/?id='+ encodeURIComponent(postUrl) + '&scrape=true')
-                                        .on('response', function(response){
-                                            console.log(response);
-                                        });
+                                    setTimeout(function() {
+                                        request
+                                            .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
+                                            .on('response', function (response) {
+                                                console.log(response);
+                                            });
+                                    },3000);
+
                                     res.sendStatus(200);
                                     PostController.updating = false;
                                 });
@@ -332,7 +335,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },3000);
+            },6000);
         }catch(e){
             var error = {'error':e};
             console.log(e);
