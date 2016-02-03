@@ -561,6 +561,47 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/adtest',{
+            templateUrl: '/views/post.html',
+            controller: 'FeedListController',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    var feedPath = app.feedPath;
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    document.title = appConfig.title;
+
+                    /*if(Number(appSponsors) > 0){
+
+                     sponsorResolve = FeedService.getSponsors().then(
+                     function(data){
+                     return data;
+                     },
+                     function(error){
+                     return 'error';
+                     },
+                     function(notification){
+
+                     }
+                     )
+                     }*/
+
+                    /*if(appame === 'upshift'){
+                     instagramResolve = null;
+                     }*/
+                    return $q.all({
+                        config:null,
+                        posts: null,
+                        instagram:null,
+                        sponsors: null
+                    });
+                }
+            }
+        })
         .when('/submit',{
             controller: 'PageController',
             templateUrl: '/views/submit.html'

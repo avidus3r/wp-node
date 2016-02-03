@@ -51,6 +51,34 @@ app.get('*', function(req,res,next){
 });
 */
 
+app.get('/adtest', function(req,res){
+    var metatags = {
+
+        robots: 'index, follow',
+        title: appConfig.title,
+        description: appConfig.description,
+        // Facebook
+        fb_title: appConfig.title,
+        fb_site_name: appConfig.fb_sitename,
+        fb_url: appConfig.url,
+        fb_description: appConfig.description,
+        fb_type: 'website',
+        fb_image: appConfig.avatar,
+        fb_appid: appConfig.fb_appid,
+        // Twitter
+        tw_card: '',
+        tw_description: '',
+        tw_title: '',
+        tw_site: '@altdriver',
+        tw_domain: 'alt_driver',
+        tw_creator: '@altdriver',
+        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+        url: 'http://admin.altdriver.com'
+    };
+
+    res.render('index',{metatags:metatags, appConfig:appConfig});
+});
+
 app.get('/api/articles/:perPage/:page/:skip', function(req,res){
     var itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     if(itsABot){

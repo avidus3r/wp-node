@@ -51,7 +51,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.hideLoading = true;
     $scope.fbReady = false;
 
-
     if(location.href.indexOf('local.') > -1){
         $scope.appConfig.displayAds = 'false';
     }
@@ -75,6 +74,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.paged = 1;
 
     $scope.platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
+
+
+
     $scope.postCompanionAd = app.pubads[$scope.platform][0];
 
     if($scope.instagram !== null){
@@ -249,6 +251,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.feedItemPosition += 1;
         }
     };
+
+    if($location.$$path === '/adtest'){
+        $scope.currentView = 'ads';
+        for(var i=0;i<app.pubads[$scope.platform].length;i++){
+            var adItem = {};
+            adItem.type = 'ad';
+            //adItem.type = 'post-half-page';
+            adItem.placementIndex = i;
+            $scope.createFeedItem(adItem, $scope.feedItems.length);
+        }
+
+    }
 
     $scope.sendImpression = function(sponsorPost){
         setTimeout(function(){

@@ -421,6 +421,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.initAds = function(){
 
+        if(location.pathname === '/adtest'){
+            $rootScope.testAds();
+            return;
+        }
         if(!$rootScope.adsEnabled) return;
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
@@ -440,6 +444,34 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
         window.googletag.cmd.push(function() {
 
+            window.googletag.pubads().enableSingleRequest();
+            window.googletag.pubads().collapseEmptyDivs();
+            window.googletag.enableServices();
+        });
+
+    };
+
+    $rootScope.testAds = function(){
+
+
+        window.googletag = window.googletag || {};
+        window.googletag.cmd = window.googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' === document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') +
+            '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+
+        var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
+        var ads = app.pubads[platform];
+
+        window.googletag.cmd.push(function() {
+            window.googletag.pubads().setTargeting("campaign","testing");
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
