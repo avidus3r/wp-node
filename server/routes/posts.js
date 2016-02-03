@@ -135,7 +135,7 @@ router.get('/api/vote/:id/:val', function(req, res){
 */
 
 
-router.get('/api/sponsors', function(req, res){
+router.get('/api/sponsors', apicache('45 minutes'), function(req, res){
     PostController.sponsorList().then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
@@ -152,7 +152,7 @@ router.get('/api/sponsors', function(req, res){
  */
 
 
-router.get('/api/campaigns', function(req, res){
+router.get('/api/campaigns', apicache('45 minutes'), function(req, res){
     PostController.campaignList().then(function(result){
         if(result.length === 0){
             res.send(result);
