@@ -323,7 +323,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },6000);
+            },3000);
         }catch(e){
             var error = {'error':e};
             console.log(e);
