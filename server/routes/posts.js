@@ -243,7 +243,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'
  Feed Posts List
  */
 router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
-    var data = PostController.list(parseInt(req.params.perPage),req.params.page, req.params.skip);
+    var data = PostController.list(req, parseInt(req.params.perPage),req.params.page, req.params.skip);
     data.then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
@@ -335,7 +335,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },6000);
+            },9000);
         }catch(e){
             var error = {'error':e};
             console.log(e);

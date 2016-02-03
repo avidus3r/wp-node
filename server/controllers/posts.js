@@ -7,6 +7,19 @@ var mongoose    = require('mongoose'),
 var PostsController = {
     updating: false,
 
+    _isMobile : function(ua){
+        var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
+
+        if ( mobileUAStr.test(ua) ){
+            return true;
+        }else if( desktopUAStr.test(ua) ){
+            return false;
+        }else{
+            return true;
+        }
+    },
+
     post: function(slug){
         var query = Post.findOne({'slug': slug});
         var db = mongoose.connection;
@@ -79,17 +92,39 @@ var PostsController = {
         return query.exec();
     },
 
-    posts: function(numberOfPosts, pageNumber, skip){
+    posts: function(req, numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
         var query = Post.find({'type':'post'}).skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
+
+        if(!this._isMobile(req.headers['user-agent'])){
+            query.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else{
+                    return this;
+                }
+            });
+        }
+
         return query.exec();
     },
 
-    list: function(numberOfPosts, pageNumber, skip){
+    list: function(req, numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
         var appName = process.env.appname;
 
         var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
+
+        if(!this._isMobile(req.headers['user-agent'])){
+            query.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else{
+                    return this;
+                }
+            });
+        }
+
         return query.exec();
     },
 

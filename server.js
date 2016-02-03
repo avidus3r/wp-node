@@ -56,7 +56,7 @@ app.get('/api/articles/:perPage/:page/:skip', function(req,res){
     if(itsABot){
         res.redirect('/');
     }else{
-        var data = api.PostController.posts(parseInt(req.params.perPage),req.params.page, req.params.skip);
+        var data = api.PostController.posts(req, parseInt(req.params.perPage),req.params.page, req.params.skip);
         data.then(function(result){
             if(result.length === 0){
                 res.sendStatus(404);
