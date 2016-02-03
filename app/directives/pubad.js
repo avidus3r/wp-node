@@ -56,6 +56,20 @@ var pubad = function() {
                 $scope.elementID = attr;
             });*/
 
+            $scope.getQueryParamValue = function(variable) {
+
+                var query = window.location.search.substring(1);
+                var vars = query.split('&');
+
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split('=');
+                    if (decodeURIComponent(pair[0]) == variable) {
+                        return decodeURIComponent(pair[1]);
+                    }
+                }
+                return null;
+            };
+
             $scope.getPubad = function(adID, placementIndex, paged, isDesktop){
                 console.log('getPubad');
                 if(paged > 1){
@@ -82,7 +96,11 @@ var pubad = function() {
                         window.googletag.cmd.push(function () {
                             window.googletag.display($scope.pubadID);
                         });
-                        window.googletag.pubads().setTargeting("campaign","testing");
+
+                        if($scope.getQueryParamValue('campaign').length > 0){
+                            window.googletag.pubads().setTargeting("campaign",$scope.getQueryParamValue('campaign'));
+                        }
+
                     },1000);
                 }
             }
