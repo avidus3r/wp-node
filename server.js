@@ -788,7 +788,8 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                         metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
 
-
+                        var template = swig.compileFile('./dist/bots.html');
+                        var output = template({metatags: metatags, app: appName, posts:post});
 
                         res.send(output);
                     }else{
@@ -803,8 +804,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
         } catch (e) {
             console.error(e);
         }
-    }else{var template = swig.compileFile('./dist/bots.html');
-        var output = template({metatags: metatags, app: appName, posts:post});
+    }else{
         //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
         try {
             api.PostController.post(postName).then(function(result){
