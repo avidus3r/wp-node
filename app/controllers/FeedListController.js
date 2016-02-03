@@ -193,7 +193,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return arr;
     };
 
-    if($scope.sponsors !== null && $scope.sponsors.length > 0){
+    if((typeof $scope.sponsors === 'array' || typeof $scope.sponsors === 'object') && $scope.sponsors !== null && $scope.sponsors.length > 0){
         angular.forEach($scope.shuffle($scope.sponsors), function(item, index){
             item.type = 'sponsor';
             $scope.sponsorItems.push(item);

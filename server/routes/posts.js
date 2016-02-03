@@ -155,7 +155,7 @@ router.get('/api/sponsors', function(req, res){
 router.get('/api/campaigns', function(req, res){
     PostController.campaignList().then(function(result){
         if(result.length === 0){
-            res.sendStatus(404);
+            res.send(result);
         }else{
             var activeCampaigns = [];
             for(var i=0;i<result.length;i++){
@@ -164,7 +164,7 @@ router.get('/api/campaigns', function(req, res){
             }
             PostController.sponsoredPosts(activeCampaigns).then(function(sponsorPosts){
                 if(result.length === 0){
-                    res.sendStatus(404);
+                    res.send(sponsorPosts);
                 }else{
                     res.set('Cache-Control','max-age=600');
                     res.send(JSON.stringify(sponsorPosts));
@@ -323,7 +323,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                         PostController.updating = false;
                     }
                 });
-            },15000);
+            },3000);
         }catch(e){
             var error = {'error':e};
             console.log(e);
