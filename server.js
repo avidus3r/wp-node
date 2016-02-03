@@ -493,7 +493,7 @@ app.post('/submit', function(req,res){
     }
 
 });
-
+ 
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     if(typeof req.headers['user-agent'] !== 'undefined') {
