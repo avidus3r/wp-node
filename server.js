@@ -757,9 +757,9 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                 }else{
                     post = result;
 
+                    metatags.published = post.date.toString();
+                    metatags.modified = post.modified.toString();
 
-                    metatags.published = post.date;
-                    metatags.modified = post.modified;
                     metatags.category = post.category[0].name;
                     metatags.title = '';
                     metatags.description = '';
