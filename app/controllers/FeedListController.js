@@ -57,6 +57,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.appConfig.displayAds = 'true';
 
+    $scope.utilityViews = ['ads'];
+
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
             localStorage.setItem('post_offset', '1');
@@ -253,6 +255,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     if($location.$$path === '/adtest'){
+        window.removeEventListener('scroll', $scope.onScroll);
         $scope.currentView = 'ads';
         for(var i=0;i<app.pubads[$scope.platform].length;i++){
             var adItem = {};
@@ -301,25 +304,27 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function(){
-        var feedItemEl = angular.element('.feed-item:last');
-        if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height()) - (feedItemEl.height())) {
-            angular.element('#loading-more').removeClass('hidden').show();
-            $scope.paged += 1;
-            var state = {page: $scope.paged};
-            history.replaceState(state, 'page: '+ $scope.paged, '?page='+$scope.paged);
-            angular.module('NewsFeed').trackPageView($scope.paged, document.title);
-            if(!$scope.useMongo){
-                $scope.getNext('');
-            }else{
-                $scope.getNext('');
+        if($scope.currentView !== 'ads') {
+            var feedItemEl = angular.element('.feed-item:last');
+            if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height()) - (feedItemEl.height())) {
+                angular.element('#loading-more').removeClass('hidden').show();
+                $scope.paged += 1;
+                var state = {page: $scope.paged};
+                history.replaceState(state, 'page: ' + $scope.paged, '?page=' + $scope.paged);
+                angular.module('NewsFeed').trackPageView($scope.paged, document.title);
+                if (!$scope.useMongo) {
+                    $scope.getNext('');
+                } else {
+                    $scope.getNext('');
+                }
+                window.removeEventListener('scroll', $scope.onScroll);
+            } else {
+                angular.element('#loading-more').hide();
             }
-            window.removeEventListener('scroll', $scope.onScroll);
-        }else{
-            angular.element('#loading-more').hide();
-        }
 
-        if($scope.sponsorPosts.length > 0){
-            //$scope.trackSponsor();
+            if ($scope.sponsorPosts.length > 0) {
+                //$scope.trackSponsor();
+            }
         }
     };
 
@@ -605,6 +610,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.$on('next:done', function($event, posts){
+        if($scope.currentView === 'ads'){
+            return false;
+        }
         window.addEventListener('scroll', $scope.onScroll);
 
         angular.forEach(posts, function (item, index) {
@@ -658,7 +666,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return link;
     };
 
+
     $scope.init = function() {
+
         var item = null;
 
         if($scope.posts !== null || $scope.post !== null) {
@@ -1033,8 +1043,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 $rootScope.readMore(e);
             });
         },1500);
-        console.log($scope.currentView);
-        if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list'){
+
+        if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
 
             window.addEventListener('scroll', $scope.onScroll);
         }else{
@@ -1084,7 +1094,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return glue;
     };
 
-    $scope.init();
+    if($scope.utilityViews.indexOf($scope.currentView) === -1){
+        $scope.init();
+    }else{
+
+        setTimeout(function(){
+            window.removeEventListener('scroll',$scope.onScroll);
+        },2500);
+    }
 
     window.addEventListener('message', $scope.receiveMessage);
 

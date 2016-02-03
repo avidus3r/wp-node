@@ -82,6 +82,7 @@ var pubad = function() {
                         window.googletag.cmd.push(function () {
                             window.googletag.display($scope.pubadID);
                         });
+                        window.googletag.pubads().setTargeting("campaign","testing");
                     },1000);
                 }
             }

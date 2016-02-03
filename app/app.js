@@ -471,10 +471,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var ads = app.pubads[platform];
 
         window.googletag.cmd.push(function() {
-            window.googletag.pubads().setTargeting("campaign","testing");
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
+            window.googletag.pubads().setTargeting("campaign","testing");
         });
 
     };
