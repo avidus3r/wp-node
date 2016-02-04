@@ -402,8 +402,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.getFeaturedImage = function(img, attr){
         var attrs = {'src': 0, 'width': 1, 'height': 2};
-        img.original[0] = img.original[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','d2unpp88mdyuuu.cloudfront.net');
-        img.medium[0] = img.medium[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','d2unpp88mdyuuu.cloudfront.net');
+        if(img.original[0].indexOf('s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.original[0] = img.original[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','media.altdriver.com');
+        }
+        if(img.medium[0].indexOf('s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.medium[0] = img.medium[0].replace('s3-us-west-2.amazonaws.com/assets.altdriver','media.altdriver.com');
+        }
         if(/ios/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
         }
