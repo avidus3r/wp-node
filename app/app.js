@@ -416,6 +416,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             img.medium[0] = img.medium[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
         }
 
+
+        
         if(/ios/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
         }
