@@ -71,7 +71,6 @@ var pubad = function() {
             };
 
             $scope.getPubad = function(adID, placementIndex, paged, isDesktop){
-                console.log('getPubad');
                 if(paged > 1){
                     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 
