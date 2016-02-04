@@ -417,7 +417,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         }
 
 
-        
+
         if(/ios/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
         }
@@ -465,6 +465,20 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     };
 
+    $rootScope.getQueryParamValue = function(variable) {
+
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == variable) {
+                return decodeURIComponent(pair[1]);
+            }
+        }
+        return null;
+    };
+
     $rootScope.testAds = function(){
 
 
@@ -488,7 +502,17 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
-            window.googletag.pubads().setTargeting("campaign","testing");
+
+            if($rootScope.getQueryParamValue('campaign') !== null){
+                if($rootScope.getQueryParamValue('campaign').length > 0){
+                    window.googletag.pubads().setTargeting('campaign',$rootScope.getQueryParamValue('campaign'));
+                }else{
+                    window.googletag.pubads().setTargeting('campaign','testing');
+                }
+
+            }else{
+                window.googletag.pubads().setTargeting('campaign','testing');
+            }
         });
 
     };
