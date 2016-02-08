@@ -156,7 +156,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.adsEnabled = true;
 
-    if(location.pathname === '/articles' || location.hostname.indexOf('local.') > -1){
+    if(location.pathname === '/articles'){
         $rootScope.adsEnabled = false;
     }else{
         $rootScope.adsEnabled = true;

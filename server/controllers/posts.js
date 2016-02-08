@@ -129,9 +129,9 @@ var PostsController = {
     },
 
     listByCategory: function(numberOfPosts, pageNumber, skip, category) {
+
         var skipItems = Number(skip);
-        var query = Post.find().limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
-        query.$where('this.category[0].slug === "' + category + '"');
+        var query = Post.find({'category.slug':category}).limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
         return query.exec();
     },
 

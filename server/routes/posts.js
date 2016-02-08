@@ -227,13 +227,14 @@ router.get('/api/:slug', apicache('45 minutes'), function(req,res){
  Category List
  */
 router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'), function(req, res){
-    var data = PostController.listByCategory(parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.category);
+
+    var data = PostController.listByCategory(parseInt(req.params.perPage),parseInt(req.params.page), parseInt(req.params.skip), req.params.category);
     data.then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
         }else{
             res.set('Cache-Control','max-age=600');
-            res.send(JSON.stringify(result));
+            res.status(200).send(JSON.stringify(result));
         }
     });
 });

@@ -153,66 +153,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             }
         })
         .when('/category/:category', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
-            redirectTo: false,
-            reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route) {
-                    var params = {};
-                    return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
-
-                         },
-                         function (notification) {
-
-                         }
-                         ),*/
-                        config:null,
-                        posts: FeedService.getPosts('posts', '?per_page='+appConfig.per_page+'&page=1&category_name='+$route.current.params.category).then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-                                return 'error';
-                            },
-                            function (notification) {
-
-                            }
-                        ),
-                        /*instagram: InstagramService.get(10, 'nofilter').then(
-                            function (data) {
-                                return data;
-                            },
-                            function (error) {
-
-                            },
-                            function (notification) {
-
-                            }
-                        ),*/
-                        instagram:null,
-                        sponsors: null,
-                        categories: function () {
-                            return FeedService.getTerms('category').then(
-                                function (data) {
-                                    return data;
-                                },
-                                function (error) {
-
-                                },
-                                function (notification) {
-
-                                }
-                            );
-                        }
-                    });
-                }
-            }
+            redirectTo: '/category/' + $route.current.params.category + '/'
         })
         .when('/category/:category/', {
             controller: 'FeedListController',
@@ -259,19 +200,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          ),*/
                         instagram:null,
                         sponsors: null,
-                        categories: function () {
-                            return FeedService.getTerms('category').then(
-                                function (data) {
-                                    return data;
-                                },
-                                function (error) {
-
-                                },
-                                function (notification) {
-
-                                }
-                            );
-                        }
+                        categories: null
                     });
                 }
             }

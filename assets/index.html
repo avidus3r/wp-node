@@ -69,7 +69,7 @@
     <script type="text/javascript">
         var adsEnabled = true;
 
-        if(location.pathname === '/articles' || location.hostname.indexOf('local.') > -1 && location.pathname !== '/adtest'){
+        if(location.pathname === '/articles' && location.pathname !== '/adtest'){
             adsEnabled = false;
         }else{
             adsEnabled = true;

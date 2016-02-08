@@ -581,7 +581,7 @@ app.get('/search/(:query/|:query)', function(req,res, next){
     }
 });
 
-app.get('/category/(:category/|:category)', function(req,res){
+app.get('/category/(:category|:category/)', function(req,res){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
@@ -652,20 +652,28 @@ app.get('/category/(:category/|:category)', function(req,res){
                     var category = {};
                     var metatags = {};
                     var categories = JSON.parse(body);
+                    //console.log(categories);
                     if(typeof categories !== 'undefined') {
-                        for (var i = 0; i < categories.length; i++) {
+                        /*for (var i = 0; i < categories.length; i++) {
+                            //console.log(categories[i]);
                             if (categories[i].slug === catName) {
                                 category = categories[i];
                             }
-                        }
+                        }*/
                         // Standard meta
-                        metatags.title = category.name + ' Archives';
-                        metatags.description = category.description;
+                        var categoryTitleWords = catName.split('-');
+                        var categoryTitle = '';
+                        for(var i=0;i<categoryTitleWords.length;i++){
+                            var word = categoryTitleWords[i].charAt(0).toUpperCase() + categoryTitleWords[i].slice(1) + ' ';
+                            categoryTitle += word;
+                        }
+                        metatags.title = categoryTitle + ' - Archives';
+                        //metatags.description = category.description;
 
                         // Facebook meta
                         metatags.fb_type = 'object';
                         metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = category.name + ' Archives';
+                        metatags.fb_title = categoryTitle + ' - Archives';
                         metatags.fb_description = category.description;
                         metatags.url = appUrl + '/' + req.params.category;
                         metatags.fb_image = appConfig.avatar;
