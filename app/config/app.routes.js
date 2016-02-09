@@ -196,7 +196,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         instagram:null,
-                        sponsors: null,
+                        sponsors: null, 
                         categories: null
                     });
                 }
