@@ -153,7 +153,54 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             }
         })
         .when('/category/:category', {
-            redirectTo: '/category/' + $route.current.params.category + '/'
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    return $q.all({
+                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
+                         function (data) {
+                         return data;
+                         },
+                         function (error) {
+
+                         },
+                         function (notification) {
+
+                         }
+                         ),*/
+                        config:null,
+                        posts: FeedService.getDBCategoryPosts($route.current.params.category,10,1,0).then(
+                            function (data) {
+                                return data;
+                            },
+                            function (error) {
+                                return 'error';
+                            },
+                            function (notification) {
+
+                            }
+                        ),
+                        /*instagram: InstagramService.get(10, 'nofilter').then(
+                         function (data) {
+                         return data;
+                         },
+                         function (error) {
+
+                         },
+                         function (notification) {
+
+                         }
+                         ),*/
+                        instagram:null,
+                        sponsors: null,
+                        categories: null
+                    });
+                }
+            }
         })
         .when('/category/:category/', {
             controller: 'FeedListController',
