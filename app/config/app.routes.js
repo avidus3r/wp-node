@@ -196,7 +196,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         instagram:null,
-                        sponsors: null, 
+                        sponsors: null,
                         categories: null
                     });
                 }
@@ -604,6 +604,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
         })
         .when('/subscribe-hub',{
             templateUrl: '/views/subscribe-hub.html',
+            controller: 'PageController'
+        })
+        .when('/homehero',{
+            templateUrl: '/views/home-hero.html',
             controller: 'PageController'
         })
         .when('/subscribe',{
