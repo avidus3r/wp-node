@@ -628,11 +628,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var cat = null;
         var catParent = null;
 
-        angular.forEach(categories, function (category, index) {
+        /*angular.forEach(categories, function (category, index) {
             if(category.slug.replace('-','') === appName){
                 catParent = category.term_id;
             }
-        });
+        });*/
+
         angular.forEach(categories, function (category, index) {
             if(catParent){
                 if(category.parent === catParent){
@@ -666,6 +667,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return link;
     };
 
+    $scope.loadGif = function(item, $event){
+        var postContainer = angular.element($event.currentTarget).closest('.post-content');
+        postContainer.css({'height': postContainer.height() +'px'});
+        angular.element($event.currentTarget).parent().html('');
+        var gif = angular.element(item.content.rendered);
+        gif.find('img').css({'max-width':'100%', 'height':'auto'});
+        postContainer.prepend(gif);
+    };
 
     $scope.init = function() {
 
@@ -706,7 +715,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 var pushedItems = 0;
 
                 angular.forEach($scope.posts, function (item, index) {
-                    item.type = 'post-'+$scope.currentView;
+                    if(item.type !== 'animated-gif'){
+                        item.type = 'post-'+$scope.currentView;
+                    }
+
 
                     if($scope.currentView === 'category') item.type = 'post-list';
 

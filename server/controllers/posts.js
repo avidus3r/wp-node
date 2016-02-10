@@ -95,7 +95,7 @@ var PostsController = {
     posts: function(req, numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
         var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
-
+        query.$where('this.type === "post" || this.type === "animated-gif"');
         /*if(!this._isMobile(req.headers['user-agent'])){
          query.$where(function(){
          if(this.postmeta.hasOwnProperty('explicit')){
