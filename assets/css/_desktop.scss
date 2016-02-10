@@ -5,7 +5,7 @@ html, body{
 }
 // need something to wrap the .view container class
 .app-wrapper {
-  max-width: 1250px;
+  max-width: 1150px;
   height:100%;
   margin: 0 auto;
 }
@@ -26,6 +26,14 @@ html, body{
      float: left;
      width: 65%;
      width: calc(100% - 366px);
+     max-width: 755px;
+   }
+
+   .desktop .container-fluid {
+     margin-right: auto;
+     margin-left: auto;
+     max-width: 1144px;
+     padding-right: 72px;
    }
 
 // need another div for dt only
@@ -103,7 +111,7 @@ html, body{
       margin-right: 7.5em;
     }
 
-  
+
   }
 
 // ipad landscape ad fixes temp

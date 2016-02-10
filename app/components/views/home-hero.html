@@ -2,6 +2,12 @@
 .homehero .app-rail {
   display: none;
 }
+
+.homehero.desktop .container-fluid {
+  padding-right: 15px;
+  max-width: 1006px;
+}
+
 .homehero.desktop .app-main {
   float: none;
   width: 90%;
@@ -16,23 +22,19 @@
   background: transparent;
 }
 
-.homehero .homepage-carousel {
-  /*width: 75%;*/
-  /*float: left;*/
-}
-
-.homehero .item-cat {
+.homehero .feed-view .item-cat {
   /* fix the padding on this page only */
   padding: .25em;
-  display: none;
 }
 
 /* maybe */
 .homepage-carousel .card h2.post-title,
 .homepage-carousel .post-content h2.post-title {
     top: 350px;
-    width: 42%;
+    width: 44%;
     min-width: 100px;
+    font-size: 2.2em;
+    padding: .25em;
   }
 
 .homehero .extrastuff {
@@ -63,9 +65,19 @@
 }
 
 .homehero .latestposts .post-list {
-  float: left;
-  width: 49%;
-  margin: 1em .5%;
+  margin: .5%;
+}
+
+@media all and (min-width: 1000px) {
+  .homehero .latestposts .post-list {
+    float: left;
+    width: 49%;
+    margin: .5%;
+  }
+
+  .homehero .latestposts .full-width {
+    width:99%;
+  }
 }
 
 .homehero .latestposts {
@@ -76,21 +88,26 @@
   margin-bottom: 1em;
 }
 
-.split-lower .latestposts {
-  width: calc(100% - 310px);
-  margin-right: 10px;
-  float: left;
+@media all and (min-width:650px) {
+  .split-lower .latestposts {
+    width: calc(100% - 310px);
+    margin-right: 10px;
+    float: left;
+  }
+
+  .split-lower .lower-rail-ads {
+    display: block;
+    float: left;
+    width: 300px;
+    }
 }
+
 
 /* lower rail advert */
 .lower-rail-ads {
-display: none;
+  text-align: center;
 }
-.split-lower .lower-rail-ads {
-display: block;
-float: left;
-width: 300px;
-}
+
 
 .homehero .mega-footer {
   padding: 3em 1.5em;
@@ -355,7 +372,7 @@ width: 300px;
         </div>
       </div>
     </div>
-    <div class="card-item post-list ">
+    <div class="card-item post-list full-width">
       <div class="post-content feed-view post-view feed ">
         <p>
           <a>
@@ -374,7 +391,7 @@ width: 300px;
       </div>
     </div>
 
-    <div class="card-item post-list ">
+    <div class="card-item post-list " style="display:none;">
       <div class="post-content feed-view post-view feed ">
         <p>
           <a>
@@ -454,13 +471,11 @@ width: 300px;
 
 <div class="mega-footer clearfix cf clear bg-dark-brand">
   <div class="pull-left">
-    <h4>Search alt_driver</h4>
     <ng-include src="'/views/partials/search.html'"></ng-include>
   </div>
-  <div class="pull-right" style="width:33%;">
-    <p>The most entertaining and sharable car content from social media and the web.</p>
+  <div class="pull-right" style="width:33%; text-align:right">
     <div>
-      © 2015 alt_driver. All rights reserved.
+      © 2016 alt_driver. All rights reserved.
     </div>
     <div>
       <a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
