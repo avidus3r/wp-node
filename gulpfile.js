@@ -220,6 +220,8 @@ gulp.task('build', function(callback) {
         process.env.appname = appName;
         process.env.mdbname = appName;
         process.env.mdbhost = 'localhost:27017';
+        process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+
         process.env.mdbuser = 'admin';
         process.env.mdbpass = '@ltDr1v3r!';
     }
