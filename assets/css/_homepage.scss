@@ -1,0 +1,126 @@
+.homehero {
+    .app-rail {
+      display: none;
+    }
+    //  carousel controls
+    .carousel-indicators {
+        bottom: 0;
+    }
+    .carousel-control {
+      background: transparent;
+    }
+    //  new nav for homepage
+    .trending-nav {
+      max-width: 974px;
+      margin: auto;
+    }
+
+    /* fix the padding on this page only */
+    .feed-view .item-cat {
+      padding: .25em;
+    }
+    .homeadwrapper {
+      margin: 1em auto;
+      width: 728px;
+      text-align: center;
+    }
+    //  tighten up homepage a bit
+    .latestposts .post-list {
+      margin: .5%;
+    }
+    //  homepage only footer
+    .mega-footer {
+      color: white;
+      background: #19232d;
+      padding: 3em 1.5em;
+      clear: both;
+
+      //  make links in footer white
+      a,
+      a:visited {
+        color: white !important;
+      }
+
+      //  copyright in footer
+      .ad-copyright {
+        width:33%;
+        text-align:right;
+        float: right;
+      }
+    }
+//  end MAIN  homepage component
+}
+
+@media all and (max-width:1000px) {
+  //  hide the carousel "dots" for small screens
+  //  TODO - MAKE this work better on small screens
+    .carousel-indicators {
+      display: none;
+  }
+}
+
+.homehero.desktop {
+    //  change the nav to fit advert widths on DT only
+    .container-fluid {
+      padding-right: 15px;
+      max-width: 1006px;
+    }
+    .app-main {
+      float: none;
+      width: 90%;
+      max-width: 974px;
+      margin: 1em auto;
+    }
+}
+
+@media all and (min-width: 1000px) {
+  /* restyle homepage-carousel titles */
+  .homepage-carousel .card h2.post-title,
+  .homepage-carousel .post-content h2.post-title {
+      top: 350px;
+      width: 44%;
+      min-width: 100px;
+      font-size: 2.2em;
+      padding: .25em;
+    }
+
+  // the bottom half of home page
+  .homehero .latestposts .post-list {
+    float: left;
+    width: 49%;
+    margin: .5%;
+  }
+
+  // set one post to full width - the third post
+  .homehero .latestposts .full-width {
+    width:99%;
+  }
+}
+
+.homehero {
+    .latestposts {
+      width: 100%;
+    }
+    .split-lower {
+      margin-bottom: 1em;
+    }
+}
+
+@media all and (min-width:650px) {
+  .split-lower .latestposts {
+    width: calc(100% - 310px);
+    margin-right: 10px;
+    float: left;
+  }
+
+  .split-lower .lower-rail-ads {
+    display: block;
+    float: left;
+    width: 300px;
+    }
+}
+
+/* lower rail advert */
+.lower-rail-ads {
+  text-align: center;
+}

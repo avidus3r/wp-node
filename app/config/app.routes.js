@@ -607,7 +607,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             controller: 'PageController'
         })
         .when('/homehero',{
-            templateUrl: '/views/home-hero.html',
+            templateUrl: '/views/home-hero-demo.html',
             controller: 'PageController'
         })
         .when('/subscribe',{

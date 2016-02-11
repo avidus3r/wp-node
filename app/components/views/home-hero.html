@@ -1,146 +1,13 @@
-<style>
-.homehero .app-rail {
-  display: none;
-}
+<!--  see /views/home-hero-demo.html for example code -->
+<!--  hit local.altdriver.com:3000/homehero to see in browser -->
+<!--  clean up Pat's routes when complete -->
 
-.homehero.desktop .container-fluid {
-  padding-right: 15px;
-  max-width: 1006px;
-}
-
-.homehero.desktop .app-main {
-  float: none;
-  width: 90%;
-  max-width: 974px;
-  margin: 1em auto;
-}
-
-.homehero .carousel-indicators {
-    bottom: 0;
-}
-.homehero .carousel-control {
-  background: transparent;
-}
-
-.homehero .feed-view .item-cat {
-  /* fix the padding on this page only */
-  padding: .25em;
-}
-
-/* maybe */
-.homepage-carousel .card h2.post-title,
-.homepage-carousel .post-content h2.post-title {
-    top: 350px;
-    width: 44%;
-    min-width: 100px;
-    font-size: 2.2em;
-    padding: .25em;
-  }
-
-.homehero .extrastuff {
-  /* split like the old homepage */
-  display: none;
-  width: 25%;
-  float: left;
-  margin: 0;
-}
-
-.homehero .extrastuff .post-list {
-  margin:0;
-  font-size: 75%;
-}
-
-.homehero .card-item{
-  box-shadow: 0 0 0 0;
-}
-
-.homehero .extrastuff .item-cat {
-  display: none;
-}
-
-.homehero .homeadwrapper {
-  margin: 1em auto;
-  width: 728px;
-  text-align: center;
-}
-
-.homehero .latestposts .post-list {
-  margin: .5%;
-}
-
-@media all and (min-width: 1000px) {
-  .homehero .latestposts .post-list {
-    float: left;
-    width: 49%;
-    margin: .5%;
-  }
-
-  .homehero .latestposts .full-width {
-    width:99%;
-  }
-}
-
-.homehero .latestposts {
-  width: 100%;
-}
-
-.split-lower {
-  margin-bottom: 1em;
-}
-
-@media all and (min-width:650px) {
-  .split-lower .latestposts {
-    width: calc(100% - 310px);
-    margin-right: 10px;
-    float: left;
-  }
-
-  .split-lower .lower-rail-ads {
-    display: block;
-    float: left;
-    width: 300px;
-    }
-}
-
-
-/* lower rail advert */
-.lower-rail-ads {
-  text-align: center;
-}
-
-
-.homehero .mega-footer {
-  padding: 3em 1.5em;
-  clear: both;
-}
-
-.homehero .trending-nav {
-  max-width: 974px;
-  margin: auto;
-}
-
-.bg-dark-brand {
-    color: white;
-    background: #19232d;
-}
-
-.bg-dark-brand a,
-.bg-dark-brand a:visited {
-  color: white !important;
-}
-
-
-
-
-</style>
 <!--   insert an advert -->
 <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-  <div id="div-gpt-ad-xxxxxxx">
-    <img src="http://tradiov.com/la/wp-content/uploads/2014/07/Monster-Banner970x90.png" alt="sample advert"/>
-  </div>
+  <!--  regular ad code for NEW advert goes here -->
 </div>
 <!--  end ad insertion -->
-<div class="clearfix cf">
+<div class="clearfix cf homepage-wrapper">
   <div class="homepage-carousel">
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
@@ -154,87 +21,16 @@
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.22E.jpg" width="1200" height="627">
-                </a>
-              </p>
-              <h2 class="post-title">
-                      <span>Ferrari Is Building a Theme Park</span>
-                  </h2>
-
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat luxury ga-item-cat"><a>Luxury</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
+          <!--  first article uses current card code-->
         </div>
         <div class="item">
-
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.21C.png" width="1200" height="627">
-                </a>
-              </p>
-              <h2 class="post-title">
-                      <span>Party Whistles in a Car Exhaust Are as Attention Getting as They Are Terrifying</span>
-                  </h2>
-
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat lmao ga-item-cat"><a>LMAO</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
-
+          <!--  second -->
         </div>
         <div class="item">
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.22-SnowPicker03.jpg" width="1200" height="627">
-                </a>
-              </p>
-              <h2 class="post-title">
-                        <span>This Machine Picks Up Snow Instead of Just Moving it Around</span>
-                    </h2>
-
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
+          <!--  third -->
         </div>
         <div class="item">
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.18B.png" width="1200" height="627">
-
-                </a>
-              </p>
-              <h2 class="post-title">
-                        <span>1000 HP Stingray Has One Hell of a Roar</span>
-                    </h2>
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat .sports-car  ga-item-cat"><a>Sports Car</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
+          <!--  fourth -->
         </div>
 
       </div>
@@ -252,68 +48,7 @@
     </div>
   </div>
 
-  <div class="extrastuff">
 
-
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.14A.jpg" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-            <span>Five Minutes of Top Speed Adrenaline</span>
-        </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat motorcycles ga-item-cat"><a>Motorcycles</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.18C.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-            <span>Manifesto – Ferrari Top Design School Challenge 2015</span>
-        </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat luxury ga-item-cat"><a>Luxury</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.13C.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-            <span>SEMA Truck Lands Wrong Way on a Jump</span>
-        </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat crash-burn ga-item-cat"><a>Crash &amp; Burn</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
 
   <!--  new trending menu-->
   <div>
@@ -324,156 +59,35 @@
 
 <!--   insert an advert -->
 <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-  <div id="div-gpt-ad-xxxxxxx">
-    <img src="http://3.bp.blogspot.com/-_QjDV84YXlU/U8oLAVAJ3nI/AAAAAAAAATA/y_ZUX-PrM8I/s1600/banner-970x90.png" alt="sample advert"/>
-  </div>
+  <!--  new homepage ad here -->
 </div>
 <!--  end ad insertion -->
 
-<!--  ################-->
-<!--  ################ to see split bottom, change add class of split-lower-->
+<!-- lower section -->
 <div class="split-lower clearfix">
   <!--  ################-->
-  <!--  ################-->
   <div class="latestposts">
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.12C.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>The World's Most insane Bus Ride Goes through the Himilayas</span>
-            </h2>
+    <!--  2 regular card items here -->
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/20160112B.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Car Parked Near lake Becomes Entombed</span>
-            </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat crash-burn ga-item-cat"><a>Crash &amp; Burn</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
     <div class="card-item post-list full-width">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.12B.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Check Out This Car you Will Never Be Able to Afford</span>
-            </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat luxury ga-item-cat"><a>Luxury</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
+      <!--  The third item needs a class of full-width OR I can use some CSS selector magic -->
     </div>
 
-    <div class="card-item post-list " style="display:none;">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.11K.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Red Light Runner Gets Instant Karma</span>
-            </h2>
+    <!--  2 more regular posts -->
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat good-guy-bad-guy ga-item-cat"><a>Good Guy Bad Guy</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!--  insert another advert -->
-
-
-    <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both; display:none;">
-      <div id="div-gpt-ad-xxxxxxx">
-        <img src="http://www.shareasale.com/image/17824/Holiday_special_banner1_00.jpg" alt="sample advert"/>
-      </div>
-    </div>
-
-
-
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/20160107F.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Rat Rod Mudder Mashup Catches Big Air</span>
-            </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat off-road ga-item-cat"><a>Off Road</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.11-SnowMachine.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>The Snow Machine to End All Snow Machines</span>
-            </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
-          <span class="clearfix"></span>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="lower-rail-ads">
-    <div>
-      <img src="http://www.yamanair.com/wp-content/uploads/Safford_Fiat_300x600_v52.gif" alt="sample ad" />
-    </div>
+    <!--  NEW 300x600 advert goes here -->
   </div>
 
 </div>
 
-<div class="mega-footer clearfix cf clear bg-dark-brand">
+<div class="mega-footer clearfix">
   <div class="pull-left">
     <ng-include src="'/views/partials/search.html'"></ng-include>
   </div>
-  <div class="pull-right" style="width:33%; text-align:right">
+  <div class="ad-copyright">
     <div>
       © 2016 alt_driver. All rights reserved.
     </div>
