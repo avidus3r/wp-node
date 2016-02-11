@@ -28,6 +28,14 @@
     .latestposts .post-list {
       margin: .5%;
     }
+
+// space for smaller screens
+    @media all and (max-width:800px) {
+      .latestposts .post-list {
+        margin-bottom: 1em;
+      }
+    }
+
     //  homepage only footer
     .mega-footer {
       color: white;
