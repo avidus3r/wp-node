@@ -250,7 +250,7 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
             res.sendStatus(404);
         }else{
             res.set('Cache-Control','max-age=600');
-            res.send(JSON.stringify(result));
+            res.json(result);
         }
     });
 });

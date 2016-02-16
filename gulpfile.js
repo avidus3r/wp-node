@@ -20,7 +20,8 @@ var gulp            = require('gulp'),
     gulpNgConfig    = require('gulp-ng-config'),
     uglify          = require('gulp-uglify'),
     ngAnnotate      = require('gulp-ng-annotate'),
-    streamify       = require('gulp-streamify');
+    streamify       = require('gulp-streamify'),
+    gifyParse      = require('gify-parse');
 
 var paths   = {
     root:'app/',

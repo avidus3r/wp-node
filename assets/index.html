@@ -112,6 +112,8 @@
     <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
     <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
 
+    <script type="text/javascript" ng-init="initGpt()"></script>
+
     <!-- GTM -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ getAppInfo('gtm_id') }}"
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -270,7 +272,7 @@
 
     </script>
 
-    <script type="text/javascript" ng-init="initAds()"></script>
+
 
 </body>
 </html>

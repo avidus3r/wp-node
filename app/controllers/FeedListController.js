@@ -4,6 +4,8 @@
 TODO: consolidate ad display config
 */
 
+var gifyParse   = require('gify-parse');
+
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q) {
 
     this.name = 'list';
@@ -14,6 +16,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     if(window.history){
         window.history.scrollRestoration = 'manual';
     }
+
+    $scope.gifyParse = gifyParse;
 
     $scope.package = {
         name: 'newsfeed'
@@ -695,6 +699,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         if($scope.currentView === 'list' || $scope.currentView === 'search' || $scope.currentView === 'category') {
 
+            var target = $scope.currentView === 'category' ? {'key': 'category', 'value': $scope.currentCategory} : ($scope.currentView === 'search' ? {'key': 'view', 'value': 'search'} : {'key': 'view', 'value': 'home'});
+
+            $rootScope.setTargeting(target.key, target.value, true);
+
             if($scope.posts.length === 0){
                 //$scope.feedConfig = null;
                 item = {};
@@ -820,6 +828,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
         if($scope.currentView === 'post') {
             item = $scope.post;
+            if(item.postmeta.hasOwnProperty('explicit')){
+                if(item.postmeta.explicit[0] !== ''){
+                    $rootScope.setTargeting('explicit', 'true', false);
+                }
+            }
+            $rootScope.setTargeting('category', item.category[0].name, true);
 
             $scope.singlePostID = item.id;
             item.type = 'post-single';
