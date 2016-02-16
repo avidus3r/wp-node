@@ -4,7 +4,7 @@
 TODO: consolidate ad display config
 */
 
-var gifyParse   = require('gify-parse');
+//var gifyParse   = require('gify-parse');
 
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q) {
 
@@ -17,7 +17,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         window.history.scrollRestoration = 'manual';
     }
 
-    $scope.gifyParse = gifyParse;
+    //$scope.gifyParse = gifyParse;
 
     $scope.package = {
         name: 'newsfeed'
