@@ -18,7 +18,7 @@
 // all modifier cards - everything that is not a post
 .card[class*="card-"] {
   padding: 1em;
-  
+
   margin: 1em auto 1em;
 
   // spacing
@@ -35,7 +35,7 @@
   // dark
   background-color: rgba(0,0,0,.7);
   color: #fff;
-  
+
 
   // make the button text larger
   .btn-primary {
@@ -181,5 +181,11 @@
   }
 }
 
+.partner-post {
+  .pub-name p {
+      font-style: italic;
+      font-size: 90%;
+  }
+}
 // Sponsored posts styles
 @import 'sponsors';
