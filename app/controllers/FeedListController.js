@@ -723,7 +723,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 var pushedItems = 0;
 
                 angular.forEach($scope.posts, function (item, index) {
-                    if(item.type !== 'animated-gif'){
+                    if(item.type !== 'animated-gif' && item.type !== 'partner-post'){
                         item.type = 'post-'+$scope.currentView;
                     }
 
@@ -836,7 +836,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $rootScope.setTargeting('category', item.category[0].name, true);
 
             $scope.singlePostID = item.id;
-            item.type = 'post-single';
+            if(item.type !== 'partner-post') item.type = 'post-single';
 
             item.post_index = $scope.postIndex-1;
             //$scope.postIndex++;
