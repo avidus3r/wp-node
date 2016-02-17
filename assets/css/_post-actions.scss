@@ -36,7 +36,7 @@
   // space the comments out a bit
   .pa-comments {
     margin-left: 2em;
-    
+
   }
 
   .share-meta{
@@ -50,5 +50,24 @@
     &.voted{
       color:lightblue;
     }
+
+
+  }
+
+  // temp hide the votes
+  .share-meta,
+  .pa-voting {
+    display: none;
+  }
+
+    .pa-comments {
+      margin-left: 0;
+    }
+}
+
+.post-actions {
+  
+  .ad-m {
+    @extend .clearfix;
   }
 }
