@@ -89,7 +89,7 @@ app.get('/api/articles/:perPage/:page/:skip', function(req,res){
             if(result.length === 0){
                 res.sendStatus(404);
             }else{
-                res.send(JSON.stringify(result));
+                res.status(200).json(result);
             }
         });
     }
@@ -133,7 +133,7 @@ app.get('/server', function(req,res){
 
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
-    request('http://admin.altdriver.com/'+feedName, function (error, response, body) {
+    request('http://altdriver.altmedia.com/'+feedName, function (error, response, body) {
         var result = body.replace(/admin./g,'www.');
 
         res.set('Content-Type', 'text/xml; charset=UTF-8');

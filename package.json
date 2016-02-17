@@ -29,6 +29,7 @@
     "express": "latest",
     "external-ip": "^0.2.4",
     "fs": "0.0.2",
+    "gify-parse": "^1.0.5",
     "gulp": "latest",
     "gulp-browserify": "latest",
     "gulp-clean": "~0.2.4",

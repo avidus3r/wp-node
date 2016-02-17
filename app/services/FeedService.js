@@ -74,6 +74,17 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
+    feed.getImageBuffer = function(url){
+        var deferred = $q.defer();
+        delete $http.defaults.headers.common['X-Requested-With'];
+        $http.get(url, {responseType: "arraybuffer"})
+            .then(function (response) {
+                deferred.resolve(response);
+            });
+
+        return deferred.promise;
+    };
+
     feed.getDBCategoryPosts = function(category, numPosts, pageNum, skip){
         var url = '/api/category/'+ category + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');

@@ -153,7 +153,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var appConfig = app;
     $rootScope.orientation = null;
     $rootScope.gptAdSlots = [];
-
+    $rootScope.adKeyPairs = [];
+    $rootScope.gptReady = null;
+    $rootScope.readyInterval = null;
     $rootScope.adsEnabled = true;
 
     if(location.pathname === '/articles'){
@@ -433,13 +435,23 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return appConfig[param];
     };
 
-    $rootScope.initAds = function(){
+    $rootScope.setTargeting = function(key, value, init){
+        var obj = { 'key': key, 'value': value };
+        $rootScope.adKeyPairs.push(obj);
+        if(init) $rootScope.initAds();
+    };
 
-        if(location.pathname === '/adtest'){
-            $rootScope.testAds();
-            return;
-        }
-        if(!$rootScope.adsEnabled) return;
+    /*$rootScope.initSidebarAd = function(placementIndex){
+        $rootScope.readyInterval = window.setInterval(function(){
+            if($rootScope.gptReady === true){
+                angular.element('.sidebar .dt-ad').html('<pubad placementIndex="' + placementIndex + '"></pubad>');
+                window.clearInterval($rootScope.readyInterval);
+            }
+        },100);
+
+    };*/
+
+    $rootScope.initGpt = function() {
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {
@@ -452,6 +464,15 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             var node = document.getElementsByTagName('script')[0];
             node.parentNode.insertBefore(gads, node);
         })();
+    };
+
+    $rootScope.initAds = function(){
+        if(location.pathname === '/adtest'){
+            $rootScope.testAds();
+            return;
+        }
+        if(!$rootScope.adsEnabled) return;
+
 
         var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
         var ads = app.pubads[platform];
@@ -461,7 +482,16 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
+            if($rootScope.adKeyPairs.length > 0){
+                var totalTargets = $rootScope.adKeyPairs.length;
+                for(var i=0;i<totalTargets;i++){
+                    console.log($rootScope.adKeyPairs[i].key,$rootScope.adKeyPairs[i].value);
+                    window.googletag.pubads().setTargeting($rootScope.adKeyPairs[i].key,$rootScope.adKeyPairs[i].value);
+                }
+            }
         });
+
+        $rootScope.gptReady = true;
 
     };
 
@@ -480,8 +510,6 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.testAds = function(){
-
-
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {

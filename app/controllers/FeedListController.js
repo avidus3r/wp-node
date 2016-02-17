@@ -4,6 +4,8 @@
 TODO: consolidate ad display config
 */
 
+//var gifyParse   = require('gify-parse');
+
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q) {
 
     this.name = 'list';
@@ -14,6 +16,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     if(window.history){
         window.history.scrollRestoration = 'manual';
     }
+
+    //$scope.gifyParse = gifyParse;
 
     $scope.package = {
         name: 'newsfeed'
@@ -628,11 +632,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var cat = null;
         var catParent = null;
 
-        angular.forEach(categories, function (category, index) {
+        /*angular.forEach(categories, function (category, index) {
             if(category.slug.replace('-','') === appName){
                 catParent = category.term_id;
             }
-        });
+        });*/
+
         angular.forEach(categories, function (category, index) {
             if(catParent){
                 if(category.parent === catParent){
@@ -666,6 +671,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return link;
     };
 
+    $scope.loadGif = function(item, $event){
+        var postContainer = angular.element($event.currentTarget).closest('.post-content');
+        postContainer.css({'height': postContainer.height() +'px'});
+        angular.element($event.currentTarget).parent().html('');
+        var gif = angular.element(item.content.rendered);
+        gif.find('img').css({'max-width':'100%', 'height':'auto'});
+        postContainer.prepend(gif);
+    };
 
     $scope.init = function() {
 
@@ -685,6 +698,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
 
         if($scope.currentView === 'list' || $scope.currentView === 'search' || $scope.currentView === 'category') {
+
+            var target = $scope.currentView === 'category' ? {'key': 'category', 'value': $scope.currentCategory} : ($scope.currentView === 'search' ? {'key': 'view', 'value': 'search'} : {'key': 'view', 'value': 'home'});
+
+            $rootScope.setTargeting(target.key, target.value, true);
 
             if($scope.posts.length === 0){
                 //$scope.feedConfig = null;
@@ -706,7 +723,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 var pushedItems = 0;
 
                 angular.forEach($scope.posts, function (item, index) {
-                    item.type = 'post-'+$scope.currentView;
+                    if(item.type !== 'animated-gif' && item.type !== 'partner-post'){
+                        item.type = 'post-'+$scope.currentView;
+                    }
+
 
                     if($scope.currentView === 'category') item.type = 'post-list';
 
@@ -808,9 +828,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
         if($scope.currentView === 'post') {
             item = $scope.post;
+            if(item.postmeta.hasOwnProperty('explicit')){
+                if(item.postmeta.explicit[0] !== ''){
+                    $rootScope.setTargeting('explicit', 'true', false);
+                }
+            }
+            $rootScope.setTargeting('category', item.category[0].name, true);
 
             $scope.singlePostID = item.id;
-            item.type = 'post-single';
+            if(item.type !== 'partner-post') item.type = 'post-single';
 
             item.post_index = $scope.postIndex-1;
             //$scope.postIndex++;
@@ -1064,9 +1090,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         switch($scope.appConfig.name) {
             case 'altdriver':
                 if($scope.platform === 'desktop') {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/AD_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
+                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag || {}; googletag.cmd = window.googletag.cmd || [];var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/AD_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
                 }else{
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/AD_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
+                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag || {}; googletag.cmd = window.googletag.cmd || [];var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/AD_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
                 }
                 break;
             case 'driversenvy':

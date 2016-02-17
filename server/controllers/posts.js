@@ -22,11 +22,7 @@ var PostsController = {
 
     post: function(slug){
         var query = Post.findOne({'slug': slug});
-        var db = mongoose.connection;
-
-        query.select('id date campaign_active sponsor parent guid modified modified_gmt slug type link title content excerpt author featured_image comment_status ping_status sticky format votes comment_count postmeta category featured_image_src author_meta');
-        var promise = query.exec();
-        return promise;
+        return query.exec();
     },
 
     update: function(postID, data, cb){
@@ -94,17 +90,17 @@ var PostsController = {
 
     posts: function(req, numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
-        var query = Post.find({'type':'post'}).skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
-
-        if(!this._isMobile(req.headers['user-agent'])){
-            query.$where(function(){
-                if(this.postmeta.hasOwnProperty('explicit')){
-                    return this.postmeta.explicit[0] === '';
-                }else{
-                    return this;
-                }
-            });
-        }
+        var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
+        query.$where('this.type === "post" || this.type === "animated-gif" || this.type === "partner-post"');
+        /*if(!this._isMobile(req.headers['user-agent'])){
+         query.$where(function(){
+         if(this.postmeta.hasOwnProperty('explicit')){
+         return this.postmeta.explicit[0] === '';
+         }else{
+         return this;
+         }
+         });
+         }*/
 
         return query.exec();
     },

@@ -252,6 +252,23 @@ body.submit{
   }
 }
 
+.gif-btn{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  border: 3px solid #fff;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  font-weight: bold;
+  margin-left: -30px;
+  margin-top: -30px;
+  font-size: 1.15em;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.85);
+}
+
 .btn.voting-group {
   margin-top: 1em;
 }
