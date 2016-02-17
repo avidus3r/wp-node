@@ -6,7 +6,7 @@ var express         = require('express'),
     request         = require('request'),
     md5             = require('js-md5'),
     multiparty      = require('multiparty'),
-    //extIP	        = require('external-ip'),
+//extIP	        = require('external-ip'),
     PostController  = require('../controllers/posts'),
     ApiCache        = require('apicache'),
     apicache        = ApiCache.options({ debug: true }).middleware;
@@ -18,19 +18,19 @@ router.get('/api/cache/index', function(req, res, next) {
 router.post('/api/cache/clear', function(req, res, next) {
     var form = new multiparty.Form();
     /*var getIP = extIP({
-        replace: true,
-        services: ['http://ifconfig.co/x-real-ip', 'http://ifconfig.io/ip'],
-        timeout: 600,
-        getIP: 'parallel'
-    });*/
+     replace: true,
+     services: ['http://ifconfig.co/x-real-ip', 'http://ifconfig.io/ip'],
+     timeout: 600,
+     getIP: 'parallel'
+     });*/
 
     /*getIP(function (err, ip) {
-        if (err) {
-            throw err;
-        }
-        if(ip.indexOf('159.63.144.2') === -1) return false;
+     if (err) {
+     throw err;
+     }
+     if(ip.indexOf('159.63.144.2') === -1) return false;
 
-    });*/
+     });*/
     var apisecret = null;
     form.parse(req, function(err, fields, files) {
         if(fields.hasOwnProperty('secret') && fields.hasOwnProperty('pwd')){
@@ -132,7 +132,7 @@ router.get('/api/vote/:id/:val', function(req, res){
 
 /*
  Sponsor List
-*/
+ */
 
 
 router.get('/api/sponsors', apicache('45 minutes'), function(req, res){
@@ -287,61 +287,62 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
     console.log(url);
     PostController.updating = false;
 
-        PostController.updating = true;
-        try{
-            setTimeout(function(){
-                request(url, function (error, response, body) {
+    PostController.updating = true;
+    try{
+        setTimeout(function(){
+            request(url, function (error, response, body) {
 
-                    if(response.statusCode === 403){
-                        PostController.destroy(postId);
-                    }
+                if(response.statusCode === 403){
+                    PostController.destroy(postId);
+                }
 
-                    if(response.statusCode === 200) {
-                        var post = JSON.parse(body);
+                if(response.statusCode === 200) {
+                    var post = JSON.parse(body);
 
-                        PostController.exists(post.id).then(function (result) {
-                            if (result.length === 0) {
+                    PostController.exists(post.id).then(function (result) {
+                        if (result.length === 0) {
 
-                                PostController.insert(post, function (success) {
-                                    if (!success) res.sendStatus(500);
-                                    res.sendStatus(200);
-                                    PostController.updating = false;
-                                });
+                            PostController.insert(post, function (success) {
+                                if (!success) res.sendStatus(500);
+                                //res.sendStatus(200);
+                                PostController.updating = false;
+                            });
 
-                            } else {
-                                var updatePost = result[0];
+                        } else {
+                            var updatePost = result[0];
 
-                                PostController.update(updatePost._id, post, function (success) {
-                                    if (!success) res.sendStatus(500);
-                                    ApiCache.clear('/api/' + updatePost.slug);
-                                    var env = process.env.NODE_ENV === 'production' ? (process.env.appname === 'altdriver' ? 'www.' : '') : 'staging.';
-                                    var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
-                                    var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
-                                    console.log('posturl: ', postUrl);
-                                    setTimeout(function() {
-                                        request
-                                            .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
-                                            .on('response', function (response) {
-                                                console.log(response);
-                                            });
-                                    },3000);
+                            PostController.update(updatePost._id, post, function (success) {
+                                if (!success) res.sendStatus(500);
+                                ApiCache.clear('/api/' + updatePost.slug);
+                                var env = process.env.NODE_ENV === 'production' ? (process.env.appname === 'altdriver' ? 'www.' : '') : 'staging.';
+                                var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
+                                var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
+                                console.log('posturl: ', postUrl);
+                                setTimeout(function() {
+                                    request
+                                        .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
+                                        .on('response', function (response) {
+                                            console.log(response);
+                                        });
+                                },3000);
 
-                                    res.sendStatus(200);
-                                    PostController.updating = false;
-                                });
-                            }
-                        });
-                    }else{
-                        res.sendStatus(response.statusCode);
-                        PostController.updating = false;
-                    }
-                });
-            },9000);
-        }catch(e){
-            var error = {'error':e};
-            console.log(e);
-            res.send(JSON.stringify(error));
-        }
+                                //res.sendStatus(200);
+                                PostController.updating = false;
+                            });
+                        }
+                    });
+                }else{
+                    //res.sendStatus(response.statusCode);
+                    PostController.updating = false;
+                }
+            });
+        },4000);
+        res.sendStatus(200);
+    }catch(e){
+        var error = {'error':e};
+        console.log(e);
+        res.send(JSON.stringify(error));
+    }
 
     //res.end();
 });
