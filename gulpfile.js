@@ -117,7 +117,7 @@ gulp.task('assets', function() {
         .pipe(gulp.dest('./dist/'));
 
     if(!process.env.appname){
-        process.env.appname = 'altdriver';
+        process.env.appname = 'driversenvy';
     }
 
     var iconsPath = './app/package/favicons/'+process.env.appname;
@@ -224,7 +224,7 @@ gulp.task('build', function(callback) {
         process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
 
         process.env.mdbuser = 'admin';
-        process.env.mdbpass = '@ltDr1v3r!';
+        process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     }
     runSequence('clean','config', 'css:sass', 'css:min', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });
