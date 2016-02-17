@@ -5,21 +5,27 @@ var gulp            = require('gulp'),
     sass            = require('gulp-sass'),
     /*git             = require('gulp-git'),*/
     fs              = require('fs'),
-    es              = require('event-stream'),
+    //es              = require('event-stream'),
     path            = require('path'),
     clean           = require('gulp-clean'),
     browserify      = require('gulp-browserify'),
     runSequence     = require('run-sequence'),
-    pkg             = require('./package.json'),
+    //pkg             = require('./package.json'),
     plugins         = gulpLoadPlugins(),
     csslint         = require('gulp-csslint'),
     cssmin          = require('gulp-cssmin'),
     jasmine         = require('gulp-jasmine'),
-    reporters       = require('jasmine-reporters'),
+    //reporters       = require('jasmine-reporters'),
     Server          = require('karma').Server,
-    gulpNgConfig    = require('gulp-ng-config');
+    gulpNgConfig    = require('gulp-ng-config'),
+    uglify          = require('gulp-uglify'),
+    ngAnnotate      = require('gulp-ng-annotate'),
+    streamify       = require('gulp-streamify'),
+    gifyParse      = require('gify-parse');
 
 var paths   = {
+    root:'app/',
+    src:'app/',
     js: ['app/**/*.js', '!tests/**/*.js'],
     sass: ['assets/**/*.scss'],
     assets:['assets/**/*.*', '!assets/**/*.scss'],
@@ -29,12 +35,38 @@ var paths   = {
     package:['app/package/**/*.*']
 };
 
-gulp.task('scripts', ['lint'], function(){
+gulp.task('scripts', function(){
     return gulp.src('app/app.js')
         .pipe(browserify({
             insertGlobals: true
         }))
         .pipe(gulp.dest('./dist/js'))
+});
+
+gulp.task('compress', function() {
+    return gulp.src('dist/js/app.js')
+        .pipe(uglify({mangle:false}))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('ngAnnotate', function () {
+    if(process.env.NODE_ENV === 'local') return;
+    return gulp.src([
+        paths.src + '**/*.js',
+        '!' + paths.src + 'third-party/**',
+    ])
+        .pipe(ngAnnotate())
+        .pipe(gulp.dest(paths.root + 'ngAnnotate'));
+});
+
+gulp.task('browserify-min', ['ngAnnotate'], function () {
+    if(process.env.NODE_ENV === 'local') return;
+    return gulp.src('app/ngAnnotate/app.js')
+        .pipe(browserify({
+            insertGlobals: true
+        }))
+        .pipe(streamify(uglify({mangle: false})))
+        .pipe(gulp.dest(('dist/js')));
 });
 
 gulp.task('templates', function(){
@@ -43,9 +75,8 @@ gulp.task('templates', function(){
 });
 
 gulp.task('config', function(){
-    if(!process.env.appname){
-        process.env.appname = 'altdriver';
-    }
+    var creds = require('./app/config/creds.json');
+    process.env.apisecret = JSON.stringify(creds);
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
@@ -131,13 +162,19 @@ gulp.task('css:sass', function () {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('clean', function () {
-    return gulp.src('./dist', { read: false })
-        .pipe(clean());
+gulp.task('cleanApp', function () {
+    if(process.env.NODE_ENV === 'local') return;
+    return gulp.src('./app/ngAnnotate/', { read: false })
+        .pipe(clean({force:true}));
+});
+
+gulp.task('clean', ['cleanApp'], function () {
+    return gulp.src('./dist/', { read: false })
+        .pipe(clean({force:true}));
 });
 
 gulp.task('env:development', function () {
-    process.env.NODE_ENV = 'development';
+    process.env.NODE_ENV = 'local';
 });
 
 gulp.task('env:production', function () {
@@ -149,8 +186,8 @@ gulp.task('devServe', ['env:development'], function () {
     plugins.nodemon({
         script: 'server.js',
         ext: 'html js',
-        env: { 'NODE_ENV': 'development' } ,
-        ignore: ['node_modules/', 'bower_components/', 'logs/', 'packages/*/*/public/assets/lib/', 'packages/*/*/node_modules/', '.DS_Store', '**/.DS_Store', '.bower-*', '**/.bower-*'],
+        env: { 'NODE_ENV': 'local' } ,
+        ignore: ['node_modules/', 'dist', 'bower_components/', 'logs/', 'packages/*/*/public/assets/lib/', 'packages/*/*/node_modules/', '.DS_Store', '**/.DS_Store', '.bower-*', '**/.bower-*'],
         nodeArgs: ['--debug'],
         stdout: false
     }).on('readable', function() {
@@ -174,8 +211,20 @@ gulp.task('watch', function () {
     gulp.watch(paths.tests, ['tests']);
 });
 
-gulp.task('default',['build','devServe','watch']);
+gulp.task('default',['build', 'devServe', 'watch']);
 
 gulp.task('build', function(callback) {
-    runSequence('clean','config', 'css:sass', 'css', 'assets', 'templates', 'data', 'scripts', callback);
+    if(!process.env.NODE_ENV){
+        process.env.NODE_ENV = 'local';
+        var currPath = __dirname.split('/');
+        var appName = currPath[currPath.length-1];
+        process.env.appname = appName;
+        process.env.mdbname = appName;
+        process.env.mdbhost = 'localhost:27017';
+        process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+
+        process.env.mdbuser = 'admin';
+        process.env.mdbpass = '@ltDr1v3r!';
+    }
+    runSequence('clean','config', 'css:sass', 'css:min', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
 });

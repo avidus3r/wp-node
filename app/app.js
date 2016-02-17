@@ -7,7 +7,7 @@ var angular     = require('angular'),
     appName     = null;
 
 //Angular Dependencies
-require('../assets/js/angular-metatags.min');
+require('./vendor/angular-metatags.min');
 require('./config/config');
 
 function getQueryParamValue(variable) {
@@ -153,6 +153,16 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     var appConfig = app;
     $rootScope.orientation = null;
     $rootScope.gptAdSlots = [];
+    $rootScope.adKeyPairs = [];
+    $rootScope.gptReady = null;
+    $rootScope.readyInterval = null;
+    $rootScope.adsEnabled = true;
+
+    if(location.pathname === '/articles'){
+        $rootScope.adsEnabled = false;
+    }else{
+        $rootScope.adsEnabled = true;
+    }
 
     if(location.href.indexOf('local.') > -1){
         $rootScope.displayAds = false;
@@ -215,15 +225,17 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.gaID = appConfig.ga;
     $rootScope.app = appConfig;
 
-    angular.element('body').addClass($rootScope.app.name);
-    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name +'.css">');
-
     $rootScope.getOrientation = function(){
         if(!$rootScope.orientation){
             $rootScope.orientation = (window.outerWidth > window.outerHeight) ? 'landscape' : 'portrait';
         }
         return $rootScope.orientation;
     };
+
+    angular.element('body').addClass($rootScope.isMobile());
+    angular.element('body').addClass($rootScope.getOrientation());
+    angular.element('body').addClass($rootScope.app.name);
+    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name +'.css">');
 
     //$rootScope.lastIndex = 0;
 
@@ -301,9 +313,6 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             voteButton.parent().find('button').attr('disabled', 'disabled');
 
             var req = FeedService.vote(postID, voteVal);
-            req.addEventListener('load', function () {
-                var result = this.responseText;
-            });
 
             if (voteButton.closest('.post-actions').find('.vote-count').text() === '1') {
                 voteButton.closest('.post-actions').find('.pointsTxt').text('point');
@@ -329,6 +338,9 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
+        if(Number(postOffset) === 0){
+            //postOffset = 1;
+        }
         try {
             localStorage.setItem('post_offset', postOffset);
         }catch(e) {
@@ -392,6 +404,21 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.getFeaturedImage = function(img, attr){
         var attrs = {'src': 0, 'width': 1, 'height': 2};
+        if(img.original[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.original[0] = img.original[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        }
+        if(img.medium[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.medium[0] = img.medium[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        }
+
+        if(img.original[0].indexOf('http://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.original[0] = img.original[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        }
+        if(img.medium[0].indexOf('http://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.medium[0] = img.medium[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        }
+
+
 
         if(/ios/i.test($rootScope.isMobile())){
             return img.medium[attrs[attr]];
@@ -408,7 +435,81 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return appConfig[param];
     };
 
+    $rootScope.setTargeting = function(key, value, init){
+        var obj = { 'key': key, 'value': value };
+        $rootScope.adKeyPairs.push(obj);
+        if(init) $rootScope.initAds();
+    };
+
+    /*$rootScope.initSidebarAd = function(placementIndex){
+        $rootScope.readyInterval = window.setInterval(function(){
+            if($rootScope.gptReady === true){
+                angular.element('.sidebar .dt-ad').html('<pubad placementIndex="' + placementIndex + '"></pubad>');
+                window.clearInterval($rootScope.readyInterval);
+            }
+        },100);
+
+    };*/
+
+    $rootScope.initGpt = function() {
+        window.googletag = window.googletag || {};
+        window.googletag.cmd = window.googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' === document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') +
+            '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+    };
+
     $rootScope.initAds = function(){
+        if(location.pathname === '/adtest'){
+            $rootScope.testAds();
+            return;
+        }
+        if(!$rootScope.adsEnabled) return;
+
+
+        var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
+        var ads = app.pubads[platform];
+
+        window.googletag.cmd.push(function() {
+
+            window.googletag.pubads().enableSingleRequest();
+            window.googletag.pubads().collapseEmptyDivs();
+            window.googletag.enableServices();
+            if($rootScope.adKeyPairs.length > 0){
+                var totalTargets = $rootScope.adKeyPairs.length;
+                for(var i=0;i<totalTargets;i++){
+                    console.log($rootScope.adKeyPairs[i].key,$rootScope.adKeyPairs[i].value);
+                    window.googletag.pubads().setTargeting($rootScope.adKeyPairs[i].key,$rootScope.adKeyPairs[i].value);
+                }
+            }
+        });
+
+        $rootScope.gptReady = true;
+
+    };
+
+    $rootScope.getQueryParamValue = function(variable) {
+
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == variable) {
+                return decodeURIComponent(pair[1]);
+            }
+        }
+        return null;
+    };
+
+    $rootScope.testAds = function(){
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {
@@ -426,10 +527,20 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var ads = app.pubads[platform];
 
         window.googletag.cmd.push(function() {
-
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
+
+            if($rootScope.getQueryParamValue('campaign') !== null){
+                if($rootScope.getQueryParamValue('campaign').length > 0){
+                    window.googletag.pubads().setTargeting('campaign',$rootScope.getQueryParamValue('campaign'));
+                }else{
+                    window.googletag.pubads().setTargeting('campaign','testing');
+                }
+
+            }else{
+                window.googletag.pubads().setTargeting('campaign','testing');
+            }
         });
 
     };

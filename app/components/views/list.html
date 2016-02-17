@@ -1,7 +1,12 @@
-<div class="wrapper single-post {{ currentView }}">
+<div class="wrapper single-post {{ currentView }}" ng-init="find()">
     <div id="scroll-container">
+        <div ng-repeat="item in posts track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+            <!--<card ng-if="post.type != 'instagram' && post.type != 'ad'" error="{{ post.noresults ? 'no-results' : '' }}" type="{{ post.type }}"></card>-->
+            <card type="post-list"></card>
+        </div>
+    </div>
 
-        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+        <!--<div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
             <div ng-if="currentView === 'sponsor' && $index === 0">
                 <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
@@ -17,10 +22,6 @@
                 <pubad placementIndex="{{ item.placementIndex }}"></pubad>
             </div>
 
-            <!--<div ng-if="currentView === 'post' && $index === 0">
-                <card type="post-companion-leaderboard"></card>
-            </div>-->
-        </div><!-- /ng-repeat -->
+        </div>-->
 
-    </div>
 </div>

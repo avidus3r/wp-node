@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" xmlns="http://www.w3.org/1999/html" ng-app="NewsFeed">
 
 <head>
-    <!--{{ newrelic.getBrowserTimingHeader() }}-->
+    {{ newrelic.getBrowserTimingHeader() }}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <meta charset="utf-8"/>
@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="mobile-web-app-capable" content="yes">
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 
     <meta name="description" content="{{ metatags.description }}">
     <!-- index.html -->
@@ -39,19 +39,10 @@
     <meta name="twitter:image:src" content="{{ metatags.tw_image }}">
     <meta name="twitter:creator" content="{{ metatags.tw_creator }}">
 
-    <title></title>
+    <title>{{ metatags.title }}</title>
 
-    <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="/css/styles.css"/>
-    <!-- IF site != to altdriver.com load override css as sitename.css
-    <link type="text/css" rel="stylesheet" href="/css/site/{{sitename}}.css"/>
-     -->
+    <link type="text/css" rel="stylesheet" href="/css/styles.min.css"/>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="/js/app.js"></script>
-    <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Montserrat|Pontano+Sans|Rokkitt|Lora|Lato:400,700' rel='stylesheet' type='text/css'>
     <!-- START Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
@@ -75,51 +66,204 @@
     <meta name="msapplication-TileImage" content="/favicons/mstile-310x310.png" sizes="310x310">
     <!-- END Favicons -->
 
+    <script type="text/javascript">
+        var adsEnabled = true;
+
+        if(location.pathname === '/articles' && location.pathname !== '/adtest'){
+            adsEnabled = false;
+        }else{
+            adsEnabled = true;
+        }
+        function _isMobile(){
+            var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
+
+            if ( mobileUAStr.test(navigator.userAgent) ){
+                return true;
+            }else if( desktopUAStr.test(navigator.userAgent) ){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function isMobile(){
+            var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
+            var result = null;
+
+            if ( mobileUAStr.test(navigator.userAgent) ){
+                result = mobileUAStr.exec(navigator.userAgent);
+                var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
+                return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
+            }else if( desktopUAStr.test(navigator.userAgent) ){
+                result = desktopUAStr.exec(navigator.userAgent);
+                return 'desktop ' + result[0].toLowerCase().replace(' ','-');
+            }else{
+                return 'unknown';
+            }
+        }
+    </script>
+
 </head>
-<body class="{{ isMobile() }} {{ getOrientation() }}">
+<body>
 
-    <script type="text/javascript" ng-init="initAds()"></script>
+    <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
+    <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
+    <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
 
-    <div id="fb-px-id" style="display: none;">{{ getAppInfo('fb_pixel_id') }}</div>
-    <div id="fb-app-id" style="display: none;">{{ getAppInfo('fb_appid') }}</div>
-    <div id="gtm-id" style="display: none;">{{ getAppInfo('gtm_id') }}</div>
+    <script type="text/javascript" ng-init="initGpt()"></script>
 
-    <ng-include src="'/views/partials/header.html'"></ng-include>
+    <!-- GTM -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ getAppInfo('gtm_id') }}"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>
+        setTimeout(function() {
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                        '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', document.getElementById('gtm-id').innerText);
+            var googletag = {};
+            googletag.cmd = [];
+        },500);
+    </script>
+    <!-- End GTM -->
+
+    <!--
+        TODO: testing removal of ng-include
+        <ng-include src="'/views/partials/header.html'"></ng-include>
+        <ng-include src="'/views/partials/ga.html'"></ng-include>
+        <ng-include src="'/views/partials/fb-px.html'"></ng-include>
+    -->
+
+    <header class="feed-header clearfix" ng-controller="HeaderController">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed ga-navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" ng-click="navClick()">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ng-click="goToPage($event, $index, '/')">
+
+                        <span class="site-title">{{ app.title }}</span>
+
+                    </a>
+                    <a ng-click="goToPage($event, $index, '/submit')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Upload</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right nav-submit">
+                        <li>
+                            <a ng-click="goToPage($event, $index, '/submit')" type="button" class="btn btn-default navbar-btn btn-submit-story ga-btn-submit-story">Upload</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li ng-repeat="item in navItems" class="{{item.class}}">
+                            <a href="javascript:void(0)" ng-click="goToCategory(item.slug)" ng-bind-html="item.title" class="ga-nav-item"></a>
+                        </li>
+                        <li class="subscribe" ng-click="goToPage($event, $index, '/subscribe-hub')">
+                            <a href="/subscribe-hub" class="ga-nav-about">Subscribe</a>
+                        </li>
+                        <li class="search">
+                            <input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+                            <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
+                        </li>
+                        <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
+                            <a href="/contact" class="ga-nav-about">Contact</a>
+                        </li>
+                        <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+                            <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+                        </li>
+                        <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+                            <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <div class="app-wrapper">
         <div class="app-main">
             <section class="view-container ng-view"></section>
-            <p id="loading-more" class="center alert alert-info hidden">{{ getAppInfo('loading_message') }}</p>
+            <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
         </div>
-        <div ng-if="getAppInfo('adsPerPage') && displayAds === true" class="app-rail">
+
+        <div class="app-rail">
+
             <section class="sidebar ng-hide">
                 <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
-                <div ng-if="!_isMobile() && isMobile().indexOf('ipad') === -1">
-                    <div class="dt-ad dt-ad-post-half-page">
+
+                    <div ng-if="(!_isMobile() && isMobile().indexOf('ipad') === -1) && adsEnabled" class="dt-ad dt-ad-post-half-page">
                         <pubad ng-init="placementIndex=4" placementIndex="4"></pubad>
                     </div>
                     <!--<div class="dt-ad">
                         <pubad ng-init="placementIndex=5" placementIndex="5"></pubad>
                     </div>-->
-                </div>
+
                 <!-- Add a trending card for 5 most popular posts -->
             </section>
         </div>
     </div>
 
-    <ng-include src="'/views/partials/ga.html'"></ng-include>
-    <ng-include src="'/views/partials/fb-px.html'"></ng-include>
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        var fbPixID = document.getElementById('fb-px-id').innerText;
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', fbPixID);
+        fbq('track', "PageView");</script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=344487495675681&ev=PageView&noscript=1"/></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Montserrat|Pontano+Sans|Rokkitt|Lora|Lato:400,700' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="/js/app.js"></script>
 
     <script type="text/javascript">
-
         angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
-            console.log('trackPageView: ', pageNum, pageTitle);
             var path = location.pathname === '/' ? '' : location.pathname;
-            dataLayer.push({
-                'event': 'VirtualPageview',
-                'virtualUrl': path + 'page/' + pageNum,
-                'virtualPageTitle': pageTitle
-            });
+            if(typeof dataLayer === undefined){
+                setTimeout(function(){
+                    try{
+                        dataLayer.push({
+                            'event': 'VirtualPageview',
+                            'virtualUrl': path + 'page/' + pageNum,
+                            'virtualPageTitle': pageTitle
+                        });
+                    }catch(e){
+                        console.error('could not load gtm dataLayer', e);
+                    }
+                }, 2000);
+            }else{
+                setTimeout(function(){
+                    dataLayer.push({
+                        'event': 'VirtualPageview',
+                        'virtualUrl': path + 'page/' + pageNum,
+                        'virtualPageTitle': pageTitle
+                    });
+                },550);
+
+            }
         };
 
         angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
@@ -127,6 +271,8 @@
         };
 
     </script>
+
+
 
 </body>
 </html>

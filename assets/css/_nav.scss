@@ -1,7 +1,7 @@
 // use the sitename for individual channels/urls on the body - where sitename = brand
 
 .altdriver .navbar-brand {
-  background-image: url('http://admin.altdriver.com/wp-content/uploads/logo_alt_driver_250x51.png');
+  background-image: url('https://s3-us-west-2.amazonaws.com/assets.altdriver/logo_alt_driver.png');
   position: relative;
   top: 14px;
   left: .75em;
@@ -44,10 +44,33 @@
   display: inline-block;
   width: 0;
   height: 0;
-} 
+}
 
 .navbar-nav {
   font-family: $font-headline;
+}
+
+// search box
+// make the searchbox look good
+.header-search-txt {
+  padding: .3em;
+  border: 1px solid #e3e3e3;
+  color:#333;
+  top: 1px;
+  position: relative;
+  min-width: 250px;
+}
+
+ // style the search box in the nav - full width centered when small screen
+.navbar .nav > li.search {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  width: 100%;
+  display: block;
+
+  .btn-search {
+    padding: 4px 10px;
+  }
 }
 
 // custom navigation styles Bootstrap overrides
@@ -60,10 +83,9 @@
     padding-top: .5em;
   }
 
-  // make the expandable nav colors different
-  .nav > li {
+  // make the expandable nav colors different and make it multi column
+  .navbar .nav > li {
     display: inline-block;
-
     color: #fff;
 
     a,
@@ -98,11 +120,6 @@
       width: 50%;
     }
 
-    // add a nice border to the search box
-    &.search {
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }    
   }
 
   .navbar-nav > li > a {
@@ -113,7 +130,7 @@
 
 @media all and (min-width: 800px) {
   // UN-centering the legal menu a bit
-  .nav > li {  
+  .navbar .nav > li {
 
     &.legal,
     &.about,
@@ -121,16 +138,16 @@
     &.visitor {
       text-align: left;
       display: inline !important;
-    } 
+    }
     &.search {
       text-align: left;
-    } 
+    }
   }
 }
 
 // two columns in nav
 @media all and (max-width: 669px) {
-  .nav > li {
+  .navbar .nav > li {
     width: 50%;
   }
 }
@@ -138,17 +155,16 @@
 
 @media all and (min-width: 670px ) and (max-width:1800px) {
   // 4 columns nav
-  .nav > li {
+  .navbar .nav > li {
     width: 25%;
   }
 }
 
 @media all and (min-width: 1801px ) {
   // 4 columns nav
-  .nav > li {
+  .navbar .nav > li {
     width: 10%;
   }
-
 }
 
 // submit story button
@@ -170,24 +186,5 @@
 .collapse.in, .collapsing{
   .nav-submit {
       display: none;
-  }
-}
-
-// search box
-// make the searchbox look good
-.header-search-txt {
-  padding: .3em;
-  border: 1px solid #e3e3e3;
-  color:#333;
-  top: 1px;
-  position: relative;
-  min-width: 250px;
-}
-
- // match the btn padding
-.nav > li.search {
-  
-  .btn-search {
-    padding: 4px 10px;
   }
 }

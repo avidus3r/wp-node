@@ -6,6 +6,7 @@ var pubad = function() {
         controller: function($scope, $element, $attrs, $rootScope, app) {
             //window.googletag = window.googletag || {};
             //window.googletag.cmd = window.googletag.cmd || [];
+            //if(!$rootScope.adsEnabled) return;
             var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
             var ads = app.pubads[platform];
             $scope.isDesktop = false;
@@ -56,7 +57,6 @@ var pubad = function() {
             });*/
 
             $scope.getPubad = function(adID, placementIndex, paged, isDesktop){
-
                 if(paged > 1){
                     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 
@@ -81,6 +81,7 @@ var pubad = function() {
                         window.googletag.cmd.push(function () {
                             window.googletag.display($scope.pubadID);
                         });
+
                     },1000);
                 }
             }

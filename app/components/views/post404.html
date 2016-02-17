@@ -1,6 +1,6 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container">
-
+        <h2 class="not-found">Sorry, the page you're looking for cannot be found</h2>
         <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="feed-item" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
             <div ng-if="currentView === 'sponsor' && $index === 0">

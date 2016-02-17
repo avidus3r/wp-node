@@ -4,7 +4,7 @@ var angular = require('angular');
 
 //Angular Dependencies
 require('ng-infinite-scroll');
-require('../assets/js/angular-metatags.min');
+require('angular-metatags.min.js');
 require('angular-mocks/ngMock');
 
 var env = 'prod';

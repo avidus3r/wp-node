@@ -1,3 +1,4 @@
+@import 'vendor/font-awesome';
 @import 'globals';
 @import "mixins";
 @import 'root';
@@ -6,6 +7,15 @@
 
 .wrapper{
 
+}
+
+.not-found{
+  color: #666;
+  margin: .35em .35em .5em;
+  font-size: 1.25em;
+  border: 1px solid #e0e0e0;
+  padding: .5em;
+  background: linear-gradient(to bottom, white 30%, #f3f3f3 100%);
 }
 
 .view-container{
@@ -63,7 +73,7 @@
     padding: 0;
     line-height: 1.5em;
   }
-  
+
   .votes{
     button{
       background: none;
@@ -242,6 +252,23 @@ body.submit{
   }
 }
 
+.gif-btn{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  border: 3px solid #fff;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  font-weight: bold;
+  margin-left: -30px;
+  margin-top: -30px;
+  font-size: 1.15em;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.85);
+}
+
 .btn.voting-group {
   margin-top: 1em;
 }
@@ -264,7 +291,7 @@ body.submit{
 // themes
 @import 'altd-2015';
 
-@import 'vendor/bootstrap.css';
+@import 'vendor/bootstrap';
 
 // bootstrap overrides
 // change breakpoint for Menu

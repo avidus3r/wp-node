@@ -84,7 +84,12 @@
     "type": "Object"
   },
   "postmeta": {
-    "type": "Object"
+    "type": "Object",
+    "run_dates_0_channel":{
+      "type":"array",
+      "required":"true",
+      "default":"null"
+    }
   },
   "category": {
     "type": "Array",

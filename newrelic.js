@@ -8,7 +8,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: [process.env.appname + ' feed'],
+  app_name: [process.env.appname + ' feed - mongo'],
   /**
    * Your New Relic license key.
    */

@@ -14,12 +14,12 @@
                     <span class="site-title">{{ app.title }}</span>
 
                 </a>
-                <a href="/submit" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Upload</a>
+                <a ng-click="goToPage($event, $index, '/submit')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Upload</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right nav-submit">
                     <li>
-                        <a href="/submit" type="button" class="btn btn-default navbar-btn btn-submit-story ga-btn-submit-story">Upload</a>
+                        <a ng-click="goToPage($event, $index, '/submit')" type="button" class="btn btn-default navbar-btn btn-submit-story ga-btn-submit-story">Upload</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav">
@@ -30,7 +30,8 @@
                         <a href="/subscribe-hub" class="ga-nav-about">Subscribe</a>
                     </li>
                     <li class="search">
-                        <ng-include src="'/views/partials/search.html'"></ng-include>
+                        <input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+                        <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
                     </li>
                     <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
                         <a href="/contact" class="ga-nav-about">Contact</a>
