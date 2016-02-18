@@ -11,7 +11,9 @@ var pubad = function() {
             var ads = app.pubads[platform];
             $scope.isDesktop = false;
             $scope.placementIndex = null;
-
+            $attrs.$observe('placementIndex',function(attr){
+                $scope.placementIndex = attr;
+            });
             if(typeof $scope.$parent.item === 'undefined'){
                 $scope.isDesktop = true;
                 $scope.placementIndex = Number($element.attr('placementIndex'));
@@ -31,6 +33,8 @@ var pubad = function() {
                     });
                 }
             }
+
+            console.log($scope.currentPubad);
 
             $scope.pubadID = $scope.currentPubad.tagID;
             if(typeof $scope.currentPubad.dimensions[0] !== 'number'){
@@ -57,13 +61,14 @@ var pubad = function() {
             });*/
 
             $scope.getPubad = function(adID, placementIndex, paged, isDesktop){
+                var pubadID = app.pubads[platform][placementIndex].tagID;
                 if(paged > 1){
                     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 
                         window.googletag.pubads().clear();
                         setTimeout(function(){
                             window.googletag.cmd.push(function() {
-                                window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
+                                window.googletag.cmd.push(function() { window.googletag.display(pubadID); });
                             });
                         },1000);
 
@@ -71,17 +76,16 @@ var pubad = function() {
                         window.googletag.pubads().clear();
                         setTimeout(function(){
                             window.googletag.cmd.push(function() {
-                                window.googletag.cmd.push(function() { window.googletag.display($scope.pubadID); });
+                                window.googletag.cmd.push(function() { window.googletag.display(pubadID); });
                             });
                         },1000);
                     }
                 }else{
                     setTimeout(function() {
-                        console.log('pushing: ', $scope.pubadID);
                         window.googletag.cmd.push(function () {
-                            window.googletag.display($scope.pubadID);
+                            console.log('googpush: window.googletag.display(' + pubadID + ')');
+                            window.googletag.display(pubadID);
                         });
-
                     },1000);
                 }
             }

@@ -651,7 +651,16 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        posts: FeedService.getDBPosts(7,1,0).then(
+                        heroItems: FeedService.getDBPosts(4,1,0).then(
+
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            }
+                        ),
+                        posts: FeedService.getDBPosts(5,1,4).then(
 
                             function(data){
                                 return data;

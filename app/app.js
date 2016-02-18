@@ -457,6 +457,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };*/
 
     $rootScope.initGpt = function() {
+        console.log('initGpt');
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {
@@ -472,11 +473,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.initAds = function(){
+        console.log('initAds');
         if(location.pathname === '/adtest'){
             $rootScope.testAds();
             return;
         }
-        if(!$rootScope.adsEnabled) return;
+        //if(!$rootScope.adsEnabled) return;
 
 
         var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';

@@ -27,7 +27,10 @@
           {"slot": "/110669458/AD_Desktop_Feed02_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-2"},
           {"slot": "/110669458/AD_Desktop_Feed03_Leaderboard", "dimensions": [728, 90], "tagID": "div-gpt-ad-1448906851482-3"},
           {"slot": "/110669458/AD_Desktop_RR01_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-4"},
-          {"slot": "/110669458/AD_Desktop_RR02_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-5"}
+          {"slot": "/110669458/AD_Desktop_RR02_Flex", "dimensions": [[300, 250], [336, 280], [300, 600]], "tagID": "div-gpt-ad-1448906851482-5"},
+          {"slot": "/110669458/AD_Home_Desktop_Leaderboard_01", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1455657666158-0"},
+          {"slot": "/110669458/AD_Home_Desktop_Leaderboard_02", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1455657666158-1"},
+          {"slot": "/110669458/AD_Home_Desktop_RR_01", "dimensions": [[300, 600], [300, 250]], "tagID": "div-gpt-ad-1455657666158-2"}
         ],
         "mobile":[
           {"slot": "/110669458/AD_Mobile_Companion_Flex", "dimensions": [320, 50], "tagID": "div-gpt-ad-1448906851482-6"},

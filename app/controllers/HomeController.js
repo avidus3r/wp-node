@@ -26,8 +26,11 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     };
     $scope.appConfig = app;
     $scope.feedItems = [];
+    $scope.heroItems = [];
+    $scope.heroItemElements = [];
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 0;
+    $scope.heroItemPosition = 0;
     $scope.lastScroll = window.scrollY;
     $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
     $scope.postPrefetchAt = Number($scope.appConfig.prefetch_at);
@@ -42,6 +45,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     $scope.instagramItems = [];
     $scope.instagramIndex = 0;
     $scope.posts = data.posts;
+    $scope.heroItems = data.heroItems;
     $scope.sponsorPosts = [];
     $scope.sponsorItems = [];
     $scope.sponsorCount = 0;
@@ -56,8 +60,10 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
+    $scope.heroItemElements = $scope.heroItems;
 
-    console.log('HomeController :: ',$scope.posts);
+    console.log('HomeController :: ',$scope.heroItems);
+
 
     if(location.href.indexOf('local.') > -1){
         $scope.appConfig.displayAds = 'false';
@@ -262,6 +268,19 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
             $scope.feedItemPosition += 1;
         }
     };
+
+    $scope.createHeroItem = function(item,index){
+        $scope.heroItems[$scope.heroItems.length] = item;
+
+        $scope.heroItemElements[index] = $scope.heroItems[index];
+        $scope.heroItemPosition += 1;
+
+    };
+
+    angular.forEach($scope.heroItems, function(item, index){
+        item.type = 'post-list';
+        $scope.createHeroItem(item, index);
+    });
 
     if($location.$$path === '/adtest'){
 
