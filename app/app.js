@@ -182,6 +182,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     }
 
+    $rootScope.isHome = function(){
+        return location.pathname === '/';
+    };
+
     $rootScope.readMore = function($el){
         var openHeight = 'auto';
         var closedHeight = null;
