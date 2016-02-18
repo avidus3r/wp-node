@@ -390,7 +390,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             item.type = 'post-list';
             if (Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true') {
 
-                if (index === 5) {
+                /*if (index === 5) {
                     var adItem = {};
                     adItem.type = 'ad';
                     //adItem.type = 'post-half-page';
@@ -398,7 +398,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     pagedpostmap.push(adItem);
                     $scope.feedItemScrollAmount += 1;
                     pushedItems++;
-                }
+                }*/
 
                 if (index === 3) {
                     var siteInContentAdItem = {};
@@ -732,7 +732,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     if(Number($scope.appConfig.adsPerPage) > 0){
 
-                        if (index === 5) {
+                        /*if (index === 5) {
                             var adItem = {};
                             adItem.type = 'ad';
                             //adItem.type = 'post-half-page';
@@ -740,7 +740,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             postmap.push(adItem);
                             $scope.feedItemScrollAmount += 1;
                             pushedItems++;
-                        }
+                        }*/
 
                         if (index === 3) {
                             var siteInContentAdItem = {};
@@ -863,7 +863,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                         if(Number($scope.appConfig.adsPerPage) > 0){
 
-                            if (index === 5) {
+                            /*if (index === 5) {
                                 var adItem = {};
                                 adItem.type = 'ad';
                                 //adItem.type = 'post-half-page';
@@ -871,7 +871,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 postmap.push(adItem);
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
-                            }
+                            }*/
 
                             if (index === 3) {
                                 var siteInContentAdItem = {};

@@ -134,7 +134,7 @@ app.get('/server', function(req,res){
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
     request('http://altdriver.altmedia.com/'+feedName, function (error, response, body) {
-        var result = body.replace(/admin./g,'www.');
+        var result = body.replace(/altdriver.altmedia./g,'www.altdriver.');
 
         res.set('Content-Type', 'text/xml; charset=UTF-8');
         res.send(result);
