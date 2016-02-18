@@ -121,6 +121,11 @@ NewsFeed.controller(
 );
 
 NewsFeed.controller(
+    'HomeController',
+    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.HomeController]
+);
+
+NewsFeed.controller(
     'PostsController',
     ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
 );

@@ -608,7 +608,74 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
         })
         .when('/homehero',{
             templateUrl: '/views/home-hero-demo.html',
-            controller: 'PageController'
+            controller: 'HomeController',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route) {
+                    var params = {};
+                    var feedPath = app.feedPath;
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    document.title = appConfig.title;
+
+                    if(Number(appSponsors) > 0){
+
+                        sponsorResolve = FeedService.getCampaigns().then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )
+                    }
+
+                    /*if(appame === 'upshift'){
+                     instagramResolve = null;
+                     }*/
+                    return $q.all({
+                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
+                         function (data) {
+                         return data;
+                         },
+                         function (error) {
+
+                         },
+                         function (notification) {
+
+                         }
+                         ),*/
+                        config:null,
+                        posts: FeedService.getDBPosts(7,1,0).then(
+
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            }
+                        ),
+                        /*instagram: InstagramService.get(10,'nofilter').then(
+                         function(data){
+                         return data;
+                         },
+                         function(error){
+
+                         },
+                         function(notification){
+
+                         }
+                         ),*/
+                        instagram:null,
+                        sponsors: sponsorResolve
+                    });
+                }
+            }
         })
         .when('/subscribe',{
             templateUrl: '/views/subscribe.html',

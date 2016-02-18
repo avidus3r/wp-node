@@ -1,289 +1,231 @@
-
 <!--   insert an advert -->
 <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-  <div id="div-gpt-ad-xxxxxxx">
-    <img src="http://tradiov.com/la/wp-content/uploads/2014/07/Monster-Banner970x90.png" alt="sample advert"/>
-  </div>
+    <div id="div-gpt-ad-xxxxxxx">
+        <img src="http://tradiov.com/la/wp-content/uploads/2014/07/Monster-Banner970x90.png" alt="sample advert"/>
+    </div>
 </div>
 <!--  end ad insertion -->
 <div class="clearfix cf homepage-wrapper">
-  <div class="homepage-carousel">
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-      </ol>
+    <div class="homepage-carousel">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            </ol>
 
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
 
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.22E.jpg" width="1200" height="627">
-                </a>
-              </p>
-              <h2 class="post-title">
-                      <span>Ferrari Is Building a Theme Park</span>
-                  </h2>
+                <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat luxury ga-item-cat"><a>Luxury</a></p>
-                <span class="clearfix"></span>
-              </div>
+
+
+                        <div ng-if="item.type === 'post-list'" class="card-item post-list ">
+                            <div class="post-content feed-view post-view feed ">
+                                <p>
+                                    <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                                        <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
+                                        <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
+                                    </a>
+                                </p>
+                                <h2 class="post-title">
+                                    <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+                                </h2>
+
+                                <div class="author-meta">
+                                    <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                                    <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+
+                                    <span class="clearfix"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
             </div>
-          </div>
+            <!--  end carousel items -->
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-        <div class="item">
-
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.21C.png" width="1200" height="627">
-                </a>
-              </p>
-              <h2 class="post-title">
-                      <span>Party Whistles in a Car Exhaust Are as Attention Getting as They Are Terrifying</span>
-                  </h2>
-
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat lmao ga-item-cat"><a>LMAO</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="item">
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.22-SnowPicker03.jpg" width="1200" height="627">
-                </a>
-              </p>
-              <h2 class="post-title">
-                        <span>This Machine Picks Up Snow Instead of Just Moving it Around</span>
-                    </h2>
-
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="card-item post-list ">
-            <div class="post-content feed-view post-view feed ">
-              <p>
-                <a>
-                  <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.18B.png" width="1200" height="627">
-
-                </a>
-              </p>
-              <h2 class="post-title">
-                        <span>1000 HP Stingray Has One Hell of a Roar</span>
-                    </h2>
-              <div class="author-meta">
-                <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-                <p class="item-cat .sports-car  ga-item-cat"><a>Sports Car</a></p>
-                <span class="clearfix"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!--  end carousel items -->
-
-      <!-- Controls -->
-      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
     </div>
-  </div>
 
 
 
-  <!--  new trending menu-->
-  <div>
-    <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
-  </div>
+    <!--  new trending menu-->
+    <div>
+        <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
+    </div>
 
 </div>
 
 <!--   insert an advert -->
 <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-  <div id="div-gpt-ad-xxxxxxx">
-    <img src="http://3.bp.blogspot.com/-_QjDV84YXlU/U8oLAVAJ3nI/AAAAAAAAATA/y_ZUX-PrM8I/s1600/banner-970x90.png" alt="sample advert"/>
-  </div>
+    <div id="div-gpt-ad-xxxxxxx">
+        <img src="http://3.bp.blogspot.com/-_QjDV84YXlU/U8oLAVAJ3nI/AAAAAAAAATA/y_ZUX-PrM8I/s1600/banner-970x90.png" alt="sample advert"/>
+    </div>
 </div>
 <!--  end ad insertion -->
 
 <!--  ################-->
 <!--  ################ to see split bottom, change add class of split-lower-->
 <div class="split-lower clearfix">
-  <!--  ################-->
-  <!--  ################-->
-  <div class="latestposts">
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.12C.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>The World's Most insane Bus Ride Goes through the Himilayas</span>
-            </h2>
+    <!--  ################-->
+    <!--  ################-->
+    <div class="latestposts">
+        <div class="card-item post-list ">
+            <div class="post-content feed-view post-view feed ">
+                <p>
+                    <a>
+                        <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.12C.png" width="1200" height="627">
+                    </a>
+                </p>
+                <h2 class="post-title">
+                    <span>The World's Most insane Bus Ride Goes through the Himilayas</span>
+                </h2>
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
-          <span class="clearfix"></span>
+                <div class="author-meta">
+                    <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
+                    <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/20160112B.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Car Parked Near lake Becomes Entombed</span>
-            </h2>
+        <div class="card-item post-list ">
+            <div class="post-content feed-view post-view feed ">
+                <p>
+                    <a>
+                        <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/20160112B.png" width="1200" height="627">
+                    </a>
+                </p>
+                <h2 class="post-title">
+                    <span>Car Parked Near lake Becomes Entombed</span>
+                </h2>
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat crash-burn ga-item-cat"><a>Crash &amp; Burn</a></p>
-          <span class="clearfix"></span>
+                <div class="author-meta">
+                    <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
+                    <p class="item-cat crash-burn ga-item-cat"><a>Crash &amp; Burn</a></p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card-item post-list full-width">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.12B.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Check Out This Car you Will Never Be Able to Afford</span>
-            </h2>
+        <div class="card-item post-list full-width">
+            <div class="post-content feed-view post-view feed ">
+                <p>
+                    <a>
+                        <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.12B.png" width="1200" height="627">
+                    </a>
+                </p>
+                <h2 class="post-title">
+                    <span>Check Out This Car you Will Never Be Able to Afford</span>
+                </h2>
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat luxury ga-item-cat"><a>Luxury</a></p>
-          <span class="clearfix"></span>
+                <div class="author-meta">
+                    <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
+                    <p class="item-cat luxury ga-item-cat"><a>Luxury</a></p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="card-item post-list " style="display:none;">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.11K.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Red Light Runner Gets Instant Karma</span>
-            </h2>
+        <div class="card-item post-list " style="display:none;">
+            <div class="post-content feed-view post-view feed ">
+                <p>
+                    <a>
+                        <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.1.11K.png" width="1200" height="627">
+                    </a>
+                </p>
+                <h2 class="post-title">
+                    <span>Red Light Runner Gets Instant Karma</span>
+                </h2>
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat good-guy-bad-guy ga-item-cat"><a>Good Guy Bad Guy</a></p>
-          <span class="clearfix"></span>
+                <div class="author-meta">
+                    <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
+                    <p class="item-cat good-guy-bad-guy ga-item-cat"><a>Good Guy Bad Guy</a></p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
 
 
-    <!--  insert another advert -->
+        <!--  insert another advert -->
 
 
-    <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both; display:none;">
-      <div id="div-gpt-ad-xxxxxxx">
-        <img src="http://www.shareasale.com/image/17824/Holiday_special_banner1_00.jpg" alt="sample advert"/>
-      </div>
-    </div>
-
-
-
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/20160107F.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>Rat Rod Mudder Mashup Catches Big Air</span>
-            </h2>
-
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat off-road ga-item-cat"><a>Off Road</a></p>
-          <span class="clearfix"></span>
+        <div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both; display:none;">
+            <div id="div-gpt-ad-xxxxxxx">
+                <img src="http://www.shareasale.com/image/17824/Holiday_special_banner1_00.jpg" alt="sample advert"/>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card-item post-list ">
-      <div class="post-content feed-view post-view feed ">
-        <p>
-          <a>
-            <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.11-SnowMachine.png" width="1200" height="627">
-          </a>
-        </p>
-        <h2 class="post-title">
-                <span>The Snow Machine to End All Snow Machines</span>
-            </h2>
 
-        <div class="author-meta">
-          <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
-          <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
-          <span class="clearfix"></span>
+
+
+        <div class="card-item post-list ">
+            <div class="post-content feed-view post-view feed ">
+                <p>
+                    <a>
+                        <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/20160107F.png" width="1200" height="627">
+                    </a>
+                </p>
+                <h2 class="post-title">
+                    <span>Rat Rod Mudder Mashup Catches Big Air</span>
+                </h2>
+
+                <div class="author-meta">
+                    <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
+                    <p class="item-cat off-road ga-item-cat"><a>Off Road</a></p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+        <div class="card-item post-list ">
+            <div class="post-content feed-view post-view feed ">
+                <p>
+                    <a>
+                        <img class="featured-image ga-featured-image " src="http://media.altdriver.com/uploads/sites/2/2016.01.11-SnowMachine.png" width="1200" height="627">
+                    </a>
+                </p>
+                <h2 class="post-title">
+                    <span>The Snow Machine to End All Snow Machines</span>
+                </h2>
 
-  <div class="lower-rail-ads">
-    <div>
-      <img src="http://www.yamanair.com/wp-content/uploads/Safford_Fiat_300x600_v52.gif" alt="sample ad" />
+                <div class="author-meta">
+                    <p class="item-author"><span class="light-grey">By</span> Chris Cooper</p>
+                    <p class="item-cat grab-bag ga-item-cat"><a>Grab Bag</a></p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <div class="lower-rail-ads">
+        <div>
+            <img src="http://www.yamanair.com/wp-content/uploads/Safford_Fiat_300x600_v52.gif" alt="sample ad" />
+        </div>
+    </div>
 
 </div>
 
 <div class="mega-footer clearfix">
-  <div class="pull-left">
-    <ng-include src="'/views/partials/search.html'"></ng-include>
-  </div>
-  <div class="ad-copyright" >
-    <div>
-      © 2016 alt_driver. All rights reserved.
+    <div class="pull-left">
+        <ng-include src="'/views/partials/search.html'"></ng-include>
     </div>
-    <div>
-      <a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
+    <div class="ad-copyright" >
+        <div>
+            © 2016 alt_driver. All rights reserved.
+        </div>
+        <div>
+            <a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
+        </div>
     </div>
-  </div>
 </div>
