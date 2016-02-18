@@ -113,6 +113,16 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.post-content {
+  h1, h2, h3, h4, h5 {
+    font-size: 1.2em;
+  }
+  img, div { // fuck you wordpress
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 // move the category tags over the videos
 .feed-view .item-cat {
   position: absolute;
@@ -221,4 +231,3 @@ h1, h2, h3, h4, h5, h6 {
 .flex-reddit {
   order: 3;
 }
-
