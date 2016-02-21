@@ -1,4 +1,4 @@
-require('../../app/app.mock');
+require('.././app.mock');
 describe('FeedSingleController', function(){
     var $controller;
 
