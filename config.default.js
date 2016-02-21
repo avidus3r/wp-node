@@ -11,7 +11,7 @@ exports.config = {
    */
   app_name: [],
   /**
-   * The user's license key. Must be set by per-public configuration file.
+   * The user's license key. Must be set by per-app configuration file.
    *
    * @env NEW_RELIC_LICENSE_KEY
    */

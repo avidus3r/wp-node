@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.set('port', process.env.PORT || 3000);
 
-//public.locals.config = require('./public/config/feed.conf.json');
+//app.locals.config = require('./app/config/feed.conf.json');
 
 /*
  Server Routes
@@ -45,7 +45,7 @@ var apiRouter = api.routes;
 app.use(apiRouter);
 
 /*
-public.get('*', function(req,res,next){
+app.get('*', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     next();
 });
@@ -144,12 +144,12 @@ app.get('/feed/:feedname/', function(req,res){
 /*
  static paths
  */
-//public.use(express.static(__dirname + './tests'));
+//app.use(express.static(__dirname + './tests'));
 app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true}));
 app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
-//public.use(express.static('./admin'));
-//public.use(express.static(__dirname + './data'));
-//public.use(express.static(__dirname + './public/config'));
+//app.use(express.static('./admin'));
+//app.use(express.static(__dirname + './data'));
+//app.use(express.static(__dirname + './app/config'));
 app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
 
 var config = require('./public/config/config.json');
@@ -315,13 +315,13 @@ app.get('/', function(req,res,next){
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
 
-/*public.get('/tests', function(req, res){
+/*app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
 });
 
-public.post('/auth', function(req, res){
+app.post('/auth', function(req, res){
     var input = new multiparty.Form();
-    var creds = require('./public/config/creds.json');
+    var creds = require('./app/config/creds.json');
 
     input.parse(req, function(err, fields, files) {
         var inputUname = md5(fields.uname.toString());
@@ -336,7 +336,7 @@ public.post('/auth', function(req, res){
                 p:pwd,
                 d:Date.now()
             };
-            public.set('auth', JSON.stringify(authed));
+            app.set('auth', JSON.stringify(authed));
             res.redirect('/admin');
         }else{
             res.redirect('/auth');
@@ -345,13 +345,13 @@ public.post('/auth', function(req, res){
 
 });
 
-public.get('/auth', function(req, res){
+app.get('/auth', function(req, res){
     res.sendFile('login.html', { root: path.join(__dirname, './admin') });
 });
 
-public.get('/admin', function(req, res){
-    if(public.get('auth')){
-        var auth = JSON.parse(public.get('auth'));
+app.get('/admin', function(req, res){
+    if(app.get('auth')){
+        var auth = JSON.parse(app.get('auth'));
         var now = Date.now();
         var then = new Date(auth.d);
         var diff = new Date(now-then).getMinutes();
@@ -367,24 +367,24 @@ public.get('/admin', function(req, res){
 
 });
 
-public.post('/admin', function(req, res){
+app.post('/admin', function(req, res){
 
     var data = req.body;
 
-    fs.realpath('./public/config', function(err, resolvedPath){
+    fs.realpath('./app/config', function(err, resolvedPath){
         fs.readdir(resolvedPath, function(err, files){
             if (files.indexOf('feed.conf.json') > -1) {
                 var file = files[files.indexOf('feed.conf.json')];
 
-                fs.unlink('./public/config/'+ file, function(){
-                    fs.writeFile('./public/config/feed.conf.json', JSON.stringify(data), function(err){
+                fs.unlink('./app/config/'+ file, function(){
+                    fs.writeFile('./app/config/feed.conf.json', JSON.stringify(data), function(err){
                         if(err) throw err;
                         data.cards.forEach(function(element, index, data){
                             var tpl = element.card.type + '.html';
-                            fs.realpath('./public/components/views/cards', function(err, resolvedPath) {
+                            fs.realpath('./app/components/views/cards', function(err, resolvedPath) {
                                 fs.readdir(resolvedPath, function (err, files) {
                                     if(files.indexOf(tpl) === -1){
-                                        fs.writeFile('./public/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
+                                        fs.writeFile('./app/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
 
                                         });
                                     }
@@ -463,7 +463,7 @@ app.post('/submit', function(req,res){
             return s3Client.putObject({
                 Bucket: bucket,
                 Key: fileName,
-                ACL: 'public-read',
+                ACL: 'app-read',
                 Body: file,
                 ContentLength: file.byteCount
             }, function(err, data) {
@@ -1036,5 +1036,5 @@ app.get('*', function(req,res){
  create server
  */
 http.createServer(app).listen(app.get('port'), function(){
-    console.log('public listening on port ' + app.get('port'));
+    console.log('app listening on port ' + app.get('port'));
 });

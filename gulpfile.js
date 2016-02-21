@@ -28,10 +28,10 @@ var paths   = {
     src:'public/',
     js: ['public/**/*.js', '!tests/**/*.js'],
     sass: ['public/assets/**/*.scss'],
-    assets:['public/assets/**/*.*', '!assets/**/*.scss'],
+    assets:['public/assets/**/*.*', '!public/assets/**/*.scss'],
     templates: ['public/components/**/*.html'],
     tests: ['tests/spec/**/*.js'],
-    config: ['public/config/*.json', 'public/config.json'],
+    config: ['public/config/*.json'],
     package:['public/package/**/*.*']
 };
 
@@ -98,7 +98,7 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('tests', function(){
-    gulp.src('public/public.mock.js')
+    gulp.src('public/app.mock.js')
         .pipe(browserify({
             insertGlobals: true
         }))
