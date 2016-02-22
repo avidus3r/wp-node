@@ -20,8 +20,8 @@ build/
 tests/src/
 data/
 data/*
-app/config/config.js
-app/ngAnnotate/*
+public/config/config.js
+public/ngAnnotate/*
 
 #aws folders
 .elasticbeanstalk/
