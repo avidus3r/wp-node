@@ -1,4 +1,4 @@
-require('../../app/app.mock');
+require('.././app.mock');
 describe('RestApiSpec', function() {
     var singlePostID = null;
     var posts = null;

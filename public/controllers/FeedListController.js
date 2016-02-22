@@ -310,7 +310,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.onScroll = function(){
         if($scope.currentView !== 'ads') {
             var feedItemEl = angular.element('.feed-item:last');
-            if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height()) - (feedItemEl.height())) {
+            if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
                 angular.element('#loading-more').removeClass('hidden').show();
                 $scope.paged += 1;
                 var state = {page: $scope.paged};
@@ -337,46 +337,47 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var deferred = $q.defer();
 
         if($scope.isMobile) {
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]')[0]).children(0).height());
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]')[0]).children(0).height());
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height());
+            //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
-            angular.element('pubad[placementIndex="1"]').css({
+            angular.element('pubad[placementIndex="1"]').last().css({
                 'height': adHeights[0] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="2"]').css({
+            angular.element('pubad[placementIndex="2"]').last().css({
                 'height': adHeights[1] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="3"]').css({
+            /*angular.element('pubad[placementIndex="3"]').css({
                 'height': adHeights[2] + 'px',
                 'width': '100%',
                 'display': 'block'
-            }).children().remove();
+            }).children().remove();*/
             deferred.resolve();
         }else{
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]')[0]).children(0).height());
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]')[0]).children(0).height());
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
-            angular.element('pubad[placementIndex="1"]').css({
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height());
+            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height());
+            //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
+
+            angular.element('pubad[placementIndex="1"]').last().css({
                 'height': adHeights[0] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="2"]').css({
+            angular.element('pubad[placementIndex="2"]').last().css({
                 'height': adHeights[1] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="3"]').css({
+            /*angular.element('pubad[placementIndex="3"]').css({
                 'height': adHeights[2] + 'px',
                 'width': '100%',
                 'display': 'block'
-            }).children().remove();
+            }).children().remove();*/
             deferred.resolve();
         }
 
@@ -390,7 +391,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             item.type = 'post-list';
             if (Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true') {
 
-                if (index === 5) {
+                /*if (index === 5) {
                     var adItem = {};
                     adItem.type = 'ad';
                     //adItem.type = 'post-half-page';
@@ -398,7 +399,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     pagedpostmap.push(adItem);
                     $scope.feedItemScrollAmount += 1;
                     pushedItems++;
-                }
+                }*/
 
                 if (index === 3) {
                     var siteInContentAdItem = {};
@@ -732,7 +733,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     if(Number($scope.appConfig.adsPerPage) > 0){
 
-                        if (index === 5) {
+                        /*if (index === 5) {
                             var adItem = {};
                             adItem.type = 'ad';
                             //adItem.type = 'post-half-page';
@@ -740,7 +741,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             postmap.push(adItem);
                             $scope.feedItemScrollAmount += 1;
                             pushedItems++;
-                        }
+                        }*/
 
                         if (index === 3) {
                             var siteInContentAdItem = {};
@@ -863,7 +864,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                         if(Number($scope.appConfig.adsPerPage) > 0){
 
-                            if (index === 5) {
+                            /*if (index === 5) {
                                 var adItem = {};
                                 adItem.type = 'ad';
                                 //adItem.type = 'post-half-page';
@@ -871,7 +872,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 postmap.push(adItem);
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
-                            }
+                            }*/
 
                             if (index === 3) {
                                 var siteInContentAdItem = {};

@@ -134,7 +134,7 @@ app.get('/server', function(req,res){
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
     request('http://altdriver.altmedia.com/'+feedName, function (error, response, body) {
-        var result = body.replace(/admin./g,'www.');
+        var result = body.replace(/altdriver.altmedia./g,'www.altdriver.');
 
         res.set('Content-Type', 'text/xml; charset=UTF-8');
         res.send(result);
@@ -145,14 +145,14 @@ app.get('/feed/:feedname/', function(req,res){
  static paths
  */
 //app.use(express.static(__dirname + './tests'));
-app.use(express.static(__dirname + './favicons', {maxAge:600000, cache:true}));
-app.use(express.static(__dirname + './favicons.ico', {maxAge:600000, cache:true} ));
+app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true}));
+app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
 //app.use(express.static('./admin'));
 //app.use(express.static(__dirname + './data'));
 //app.use(express.static(__dirname + './app/config'));
-app.use(express.static(__dirname + './app/components/views/cards', {maxAge:600000, cache:true}));
+app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
 
-var config = require('./app/config/config.json');
+var config = require('./public/config/config.json');
 var appName = process.env.appname;
 if(!appName) appName = 'altdriver';
 var appConfig = config[appName].app;
@@ -463,7 +463,7 @@ app.post('/submit', function(req,res){
             return s3Client.putObject({
                 Bucket: bucket,
                 Key: fileName,
-                ACL: 'public-read',
+                ACL: 'app-read',
                 Body: file,
                 ContentLength: file.byteCount
             }, function(err, data) {

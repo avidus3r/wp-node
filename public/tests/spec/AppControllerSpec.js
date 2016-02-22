@@ -1,4 +1,4 @@
-require('../../app/app.mock');
+require('.././app.mock');
 
 describe('FeedListController', function(){
     beforeEach(angular.mock.module('NewsFeed'));
