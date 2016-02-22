@@ -49,7 +49,7 @@
       "sponsors":"0",
       "env": {
         "prod": {
-          "remoteUrl": "http://admin.altdriver.com",
+          "remoteUrl": "http://altdriver.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
