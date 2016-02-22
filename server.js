@@ -131,6 +131,37 @@ app.get('/server', function(req,res){
     //res.send(JSON.stringify(process.env));
 });
 
+app.get('/wp/api/:path?', function(req,res){
+    var path = req.params.path ? req.params.path : 'posts';
+    request('http://altdriver.altmedia.com/wp-json/wp/v2/' + path, function (error, response, body) {
+        var metatags = {
+            robots: 'index, follow',
+            title: appConfig.title,
+            description: appConfig.description,
+            // Facebook
+            fb_title: appConfig.title,
+            fb_site_name: appConfig.fb_sitename,
+            fb_url: appConfig.url,
+            fb_description: appConfig.description,
+            fb_appid:appConfig.fb_appid,
+            fb_type: 'website',
+            fb_image: appConfig.avatar,
+            // Twitter
+            tw_card: '',
+            tw_description: '',
+            tw_title: '',
+            tw_site: '@altdriver',
+            tw_domain: 'alt_driver',
+            tw_creator: '@altdriver',
+            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            url: 'http://admin.altdriver.com'
+        };
+
+        var posts = JSON.parse([response.body][0]);
+        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+    });
+});
+
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
     request('http://altdriver.altmedia.com/'+feedName, function (error, response, body) {
@@ -168,11 +199,6 @@ app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/dist');
 
-function htmlEntities(str) {
-    str = str.replace('&lt;','<');
-    str = str.replace('&gt;','>');
-    return str;
-}
 
 app.get('/', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);

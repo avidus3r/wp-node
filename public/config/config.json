@@ -8,7 +8,7 @@
       "per_page": "5",
       "prefetch_at": "5",
       "scroll_amount": "5",
-      "avatar": "http://admin.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png",
+      "avatar": "http://altdriver.altmedia.com/wp-content/uploads/avatar_alt_driver_500x500.png",
       "loading_message":"Getting Awesome Car Stuff...",
       "fb_sitename":"alt_driver",
       "fb_appid": "638692042912150",
@@ -45,7 +45,7 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "prod": {
-          "remoteUrl": "http://admin.altdriver.com",
+          "remoteUrl": "http://altdriver.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
@@ -53,11 +53,11 @@
           "basePath": "/wp-json/wp/v2/"
         },
         "stage": {
-          "remoteUrl": "http://altdriver.staging.wpengine.com",
+          "remoteUrl": "http://altdriver.staging.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "dev": {
-          "remoteUrl": "http://localaltdriver.com",
+          "remoteUrl": "http://altdriver.local.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }

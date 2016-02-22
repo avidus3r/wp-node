@@ -336,7 +336,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                     PostController.updating = false;
                 }
             });
-        },4000);
+        },8000);
         res.sendStatus(200);
     }catch(e){
         var error = {'error':e};
