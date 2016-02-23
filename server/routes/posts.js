@@ -320,7 +320,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
 
                             PostController.insert(post, function (success) {
                                 if (!success) res.sendStatus(500);
-                                //res.sendStatus(200);
+                                res.sendStatus(200);
                                 PostController.updating = false;
                             });
 
@@ -342,18 +342,18 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                                         });
                                 },3000);
 
-                                //res.sendStatus(200);
+                                res.sendStatus(200);
                                 PostController.updating = false;
                             });
                         }
                     });
                 }else{
-                    //res.sendStatus(response.statusCode);
+                    res.sendStatus(response.statusCode);
                     PostController.updating = false;
                 }
             });
-        },8000);
-        res.sendStatus(200);
+        },9000);
+        //res.sendStatus(200);
     }catch(e){
         var error = {'error':e};
         console.log(e);
