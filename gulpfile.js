@@ -220,8 +220,12 @@ gulp.task('build', function(callback) {
         var appName = currPath[currPath.length-1];
         process.env.appname = appName;
         process.env.mdbname = appName;
-        process.env.mdbhost = 'localhost:27017';
+        //local
+        //process.env.mdbhost = 'localhost:27017';
+        //staging
         process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+        //prod
+        //process.env.mdbhost = 'altdriver-0.altdriver.5600.mongodbdns.com:27000';
 
         process.env.mdbuser = 'admin';
         process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';

@@ -214,3 +214,14 @@ body.mobile.homehero .app-main{
     font-weight: normal;
   }
 }
+
+.mega-footer .header-search-txt{
+
+  min-width: 236px;
+}
+@media all and (max-width: 700px) {
+
+  .homehero .mega-footer .ad-copyright {
+    width: auto;
+  }
+}

@@ -168,6 +168,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var feedPath = app.feedPath;
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
+                    var postsResolve = null;
 
                     document.title = appConfig.title;
 
@@ -186,6 +187,16 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         )
                     }
 
+                    postsResolve = FeedService.queryDBPosts($route.current.params.page,5,1,0).then(
+                        function(data){
+                            return data;
+                        },
+                        function(error){
+                            location.href = '/trending/latest';
+                            return 'error';
+                        }
+                    );
+
                     /*if(appame === 'upshift'){
                      instagramResolve = null;
                      }*/
@@ -202,15 +213,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        posts: FeedService.getDBPosts(7,1,0).then(
-
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            }
-                        ),
+                        posts: postsResolve,
                         /*instagram: InstagramService.get(10,'nofilter').then(
                          function(data){
                          return data;
