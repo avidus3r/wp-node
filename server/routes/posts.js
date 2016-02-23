@@ -353,7 +353,6 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                 }
             });
         },9000);
-        //res.sendStatus(200);
     }catch(e){
         var error = {'error':e};
         console.log(e);
