@@ -224,3 +224,21 @@ h1, h2, h3, h4, h5, h6 {
   order: 3;
 }
 
+body.mobile.subscribe-hub{
+  .subscribe-hub{
+    h3{
+      font-size:1.4em !important;
+      margin-top: .5em;
+      margin-bottom: .25em;
+    }
+    .card-email h2, h2{
+      font-size: 1.2em;
+    }
+    .social-follow a{
+      font-size: 1.2em;
+      margin-bottom: .75em;
+      margin-top:.75em;
+    }
+  }
+
+}

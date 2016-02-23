@@ -141,7 +141,7 @@ gulp.task('assets', function() {
 
 gulp.task('css',['css:min']);
 
-gulp.task('css:min', function() {
+gulp.task('css:min', ['css:sass'], function() {
     return gulp.src('./dist/css/styles.css')
         .pipe(cssmin())
         .pipe(plugins.rename({suffix: '.min'}))
@@ -207,7 +207,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.config, ['config']);
-    gulp.watch(paths.sass, ['css:sass']);
+    gulp.watch(paths.sass, ['css:min']);
     gulp.watch(paths.tests, ['tests']);
 });
 
@@ -226,5 +226,5 @@ gulp.task('build', function(callback) {
         process.env.mdbuser = 'admin';
         process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     }
-    runSequence('clean','config', 'css:sass', 'css:min', 'assets', 'templates', 'scripts', callback);
+    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', callback);
 });

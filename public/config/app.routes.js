@@ -9,10 +9,12 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
 
+
+
     $routeProvider
         .when('/', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
+            controller: 'HomeController',
+            templateUrl: '/views/home-hero-demo.html',
             redirectTo: false,
             reloadOnSearch: false,
             resolve:{
@@ -52,7 +54,16 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        posts: FeedService.getDBPosts(5,1,0).then(
+                        heroItems: FeedService.getDBPosts(4,1,0).then(
+
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            }
+                        ),
+                        posts: FeedService.getDBPosts(5,1,4).then(
 
                             function(data){
                                 return data;

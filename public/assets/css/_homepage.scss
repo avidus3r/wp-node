@@ -20,7 +20,9 @@
       padding: .25em;
     }
     .homeadwrapper {
-      margin: 1em auto;
+      div{
+        margin: 1em auto;
+      }
       width: 728px;
       text-align: center;
     }
@@ -179,4 +181,36 @@
 
 .ad-hottest {
   background-color: #EB423C;
+}
+
+
+/* some mobile styles */
+
+body.mobile .trending-nav {
+  border:none;
+}
+
+body.mobile .trend-link {
+  border:none;
+  font-size: 1.25em;
+  padding: .5em;
+}
+
+body.mobile.homehero .app-main{
+  padding:.5em;
+  .latestposts .post-list {
+    margin: 1em 0 0;
+
+    .post-title{
+      font-size:1em;
+      height:2.5em;
+      font-weight: normal;
+    }
+  }
+  .homepage-carousel .card h2.post-title,
+  .homepage-carousel .post-content h2.post-title {
+    font-size: 1.25em;
+    height:2.5em;
+    font-weight: normal;
+  }
 }

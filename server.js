@@ -51,6 +51,10 @@ app.get('*', function(req,res,next){
 });
 */
 
+app.get('/subscribe', function(req, res){
+    res.redirect('/subscribe-hub');
+});
+
 app.get('/adtest', function(req,res){
     var metatags = {
 
