@@ -3,19 +3,27 @@
 <script type='text/javascript'>
     var googletag = window.googletag;
     googletag.cmd.push(function() {
-        googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_01', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-0').addService(googletag.pubads());
-        googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_02', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-1').addService(googletag.pubads());
-        googletag.defineSlot('/110669458/AD_Home_Desktop_RR_01', [[300, 600], [300, 250]], 'div-gpt-ad-1455657666158-2').addService(googletag.pubads());
-        googletag.pubads().collapseEmptyDivs();
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-
+        if(!_isMobile()){
+            googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_01', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-0').addService(googletag.pubads());
+            googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_02', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-1').addService(googletag.pubads());
+            googletag.defineSlot('/110669458/AD_Home_Desktop_RR_01', [[300, 600], [300, 250]], 'div-gpt-ad-1455657666158-2').addService(googletag.pubads());
+            googletag.pubads().collapseEmptyDivs();
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        }else{
+            googletag.defineSlot('/110669458/AD_Mobile_Feed01_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-7').addService(googletag.pubads());
+            googletag.defineSlot('/110669458/AD_Mobile_Feed02_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-8').addService(googletag.pubads());
+            googletag.pubads().collapseEmptyDivs();
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        }
     });
 </script>
 
-<div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+<div ng-if="!_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
     <div id="div-gpt-ad-1455657666158-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });</script></div>
 </div>
+
 <!--  end ad insertion -->
 <div class="clearfix cf homepage-wrapper">
     <div class="homepage-carousel">
@@ -74,10 +82,15 @@
 
 </div>
 
+<div ng-if="_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+    <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });</script></div>
+</div>
+
 <!--   insert an advert -->
-<div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+<div ng-if="!_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
     <div id="div-gpt-ad-1455657666158-1"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });</script></div>
 </div>
+
 <!--  end ad insertion -->
 
 <!--  ################-->
@@ -112,6 +125,9 @@
         </div>
 
         <!--  insert another advert -->
+        <div ng-if="_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+            <div id="div-gpt-ad-1448906851482-8"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });</script></div>
+        </div>
     </div>
 
     <div class="lower-rail-ads">
