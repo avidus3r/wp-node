@@ -275,7 +275,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
     console.log(req.headers, req.params, req.body);
     if(req.headers.hasOwnProperty('secret')){
         var apisecret = process.env.apisecret;
-        if(md5(req.headers.secret) !== apisecret.uname){
+        if(req.headers.secret !== 'alt_driver'){
             res.sendStatus(403);
             return false;
         }
