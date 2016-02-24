@@ -308,7 +308,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function(){
-        if($scope.currentView !== 'ads') {
+        if($scope.currentView !== 'ads' && $scope.posts >= $scope.postsPerPage) {
             var feedItemEl = angular.element('.feed-item:last');
             if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
                 angular.element('#loading-more').removeClass('hidden').show();
@@ -329,6 +329,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if ($scope.sponsorPosts.length > 0) {
                 //$scope.trackSponsor();
             }
+        }else if($scope.posts.length < $scope.postsPerPage){
+            angular.element('#loading-more').text('');
+            angular.element('#loading-more')
+                .append(
+                    angular.element('<a/>')
+                        .attr('href','/')
+                        .text('You\'ve reached the end - Start Over')
+                );
+            angular.element('#loading-more').removeClass('hidden');
         }
     };
 
@@ -1105,15 +1114,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         },1500);
 
         if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
-            if($scope.posts.length < $scope.postsPerPage){
-                angular.element('#loading-more').text('');
-                angular.element('#loading-more')
-                    .append(
-                        angular.element('<a/>')
-                            .attr('href','/')
-                            .text('You\'ve reached the end - Start Over')
-                    );
-            };
+
             window.addEventListener('scroll', $scope.onScroll);
         }else{
             angular.element('#loading-more').text('');
