@@ -140,7 +140,7 @@ var PostsController = {
                     var lastSevenDays = new Date();
                     lastSevenDays.setDate(lastSevenDays.getDate() - 7);
 
-                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'modified':{ $gte:yesterday, $lte:lastSevenDays } } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'modified':{ $gte:lastSevenDays, $lt:yesterday } } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
                     break;
                 case 'hottest':
                     //last 24 hours
