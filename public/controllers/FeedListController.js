@@ -476,16 +476,142 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
         $scope.clearAds().then(function(){
             var skip = null;
-            if($scope.currentView !== 'search') {
+            if($routeParams.page === 'hottest' || $routeParams.page === 'best' || $routeParams.page === 'latest'){
+                FeedService.queryDBPosts($routeParams.page, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
+                    function (data) { //success
+                        if (data.length > 0) {
+                            $scope.mapPosts(data);
+                        } else {
+                            angular.element('#loading-more').text('');
+                            angular.element('#loading-more')
+                                .append(
+                                    angular.element('<a/>')
+                                        .attr('href', '/')
+                                        .text('You\'ve reached the end - Start Over')
+                                );
+                        }
+                    },
+                    function (reason) {   //error
+                        console.error('Failed: ', reason);
+                        angular.element('#loading-more').text('');
+                        angular.element('#loading-more')
+                            .append(
+                                angular.element('<a/>')
+                                    .attr('href', '/')
+                                    .text('You\'ve reached the end - Start Over')
+                            );
+                    },
+                    function (update) {  //notification
+                        console.info('Got notification: ' + update);
+                    }
+                );
+            }
+            if(!$routeParams.hasOwnProperty('page')){
+                if ($scope.currentView !== 'search') {
 
-                $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params + '&post__not_in=' + $scope.singlePostID;
+                    $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params + '&post__not_in=' + $scope.singlePostID;
 
-                if ($scope.currentView === 'category') {
-                    $scope.feedPath = 'posts';
-                    $scope.postParams += '&category_name=' + $scope.currentCategory;
+                    if ($scope.currentView === 'category') {
+                        $scope.feedPath = 'posts';
+                        $scope.postParams += '&category_name=' + $scope.currentCategory;
+                    }
+                    if (!$scope.useMongo) {
+                        $scope.getPosts($scope.feedPath, $scope.postParams).then(
+                            function (data) { //success
+                                if (data.length > 0) {
+                                    $scope.mapPosts(data);
+                                } else {
+                                    angular.element('#loading-more').text('');
+                                    angular.element('#loading-more')
+                                        .append(
+                                            angular.element('<a/>')
+                                                .attr('href', '/')
+                                                .text('You\'ve reached the end - Start Over')
+                                        );
+                                }
+                            },
+                            function (reason) {   //error
+                                console.error('Failed: ', reason);
+                            },
+                            function (update) {  //notification
+                                console.info('Got notification: ' + update);
+                            }
+                        );
+                    } else {
+
+                        try {
+                            skip = Number(localStorage.getItem('post_offset'));
+                        } catch (e) {
+                            skip = 0;
+                        }
+
+                        if (skip === 0) {
+                            skip = $scope.postsPerPage * ($scope.paged - 1);
+                        }
+                        if (Number(skip) === 1) {
+                            skip = $scope.postsPerPage * ($scope.paged - 1) + 1;
+                        }
+
+                        if ($scope.currentView === 'category') {
+                            $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
+                                function (data) { //success
+                                    if (data.length > 0) {
+                                        $scope.mapPosts(data);
+                                    } else {
+                                        angular.element('#loading-more').text('');
+                                        angular.element('#loading-more')
+                                            .append(
+                                                angular.element('<a/>')
+                                                    .attr('href', '/')
+                                                    .text('You\'ve reached the end - Start Over')
+                                            );
+                                    }
+                                },
+                                function (reason) {   //error
+                                    console.error('Failed: ', reason);
+                                },
+                                function (update) {  //notification
+                                    console.info('Got notification: ' + update);
+                                }
+                            );
+                        } else {
+                            $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postIndex).then(
+                                function (data) { //success
+                                    if (data.length > 0) {
+                                        $scope.mapPosts(data);
+                                    } else {
+                                        angular.element('#loading-more').text('');
+                                        angular.element('#loading-more')
+                                            .append(
+                                                angular.element('<a/>')
+                                                    .attr('href', '/')
+                                                    .text('You\'ve reached the end - Start Over')
+                                            );
+                                    }
+                                },
+                                function (reason) {   //error
+                                    console.error('Failed: ', reason);
+                                },
+                                function (update) {  //notification
+                                    console.info('Got notification: ' + update);
+                                }
+                            );
+                        }
+                    }
                 }
-                if (!$scope.useMongo) {
-                    $scope.getPosts($scope.feedPath, $scope.postParams).then(
+                if ($scope.currentView === 'search') {
+
+                    try {
+                        skip = Number(localStorage.getItem('post_offset'));
+                    } catch (e) {
+                        skip = 0;
+                    }
+
+                    if (skip === 0 || Number(skip) === 1) {
+                        skip = $scope.postsPerPage * ($scope.paged - 1);
+                    }
+
+                    FeedService.search($routeParams.query, $scope.postsPerPage, $scope.paged, skip).then(
                         function (data) { //success
                             if (data.length > 0) {
                                 $scope.mapPosts(data);
@@ -493,123 +619,29 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 angular.element('#loading-more').text('');
                                 angular.element('#loading-more')
                                     .append(
-                                    angular.element('<a/>')
-                                        .attr('href', '/')
-                                        .text('You\'ve reached the end - Start Over')
-                                );
+                                        angular.element('<a/>')
+                                            .attr('href', '/')
+                                            .text('No more search results - Go Back')
+                                    );
                             }
                         },
                         function (reason) {   //error
-                            console.error('Failed: ', reason);
+                            if (reason === 'end') {
+
+                                angular.element('#loading-more').text('');
+                                angular.element('#loading-more')
+                                    .append(
+                                        angular.element('<a/>')
+                                            .attr('href', '/')
+                                            .text('You\'ve reached the end - Start Over')
+                                    );
+                            }
                         },
                         function (update) {  //notification
                             console.info('Got notification: ' + update);
                         }
                     );
-                } else {
-
-                    try{
-                        skip = Number(localStorage.getItem('post_offset'));
-                    }catch(e){
-                        skip = 0;
-                    }
-
-                    if(skip === 0){
-                        skip = $scope.postsPerPage*($scope.paged-1);
-                    }
-                    if(Number(skip) === 1){
-                        skip = $scope.postsPerPage*($scope.paged-1)+1;
-                    }
-
-                    if ($scope.currentView === 'category') {
-                        $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
-                            function (data) { //success
-                                if (data.length > 0) {
-                                    $scope.mapPosts(data);
-                                } else {
-                                    angular.element('#loading-more').text('');
-                                    angular.element('#loading-more')
-                                        .append(
-                                        angular.element('<a/>')
-                                            .attr('href', '/')
-                                            .text('You\'ve reached the end - Start Over')
-                                    );
-                                }
-                            },
-                            function (reason) {   //error
-                                console.error('Failed: ', reason);
-                            },
-                            function (update) {  //notification
-                                console.info('Got notification: ' + update);
-                            }
-                        );
-                    }else{
-                        $scope.getDBPosts($scope.postsPerPage, $scope.paged, $scope.postIndex).then(
-                            function (data) { //success
-                                if (data.length > 0) {
-                                    $scope.mapPosts(data);
-                                } else {
-                                    angular.element('#loading-more').text('');
-                                    angular.element('#loading-more')
-                                        .append(
-                                        angular.element('<a/>')
-                                            .attr('href', '/')
-                                            .text('You\'ve reached the end - Start Over')
-                                    );
-                                }
-                            },
-                            function (reason) {   //error
-                                console.error('Failed: ', reason);
-                            },
-                            function (update) {  //notification
-                                console.info('Got notification: ' + update);
-                            }
-                        );
-                    }
                 }
-            }
-            if($scope.currentView === 'search'){
-
-                try{
-                    skip = Number(localStorage.getItem('post_offset'));
-                }catch(e){
-                    skip = 0;
-                }
-
-                if(skip === 0 || Number(skip) === 1){
-                    skip = $scope.postsPerPage*($scope.paged-1);
-                }
-
-                FeedService.search($routeParams.query, $scope.postsPerPage, $scope.paged, skip).then(
-                    function (data) { //success
-                        if(data.length > 0) {
-                            $scope.mapPosts(data);
-                        }else{
-                            angular.element('#loading-more').text('');
-                            angular.element('#loading-more')
-                                .append(
-                                angular.element('<a/>')
-                                    .attr('href','/')
-                                    .text('No more search results - Go Back')
-                            );
-                        }
-                    },
-                    function (reason) {   //error
-                        if(reason === 'end'){
-
-                            angular.element('#loading-more').text('');
-                            angular.element('#loading-more')
-                                .append(
-                                angular.element('<a/>')
-                                    .attr('href','/')
-                                    .text('You\'ve reached the end - Start Over')
-                            );
-                        }
-                    },
-                    function (update) {  //notification
-                        console.info('Got notification: ' + update);
-                    }
-                );
             }
         });
     };
@@ -618,6 +650,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if($scope.currentView === 'ads'){
             return false;
         }
+
         window.addEventListener('scroll', $scope.onScroll);
 
         angular.forEach(posts, function (item, index) {

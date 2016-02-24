@@ -140,14 +140,16 @@ var PostsController = {
                     var lastSevenDays = new Date();
                     lastSevenDays.setDate(lastSevenDays.getDate() - 7);
 
-                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'modified':{ $gte:lastSevenDays, $lt:yesterday } } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main'} ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q.$where('this.postmeta.run_dates_0_run_time >= ' + lastSevenDays.getTime()/1000 + '&& this.postmeta.run_dates_0_run_time <= ' + yesterday.getTime()/1000);
                     break;
                 case 'hottest':
                     //last 24 hours
                     var yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
 
-                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'modified':{ $gte:yesterday } } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main' } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q.$where('this.postmeta.run_dates_0_run_time >= ' + yesterday.getTime()/1000);
                     break;
                 case 'latest':
                     q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
