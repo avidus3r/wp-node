@@ -400,7 +400,19 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var pushedItems = 0;
         var pagedpostmap = [];
         angular.forEach(data, function (item, index) {
-            item.type = 'post-list';
+
+            if(item.type === 'partner-post'){
+                item.type = 'partner-post';
+                item.category = [{'name': 'Partner Post', 'slug': 'partner-post'}];
+            }
+            if(item.type === 'animated-gif'){
+                item.type = 'animated-gif';
+                item.category = [{'name': 'Animated GIF', 'slug': 'animated-gif'}];
+            }
+            if(item.type === 'post'){
+                item.type = 'post-list';
+            }
+
             if (Number($scope.appConfig.adsPerPage) > 0 && $scope.appConfig.displayAds === 'true') {
 
                 /*if (index === 5) {
@@ -773,6 +785,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         item.type = 'post-'+$scope.currentView;
                     }
 
+                    if(item.type === 'partner-post'){
+                        item.type = 'partner-post';
+                        item.category = [{'name': 'Partner Post', 'slug': 'partner-post'}];
+                    }
+                    if(item.type === 'animated-gif'){
+                        item.type = 'animated-gif';
+                        item.category = [{'name': 'Animated GIF', 'slug': 'animated-gif'}];
+                    }
+
 
                     if($scope.currentView === 'category') item.type = 'post-list';
 
@@ -877,6 +898,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if(item.type === 'partner-post'){
                 item.category = [{'name': 'Partner Post', 'slug': 'partner-post'}];
             }
+            if(item.type === 'animated-gif'){
+                item.category = [{'name': 'Animated GIF', 'slug': 'animated-gif'}];
+            }
             if(item.postmeta.hasOwnProperty('explicit')){
                 if(item.postmeta.explicit[0] !== ''){
                     $rootScope.setTargeting('explicit', 'true', false);
@@ -885,6 +909,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $rootScope.setTargeting('category', item.category[0].name, true);
 
             $scope.singlePostID = item.id;
+            if(item.type === 'animated-gif') item.format = 'animated-gif';
             if(item.type !== 'partner-post') item.type = 'post-single';
 
             item.post_index = $scope.postIndex-1;
@@ -908,8 +933,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     var postmap = [];
 
                     angular.forEach($scope.posts, function (item, index) {
-                        item.type = 'post-list';
-
+                        if(item.type !== 'animated-gif' && item.type !== 'partner-post') {
+                            item.type = 'post-list';
+                        }
+                        if(item.type === 'partner-post'){
+                            item.category = [{'name': 'Partner Post', 'slug': 'partner-post'}];
+                        }
+                        if(item.type === 'animated-gif'){
+                            item.category = [{'name': 'Animated GIF', 'slug': 'animated-gif'}];
+                        }
                         if(Number($scope.appConfig.adsPerPage) > 0){
 
                             /*if (index === 5) {

@@ -205,3 +205,11 @@
     max-width: 100%;
   }
 }
+
+.feed-item.format-animated-gif, .feed-item.animated-gif{
+  text-align: center;
+}
+
+.feed-item.animated-gif h2{
+  text-align: left;
+}
