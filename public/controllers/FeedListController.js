@@ -148,13 +148,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $rootScope.metatags.fb_title = $scope.decodeHtml(post.title.rendered);
         $rootScope.metatags.fb_description = angular.element(post.excerpt.rendered).text();
         $rootScope.metatags.fb_url = post.link;
-        $rootScope.metatags.fb_image = post.featured_image_src.original[0];
-
+        if(post.hasOwnProperty('featured_image_src')) {
+            $rootScope.metatags.fb_image = post.featured_image_src.original[0];
+        }
         // Twitter meta
         $rootScope.metatags.tw_card = 'summary_large_image';
         $rootScope.metatags.tw_title = $scope.decodeHtml(post.title.rendered);
         $rootScope.metatags.tw_description = angular.element(post.excerpt.rendered).text();
-        $rootScope.metatags.tw_image = post.featured_image_src.medium[0];
+        if(post.hasOwnProperty('featured_image_src')) {
+            $rootScope.metatags.tw_image = post.featured_image_src.medium[0];
+        }
     };
 
     if($scope.currentView === 'post'){
@@ -871,6 +874,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
         if($scope.currentView === 'post') {
             item = $scope.post;
+            if(item.type === 'partner-post'){
+                item.category = [{'name': 'Partner Post', 'slug': 'partner-post'}];
+            }
             if(item.postmeta.hasOwnProperty('explicit')){
                 if(item.postmeta.explicit[0] !== ''){
                     $rootScope.setTargeting('explicit', 'true', false);

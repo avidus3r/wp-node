@@ -203,43 +203,8 @@ app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/dist');
 
-
-app.get('/', function(req,res,next){
-    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    /*if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
-        var user = null;
-        var uuid = cc.generate({parts:4,partLen:6});
-        var userUUID = null;
-
-        if(req.headers.cookie === undefined){
-            api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
-        }else{
-            if(req.headers.cookie.indexOf('altduuid') > -1){
-
-                var cookies = req.headers.cookie.split('; ');
-                for(var i=0;i<cookies.length;i++){
-                    var chip = cookies[i].split('=');
-                    if(chip[0].indexOf('altduuid') > -1){
-                        userUUID = chip[1];
-
-                        api.UserController.me(userUUID).then( function(result){
-                            if(result.length === 0 && userUUID.length > 0){
-                                api.UserController.create(userUUID,{'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                            }
-                            *//*var user = result[0];
-                             user.lastseen = Date.now;
-                             api.UserController.update(user);*//*
-                        });
-                    }
-                }
-            }else{
-                api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
-            }
-        }
-    }*/
-
+function setUserCookie(req, itsABot){
+    //TODO add checkUserCookie method
     if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
@@ -262,10 +227,55 @@ app.get('/', function(req,res,next){
             }
         }
     }
-    if(itsABot) {
+}
 
+function insertUser(){
+    /*if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
+
+     //me 7D6QL2-EDCA4A-XQMY5F-TGRXKC
+     var user = null;
+     var uuid = cc.generate({parts:4,partLen:6});
+     var userUUID = null;
+
+     if(req.headers.cookie === undefined){
+     api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
+     res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+     }else{
+     if(req.headers.cookie.indexOf('altduuid') > -1){
+
+     var cookies = req.headers.cookie.split('; ');
+     for(var i=0;i<cookies.length;i++){
+     var chip = cookies[i].split('=');
+     if(chip[0].indexOf('altduuid') > -1){
+     userUUID = chip[1];
+     api.UserController.me(userUUID).then( function(result){
+     if(result.length === 0 && userUUID.length > 0){
+     api.UserController.create(userUUID,{'headers':req.headers, 'rawHeaders':req.rawHeaders});
+     }
+     var user = result[0];
+     user.lastseen = Date.now;
+     api.UserController.update(user);
+     });
+     }
+     }
+     }else{
+     api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
+     res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
+     }
+     }
+     }*/
+}
+
+app.get('/', function(req,res,next){
+    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+
+    setUserCookie(req, itsABot);
+    //insertUser();
+
+    if(itsABot) {
         try {
             var endpoint = feedConfig.remoteUrl + feedConfig.basePath + appConfig.feedPath + '?page=1&per_page=' + appConfig.per_page;
+
             request(endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {
@@ -294,10 +304,8 @@ app.get('/', function(req,res,next){
                     var posts = JSON.parse([response.body][0]);
 
                     if(typeof posts !== 'undefined') {
-
                         var template = swig.compileFile('./dist/bots.html');
                         var output = template({metatags: metatags, app: appName, posts:posts});
-
                         res.send(output);
                     }
                 }
@@ -305,10 +313,7 @@ app.get('/', function(req,res,next){
         } catch (e) {
             console.error(e);
         }
-
     }else{
-        //res.sendFile('index.html', {root: path.join(__dirname, './dist')});
-
         var metatags = {
 
             robots: 'index, follow',
@@ -332,10 +337,6 @@ app.get('/', function(req,res,next){
             tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
             url: 'http://admin.altdriver.com'
         };
-
-        /*var template = swig.compileFile('./dist/index.html');
-        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-        res.send(output);*/
 
         res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000});
     }
@@ -366,17 +367,16 @@ app.get('/trending/:page', function(req,res){
         url: 'http://admin.altdriver.com'
     };
 
-    /*var template = swig.compileFile('./dist/index.html');
-     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-     res.send(output);*/
-
     res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000});
 });
 
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
 
-/*app.get('/tests', function(req, res){
+/*
+TODO: move this to admin controller
+
+app.get('/tests', function(req, res){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
 });
 
@@ -460,7 +460,9 @@ app.post('/admin', function(req, res){
     });
     res.writeHead(200);
     res.end();
-});*/
+});
+/TODO
+*/
 
 app.post('/submit', function(req,res){
 
@@ -503,7 +505,6 @@ app.post('/submit', function(req,res){
 
     form.parse(req, function(err, fields, files) {
 
-
         if(typeof fields === 'undefined' || (fields.name[0].length === 0 && fields.email[0].length === 0) || typeof files === 'undefined'){
             status = 403;
             return false;
@@ -513,7 +514,6 @@ app.post('/submit', function(req,res){
             status = 403;
             return false;
         }
-
 
         var message = '';
         if(files.hasOwnProperty('fileUpload') && files.fileUpload[0].size > 0){
@@ -585,34 +585,13 @@ app.post('/submit', function(req,res){
  
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    if(typeof req.headers['user-agent'] !== 'undefined') {
-        if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
-            var user = null;
-            var uuid = cc.generate({parts: 4, partLen: 6});
-            var userUUID = null;
 
-            try {
-                if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('altduuid') === -1) {
-                        res.cookie('altduuid', uuid, {
-                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
-                            httpOnly: true
-                        });
-                    } else {
+    setUserCookie(req, itsABot);
 
-                    }
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-    }
     if(itsABot){
         res.send();
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
         var metatags = {
-
             robots: 'index, follow',
             title: appConfig.title,
             description: appConfig.description,
@@ -634,38 +613,13 @@ app.get('/search/(:query/|:query)', function(req,res, next){
             tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
             url: 'http://admin.altdriver.com'
         };
-        /*var template = swig.compileFile('./dist/index.html');
-        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-
-        res.send(output);*/
         res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
     }
 });
 
 app.get('/category/(:category|:category/)', function(req,res){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    if(typeof req.headers['user-agent'] !== 'undefined') {
-        if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
-            var user = null;
-            var uuid = cc.generate({parts: 4, partLen: 6});
-            var userUUID = null;
-
-            try {
-                if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('altduuid') === -1) {
-                        res.cookie('altduuid', uuid, {
-                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
-                            httpOnly: true
-                        });
-                    } else {
-
-                    }
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-    }
+    setUserCookie(req, itsABot);
     var catName = req.params.category;
     var endpoint = 'http://' + req.headers.host + '/api/category/' + catName + '/7/1/0';
     var appUrl = 'http://admin.altdriver.com/category';
@@ -706,7 +660,7 @@ app.get('/category/(:category|:category/)', function(req,res){
             console.error(e);
         }
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+
         try {
             request(endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -739,11 +693,6 @@ app.get('/category/(:category|:category/)', function(req,res){
                         metatags.url = appUrl + '/' + req.params.category;
                         metatags.fb_image = appConfig.avatar;
 
-
-                        /*var template = swig.compileFile('./dist/index.html');
-                        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-
-                        res.send(output);*/
                         res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
                     }
                 }
@@ -756,72 +705,19 @@ app.get('/category/(:category|:category/)', function(req,res){
 
 app.get('/:category/(:slug|:slug/)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    if(typeof req.headers['user-agent'] !== 'undefined') {
-        if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
-            var user = null;
-            var uuid = cc.generate({parts: 4, partLen: 6});
-            var userUUID = null;
 
-            try {
-                if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('altduuid') === -1) {
-                        res.cookie('altduuid', uuid, {
-                            expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
-                            httpOnly: true
-                        });
-                    } else {
-
-                    }
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-    }
-    /*if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
-
-        //me 7D6QL2-EDCA4A-XQMY5F-TGRXKC
-        var user = null;
-        var uuid = cc.generate({parts:4,partLen:6});
-        var userUUID = null;
-
-        if(req.headers.cookie === undefined){
-            api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-            res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
-        }else{
-            if(req.headers.cookie.indexOf('altduuid') > -1){
-
-                var cookies = req.headers.cookie.split('; ');
-                for(var i=0;i<cookies.length;i++){
-                    var chip = cookies[i].split('=');
-                    if(chip[0].indexOf('altduuid') > -1){
-                        userUUID = chip[1];
-
-                        api.UserController.me(userUUID).then( function(result){
-                            if(result.length === 0 && userUUID.length > 0){
-                                api.UserController.create(userUUID,{'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                            }
-                            *//*var user = result[0];
-                             user.lastseen = Date.now;
-                             api.UserController.update(user);*//*
-                        });
-                    }
-                }
-            }else{
-                api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-                res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
-            }
-        }
-    }*/
+    setUserCookie(req, itsABot);
+    //insertUser();
 
     var rawUrl = req.url.substr(0,req.url.length-1);
 
     rawUrl = rawUrl.split('/');
-    var originalUrl = rawUrl[rawUrl.length-1];
 
+    var originalUrl = rawUrl[rawUrl.length-1];
     var fbAppId = appConfig.fb_appid;
     var fbUrl = appConfig.fb_url;
     var postName = null;
+
     try{
         postName = req.params.slug;
     }catch(e){
@@ -836,12 +732,12 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     var endpoint = 'http://' + req.headers.host + '/api/' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
+
     if(itsABot) {
         try {
             request(endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var metatags = {};
-
                     var post = null;
 
                     try{
@@ -902,12 +798,20 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
             console.error(e);
         }
     }else{
-        //res.sendFile('index.html', { root: path.join(__dirname, './dist') });
+
         try {
             api.PostController.post(postName).then(function(result){
 
+
+                if(result.type === 'partner-post'){
+
+                    console.log(result);
+                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:{'canonical_url': result.postmeta.canonical_url[0]}, cache:true, maxAge:600000});
+                }
+
                 var metatags = {};
                 var post = null;
+
                 if(result.length === 0){
                     console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
                     console.log('headers:\n ', req.headers);
@@ -918,7 +822,9 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                     console.log(req._parsedOriginalUrl);
                     res.sendStatus(404);
                 }else{
+
                     post = result;
+
 
 
                     metatags.published = post.date;
@@ -945,77 +851,17 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                     metatags.fb_url = siteUrl + req.url;
                     metatags.fb_description = metatags.description;
                     metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                    metatags.fb_image = post.featured_image_src.original_wp[0];
-                    metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                    metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                    if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                    }
 
-
-                    /*var template = swig.compileFile('./dist/index.html');
-                     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-
-                     res.send(output);*/
 
                     res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
                 }
 
             });
-            /*request(endpoint, function (error, response, body) {
-
-                if (!error && response.statusCode == 200) {
-                    var metatags = {};
-                    var post = null;
-
-                    try{
-                        post = JSON.parse(body);
-                    }catch(e){
-                        console.error(JSON.stringify(e));
-                    }
-
-                    if(typeof post !== 'undefined' && post !== null) {
-                        metatags.published = post.date;
-                        metatags.modified = post.modified;
-                        metatags.category = post.category[0].name;
-                        metatags.title = '';
-                        metatags.description = '';
-
-                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
-                            metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                        }
-
-                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
-                            metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        }
-
-                        // Facebook meta
-
-                        metatags.fb_appid = fbAppId;
-                        metatags.fb_publisher = fbUrl;
-                        metatags.fb_type = 'article';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = metatags.title;
-                        metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = metatags.description;
-                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
-
-
-                        *//*var template = swig.compileFile('./dist/index.html');
-                        var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-
-                        res.send(output);*//*
-                        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags});
-                    }else{
-                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-                        console.log('headers:\n ', req.headers);
-                        console.log('\n\nparams:\n', req.params);
-                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-
-                    }
-                }
-            });*/
         } catch (e) {
             console.error(e);
             console.log('post could not be retrieved...  ' + originalUrl + '\n\n');

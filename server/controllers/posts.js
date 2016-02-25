@@ -21,6 +21,7 @@ var PostsController = {
     },
 
     post: function(slug){
+        console.log(slug);
         var query = Post.findOne({'slug': slug});
         return query.exec();
     },
