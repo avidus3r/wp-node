@@ -230,5 +230,5 @@ gulp.task('build', function(callback) {
         process.env.mdbuser = 'admin';
         process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     }
-    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', callback);
+    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', 'browserify-min', callback);
 });
