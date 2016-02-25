@@ -20,8 +20,14 @@
       padding: .25em;
     }
     .homeadwrapper {
+      margin-top:.25em;
+      margin-bottom:.25em;
+
       div{
-        margin: 1em auto;
+        margin: 0em auto .25em;
+        div {
+          margin: 0;
+        }
       }
       width: 728px;
       text-align: center;
@@ -40,6 +46,9 @@
 
     //  homepage only footer
     .mega-footer {
+      position: absolute;
+      width: 100%;
+      left: 0;
       color: white;
       background: #19232d;
       padding: 3em 1.5em;
@@ -59,6 +68,23 @@
       }
     }
 //  end MAIN  homepage component
+}
+
+@media all and (max-width:800px) {
+// small screen footer tweaks
+  .homehero .mega-footer {
+    text-align: center;
+    .ad-copyright {
+      float: none;
+      text-align: center;
+      width: auto;
+    }
+    .pull-left {
+      float: none !important; // shame on me
+      margin-bottom: 1em;
+      text-align: center;
+    }
+  }
 }
 
 @media all and (max-width:1000px) {
@@ -128,6 +154,12 @@
     float: left;
     width: 300px;
     }
+}
+
+// mobile devices get the mobile adverts using UA - make the bottom articles full width
+.mobile .split-lower .latestposts {
+  width: 100%;
+  float: none;
 }
 
 /* lower rail advert */
@@ -225,5 +257,3 @@ body.mobile.homehero .app-main{
     width: auto;
   }
 }
-
-.homehero .homeadwrapper {margin-top:.25em; margin-bottom:.25em}
