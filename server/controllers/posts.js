@@ -124,6 +124,56 @@ var PostsController = {
         return query.exec();
     },
 
+    query: function(req, query, numberOfPosts, pageNumber, skip){
+        var skipItems = Number(skip);
+        var appName = process.env.appname;
+
+        var q = null;
+
+        if(appName === 'altdriver'){
+            switch(query){
+                case 'best':
+                    //last 7 days excluding last 24 hours
+                    var yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+
+                    var lastSevenDays = new Date();
+                    lastSevenDays.setDate(lastSevenDays.getDate() - 7);
+
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main'} ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q.$where('this.postmeta.run_dates_0_run_time >= ' + lastSevenDays.getTime()/1000 + '&& this.postmeta.run_dates_0_run_time <= ' + yesterday.getTime()/1000);
+                    break;
+                case 'hottest':
+                    //last 24 hours
+                    var yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main' } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q.$where('this.postmeta.run_dates_0_run_time >= ' + yesterday.getTime()/1000);
+                    break;
+                case 'latest':
+                    q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
+                    q.$where('this.type === "post" || this.type === "animated-gif" || this.type === "partner-post"');
+                    break;
+            }
+
+        }else{
+            q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
+        }
+
+        if(!this._isMobile(req.headers['user-agent'])){
+            q.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else{
+                    return this;
+                }
+            });
+        }
+
+        return q.exec();
+    },
+
     listByCategory: function(numberOfPosts, pageNumber, skip, category) {
 
         var skipItems = Number(skip);

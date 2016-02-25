@@ -1,0 +1,98 @@
+<!--  see /views/home-hero-demo.html for example code -->
+<!--  hit local.altdriver.com:3000/homehero to see in browser -->
+<!--  clean up Pat's routes when complete -->
+
+<!--   insert an advert -->
+<div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+  <!--  regular ad code for NEW advert goes here -->
+</div>
+<!--  end ad insertion -->
+<div class="clearfix cf homepage-wrapper">
+  <div class="homepage-carousel">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <!--  first article uses current card code-->
+        </div>
+        <div class="item">
+          <!--  second -->
+        </div>
+        <div class="item">
+          <!--  third -->
+        </div>
+        <div class="item">
+          <!--  fourth -->
+        </div>
+
+      </div>
+      <!--  end carousel items -->
+
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+
+
+
+  <!--  new trending menu-->
+  <div>
+    <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
+  </div>
+
+</div>
+
+<!--   insert an advert -->
+<div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+  <!--  new homepage ad here -->
+</div>
+<!--  end ad insertion -->
+
+<!-- lower section -->
+<div class="split-lower clearfix">
+  <!--  ################-->
+  <div class="latestposts">
+    <!--  2 regular card items here -->
+
+    <div class="card-item post-list full-width">
+      <!--  The third item needs a class of full-width OR I can use some CSS selector magic -->
+    </div>
+
+    <!--  2 more regular posts -->
+
+  </div>
+
+  <div class="lower-rail-ads">
+    <!--  NEW 300x600 advert goes here -->
+  </div>
+
+</div>
+
+<div class="mega-footer clearfix">
+  <div class="pull-left">
+    <ng-include src="'/views/partials/search.html'"></ng-include>
+  </div>
+  <div class="ad-copyright">
+    <div>
+      © 2016 alt_driver. All rights reserved.
+    </div>
+    <div>
+      <a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
+    </div>
+  </div>
+</div>

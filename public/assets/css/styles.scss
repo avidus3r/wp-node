@@ -1,0 +1,301 @@
+@import 'vendor/font-awesome';
+@import 'globals';
+@import "mixins";
+@import 'root';
+@import 'desktop';
+
+
+.wrapper{
+
+}
+
+.not-found{
+  color: #666;
+  margin: .35em .35em .5em;
+  font-size: 1.25em;
+  border: 1px solid #e0e0e0;
+  padding: .5em;
+  background: linear-gradient(to bottom, white 30%, #f3f3f3 100%);
+}
+
+.view-container{
+  padding-top: 50px;
+}
+
+.feed-item {
+  background: #fff;
+  color:#666;
+  margin: 0 auto 1em;
+}
+
+.view-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-title{
+  font-size: 1.5em;
+  color:#444;
+  margin: 0 0 .5em;
+  padding: 0 .5em;
+}
+
+.featured-image{
+  display: block;
+  margin:0 auto;
+  width: 100%;
+  height: auto;
+  cursor:pointer;
+}
+
+.post-content p iframe{
+  margin: 0 auto 1em;
+}
+
+.post-content p:not(p:first-child){
+  max-width: 95%;
+  line-height: 1.5em;
+  margin-bottom: .5em;
+}
+
+.author-meta{
+  text-transform: uppercase;
+  display: block;
+  font-size: .8em;
+  color:#333;
+  font-weight: bold;
+  padding: 0 1em;
+  height: 2em;
+
+  p{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+  }
+
+  .votes{
+    button{
+      background: none;
+      border: none;
+      &[name="up"]{
+        color:$color-ad-green;
+      }
+      &[name="down"]{
+        color:$color-ad-red;
+      }
+      .fa{
+        font-size: 1.25em;
+      }
+
+      &[disabled="disabled"]{
+        color:grey;
+      }
+    }
+
+  }
+
+  .item-author {
+    @extend .left;
+  }
+
+  .item-cat {
+    @extend .right;
+  }
+}
+
+.instagram-img{
+  max-width: 100%;
+}
+
+.post-view.feed{
+  position: relative;
+  .votes{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.page{
+  padding:1em;
+  font-size: 12px;
+
+  ol{
+    padding: 1em;
+  }
+}
+
+.main-header{
+  font: 18px "Open Sans",Arial,sans-serif;
+  text-transform: uppercase;
+  border-left: 3px solid #0092d7;
+  padding-left: 14px;
+  line-height: 2;
+  margin-bottom: 28px;
+}
+
+.page.contact{
+  padding: 0 1.25em 1.25em;
+  font-size: 13px;
+  color:rgb(96, 101, 105);
+
+  ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gfield_required{
+    color: #790000;
+    margin-left: .25em;
+  }
+
+  li.gfield{
+    margin: .75em 0 1em;
+  }
+
+  input{
+    background: #f9f9f9;
+    border:1px solid #d9d9d9;
+    padding: .35em 0;
+  }
+
+  label{
+    font-weight: bold;
+  }
+
+  .ginput_container{
+    width:100%;
+    @extend .clearfix;
+    &>input{
+      width:100%;
+    }
+    span {
+      float: left;
+      width: 48%;
+      &:first-child{
+        margin-right: 4%;
+      }
+      input{
+        width:100%;
+      }
+      label {
+        display: block;
+        font-size: .875em;
+        letter-spacing: .5pt;
+        white-space: nowrap;
+        margin: .188em 0 .75em;
+        font-weight: normal;
+      }
+    }
+  }
+
+  textarea{
+    max-width: 100%;
+    background: #f9f9f9;
+    border:1px solid #d9d9d9;
+  }
+
+  input[type="submit"]{
+    background: #0092D3;
+    color:#fff;
+    width: 100%;
+    padding: .75em 0;
+  }
+
+  .gform_validation_container{
+    display: none;
+  }
+}
+
+#submitPage{
+  iframe{
+    font-family: $font-body;
+    position:relative;
+
+    form{
+      padding-top: 2em;
+      width:100%;
+
+      label,input{
+        width:100%;
+        display: block;
+      }
+    }
+  }
+}
+body.submit .page{
+  padding: 1.5em;
+}
+
+body.submit{
+  .btn-submit-story{
+    display:none !important;
+  }
+}
+
+.page.thanks{
+  padding: .75em;
+  .sc-button {
+    margin: .5em;
+    padding: .5em;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    &:first-child{
+      margin-left: 0;
+    }
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+}
+
+.gif-btn{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  border: 3px solid #fff;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  font-weight: bold;
+  margin-left: -30px;
+  margin-top: -30px;
+  font-size: 1.15em;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.85);
+}
+
+.btn.voting-group {
+  margin-top: 1em;
+}
+
+// single post view CSS
+@import 'single';
+
+// load components here
+@import 'flex-share';
+
+// non post card css
+@import 'cards';
+
+// post actions bar - below post title and image has voting and share
+@import 'post-actions';
+
+// CSS utility classes
+@import 'utilities';
+
+// themes
+@import 'altd-2015';
+
+@import 'vendor/bootstrap';
+
+// bootstrap overrides
+// change breakpoint for Menu
+@import 'bootstrap_menu_overrides';
+
+//  add 2016 homepage styles
+@import 'homepage';

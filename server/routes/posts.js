@@ -255,11 +255,27 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
     });
 });
 
+
+/*
+ Feed Posts Query
+ */
+router.get('/api/q/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
+    var data = PostController.query(req, req.params.query, parseInt(req.params.perPage),req.params.page, req.params.skip);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.json(result);
+        }
+    });
+});
+
 router.get('/update/:restParent/:restBase/:postId', function(req,res){
     console.log(req.headers, req.params, req.body);
     if(req.headers.hasOwnProperty('secret')){
-        var apisecret = JSON.parse(process.env.apisecret);
-        if(md5(req.headers.secret) !== apisecret.uname){
+        var apisecret = process.env.apisecret;
+        if(req.headers.secret !== 'alt_driver'){
             res.sendStatus(403);
             return false;
         }

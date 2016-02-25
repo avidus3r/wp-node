@@ -20,23 +20,23 @@ var gulp            = require('gulp'),
     gulpNgConfig    = require('gulp-ng-config'),
     uglify          = require('gulp-uglify'),
     ngAnnotate      = require('gulp-ng-annotate'),
-    streamify       = require('gulp-streamify'),
-    gifyParse      = require('gify-parse');
+    streamify       = require('gulp-streamify');
+    //gifyParse      = require('gify-parse')
 
 var paths   = {
-    root:'app/',
-    src:'app/',
-    js: ['app/**/*.js', '!tests/**/*.js'],
-    sass: ['assets/**/*.scss'],
-    assets:['assets/**/*.*', '!assets/**/*.scss'],
-    templates: ['app/components/**/*.html'],
+    root:'public/',
+    src:'public/',
+    js: ['public/**/*.js', '!tests/**/*.js'],
+    sass: ['public/assets/**/*.scss'],
+    assets:['public/assets/**/*.*', '!public/assets/**/*.scss'],
+    templates: ['public/components/**/*.html'],
     tests: ['tests/spec/**/*.js'],
-    config: ['app/config/*.json', 'app/config.json'],
-    package:['app/package/**/*.*']
+    config: ['public/config/*.json'],
+    package:['public/package/**/*.*']
 };
 
 gulp.task('scripts', function(){
-    return gulp.src('app/app.js')
+    return gulp.src('public/app.js')
         .pipe(browserify({
             insertGlobals: true
         }))
@@ -61,7 +61,7 @@ gulp.task('ngAnnotate', function () {
 
 gulp.task('browserify-min', ['ngAnnotate'], function () {
     if(process.env.NODE_ENV === 'local') return;
-    return gulp.src('app/ngAnnotate/app.js')
+    return gulp.src('public/ngAnnotate/app.js')
         .pipe(browserify({
             insertGlobals: true
         }))
@@ -75,14 +75,14 @@ gulp.task('templates', function(){
 });
 
 gulp.task('config', function(){
-    var creds = require('./app/config/creds.json');
+    var creds = require('./public/config/creds.json');
     process.env.apisecret = JSON.stringify(creds);
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
-    gulp.src('./app/config/config.json')
+    gulp.src('./public/config/config.json')
         .pipe(gulpNgConfig('NewsFeed.config',{environment:process.env.appname}))
-        .pipe(gulp.dest('./app/config'))
+        .pipe(gulp.dest('./public/config'))
 });
 
 gulp.task('data', function(){
@@ -98,7 +98,7 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('tests', function(){
-    gulp.src('app/app.mock.js')
+    gulp.src('public/app.mock.js')
         .pipe(browserify({
             insertGlobals: true
         }))
@@ -120,11 +120,11 @@ gulp.task('assets', function() {
         process.env.appname = 'driversenvy';
     }
 
-    var iconsPath = './app/package/favicons/'+process.env.appname;
+    var iconsPath = './public/package/favicons/'+process.env.appname;
     try{
         fs.lstatSync(iconsPath).isDirectory()
     }catch(e){
-        iconsPath = './app/package/favicons/altmedia';
+        iconsPath = './public/package/favicons/altmedia';
     };
     /*fs.realpath('./assets/favicons/'+process.env.appname, function(err, resolvedPath) {
         fs.readdir(resolvedPath, function(err, files) {
@@ -141,7 +141,7 @@ gulp.task('assets', function() {
 
 gulp.task('css',['css:min']);
 
-gulp.task('css:min', function() {
+gulp.task('css:min', ['css:sass'], function() {
     return gulp.src('./dist/css/styles.css')
         .pipe(cssmin())
         .pipe(plugins.rename({suffix: '.min'}))
@@ -157,14 +157,14 @@ gulp.task('css:lint', function(){
 gulp.task('css:sass', function () {
     return gulp.src(paths.sass)
         .pipe(sass({
-            paths: [ './assets/css/' ]
+            paths: [ './public/assets/css/' ]
         }))
         .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('cleanApp', function () {
     if(process.env.NODE_ENV === 'local') return;
-    return gulp.src('./app/ngAnnotate/', { read: false })
+    return gulp.src('./public/ngAnnotate/', { read: false })
         .pipe(clean({force:true}));
 });
 
@@ -207,7 +207,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.assets, ['assets']);
     gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.config, ['config']);
-    gulp.watch(paths.sass, ['css:sass']);
+    gulp.watch(paths.sass, ['css:min']);
     gulp.watch(paths.tests, ['tests']);
 });
 
@@ -220,11 +220,15 @@ gulp.task('build', function(callback) {
         var appName = currPath[currPath.length-1];
         process.env.appname = appName;
         process.env.mdbname = appName;
-        process.env.mdbhost = 'localhost:27017';
-        process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+        //local
+        //process.env.mdbhost = 'localhost:27017';
+        //staging
+        //process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+        //prod
+        process.env.mdbhost = 'altdriver-0.altdriver.5600.mongodbdns.com:27000';
 
         process.env.mdbuser = 'admin';
         process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     }
-    runSequence('clean','config', 'css:sass', 'css:min', 'assets', 'templates', 'data', 'scripts', 'browserify-min', callback);
+    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', callback);
 });

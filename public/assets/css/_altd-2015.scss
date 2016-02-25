@@ -1,0 +1,254 @@
+
+// navigation styles in nav.scss
+@import 'nav';
+
+
+// typography
+body{
+  font-family: $font-body, Calibri, Helvetica, Arial; // altD fonts
+}
+
+// interface components
+header {
+  font-family: $font-system;
+
+  .btn-search {
+    padding: 6px 12px; // match the regular btn
+  }
+}
+
+.author-meta,
+.post-actions {
+  font-family: $font-system;
+}
+
+// headlines
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-headline;
+}
+
+.btn-primary {
+  background-color: $color-ad-green;
+}
+
+// keep the loading posts from collapsing on one another
+.wrapper.list .post-content.feed-view{
+  min-height: 150px;
+}
+
+#loading-more{
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+
+// display title OVER video screeny
+.post-content h2.post-title{
+  font-size: 1.5em; // font size controls all magical ems
+  position: absolute;
+  bottom: 0;
+  //height: 3em;
+  height: 3.3em;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,.5);
+  color: white;
+  margin: 0;
+  padding: .25em;
+  padding-left: .5em;
+  //line-height: 1.3;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+// .iphone h2.post-title,
+// .ipad h2.post-title {
+//   line-height: .9;
+// }
+
+// make the text align middle happen
+.post-title span {
+  vertical-align: middle;
+  vertical-align: -webkit-baseline-middle;
+  display: inline-flex;
+}
+
+// title for "open" post on single view
+//!post-view
+.single-post .post-view.full .post-title {
+  position: relative;
+  color: #333;
+  bottom: auto;
+  background-color: transparent;
+  width: 100%;
+}
+
+// TODO some overrides - refactor these away soon
+.single  .post-title, .single-post .post-title{
+  font-family: $font-headline; // altD font
+}
+
+// hide author for altD theme - almost all are the same
+.post-view.feed .item-author {
+    display: none !important;
+}
+
+// reduce footprint
+.author-meta {
+  padding: 0;
+  height: auto;
+  font-size: 1em; // override main theme
+}
+
+// reduce the footprint of each post
+.post-content.feed-view {
+  height: auto;
+  min-height: auto;
+  p {
+      margin-bottom: 0;
+    }
+}
+
+.post-content {
+  h1, h2, h3, h4, h5 {
+    font-size: 1.2em;
+  }
+  img, div { // fuck you wordpress
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+// move the category tags over the videos
+.feed-view .item-cat {
+  position: absolute;
+  top: 0;
+  padding: 1em;
+  color: white;
+  background-color: $color-ad-blue;
+
+  // main cats get different color
+
+  //insane stunts
+  &.insane-stunts {background-color: $color-ad-purple;}
+
+  // crash and burn
+  &.crash-burn {background-color: $color-ad-red;}
+
+  // sports car
+  &.sports-car {background-color: red;} //lame
+
+  // luxury
+  &.luxury {background-color: $color-ad-yellow;}
+
+  // classics
+  &.classics {background-color: $color-ad-dk-gray;}
+
+  // motorcycles
+  &.motorcycles {background-color: $color-ad-orange;}
+
+  // off road
+  &.off-road {background-color: $color-ad-brown;}
+
+  // technology
+  &.technology {background-color: $color-ad-green;}
+
+  // grab bag
+  &.grab-bag {background-color: $color-ad-purple-alt;}
+
+  // good guy bad guy
+  &.good-guy-bad-guy {background-color: $color-ad-blue-alt;}
+
+  // gaming
+  &.gaming {background-color: black;}
+
+  //instagram
+  &.instagram {
+    padding: 0 .5em !important;
+  }
+
+  a{
+    color: #ffffff;
+  }
+}
+//!post-view
+.post-view.full .item-cat {
+  float:none;
+}
+
+
+// tighten display and set position for absolute children
+.feed-item {
+  margin: 1em;
+  &.item{
+    margin: 0;
+  }
+  // the inner div for the angular switch
+  & > div {
+    position: relative;
+  }
+}
+
+// tighten up on mobile
+@media all and (max-width: 480px) {
+  .feed-item {
+    margin: 1em .5em;
+  }
+}
+
+// TODO - this maybe should go to the main CSS
+.video-container{
+    text-align: center;
+  }
+
+  .flexshare {
+  z-index: 10;
+}
+
+// set the order for the share icons
+.flex-facebook {
+  order: 0;
+}
+
+.flex-gplus {
+  order: 1;
+}
+
+.flex-twitter {
+  order: 5;
+}
+
+.flex-linkedin {
+  order: 4;
+}
+
+.flex-mail {
+  order: 2;
+}
+
+.flex-reddit {
+  order: 3;
+}
+
+body.mobile.subscribe-hub{
+  .subscribe-hub{
+    h3{
+      font-size:1.4em !important;
+      margin-top: .5em;
+      margin-bottom: .25em;
+    }
+    .card-email h2, h2{
+      font-size: 1.2em;
+    }
+    .social-follow a{
+      font-size: 1.2em;
+      margin-bottom: .75em;
+      margin-top:.75em;
+    }
+  }
+
+}

@@ -1,0 +1,151 @@
+<!--   insert an advert -->
+
+<script type='text/javascript'>
+    var googletag = window.googletag;
+    googletag.cmd.push(function() {
+        if(!_isMobile()){
+            googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_01', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-0').addService(googletag.pubads());
+            googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_02', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-1').addService(googletag.pubads());
+            googletag.defineSlot('/110669458/AD_Home_Desktop_RR_01', [[300, 600], [300, 250]], 'div-gpt-ad-1455657666158-2').addService(googletag.pubads());
+            googletag.pubads().collapseEmptyDivs();
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        }else{
+            googletag.defineSlot('/110669458/AD_Mobile_Feed01_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-7').addService(googletag.pubads());
+            googletag.defineSlot('/110669458/AD_Mobile_Feed02_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-8').addService(googletag.pubads());
+            googletag.pubads().collapseEmptyDivs();
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        }
+    });
+</script>
+
+<div ng-if="!_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+    <div id="div-gpt-ad-1455657666158-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });</script></div>
+</div>
+
+<!--  end ad insertion -->
+<div class="clearfix cf homepage-wrapper">
+    <div class="homepage-carousel">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div ng-repeat="item in heroItemElements track by $index" data-url="{{ item.link }}" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+                    <div ng-if="item.type === 'post-list'" class="card-item post-list ">
+                        <div class="post-content feed-view post-view feed ">
+                            <p>
+                                <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                                    <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
+                                    <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
+                                </a>
+                            </p>
+                            <h2 class="post-title">
+                                <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+                            </h2>
+
+                            <div class="author-meta">
+                                <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                                <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+
+                                <span class="clearfix"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  end carousel items -->
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <!--  new trending menu-->
+    <div>
+        <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
+    </div>
+
+</div>
+
+<div ng-if="_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+    <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });</script></div>
+</div>
+
+<!--   insert an advert -->
+<div ng-if="!_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+    <div id="div-gpt-ad-1455657666158-1"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });</script></div>
+</div>
+
+<!--  end ad insertion -->
+
+<!--  ################-->
+<!--  ################ to see split bottom, change add class of split-lower-->
+<div class="split-lower clearfix">
+    <!--  ################-->
+    <!--  ################-->
+    <div class="latestposts">
+
+        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+
+            <div class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
+                <div class="post-content feed-view post-view feed ">
+                    <p>
+                        <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                            <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
+                            <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
+                        </a>
+                    </p>
+                    <h2 class="post-title">
+                        <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+                    </h2>
+
+                    <div class="author-meta">
+                        <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                        <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  insert another advert -->
+        <div ng-if="_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+            <div id="div-gpt-ad-1448906851482-8"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });</script></div>
+        </div>
+    </div>
+
+    <div class="lower-rail-ads">
+        <div id="div-gpt-ad-1455657666158-2"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });</script></div>
+    </div>
+
+</div>
+
+<div class="mega-footer clearfix">
+    <div class="pull-left">
+        <ng-include src="'/views/partials/search.html'"></ng-include>
+    </div>
+    <div class="ad-copyright" >
+        <div>
+            © 2016 alt_driver. All rights reserved.
+        </div>
+        <div>
+            <a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
+        </div>
+    </div>
+</div>
