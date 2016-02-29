@@ -825,8 +825,6 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                     post = result;
 
-
-
                     metatags.published = post.date;
                     metatags.modified = post.modified;
                     metatags.category = post.category[0].name;
@@ -835,10 +833,14 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                     if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
                         metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                    }else{
+                        metatags.description = '';
                     }
 
                     if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
                         metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                    }else{
+                        metatags.title = post.title.rendered;
                     }
 
                     // Facebook meta

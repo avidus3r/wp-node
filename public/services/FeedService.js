@@ -71,7 +71,9 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.queryDBPosts = function(query, numPosts, pageNum, skip){
         var url = '/api/q/' + query + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
-        return feed.get(url, 'get');
+        var data = feed.get(url, 'get');
+        console.log(data);
+        return data;
     };
 
     feed.getDBPost = function(slug){

@@ -311,10 +311,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function(){
-
-        if($scope.currentView !== 'ads') {
+        console.log('onScroll');
+        if($scope.currentView !== 'ads' && $scope.posts.length >= $scope.postsPerPage) {
             var feedItemEl = angular.element('.feed-item:last');
-            if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
+            if ((window.innerHeight + window.scrollY) >= angular.element('.app-main').height() - 50) {
                 angular.element('#loading-more').removeClass('hidden').show();
                 $scope.paged += 1;
                 var state = {page: $scope.paged};
@@ -497,13 +497,14 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getNext = function(params){
-
+        console.log('getNext');
         $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
         $scope.clearAds().then(function(){
             var skip = null;
             if($routeParams.page === 'hottest' || $routeParams.page === 'best' || $routeParams.page === 'latest'){
                 FeedService.queryDBPosts($routeParams.page, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
                     function (data) { //success
+                        console.log(data);
                         if (data.length > 0) {
                             $scope.mapPosts(data);
                         } else {
@@ -531,7 +532,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     }
                 );
             }
-            if(!$routeParams.hasOwnProperty('page')){
+
+            if($routeParams.page !== 'hottest' && $routeParams.page !== 'best' && $routeParams.page !== 'latest'){
+                console.log('i shouldnt be here');
                 if ($scope.currentView !== 'search') {
 
                     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params + '&post__not_in=' + $scope.singlePostID;
@@ -672,8 +675,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.$on('next:done', function($event, posts){
+        console.log('next:done');
         if($scope.currentView === 'ads'){
-            console.log('returning false');
             return false;
         }
 
@@ -1153,7 +1156,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             });
         },1500);
 
-        if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
+        if(($scope.sponsors === null && $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
 
             window.addEventListener('scroll', $scope.onScroll);
         }else{
