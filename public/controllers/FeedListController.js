@@ -311,7 +311,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function(){
-        if($scope.currentView !== 'ads' && $scope.posts >= $scope.postsPerPage) {
+
+        if($scope.currentView !== 'ads') {
             var feedItemEl = angular.element('.feed-item:last');
             if ((window.innerHeight + window.scrollY) >= (angular.element('.app-main').height())) {
                 angular.element('#loading-more').removeClass('hidden').show();
@@ -672,6 +673,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.$on('next:done', function($event, posts){
         if($scope.currentView === 'ads'){
+            console.log('returning false');
             return false;
         }
 
