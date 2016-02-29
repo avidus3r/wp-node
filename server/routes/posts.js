@@ -272,7 +272,7 @@ router.get('/api/q/:query/:perPage/:page/:skip', apicache('45 minutes'), functio
 });
 
 router.get('/update/:restParent/:restBase/:postId', function(req,res){
-    console.log(req.headers, req.params, req.body);
+    //console.log(req.headers, req.params, req.body);
     if(req.headers.hasOwnProperty('secret')){
         var apisecret = process.env.apisecret;
         if(req.headers.secret !== 'alt_driver'){
@@ -300,7 +300,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
             break;
     }
     var url = 'http://' + host + '/wp-json/wp/v2/' + restBase + '/' + postId;
-    console.log(url);
+    //console.log(url);
     PostController.updating = false;
 
     PostController.updating = true;
@@ -333,12 +333,12 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                                 var env = process.env.NODE_ENV === 'production' ? (process.env.appname === 'altdriver' ? 'www.' : '') : 'staging.';
                                 var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
                                 var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
-                                console.log('posturl: ', postUrl);
+                                //console.log('posturl: ', postUrl);
                                 setTimeout(function() {
                                     request
                                         .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
                                         .on('response', function (response) {
-                                            console.log(response);
+                                            //console.log(response);
                                         });
                                 },3000);
 

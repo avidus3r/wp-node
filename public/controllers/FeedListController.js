@@ -1156,7 +1156,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             });
         },1500);
 
-        if(($scope.sponsors === null && $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
+        if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
 
             window.addEventListener('scroll', $scope.onScroll);
         }else{

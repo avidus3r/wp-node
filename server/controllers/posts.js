@@ -27,7 +27,13 @@ var PostsController = {
     },
 
     update: function(postID, data, cb){
-
+        if(data.postmeta.hasOwnProperty('run_dates_0_run_time')){
+            if(data.postmeta.run_dates_0_run_time.length > 0){
+                var runDateStr = data.postmeta.run_dates_0_run_time[0];
+                var runDate = new Date(Number(runDateStr)*1000);
+                data.facebook_rundate = runDate;
+            }
+        }
         Post.update({'_id': postID}, data,{multi:true}, function(err, nItems){
             if(err){
                 cb(false);
@@ -141,7 +147,7 @@ var PostsController = {
                     var lastSevenDays = new Date();
                     lastSevenDays.setDate(lastSevenDays.getDate() - 7);
 
-                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main'} ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main' }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
                     q.$where('this.postmeta.run_dates_0_run_time >= ' + lastSevenDays.getTime()/1000 + '&& this.postmeta.run_dates_0_run_time <= ' + yesterday.getTime()/1000);
                     break;
                 case 'hottest':
@@ -150,6 +156,7 @@ var PostsController = {
                     yesterday.setDate(yesterday.getDate() - 1);
 
                     q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main' } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    //q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'facebook_rundate':{$gte:yesterday} } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
                     q.$where('this.postmeta.run_dates_0_run_time >= ' + yesterday.getTime()/1000);
                     break;
                 case 'latest':
