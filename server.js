@@ -53,16 +53,63 @@ function getSQSQueue(prefix){
 
     var params = {QueueNamePrefix: prefix};
     var queue = null;
-    return sqs.listQueues(params, function(err, data) {
-        if (err) queue = err;
-        queue = data.QueueUrls[0];
-        return queue;
+    var deferred = new Promise(function(fulfill, reject){
+        sqs.listQueues(params, function(err, data) {
+            if (err) reject(err);
+            queue = data.QueueUrls[0];
+            var params = {
+                QueueUrl: queue
+            };
+            sqs.receiveMessage(params, function(err, data) {
+                if (err) reject(err);
+                fulfill(data);
+            });
+        });
     });
+    return deferred;
 }
 
-app.get('/api/wp-exec', function(req, res){
+function execQueue(queueData, message){
+    var msg = JSON.parse(queueData)[0];
+    var deferred = new Promise(function(fulfill, reject){
+        console.log(msg.postID, msg.restParent, msg.restPath, msg.method);
+        console.log(message.ReceiptHandle);
+        var result = null;
+        switch(msg.method){
+            case 'update':
+                result = true;
+                console.log('updating');
+                break;
+            case 'create':
+                console.log('creating');
+                break;
+            case 'delete':
+                console.log('deleting');
+                break;
+        }
+        if(result) fulfill(message.ReceiptHandle);
+        reject(result);
+    });
+    return deferred;
+}
+
+app.get('/api/wp-exec', function(req, res, next){
+    console.log(req.originalUrl);
     var queue = getSQSQueue('wp-exec');
-    res.status(200).send();
+
+    queue.then(function(queueData){
+        console.log(queueData);
+        var messages = queueData.Messages[0];
+        var queueMessages = [];
+        if(messages.length === 0) res.stats(200).send("queue is empty");
+        var body = queueData.Messages[0].Body;
+        execQueue(body, queueData.Messages[0]).then(function(result){
+            console.log('ready to unenqueue: ', result);
+        });
+    });
+
+    res.end();
+
 });
 
 var api = require('./server/index');
