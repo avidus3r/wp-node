@@ -102,7 +102,10 @@ gulp.task('tests', function(){
         .pipe(browserify({
             insertGlobals: true
         }))
-        .pipe(gulp.dest('./tests/src'))
+        .pipe(gulp.dest('./public/tests/src'));
+
+    return gulp.src('./public/tests/**/*.*')
+        .pipe(gulp.dest('./dist/tests/'));
 });
 
 gulp.task('lint', function() {
@@ -230,5 +233,5 @@ gulp.task('build', function(callback) {
         process.env.mdbuser = 'admin';
         process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     }
-    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', 'browserify-min', callback);
+    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', 'tests', 'browserify-min', callback);
 });

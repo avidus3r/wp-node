@@ -40,6 +40,31 @@ app.set('port', process.env.PORT || 3000);
 /*
  Server Routes
  */
+
+app.use(express.static(__dirname + './dist/tests'));
+app.get('/tests', function(req, res){
+    res.sendFile('SpecRunner.html', { root: path.join(__dirname, './dist/tests/') });
+});
+
+function getSQSQueue(prefix){
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-east-1'});
+    var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
+
+    var params = {QueueNamePrefix: prefix};
+    var queue = null;
+    return sqs.listQueues(params, function(err, data) {
+        if (err) queue = err;
+        queue = data.QueueUrls[0];
+        return queue;
+    });
+}
+
+app.get('/api/wp-exec', function(req, res){
+    var queue = getSQSQueue('wp-exec');
+    res.status(200).send();
+});
+
 var api = require('./server/index');
 var apiRouter = api.routes;
 app.use(apiRouter);
@@ -179,12 +204,13 @@ app.get('/feed/:feedname/', function(req,res){
 /*
  static paths
  */
-//app.use(express.static(__dirname + './tests'));
-app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true}));
-app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
+
 //app.use(express.static('./admin'));
 //app.use(express.static(__dirname + './data'));
 //app.use(express.static(__dirname + './app/config'));
+
+app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true}));
+app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
 app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
 
 var config = require('./public/config/config.json');
@@ -209,7 +235,6 @@ function setUserCookie(req, itsABot){
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
             var uuid = cc.generate({parts: 4, partLen: 6});
-            var userUUID = null;
 
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
@@ -218,6 +243,9 @@ function setUserCookie(req, itsABot){
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
                         });
+
+                        if(createUser) insertUser(uuid);
+
                     } else {
 
                     }
@@ -229,48 +257,16 @@ function setUserCookie(req, itsABot){
     }
 }
 
-function insertUser(){
-    /*if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1 && createUser){
-
-     //me 7D6QL2-EDCA4A-XQMY5F-TGRXKC
-     var user = null;
-     var uuid = cc.generate({parts:4,partLen:6});
-     var userUUID = null;
-
-     if(req.headers.cookie === undefined){
-     api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-     res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
-     }else{
-     if(req.headers.cookie.indexOf('altduuid') > -1){
-
-     var cookies = req.headers.cookie.split('; ');
-     for(var i=0;i<cookies.length;i++){
-     var chip = cookies[i].split('=');
-     if(chip[0].indexOf('altduuid') > -1){
-     userUUID = chip[1];
-     api.UserController.me(userUUID).then( function(result){
-     if(result.length === 0 && userUUID.length > 0){
-     api.UserController.create(userUUID,{'headers':req.headers, 'rawHeaders':req.rawHeaders});
-     }
-     var user = result[0];
-     user.lastseen = Date.now;
-     api.UserController.update(user);
-     });
-     }
-     }
-     }else{
-     api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
-     res.cookie('altduuid', uuid, { expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'), httpOnly: true });
-     }
-     }
-     }*/
+function insertUser(uuid){
+    if(!itsABot && req.headers['user-agent'].toLocaleLowerCase().indexOf('healthcheck') === -1){
+        api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
+    }
 }
 
 app.get('/', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
     setUserCookie(req, itsABot);
-    //insertUser();
 
     if(itsABot) {
         try {
@@ -376,9 +372,7 @@ app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 /*
 TODO: move this to admin controller
 
-app.get('/tests', function(req, res){
-    res.sendFile('SpecRunner.html', { root: path.join(__dirname, './tests') });
-});
+
 
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
@@ -464,6 +458,7 @@ app.post('/admin', function(req, res){
 /TODO
 */
 
+
 app.post('/submit', function(req,res){
 
     if(req.headers.origin !== 'http://' + req.headers.host){
@@ -472,9 +467,9 @@ app.post('/submit', function(req,res){
     }
     var form = new multiparty.Form();
 
-    var aws = require('aws-sdk');
-    aws.config.update({region:'us-west-2'});
-    var ses = new aws.SES({apiVersion: '2010-12-01'});
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-west-2'});
+    var ses = new AWS.SES({apiVersion: '2010-12-01'});
 
     // send to list
     //var to = ['dev@altdriver.com'];
@@ -489,7 +484,7 @@ app.post('/submit', function(req,res){
 
     var bucket = 'user-content.altdriver';
     var fileName = '';
-    var s3Client = new aws.S3({params: {Bucket: bucket, Key: 'AKIAINNUHXXUND27LA4A'}});
+    var s3Client = new AWS.S3({params: {Bucket: bucket, Key: 'AKIAINNUHXXUND27LA4A'}});
 
     form.on('field', function(name, value){
         //console.log(name, value);

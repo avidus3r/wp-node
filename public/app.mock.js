@@ -3,8 +3,8 @@
 var angular = require('angular');
 
 //Angular Dependencies
-require('ng-infinite-scroll');
-require('angular-metatags.min.js');
+
+require('./assets/js/angular-metatags.min.js');
 require('angular-mocks/ngMock');
 
 var env = 'prod';
@@ -37,7 +37,7 @@ var Router = require('./config/app.routes.js');
 
 
 //Main Module
-var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'infinite-scroll', 'metatags', 'ngMock']);
+var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('angular-sanitize'), require('angular-resource'), 'metatags', 'ngMock']);
 
 
 /*
