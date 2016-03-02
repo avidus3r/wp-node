@@ -41302,7 +41302,7 @@ NewsFeed.directive('card', Directives.card);
  */
 
 module.exports = NewsFeed;
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_4c5542d6.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_eb97564c.js","/")
 },{"./assets/js/angular-metatags.min.js":15,"./config/app.routes.js":16,"./controllers/app.controllers.js":22,"./directives/app.directives.js":23,"./services/FeedService":29,"./services/InstagramService":30,"1YiZ5S":14,"angular":10,"angular-mocks/ngMock":2,"angular-resource":4,"angular-route":6,"angular-sanitize":8,"buffer":11}],29:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';

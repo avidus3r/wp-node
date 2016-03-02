@@ -62,7 +62,7 @@ function getSQSQueue(prefix){
             };
             sqs.receiveMessage(params, function(err, data) {
                 if (err) reject(err);
-                fulfill(data);
+                fulfill(data, queue);
             });
         });
     });
@@ -72,13 +72,13 @@ function getSQSQueue(prefix){
 function execQueue(queueData, message){
     var msg = JSON.parse(queueData)[0];
     var deferred = new Promise(function(fulfill, reject){
-        console.log(msg.postID, msg.restParent, msg.restPath, msg.method);
-        console.log(message.ReceiptHandle);
+
         var result = null;
+
         switch(msg.method){
             case 'update':
                 result = true;
-                console.log('updating');
+                console.log('updating', msg.postID, msg.restParent, msg.restPath, msg.method);
                 break;
             case 'create':
                 console.log('creating');
@@ -87,6 +87,7 @@ function execQueue(queueData, message){
                 console.log('deleting');
                 break;
         }
+
         if(result) fulfill(message.ReceiptHandle);
         reject(result);
     });
@@ -94,18 +95,42 @@ function execQueue(queueData, message){
 }
 
 app.get('/api/wp-exec', function(req, res, next){
-    console.log(req.originalUrl);
+
     var queue = getSQSQueue('wp-exec');
 
     queue.then(function(queueData){
-        console.log(queueData);
+
         var messages = queueData.Messages[0];
-        var queueMessages = [];
+
         if(messages.length === 0) res.stats(200).send("queue is empty");
         var body = queueData.Messages[0].Body;
+
         execQueue(body, queueData.Messages[0]).then(function(result){
-            console.log('ready to unenqueue: ', result);
+            var receiptHandle = result;
+
+            var AWS = require('aws-sdk');
+            AWS.config.update({region:'us-east-1'});
+            var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
+
+            sqs.listQueues({QueueNamePrefix: prefix}, function(err, data) {
+
+                if (err) reject(err);
+                queue = data.QueueUrls[0];
+
+                var params = {
+                    QueueUrl: queue,
+                    ReceiptHandle: receiptHandle
+                };
+
+                sqs.deleteMessage(params, function(err, data) {
+                    if (err) console.error(err);
+                    console.log('successfully removed: ', data);
+                });
+
+            });
+
         });
+
     });
 
     res.end();

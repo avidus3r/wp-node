@@ -272,7 +272,7 @@ router.get('/api/q/:query/:perPage/:page/:skip', apicache('45 minutes'), functio
 });
 
 router.get('/update/:restParent/:restBase/:postId', function(req,res){
-    //console.log(req.headers, req.params, req.body);
+    console.log('got update request');
     if(req.headers.hasOwnProperty('secret')){
         var apisecret = process.env.apisecret;
         if(req.headers.secret !== 'alt_driver'){
@@ -352,6 +352,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                     PostController.updating = false;
                 }
             });
+            console.log('updated');
         },4000);
         res.sendStatus(200);
     }catch(e){
