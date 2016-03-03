@@ -132,8 +132,31 @@
 
     <div class="lower-rail-ads">
         <div id="div-gpt-ad-1455657666158-2"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });</script></div>
+        <script>
+            window.fbAsyncInit = function() {
+                FB.Event.subscribe(
+                        'ad.loaded',
+                        function(placementId) {
+                            console.log('Audience Network ad loaded');
+                        }
+                );
+                FB.Event.subscribe(
+                        'ad.error',
+                        function(errorCode, errorMessage, placementId) {
+                            console.log('Audience Network error (' + errorCode + ') ' + errorMessage);
+                        }
+                );
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk/xfbml.ad.js#xfbml=1&version=v2.5&appId=638692042912150";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <fb:ad placementid="638692042912150_912028795578472" format="300x250" testmode="true"></fb:ad>
     </div>
-
 </div>
 
 <div class="mega-footer clearfix">

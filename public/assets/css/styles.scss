@@ -299,3 +299,11 @@ body.submit{
 
 //  add 2016 homepage styles
 @import 'homepage';
+
+#scroll-container{
+  display: flex;
+  flex-direction: column;
+  .feed-item{
+    order:inherit;
+  }
+}

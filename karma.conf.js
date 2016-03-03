@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './public/',
 
 
     // frameworks to use
@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'tests/**/*Spec.js'
+      'index.html'
     ],
 
 
@@ -28,7 +28,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 
       preprocessors: {
-          'tests/**/*.js': [ 'browserify' ]
+          'public/tests/**/*.js': [ 'browserify' ]
       },
 
       browserify: {
@@ -67,4 +67,4 @@ module.exports = function(config) {
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true
   })
-}
+};

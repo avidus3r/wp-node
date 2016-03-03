@@ -29,6 +29,8 @@ app.use(compression());
  middleware
  */
 
+
+
 app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -140,6 +142,22 @@ app.get('/api/wp-exec', function(req, res, next){
 var api = require('./server/index');
 var apiRouter = api.routes;
 app.use(apiRouter);
+
+app.get('/home', function(req, res, next){
+    var locals = {};
+    locals.title = 'home';
+    var data = api.PostController.posts(req, 10, 1, 0);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            locals.data = result;
+            var template = swig.compileFile('./dist/default.html');
+            var output = template({data:locals.data, title: locals.title});
+            res.status(200).send(output);
+        }
+    });
+});
 
 /*
 app.get('*', function(req,res,next){

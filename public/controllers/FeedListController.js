@@ -689,6 +689,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             $scope.add(item, $scope.feedItems.length-1);
         });
+        $scope.orderElements('.feed-item.animated-gif', 3);
     });
 
     $scope.getCategory = function(categories, permalink){
@@ -1121,6 +1122,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     };
 
+    $scope.orderElements = function(selector, order){
+        var allEls = angular.element('.feed-item');
+        var els = angular.element(selector);
+        var i = 1;
+        angular.forEach(els, function(el, index){
+           var position = order*i;
+            angular.element('.feed-item:lt('+position+')').css({'order':position-1});
+            angular.element('.feed-item:gt('+position+')').css({'order':position+1});
+            angular.element(el).css({'order':position});
+            i++;
+        });
+    };
 
     $scope.$on('$viewContentLoaded', function(){
 
@@ -1154,6 +1167,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             angular.element('body').find('.post-txt-more').on('click', function(e){
                 $rootScope.readMore(e);
             });
+
+            $scope.orderElements('.feed-item.animated-gif', 3);
         },1500);
 
         if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
