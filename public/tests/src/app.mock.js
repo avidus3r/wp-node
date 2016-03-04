@@ -37272,7 +37272,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        heroItems: FeedService.getDBPosts(4,1,0).then(
+                        heroItems: FeedService.getHeroPosts(4,1,0).then(
 
                             function(data){
                                 return data;
@@ -41748,7 +41748,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     };
 });
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3e2ccd12.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_9570a058.js","/")
 },{"./config/app.routes.js":15,"./config/config":16,"./controllers/app.controllers.js":22,"./directives/app.directives.js":23,"./services/app.services":31,"./vendor/angular-metatags.min":32,"1YiZ5S":14,"angular":10,"angular-mocks/ngMock":2,"angular-resource":4,"angular-route":6,"angular-sanitize":8,"buffer":11}],29:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -41819,6 +41819,11 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.getDBPosts = function(numPosts, pageNum, skip){
         var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip || 0;
+        return feed.get(url, 'get');
+    };
+
+    feed.getHeroPosts = function(numPosts, pageNum, skip){
+        var url = '/api/heros/'+ numPosts + '/' + pageNum + '/' + skip || 0;
         return feed.get(url, 'get');
     };
 

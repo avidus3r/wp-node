@@ -995,7 +995,6 @@ app.get('/:page', function(req,res){
 
 app.get('*', function(req,res){
     var metatags = {
-
         robots: 'index, follow',
         title: appConfig.title,
         description: appConfig.description,

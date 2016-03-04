@@ -257,6 +257,22 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
 
 
 /*
+ Feed Hero Items
+ */
+router.get('/api/heros/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
+    var data = PostController.heroItems(req, parseInt(req.params.perPage),req.params.page, req.params.skip);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.json(result);
+        }
+    });
+});
+
+
+/*
  Feed Posts Query
  */
 router.get('/api/q/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){

@@ -54,7 +54,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        heroItems: FeedService.getDBPosts(4,1,0).then(
+                        heroItems: FeedService.getHeroPosts(4,1,0).then(
 
                             function(data){
                                 return data;

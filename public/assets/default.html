@@ -1,6 +1,8 @@
 {{ title }}
 
 {% for posts in data %}
+    <a class="feed-item">
     {{ posts.title.rendered}}
+    </a>
     <br />
 {% endfor %}
