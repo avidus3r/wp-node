@@ -1,4 +1,4 @@
-require('../src/app.mock.js');
+
 describe('RestApiSpec', function() {
     var singlePostID = null;
     var posts = null;
@@ -6,7 +6,7 @@ describe('RestApiSpec', function() {
     var postName = null;
 
     var feedConfig = {
-        remoteUrl: 'http://devaltdriver.wpengine.com',
+        remoteUrl: 'http://altdriver.altmedia.com',
         basePath: '/wp-json/wp/v2/'
     };
 
