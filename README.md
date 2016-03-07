@@ -34,6 +34,17 @@ gulp
 npm install -g gulp
 ```
 
+### Configure the app
+```bash
+sudo vim /etc/hosts
+```
+## add the following hostfile entry to your hosts file:
+## 127.0.0.1       local.altdriver.com
+## save and quit
+```bash
+:wq
+```
+
 ### Available gulp tasks
 
 scripts
@@ -70,3 +81,29 @@ mdbhost - mongo hostname
 mdbname - mongo database name
 mdbuser - mongo user name
 mdbpass - mongo user pwd
+
+
+
+
+### E2E Testing
+## test specs are located in /tests
+
+## install protractor v2
+```bash
+npm install -g protractor@2 --save
+```
+
+## update webdriver manager
+```bash
+webdriver-manager update
+```
+
+## start webdriver manager
+```bash
+webdriver-manager start
+```
+
+## open new terminal and run protractor
+```bash
+protractor conf.js
+```
