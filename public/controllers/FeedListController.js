@@ -603,7 +603,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 }
                             );
                         } else {
-                            console.log('############################# current page: ' + $scope.paged +' #############################');
+
                             $scope.getDBPosts($scope.postsPerPage, $scope.paged, Number($scope.postIndex)).then(
                                 function (data) { //success
                                     if (data.length > 0) {

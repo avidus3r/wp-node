@@ -152,7 +152,8 @@ var PostsController = {
         return query.exec();
     },
 
-    query: function(req, query, numberOfPosts, pageNumber, skip){
+    trending: function(req, query, numberOfPosts, pageNumber, skip){
+        console.log('controller: trending, ', query, numberOfPosts, pageNumber, skip)
         var skipItems = Number(skip);
         var appName = process.env.appname;
 
@@ -181,7 +182,7 @@ var PostsController = {
                     q.$where('this.postmeta.run_dates_0_run_time >= ' + yesterday.getTime()/1000);
                     break;
                 case 'latest':
-                    q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
+                    q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
                     q.$where('this.type === "post" || this.type === "animated-gif" || this.type === "partner-post"');
                     break;
             }

@@ -222,6 +222,22 @@ router.get('/api/:slug', apicache('45 minutes'), function(req,res){
     });
 });
 
+/*
+ Feed Posts Query
+ */
+router.get('/api/trending/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
+    console.log(req.params.query);
+    var data = PostController.trending(req, req.params.query, parseInt(req.params.perPage), parseInt(req.params.page), parseInt(req.params.skip));
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.json(result);
+        }
+    });
+});
+
 
 /*
  Category List
@@ -261,22 +277,6 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
  */
 router.get('/api/heros/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
     var data = PostController.heroItems(req, parseInt(req.params.perPage),req.params.page, req.params.skip);
-    data.then(function(result){
-        if(result.length === 0){
-            res.sendStatus(404);
-        }else{
-            res.set('Cache-Control','max-age=600');
-            res.json(result);
-        }
-    });
-});
-
-
-/*
- Feed Posts Query
- */
-router.get('/api/q/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
-    var data = PostController.query(req, req.params.query, parseInt(req.params.perPage),req.params.page, req.params.skip);
     data.then(function(result){
         if(result.length === 0){
             res.sendStatus(404);

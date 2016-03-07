@@ -75,9 +75,8 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.queryDBPosts = function(query, numPosts, pageNum, skip){
-        var url = '/api/q/' + query + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
+        var url = '/api/trending/' + query + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
         var data = feed.get(url, 'get');
-        console.log(data);
         return data;
     };
 
