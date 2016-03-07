@@ -105,5 +105,5 @@ webdriver-manager start
 
 ## open new terminal and run protractor
 ```bash
-protractor conf.js
+protractor protractor.js
 ```

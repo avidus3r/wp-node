@@ -38780,7 +38780,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 }
                             );
                         } else {
-                            console.log('############################# current page: ' + $scope.paged +' #############################');
+
                             $scope.getDBPosts($scope.postsPerPage, $scope.paged, Number($scope.postIndex)).then(
                                 function (data) { //success
                                     if (data.length > 0) {
@@ -41749,7 +41749,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     };
 });
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_10e189bd.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_29e471f8.js","/")
 },{"./config/app.routes.js":15,"./config/config":16,"./controllers/app.controllers.js":22,"./directives/app.directives.js":23,"./services/app.services":31,"./vendor/angular-metatags.min":32,"1YiZ5S":14,"angular":10,"angular-mocks/ngMock":2,"angular-resource":4,"angular-route":6,"angular-sanitize":8,"buffer":11}],29:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -41829,9 +41829,8 @@ var FeedService = function(app, appName, env, $http, $q){
     };
 
     feed.queryDBPosts = function(query, numPosts, pageNum, skip){
-        var url = '/api/q/' + query + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
+        var url = '/api/trending/' + query + '/' + numPosts + '/' + pageNum + '/' + skip || 0;
         var data = feed.get(url, 'get');
-        console.log(data);
         return data;
     };
 

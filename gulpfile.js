@@ -30,7 +30,7 @@ var paths   = {
     sass: ['public/assets/**/*.scss'],
     assets:['public/assets/**/*.*', '!public/assets/**/*.scss'],
     templates: ['public/components/**/*.html'],
-    tests: ['tests/spec/**/*.js'],
+    tests: ['public/tests/jasmine/spec/**/*.*'],
     config: ['public/config/*.json'],
     package:['public/package/**/*.*']
 };
@@ -90,22 +90,18 @@ gulp.task('data', function(){
         .pipe(gulp.dest('./data/'));
 });
 
+/*
 gulp.task('test', function (done) {
     new Server({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, done).start();
 });
+*/
 
-gulp.task('tests', function(){
-    gulp.src('public/app.mock.js')
-        .pipe(browserify({
-            insertGlobals: true
-        }))
-        .pipe(gulp.dest('./public/tests/src'));
-
-    return gulp.src('./public/tests/**/*.*')
-        .pipe(gulp.dest('./dist/tests/'));
+gulp.task('test', function(){
+    return gulp.src('./public/tests/jasmine/**/*.*')
+        .pipe(gulp.dest('./dist/tests/jasmine/'));
 });
 
 gulp.task('lint', function() {
@@ -185,7 +181,20 @@ gulp.task('env:production', function () {
 });
 
 gulp.task('devServe', ['env:development'], function () {
+    process.env.NODE_ENV = 'local';
+    var currPath = __dirname.split('/');
+    var appName = currPath[currPath.length-1];
+    process.env.appname = appName;
+    process.env.mdbname = appName;
+    //local
+    //process.env.mdbhost = 'localhost:27017';
+    //staging
+    process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+    //prod
+    //process.env.mdbhost = 'altdriver-0.altdriver.5600.mongodbdns.com:27000';
 
+    process.env.mdbuser = 'admin';
+    process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     plugins.nodemon({
         script: 'server.js',
         ext: 'html js',
@@ -211,7 +220,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.templates, ['templates']);
     gulp.watch(paths.config, ['config']);
     gulp.watch(paths.sass, ['css:min']);
-    gulp.watch(paths.tests, ['tests']);
+    gulp.watch(paths.tests, ['test']);
 });
 
 gulp.task('default',['build', 'devServe', 'watch']);
@@ -233,5 +242,5 @@ gulp.task('build', function(callback) {
         process.env.mdbuser = 'admin';
         process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
     }
-    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', 'tests', 'browserify-min', callback);
+    runSequence('clean','config', 'css:min', 'assets', 'templates', 'scripts', 'test', 'browserify-min', callback);
 });

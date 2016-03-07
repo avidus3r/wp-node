@@ -29,7 +29,11 @@ app.use(compression());
  middleware
  */
 
+app.use(express.static(__dirname + './dist/tests/'));
+app.get('/tests', function(req, res, next){
+    res.sendFile('SpecRunner.html', { root: path.join(__dirname, './dist/tests/jasmine/') });
 
+});
 
 app.use(bodyParser.raw({extended:true}));
 app.use(bodyParser.json({extended:true}));
@@ -43,10 +47,7 @@ app.set('port', process.env.PORT || 3000);
  Server Routes
  */
 
-app.use(express.static(__dirname + './dist/tests'));
-app.get('/tests', function(req, res){
-    res.sendFile('SpecRunner.html', { root: path.join(__dirname, './dist/tests/') });
-});
+
 
 function getSQSQueue(prefix){
     var AWS = require('aws-sdk');
@@ -318,6 +319,7 @@ feedConfig = appConfig.env[env];
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/dist');
+
 
 function setUserCookie(req, itsABot){
     //TODO add checkUserCookie method
