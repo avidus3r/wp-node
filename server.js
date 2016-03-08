@@ -894,60 +894,60 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                     console.log(result);
                     res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:{'canonical_url': result.postmeta.canonical_url[0]}, cache:true, maxAge:600000});
-                }
-
-                var metatags = {};
-                var post = null;
-
-                if(result.length === 0){
-                    console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-                    console.log('headers:\n ', req.headers);
-                    console.log('\n\nparams:\n', req.params);
-                    console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-                    console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-
-                    console.log(req._parsedOriginalUrl);
-                    res.sendStatus(404);
                 }else{
+                    var metatags = {};
+                    var post = null;
 
-                    post = result;
+                    if(result.length === 0){
+                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                        console.log('headers:\n ', req.headers);
+                        console.log('\n\nparams:\n', req.params);
+                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
 
-                    metatags.published = post.date;
-                    metatags.modified = post.modified;
-                    metatags.category = post.category[0].name;
-                    metatags.title = '';
-                    metatags.description = '';
-
-                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        console.log(req._parsedOriginalUrl);
+                        res.sendStatus(404);
                     }else{
+
+                        post = result;
+
+                        metatags.published = post.date;
+                        metatags.modified = post.modified;
+                        metatags.category = post.category[0].name;
+                        metatags.title = '';
                         metatags.description = '';
+
+                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
+                            metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                        }else{
+                            metatags.description = '';
+                        }
+
+                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
+                            metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                        }else{
+                            metatags.title = post.title.rendered;
+                        }
+
+                        // Facebook meta
+
+                        metatags.fb_appid = fbAppId;
+                        metatags.fb_publisher = fbUrl;
+                        metatags.fb_type = 'article';
+                        metatags.fb_site_name = appConfig.fb_sitename;
+                        metatags.fb_title = metatags.title;
+                        metatags.fb_url = siteUrl + req.url;
+                        metatags.fb_description = metatags.description;
+                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                        if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
+                            metatags.fb_image = post.featured_image_src.original_wp[0];
+                            metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                            metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                        }
+
+
+                        res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
                     }
-
-                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
-                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                    }else{
-                        metatags.title = post.title.rendered;
-                    }
-
-                    // Facebook meta
-
-                    metatags.fb_appid = fbAppId;
-                    metatags.fb_publisher = fbUrl;
-                    metatags.fb_type = 'article';
-                    metatags.fb_site_name = appConfig.fb_sitename;
-                    metatags.fb_title = metatags.title;
-                    metatags.fb_url = siteUrl + req.url;
-                    metatags.fb_description = metatags.description;
-                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                    if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
-                    }
-
-
-                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
                 }
 
             });
