@@ -30,7 +30,7 @@ var paths   = {
     sass: ['public/assets/**/*.scss'],
     assets:['public/assets/**/*.*', '!public/assets/**/*.scss'],
     templates: ['public/components/**/*.html'],
-    tests: ['public/tests/jasmine/spec/**/*.*'],
+    tests: ['public/tests/**/*.*'],
     config: ['public/config/*.json'],
     package:['public/package/**/*.*']
 };
@@ -100,8 +100,8 @@ gulp.task('test', function (done) {
 */
 
 gulp.task('test', function(){
-    return gulp.src('./public/tests/jasmine/**/*.*')
-        .pipe(gulp.dest('./dist/tests/jasmine/'));
+    return gulp.src(paths.tests)
+        .pipe(gulp.dest('./dist/tests/'));
 });
 
 gulp.task('lint', function() {
