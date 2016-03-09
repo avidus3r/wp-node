@@ -297,7 +297,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
         }
     }else if(req.headers['user-agent'].indexOf('WordPress/') === -1 || req.headers['user-agent'].indexOf('altmedia.com') === -1){
         res.sendStatus(403);
-        return false;
+        return false; 
     }
     var postId = req.params.postId;
     var restBase = req.params.restBase;
