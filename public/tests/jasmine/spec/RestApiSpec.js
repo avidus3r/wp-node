@@ -1,4 +1,3 @@
-
 describe('RestApiSpec', function() {
     var singlePostID = null;
     var posts = null;
@@ -7,11 +6,174 @@ describe('RestApiSpec', function() {
 
     var feedConfig = {
         remoteUrl: 'http://altdriver.altmedia.com',
-        basePath: '/wp-json/wp/v2/'
+        basePath: '/wp-json/wp/v2/',
+        postsPath: 'posts',
+        mediaPath: 'media',
+        postTypesPath: 'types',
+        customPostTypes: ['animated-gif', 'partner-post', 'altdsc_sponsor', 'altdsc-campaign']
     };
 
     var endpoint = feedConfig.remoteUrl + feedConfig.basePath;
-    var postProperties = ['author','author_meta','category','content','date','excerpt','featured_image_src','link','postmeta','slug','title'];
+    var postProperties = {
+        id:{
+            type:Number
+        },
+        date:{
+            type: Date
+        },
+        modified:{
+            type: Date
+        },
+        slug:{
+            type: String
+        },
+        type:{
+            type: String
+        },
+        link:{
+            type: String
+        },
+        title:{
+            type: String,
+            properties: {
+                rendered:{
+                    type: String
+                }
+            }
+        },
+        content:{
+            type: Object,
+            properties: {
+                rendered:{
+                    type: String
+                }
+            }
+        },
+        excerpt:{
+            type: Object,
+            properties: {
+                rendered:{
+                    type: String
+                }
+            }
+        },
+        author:{
+            type: Number
+        },
+        featured_image:{
+            type: Number
+        },
+        format:{
+            type: String
+        },
+        votes:{
+            type: Object,
+            properties:{
+                votes_up:{
+                    type: String
+                },
+                votes_down:{
+                    type: String
+                },
+                total_votes:{
+                    type: String
+                },
+                votes_tally:{
+                    type: String
+                }
+            }
+        },
+        postmeta:{
+            type:Object,
+            properties:{
+                facebook_message:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                },
+                oem_safe:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                },
+                run_dates:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                },
+                run_dates_0_channel:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                },
+                run_dates_0_dates:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                },
+                explicit:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                },
+                explicit_type:{
+                    type: Array,
+                    items:{
+                        type: String
+                    },
+                    minItems: 1
+                }
+            }
+        },
+        category:{
+            type: Array,
+            items:{
+                type: Object,
+                properties:{
+                    term_id:{
+                        type: Number
+                    },
+                    name:{
+                        type: String
+                    },
+                    slug:{
+                        type: Number
+                    },
+                    taxonomy:{
+                        type: String
+                    },
+                    description:{
+                        type: String
+                    },
+                    parent:{
+                        type: Number
+                    },
+                    count:{
+                        type: Number
+                    }
+                }
+            },
+            minItems: 1
+        },
+        author_meta:{
+            type: Object
+        },
+        featured_image_src:{
+            type: Object
+        }
+    };
     var menuProperties = ['url','title'];
     var categoryProperties = ['description','link','name','slug'];
 

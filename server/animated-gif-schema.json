@@ -7,21 +7,6 @@
     "type": "Date",
     "required": "true"
   },
-  "campaign_active":{
-    "type": "Boolean",
-    "required": "true",
-    "default": "null"
-  },
-  "sponsor": {
-    "type": "Object",
-    "required": "true",
-    "default": "null"
-  },
-  "parent": {
-    "type": "Number",
-    "required": "true",
-    "default": 0
-  },
   "guid": {
     "type": "Object",
     "required": "true"
@@ -85,53 +70,47 @@
   },
   "postmeta": {
     "type": "Object",
-    "run_dates_0_channel":{
-      "type":"array",
-      "items":{
-        "type":"string"
+    "properties":{
+      "run_dates_0_channel":{
+        "type":"array",
+        "items":{
+          "type":"string"
+        },
+        "required":"true",
+        "default":"null"
       },
-      "required":"true",
-      "default":"null"
-    },
-    "run_dates_0_run_time":{
-      "type":"array",
-      "items":{
-        "type":"string"
+      "run_dates_0_run_time":{
+        "type":"array",
+        "items":{
+          "type":"string"
+        },
+        "required":"true",
+        "default":"null"
       },
-      "required":"true",
-      "default":"null"
-    },
-    "facebook_message":{
-      "type":"array",
-      "items":{
-        "type":"string"
+      "oem_safe":{
+        "type":"array",
+        "items":{
+          "type":"string"
+        },
+        "required":"true",
+        "default":"null"
       },
-      "required":"true",
-      "default":"null"
-    },
-    "oem_safe":{
-      "type":"array",
-      "items":{
-        "type":"string"
+      "explicit":{
+        "type":"array",
+        "items":{
+          "type":"string"
+        },
+        "required":"true",
+        "default":"null"
       },
-      "required":"true",
-      "default":"null"
-    },
-    "explicit":{
-      "type":"array",
-      "items":{
-        "type":"string"
-      },
-      "required":"true",
-      "default":"null"
-    },
-    "explicit_type":{
-      "type":"array",
-      "items":{
-        "type":"string"
-      },
-      "required":"true",
-      "default":"null"
+      "explicit_type":{
+        "type":"array",
+        "items":{
+          "type":"string"
+        },
+        "required":"true",
+        "default":"null"
+      }
     }
   },
   "category": {
