@@ -80,13 +80,13 @@ gulp.task('config', function(){
     gulp.src(paths.config)
         .pipe(gulp.dest('./dist/appdata/'));
 
-    gulp.src('./public/config/config.json')
+    return gulp.src('./public/config/config.json')
         .pipe(gulpNgConfig('NewsFeed.config',{environment:process.env.appname}))
         .pipe(gulp.dest('./public/config'))
 });
 
 gulp.task('data', function(){
-    gulp.src(paths.config)
+    return gulp.src(paths.config)
         .pipe(gulp.dest('./data/'));
 });
 
@@ -100,12 +100,18 @@ gulp.task('test', function (done) {
 */
 
 gulp.task('test', function(){
-    return gulp.src(paths.tests)
+    gulp.src(paths.tests)
         .pipe(gulp.dest('./dist/tests/'));
+
+    return gulp.src('./public/tests/jasmine/spec/**/*Spec.js')
+        .pipe(browserify({
+            insertGlobals: true
+        }))
+        .pipe(gulp.dest('./dist/tests/jasmine/src/'));
 });
 
 gulp.task('lint', function() {
-    gulp.src(paths.js)
+    return gulp.src(paths.js)
         .pipe(plugins.jshint())
         .pipe(plugins.jshint.reporter('default'))
         .pipe(plugins.jshint.reporter('fail'));
@@ -133,7 +139,7 @@ gulp.task('assets', function() {
     console.log(iconsPath);*/
     gulp.src(iconsPath + '/favicon.ico')
         .pipe(gulp.dest('./dist/'));
-    gulp.src(iconsPath + '/*.*')
+    return gulp.src(iconsPath + '/*.*')
         .pipe(gulp.dest('./dist/favicons/'));
 
 });
@@ -148,7 +154,7 @@ gulp.task('css:min', ['css:sass'], function() {
 });
 
 gulp.task('css:lint', function(){
-    gulp.src('./dist/css/*.css')
+    return gulp.src('./dist/css/*.css')
         .pipe(csslint())
         .pipe(csslint.reporter());
 });
