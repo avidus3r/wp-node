@@ -184,7 +184,7 @@ router.get('/api/sponsor/:sponsor', apicache('45 minutes'), function(req, res){
             res.sendStatus(404);
         }else{
             res.set('Cache-Control','max-age=600');
-            res.send(JSON.stringify(result));
+            res.json(result);
         }
     });
 });

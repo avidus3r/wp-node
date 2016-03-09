@@ -378,4 +378,30 @@ describe('RestApiSpec', function() {
 
     });
 
+    describe('/api/sponsor/axle', function(){
+        beforeEach(function(done){
+            function isEmpty(obj) {
+                for(var prop in obj) {
+                    if(obj.hasOwnProperty(prop))
+                        return false;
+                }
+                return true && JSON.stringify(obj) === JSON.stringify({});
+            }
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function(){
+                var res = this.responseText;
+                var items = JSON.parse(res);
+                var sponsor = items[0];
+                done();
+            });
+            oReq.open("GET", "http://local.altdriver.com:3000/sponsor/axle", true);
+            oReq.send();
+        });
+        it('should be properly formatted', function(){
+            var pass = sponsor.hasOwnProperty('sponsor') && typeof sponsor.sponsor === 'object' && !isEmpty(sponsor.sponsor);
+            expect(pass).toBe(true);
+        });
+
+    });
+
 });
