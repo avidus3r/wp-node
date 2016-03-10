@@ -1,9 +1,8 @@
 describe('RestApiSpec', function() {
-    var singlePostID = null;
+    var singlePostSlug = null;
     var posts = null;
     var post = null;
     var postName = null;
-    var sponsors
 
 
 
@@ -34,7 +33,7 @@ describe('RestApiSpec', function() {
         });
 
         it('should get a response', function() {
-            console.log(sponsors);
+            //console.log(sponsors);
             expect(typeof sponsors).toBe('object');
         });
 
@@ -69,7 +68,7 @@ describe('RestApiSpec', function() {
         });
 
         it('should get a response', function() {
-            console.log(sponsor);
+            //console.log(sponsor);
             expect(typeof sponsor).toBe('object');
         });
 
@@ -105,13 +104,13 @@ describe('RestApiSpec', function() {
         });
 
         it('should get a response', function() {
-            console.log(campaigns);
+            //console.log(campaigns);
             expect(typeof campaigns).toBe('object');
         });
 
     });
 
-        //check campaigns 
+    //check campaigns 
     describe('check campaigns response', function() {
         var url = endpoint + '/campaigns';
 
@@ -133,9 +132,40 @@ describe('RestApiSpec', function() {
 
     });
 
-   	//check Menu 
+    //check Menu 
     describe('check menu response', function() {
         var url = endpoint + '/menu';
+
+        beforeEach(function(done) {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function() {
+                var result = this.responseText;
+                menuItems = JSON.parse(result);
+                done();
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        });
+
+        it('should get a response', function() {
+            console.log(menuItems);
+            expect(typeof menuItems).toBe('object');
+        });
+
+        it('all items should have title', function() {
+            var noTitle = false;
+            for (item in menuItems) {
+                if (!typeof menuItems[item].title == 'string' && menuItems[item].title.length < 1) {
+                    noTitle = true;
+                }
+            }
+            expect(noTitle).toBe(false);
+        });
+
+    });
+
+    describe('check search post response', function() {
+        var url = endpoint + '/search/fast/10/1/0';
 
         beforeEach(function(done) {
             var oReq = new XMLHttpRequest();
@@ -151,6 +181,67 @@ describe('RestApiSpec', function() {
         it('should get a response', function() {
             console.log(posts);
             expect(typeof posts).toBe('object');
+        });
+
+        it('should contain be 10 post', function() {
+            expect(posts.length).toBe(10);
+        });
+
+        it('all post should have title', function() {
+            var noTitle = false;
+            for (post in posts) {
+                if (!typeof posts[post].title.rendered == 'string' && posts[post].title.length < 1) {
+                    noTitle = true;
+                }
+            }
+            expect(noTitle).toBe(false);
+        });
+
+        it('all post should have a link', function() {
+            var noLink = false;
+            for (post in posts) {
+                if (!typeof posts[post].link == 'string' && posts[post].link.length < 1) {
+                    noLink = true;
+                }
+            }
+            expect(noLink).toBe(false);
+        });
+
+    });
+
+    describe('check single post response', function() {
+        var url = endpoint + '/going-fast-doesnt-mix-with-grass';
+
+        beforeEach(function(done) {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function() {
+                var result = this.responseText;
+                post = JSON.parse(result);
+                done();
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        });
+
+        it('should get a response', function() {
+            console.log(post);
+            expect(typeof post).toBe('object');
+        });
+
+        it('post should have title', function() {
+            var noTitle = false;
+            if (!typeof post.title.rendered == 'string' && post.title.length < 1) {
+                noTitle = true;
+            }
+            expect(noTitle).toBe(false);
+        });
+
+        it('post should have a link', function() {
+            var noLink = false;
+            if (!typeof post.link == 'string' && post.link.length < 1) {
+                noLink = true;
+            }
+            expect(noLink).toBe(false);
         });
 
     });
