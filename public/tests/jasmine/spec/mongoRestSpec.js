@@ -126,7 +126,6 @@ describe('RestApiSpec', function() {
         });
 
         it('should get a response', function() {
-            console.log(campaigns);
             expect(typeof campaigns).toBe('object');
         });
 
@@ -179,7 +178,6 @@ describe('RestApiSpec', function() {
         });
 
         it('should get a response', function() {
-            console.log(posts);
             expect(typeof posts).toBe('object');
         });
 
@@ -224,7 +222,6 @@ describe('RestApiSpec', function() {
         });
 
         it('should get a response', function() {
-            console.log(post);
             expect(typeof post).toBe('object');
         });
 
@@ -240,6 +237,127 @@ describe('RestApiSpec', function() {
             var noLink = false;
             if (!typeof post.link == 'string' && post.link.length < 1) {
                 noLink = true;
+            }
+            expect(noLink).toBe(false);
+        });
+
+    });
+
+    describe('check a category response', function() {
+        var url = endpoint + '/category/gaming/10/1/0';
+
+        beforeEach(function(done) {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function() {
+                var result = this.responseText;
+                posts = JSON.parse(result);
+                done();
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        });
+
+        it('should get a response', function() {
+            expect(typeof posts).toBe('object');
+        });
+
+        it('all post should have title', function() {
+            var noTitle = false;
+            for (post in posts) {
+                if (!typeof posts[post].title.rendered == 'string' && posts[post].title.length < 1) {
+                    noTitle = true;
+                }
+            }
+            expect(noTitle).toBe(false);
+        });
+
+        it('all post should have a link', function() {
+            var noLink = false;
+            for (post in posts) {
+                if (!typeof posts[post].link == 'string' && posts[post].link.length < 1) {
+                    noLink = true;
+                }
+            }
+            expect(noLink).toBe(false);
+        });
+
+    });
+
+    describe('check posts response', function() {
+        var url = endpoint + '/posts/10/1/0';
+
+        beforeEach(function(done) {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function() {
+                var result = this.responseText;
+                posts = JSON.parse(result);
+                done();
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        });
+
+        it('should get a response', function() {
+            expect(typeof posts).toBe('object');
+        });
+
+        it('all post should have title', function() {
+            var noTitle = false;
+            for (post in posts) {
+                if (!typeof posts[post].title.rendered == 'string' && posts[post].title.length < 1) {
+                    noTitle = true;
+                }
+            }
+            expect(noTitle).toBe(false);
+        });
+
+        it('all post should have a link', function() {
+            var noLink = false;
+            for (post in posts) {
+                if (!typeof posts[post].link == 'string' && posts[post].link.length < 1) {
+                    noLink = true;
+                }
+            }
+            expect(noLink).toBe(false);
+        });
+
+    });
+
+    describe('check Heros response', function() {
+        var url = endpoint + '/heros/10/1/0';
+
+        beforeEach(function(done) {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function() {
+                var result = this.responseText;
+                posts = JSON.parse(result);
+                done();
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        });
+
+        it('should get a response', function() {
+        	console.log(posts);
+            expect(typeof posts).toBe('object');
+        });
+
+        it('all post should have title', function() {
+            var noTitle = false;
+            for (post in posts) {
+                if (!typeof posts[post].title.rendered == 'string' && posts[post].title.length < 1) {
+                    noTitle = true;
+                }
+            }
+            expect(noTitle).toBe(false);
+        });
+
+        it('all post should have a link', function() {
+            var noLink = false;
+            for (post in posts) {
+                if (!typeof posts[post].link == 'string' && posts[post].link.length < 1) {
+                    noLink = true;
+                }
             }
             expect(noLink).toBe(false);
         });
