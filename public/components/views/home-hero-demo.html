@@ -42,7 +42,7 @@
                     <div ng-if="item.type === 'post-list'" class="card-item post-list ">
                         <div class="post-content feed-view post-view feed ">
                             <p>
-                                <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                                <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
                                     <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
                                     <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
                                 </a>
@@ -105,7 +105,7 @@
             <div class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
                     <p>
-                        <a ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                        <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
                             <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
                             <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
                         </a>

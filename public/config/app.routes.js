@@ -424,7 +424,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        posts: FeedService.search($route.current.params.query,7,1,0).then(
+                        posts: FeedService.search($route.current.params.query,5,1,0).then(
                             function(data){
                                 console.log(data);
                                 return data;

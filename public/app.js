@@ -344,7 +344,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.goToPage = function($event, $index, linkParams){
-
+        $event.preventDefault();
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
         if(Number(postOffset) === 0){
