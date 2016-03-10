@@ -1,6 +1,7 @@
 describe('homepage', function() {
 
     it('should contain Facebook App ID, GTM ID, and Facebook Pixel ID html elements', function() {
+        browser.ignoreSynchronization = true;
         browser.get('http://local.altdriver.com:3000');
         var fbPxID = element.all(by.css('#fb-px-id'));
         var fbAppID = element.all(by.css('#fb-app-id'));
