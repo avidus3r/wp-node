@@ -60,10 +60,10 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
-    $scope.heroItemElements = $scope.heroItems;
 
-    console.log('HomeController :: ',$scope.heroItems);
-
+    if($scope.heroItemElements.length === 0){
+        //$scope.heroItemElements = $scope.heroItems;
+    }
 
     if(location.href.indexOf('local.') > -1){
         $scope.appConfig.displayAds = 'false';
