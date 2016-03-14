@@ -77,6 +77,26 @@ router.put('/post', function(req,res){
     }
 });
 
+
+/*
+ Single Custom Post Type
+ */
+router.get('/api/type/:type/:slug?', function(req,res){
+    console.log('router.get type');
+    if(typeof req.params.slug === 'undefined'){
+        req.params.slug = null;
+    }
+    var data = PostController.postByType(req.params.type, req.params.slug);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.json(result);
+        }
+    });
+});
+
 /*
  Menus
  */
@@ -221,6 +241,7 @@ router.get('/api/:slug', apicache('45 minutes'), function(req,res){
         }
     });
 });
+
 
 /*
  Feed Posts Query

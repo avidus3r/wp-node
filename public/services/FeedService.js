@@ -80,8 +80,19 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
-    feed.getDBPost = function(slug){
+    feed.getDBPost = function(category, slug){
         var url = '/api/'+ slug;
+        if(category === 'partner-post' || category === 'animated-gif'){
+            url = '/api/type/' + category + '/' + slug;
+            console.log('getDBPost: ', url);
+        }
+
+        return feed.get(url, 'get');
+    };
+
+    feed.getPostType = function(type){
+        console.log('getPostType: ', type);
+        var url = '/api/type/' + type;
         return feed.get(url, 'get');
     };
 

@@ -300,10 +300,18 @@ body.submit{
 //  add 2016 homepage styles
 @import 'homepage';
 
+/*
 #scroll-container{
   display: flex;
   flex-direction: column;
   .feed-item{
     order:inherit;
+  }
+}*/
+
+.feed-item.post-single.format-animated-gif{
+
+  h2.post-title{
+    text-align: left !important;
   }
 }
