@@ -236,8 +236,13 @@ var PostsController = {
         return query.exec();
     },
 
-    postByType: function(type){
-        var query = Post.find({ 'type': type});
+    postByType: function(type, slug){
+        var query = null;
+        if(slug){
+            query = Post.find({ 'type': type, 'slug': slug}).limit(1);
+        }else{
+            query = Post.find({ 'type': type });
+        }
         return query.exec();
     },
 

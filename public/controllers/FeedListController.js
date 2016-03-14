@@ -690,7 +690,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             $scope.add(item, $scope.feedItems.length-1);
         });
-        $scope.orderElements('.feed-item.animated-gif', 3);
+        //$scope.orderElements('.feed-item.animated-gif', 3);
     });
 
     $scope.getCategory = function(categories, permalink){
@@ -1169,7 +1169,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 $rootScope.readMore(e);
             });
 
-            $scope.orderElements('.feed-item.animated-gif', 3);
+            //$scope.orderElements('.feed-item.animated-gif', 3);
         },1500);
 
         if(($scope.sponsors === null || $scope.sponsors.length > $scope.postsPerPage) || $scope.currentView === 'search' || $scope.currentView === 'list' && $scope.currentView !== 'ads'){
