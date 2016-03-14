@@ -43,19 +43,27 @@ describe('homepage', function() {
                 selector: element.all(by.css('.homepage-carousel')),
                 minItems: 1
             },
+            adItems = {
+                selector: element.all(by.css('.homeadwrapper')),
+                minItems: 2
+            },
             heroItems = {
                 selector: element.all(by.repeater('item in heroItemElements')),
                 minItems: 4
             },
-            trendinNav = {
+            trendingNav = {
                 selector: element.all(by.css('.trending-nav a')),
-                minItems: 3
+                minItems: 3,
+                properties:{
+                    name: 'ng-click',
+                    type: 'string'
+                }
             },
             feedItems = {
                 selector: element.all(by.css('.feed-item'))
             },
             feedItemsLinks = {
-                selector: element.all(by.css('.post-content p')),
+                selector: element.all(by.css('.feed-item a')),
                 properties:{
                     name: 'href',
                     type: 'string'
@@ -84,20 +92,43 @@ describe('homepage', function() {
             });
         });
 
-        //expect(feedItemsImgs.selector.count()).toEqual(element.all(by.css('.feed-item')).count(), 'each feed item should have an image');
-
-        expect(feedItemsLinks.selector.count() > 0).toEqual(true, 'each feed item should have a link');
+        /*feedItemsLinks.selector.each(function(item){
+            item.getAttribute(feedItemsLinks.properties.name).then(function(attr){
+                expect(typeof attr).toEqual(feedItemsImgs.properties.type, 'expected feed item link to be ' + feedItemsImgs.properties.type);
+            });
+        });*/
 
         //The homepage has the trending navigation - hottest, latest, best
 
+        expect(trendingNav.selector.count()).toEqual(trendingNav.minItems, 'trending menu should have ' + trendingNav.minItems + ' items');
+
+        trendingNav.selector.each(function(item){
+            item.getAttribute(trendingNav.properties.name).then(function(attr) {
+                expect(typeof attr).toEqual(trendingNav.properties.type, 'expected feed item image to be ' + trendingNav.properties.type);
+            });
+        });
 
         //There are 2 ad units on the homepage
 
+        expect(adItems.selector.count()).toEqual(adItems.minItems, 'there should be ' + adItems.minItems + ' ad items');
+
+        element.all(by.css('.homepagead div div')).each(function(item){
+            expect(item.count()).toBeGreaterThan(0);
+        });
 
         //The copyright is the correct year
+        var d = new Date();
+        var year = d.getUTCFullYear();
+        var reggie = new RegExp(year.toString());
+        var copyrightText = element.all(by.css('.ad-copyright > div')).getText();
+        expect(copyrightText).toMatch(reggie, 'expected copyright year to be ' + year);
 
+        //There is an “AdChoice” link in the footer
+        expect(element.all(by.css('.ad-copyright a')).count()).toEqual(1, 'expected AdChoice link to be present');
 
-        //There is an “AdChoice” image and link in the footer
+        //There is an “AdChoice” image in the footer
+        expect(element.all(by.css('.ad-copyright a img')).count()).toEqual(1, 'expected AdChoice img to be present');
+
     });
 
     it('should have feed items', function() {

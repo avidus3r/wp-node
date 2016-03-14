@@ -38,7 +38,7 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-                <div ng-repeat="item in heroItemElements track by $index" data-url="{{ item.link }}" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+                <div ng-repeat="item in heroItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
                     <div ng-if="item.type === 'post-list'" class="card-item post-list ">
                         <div class="post-content feed-view post-view feed ">
                             <p>
@@ -100,7 +100,7 @@
     <!--  ################-->
     <div class="latestposts">
 
-        <div ng-repeat="item in feedItemElements track by $index" data-url="{{ item.link }}" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+        <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
             <div class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
