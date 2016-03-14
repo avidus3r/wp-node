@@ -29,6 +29,7 @@ app.use(compression());
  middleware
  */
 
+
 app.use(express.static(__dirname + './dist/tests/'));
 app.get('/tests', function(req, res, next){
     res.sendFile('SpecRunner.html', { root: path.join(__dirname, './dist/tests/jasmine/') });
