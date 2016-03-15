@@ -913,7 +913,7 @@ app.get('/category/(:category|:category/)', function(req,res){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     setUserCookie(req, itsABot);
     var catName = req.params.category;
-    var endpoint = 'http://' + req.headers.host + '/api/category/' + catName + '/7/1/0';
+    var endpoint = 'http://' + req.headers.host + '/api/category/' + catName + '/5/1/0';
     var appUrl = 'http://admin.altdriver.com/category';
 
     if(itsABot) {

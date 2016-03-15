@@ -485,7 +485,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        posts: FeedService.getDBCategoryPosts($route.current.params.category,10,1,0).then(
+                        posts: FeedService.getDBCategoryPosts($route.current.params.category,appConfig.per_page,1,0).then(
                             function (data) {
                                 return data;
                             },
