@@ -139,14 +139,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.initMeta = function(post){
         // Standard meta
         $rootScope.metatags.title = document.title;
-        $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
+        if(post.hasOwnProperty('excerpt')){
+            $rootScope.metatags.description = angular.element(post.excerpt.rendered).text();
+            $rootScope.metatags.fb_description = angular.element(post.excerpt.rendered).text();
+        }
+
         $rootScope.metatags.section = $routeParams.category;
         $rootScope.metatags.published_time = post.date;
 
         // Facebook meta
         $rootScope.metatags.fb_type = 'article';
         $rootScope.metatags.fb_title = $scope.decodeHtml(post.title.rendered);
-        $rootScope.metatags.fb_description = angular.element(post.excerpt.rendered).text();
+
         $rootScope.metatags.fb_url = post.link;
         if(post.hasOwnProperty('featured_image_src')) {
             $rootScope.metatags.fb_image = post.featured_image_src.original[0];
@@ -902,6 +906,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
         if($scope.currentView === 'post') {
             item = $scope.post;
+            console.log('cview is post');
             if(item.type === 'partner-post'){
                 item.category = [{'name': 'Partner Post', 'slug': 'partner-post'}];
             }
@@ -933,6 +938,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }catch(e){
                 skip = 0;
             }
+
             FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip).then(
                 function (data) {
                     $scope.currentView = 'list';
@@ -1026,7 +1032,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     angular.forEach(postmap, function (item, index) {
 
-                        if(item.type === 'post-list'){
+                        if(item.type === 'post-list' || item.type === 'partner-post' || item.type === 'animated-gif'){
                             item.post_index = $scope.postIndex;
                             $scope.postIndex++;
                         }

@@ -82,6 +82,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.getDBPost = function(category, slug){
         var url = '/api/'+ slug;
+        console.log(category, slug);
         if(category === 'partner-post' || category === 'animated-gif'){
             url = '/api/type/' + category + '/' + slug;
             console.log('getDBPost: ', url);
