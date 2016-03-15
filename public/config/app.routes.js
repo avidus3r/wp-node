@@ -89,6 +89,62 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/partner-post/:slug/', {
+            controller: 'FeedListController',
+            templateUrl: '/views/post.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve: {
+                data: function($q, $route) {
+                    var params = {};
+                    params.slug = $route.current.params.slug;
+
+                    var appSponsors = Number(appConfig.sponsors);
+                    var sponsorResolve = null;
+
+                    /*if(Number(appSponsors) > 0){
+                     sponsorResolve = FeedService.getCampaigns().then(
+                     function(data){
+                     return data;
+                     },
+                     function(error){
+                     return 'error';
+                     },
+                     function(notification){
+
+                     }
+                     )
+                     }*/
+
+                    return $q.all({
+                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
+                         function (data) {
+                         return data;
+                         },
+                         function (error) {
+
+                         },
+                         function (notification) {
+
+                         }
+                         ),*/
+                        config:null,
+                        post: FeedService.getDBPost('partner-post', params.slug).then(
+                            function(data){
+                                console.log(data);
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            }
+                        ),
+                        posts: null,
+                        instagram:null,
+                        sponsors: sponsorResolve
+                    });
+                }
+            }
+        })
         .when('/stories/:type/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -96,6 +152,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             reloadOnSearch: false,
             resolve: {
                 data: function($q, $route) {
+                    console.log('stories');
                     var params = {};
                     params.type = $route.current.params.type;
 

@@ -186,6 +186,7 @@ app.get('/adtest', function(req,res){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
+        canonical_url: '',
         // Twitter
         tw_card: '',
         tw_description: '',
@@ -230,6 +231,7 @@ app.get('/sponsor/:name', function(req,res){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
+        canonical_url: '',
         // Twitter
         tw_card: '',
         tw_description: '',
@@ -264,6 +266,7 @@ app.get('/wp/api/:path?', function(req,res){
             fb_site_name: appConfig.fb_sitename,
             fb_url: appConfig.url,
             fb_description: appConfig.description,
+            canonical_url: '',
             fb_appid:appConfig.fb_appid,
             fb_type: 'website',
             fb_image: appConfig.avatar,
@@ -376,6 +379,7 @@ app.get('/', function(req,res,next){
                         fb_site_name: appConfig.fb_sitename,
                         fb_url: appConfig.url,
                         fb_description: appConfig.description,
+                        canonical_url: '',
                         fb_appid:appConfig.fb_appid,
                         fb_type: 'website',
                         fb_image: appConfig.avatar,
@@ -413,6 +417,7 @@ app.get('/', function(req,res,next){
             fb_site_name: appConfig.fb_sitename,
             fb_url: appConfig.url,
             fb_description: appConfig.description,
+            canonical_url: '',
             fb_type: 'website',
             fb_image: appConfig.avatar,
             fb_appid: appConfig.fb_appid,
@@ -431,6 +436,174 @@ app.get('/', function(req,res,next){
     }
 });
 
+app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
+
+    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
+
+    setUserCookie(req, itsABot);
+    //insertUser();
+
+    var rawUrl = req.url.substr(0,req.url.length-1);
+
+    rawUrl = rawUrl.split('/');
+
+    var originalUrl = rawUrl[rawUrl.length-1];
+    var fbAppId = appConfig.fb_appid;
+    var fbUrl = appConfig.fb_url;
+    var postName = null;
+
+    try{
+        postName = req.params.slug;
+    }catch(e){
+
+    }
+
+    if(postName === undefined || postName === null){
+        console.log('no params present... trying raw url');
+        postName = originalUrl;
+    }
+
+    var endpoint = 'http://' + req.headers.host + '/api/' + postName;
+    var siteUrl = 'http://'+ appConfig.url;
+    var appUrl = 'http://admin.altdriver.com';
+
+    if(itsABot) {
+        try {
+            request(endpoint, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var metatags = {};
+                    var post = null;
+
+                    try{
+                        post = JSON.parse(body);
+                    }catch(e){
+                        console.error(JSON.stringify(e));
+                    }
+
+                    if(typeof post !== 'undefined' && post !== null) {
+                        metatags.published = post.date;
+                        metatags.modified = post.modified;
+                        metatags.category = post.category[0].name;
+                        metatags.canonical_url = '';
+
+                        metatags.title = '';
+                        metatags.description = '';
+
+                        try{
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
+                                metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                            }
+
+                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0){
+                                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                            }
+                        }catch(e){
+                            console.error(JSON.stringify(e));
+                        }
+
+                        // Facebook meta
+
+                        metatags.fb_appid = fbAppId;
+                        metatags.fb_publisher = fbUrl;
+                        metatags.fb_type = 'article';
+                        metatags.fb_site_name = appConfig.fb_sitename;
+                        metatags.fb_title = metatags.title;
+                        metatags.fb_url = siteUrl + req.url;
+                        metatags.fb_description = metatags.description;
+                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+
+
+                        var template = swig.compileFile('./dist/bots.html');
+                        var output = template({metatags: metatags, app: appName, posts:post});
+
+                        res.send(output);
+                    }else{
+                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                        console.log('headers:\n ', req.headers);
+                        console.log('\n\nparams:\n', req.params);
+                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+                    }
+                }
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }else{
+
+        try {
+            api.PostController.postByType('partner-post', postName).then(function(result){
+
+                var metatags = {};
+                var post = null;
+
+                if(result.length === 0){
+                    console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                    console.log('headers:\n ', req.headers);
+                    console.log('\n\nparams:\n', req.params);
+                    console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                    console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+
+                    console.log(req._parsedOriginalUrl);
+                    res.sendStatus(404);
+                }else{
+
+                    post = result;
+                    var canonicalURL = post.postmeta.canonical_url[0];
+                    metatags.canonical_url = canonicalURL;
+                    metatags.published = post.date;
+                    metatags.modified = post.modified;
+                    metatags.category = post.category[0].name;
+                    metatags.title = '';
+                    metatags.description = '';
+
+                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
+                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                    }else{
+                        metatags.description = '';
+                    }
+
+                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
+                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                    }else{
+                        metatags.title = post.title.rendered;
+                    }
+
+                    // Facebook meta
+
+                    metatags.fb_appid = fbAppId;
+                    metatags.fb_publisher = fbUrl;
+                    metatags.fb_type = 'article';
+                    metatags.fb_site_name = appConfig.fb_sitename;
+                    metatags.fb_title = metatags.title;
+                    metatags.fb_url = siteUrl + req.url;
+                    metatags.fb_description = metatags.description;
+                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                    if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                    }
+
+                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+                }
+
+            });
+        } catch (e) {
+            console.error(e);
+            console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+            console.log('headers:\n ', req.headers);
+            console.log('\n\nparams:\n', req.params);
+            console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+            console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+            res.end();
+        }
+    }
+});
+
 app.get('/stories/:type', function(req,res){
     var metatags = {
 
@@ -445,6 +618,7 @@ app.get('/stories/:type', function(req,res){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
+        canonical_url: '',
         // Twitter
         tw_card: '',
         tw_description: '',
@@ -473,6 +647,7 @@ app.get('/trending/:page', function(req,res){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
+        canonical_url: '',
         // Twitter
         tw_card: '',
         tw_description: '',
@@ -719,6 +894,7 @@ app.get('/search/(:query/|:query)', function(req,res, next){
             fb_type: 'website',
             fb_image: appConfig.avatar,
             fb_appid: appConfig.fb_appid,
+            canonical_url: '',
             // Twitter
             tw_card: '',
             tw_description: '',
@@ -756,6 +932,7 @@ app.get('/category/(:category|:category/)', function(req,res){
                         // Standard meta
                         metatags.title = category.name + ' Archives';
                         metatags.description = category.description;
+                        metatags.canonical_url = '';
 
                         // Facebook meta
                         metatags.fb_type = 'object';
@@ -803,6 +980,7 @@ app.get('/category/(:category|:category/)', function(req,res){
 
                         // Facebook meta
                         metatags.fb_type = 'object';
+                        metatags.canonical_url = '';
                         metatags.fb_site_name = appConfig.fb_sitename;
                         metatags.fb_title = categoryTitle + ' - Archives';
                         metatags.fb_description = category.description;
@@ -866,7 +1044,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                         metatags.published = post.date;
                         metatags.modified = post.modified;
                         metatags.category = post.category[0].name;
-
+                        metatags.canonical_url = '';
                         metatags.title = '';
                         metatags.description = '';
 
@@ -918,66 +1096,65 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
         try {
             api.PostController.post(postName).then(function(result){
 
+                var metatags = {};
+                var post = null;
 
                 if(result.type === 'partner-post'){
-
-                    console.log(result);
-                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:{'canonical_url': result.postmeta.canonical_url[0]}, cache:true, maxAge:600000});
-                }else{
-                    var metatags = {};
-                    var post = null;
-
-                    if(result.length === 0){
-                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-                        console.log('headers:\n ', req.headers);
-                        console.log('\n\nparams:\n', req.params);
-                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-
-                        console.log(req._parsedOriginalUrl);
-                        res.sendStatus(404);
-                    }else{
-
-                        post = result;
-
-                        metatags.published = post.date;
-                        metatags.modified = post.modified;
-                        metatags.category = post.category[0].name;
-                        metatags.title = '';
-                        metatags.description = '';
-
-                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
-                            metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                        }else{
-                            metatags.description = '';
-                        }
-
-                        if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
-                            metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                        }else{
-                            metatags.title = post.title.rendered;
-                        }
-
-                        // Facebook meta
-
-                        metatags.fb_appid = fbAppId;
-                        metatags.fb_publisher = fbUrl;
-                        metatags.fb_type = 'article';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = metatags.title;
-                        metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = metatags.description;
-                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
-                            metatags.fb_image = post.featured_image_src.original_wp[0];
-                            metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                            metatags.fb_image_height = post.featured_image_src.original_wp[2];
-                        }
-
-
-                        res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
-                    }
+                    metatags.canonical_url = result.postmeta.canonical_url[0];
                 }
+
+                if(result.length === 0){
+                    console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
+                    console.log('headers:\n ', req.headers);
+                    console.log('\n\nparams:\n', req.params);
+                    console.log('\n\nrawHeaders:\n ',req.rawHeaders);
+                    console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
+
+                    console.log(req._parsedOriginalUrl);
+                    res.sendStatus(404);
+                }else{
+
+                    post = result;
+
+                    metatags.published = post.date;
+                    metatags.modified = post.modified;
+                    metatags.category = post.category[0].name;
+                    metatags.title = '';
+                    metatags.description = '';
+                    metatags.canonical_url = '';
+
+                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
+                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
+                    }else{
+                        metatags.description = '';
+                    }
+
+                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
+                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
+                    }else{
+                        metatags.title = post.title.rendered;
+                    }
+
+                    // Facebook meta
+
+                    metatags.fb_appid = fbAppId;
+                    metatags.fb_publisher = fbUrl;
+                    metatags.fb_type = 'article';
+                    metatags.fb_site_name = appConfig.fb_sitename;
+                    metatags.fb_title = metatags.title;
+                    metatags.fb_url = siteUrl + req.url;
+                    metatags.fb_description = metatags.description;
+                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
+                    if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
+                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
+                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
+                    }
+
+
+                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+                }
+
 
             });
         } catch (e) {
@@ -1006,6 +1183,7 @@ app.get('/:page', function(req,res){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
+        canonical_url:'',
         // Twitter
         tw_card: '',
         tw_description: '',
@@ -1037,6 +1215,7 @@ app.get('*', function(req,res, next){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
+        canonical_url: '',
         // Twitter
         tw_card: '',
         tw_description: '',

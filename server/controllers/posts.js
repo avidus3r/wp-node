@@ -228,7 +228,6 @@ var PostsController = {
     },
 
     sponsoredPosts: function(campaigns){
-        console.log(campaigns);
         var query = Post.find({'postmeta._altdsc_campaign_id': { $in: campaigns} });
         /*query.$where(function(){
             return this.postmeta.hasOwnProperty("_altdsc_campaign_id");
@@ -239,7 +238,7 @@ var PostsController = {
     postByType: function(type, slug){
         var query = null;
         if(slug){
-            query = Post.find({ 'type': type, 'slug': slug}).limit(1);
+            query = Post.findOne({ 'type': type, 'slug': slug});
         }else{
             query = Post.find({ 'type': type });
         }
