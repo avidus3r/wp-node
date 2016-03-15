@@ -187,5 +187,17 @@
       font-size: 90%;
   }
 }
+
+// animated gif
+.animated-gif {
+  .post-content img {
+    width: 100%;  // full width animated gifs even if they pixel a bit
+  }
+
+  .author-meta {
+    text-align: left; // make sure category is aligned correctly
+  }
+}
+
 // Sponsored posts styles
 @import 'sponsors';
