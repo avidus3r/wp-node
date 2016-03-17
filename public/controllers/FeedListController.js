@@ -55,11 +55,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.hideLoading = true;
     $scope.fbReady = false;
 
-    if (location.href.indexOf('local.') > -1) {
+    $scope.appConfig.displayAds = 'true';
+
+    if (location.href.indexOf('local.') > -1 || location.host.indexOf('app.altdriver') > -1) {
         $scope.appConfig.displayAds = 'false';
     }
-
-    $scope.appConfig.displayAds = 'true';
 
     $scope.utilityViews = ['ads'];
 
@@ -101,6 +101,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     if ($location.$$path === '/articles') {
         $scope.appConfig.adsPerPage = '';
         $scope.postsPerPage = 20;
+    }
+
+    if(location.host.indexOf('app.altdriver') > -1){
+        $scope.appConfig.adsPerPage = '';
     }
 
     $scope.errorCheck();
@@ -393,6 +397,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }).children().remove();*/
             deferred.resolve();
         } else {
+
 
             var placementOneHeight = angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height();
             var placementTwoHeight = angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height();
@@ -983,7 +988,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if (item.type === 'animated-gif') item.format = 'animated-gif';
             if (item.type !== 'partner-post') item.type = 'post-single';
 
-            item.post_index = $scope.postIndex - 1;
+            item.post_index = $scope.postIndex;
             //$scope.postIndex++;
 
             $scope.createFeedItem(item, $scope.feedItems.length);
@@ -1131,17 +1136,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var post = feedItem.find('.post-content');
         var expectedEmbed = post.find('iframe');
         var fbEmbed = post.find('.fb-video');
+        if(location.host.indexOf('app.altdriver') === -1) {
+            if (content.search('</iframe>') > -1 && $scope.displayAds) {
 
-        if (content.search('</iframe>') > -1) {
+                var pieces = content.split('</iframe></p>');
+                if (pieces.length === 1) {
+                    pieces = content.split('</iframe> </p>');
+                }
+                var glue = $scope.getAdvertisementGlue();
 
-            var pieces = content.split('</iframe></p>');
-            if (pieces.length === 1) {
-                pieces = content.split('</iframe> </p>');
+                content = pieces.join(glue);
+                content += '<div class="post-txt-more ga-post-more">Read More</div>';
             }
-            var glue = $scope.getAdvertisementGlue();
-
-            content = pieces.join(glue);
-            content += '<div class="post-txt-more ga-post-more">Read More</div>';
         }
         if (expectedEmbed.length > 0 && fbEmbed.length === 0) {
             expectedEmbed.addClass('video-container');

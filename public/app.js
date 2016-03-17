@@ -164,13 +164,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.adsEnabled = true;
     $rootScope.browserHeight = document.documentElement.clientHeight;
 
-    if(location.pathname === '/articles'){
+    if(location.pathname === '/articles' || location.host.indexOf('app.altdriver') > -1){
         $rootScope.adsEnabled = false;
     }else{
         $rootScope.adsEnabled = true;
     }
 
-    if(location.href.indexOf('local.') > -1){
+    if(location.href.indexOf('local.') > -1 || location.host.indexOf('app.altdriver') > -1){
         $rootScope.displayAds = false;
     }
     $rootScope.displayAds = true;
