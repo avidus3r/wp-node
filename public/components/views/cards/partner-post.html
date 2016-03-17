@@ -17,7 +17,7 @@
 Facebook SDK
 ---------------------->
 <div class="post-view full">
-    <h2 ng-bind-html="item.title.rendered" class="post-title">{{ item.title.rendered }}</h2>
+    <h2 class="post-title"><a ng-bind-html="item.title.rendered" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">{{ item.title.rendered }}</a></h2>
     <div class="author-meta">
         <p class="item-author source-author"><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }}</p>
         <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>

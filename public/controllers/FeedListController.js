@@ -352,18 +352,24 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.clearAds = function(){
         var adHeights = [];
         var deferred = $q.defer();
-
+        var bannerClasses = {'mobile':['ad-banner-sm', 'ad-banner-lg'], 'desktop':['desktop-ad-banner-sm']};
         if($scope.isMobile) {
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height());
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height());
+            var placementOneHeight = angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height();
+            var placementTwoHeight = angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height();
+            adHeights.push(placementOneHeight);
+            adHeights.push(placementTwoHeight);
+
+
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
-            angular.element('pubad[placementIndex="1"]').last().css({
+
+
+            angular.element('pubad[placementIndex="1"]').last().addClass(placementOneHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
                 'height': adHeights[0] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="2"]').last().css({
+            angular.element('pubad[placementIndex="2"]').last().addClass(placementTwoHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
                 'height': adHeights[1] + 'px',
                 'width': '100%',
                 'display': 'block'
@@ -376,16 +382,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             deferred.resolve();
         }else{
 
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height());
-            adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height());
+            var placementOneHeight = angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height();
+            var placementTwoHeight = angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height();
+            adHeights.push(placementOneHeight);
+            adHeights.push(placementTwoHeight);
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
-            angular.element('pubad[placementIndex="1"]').last().css({
+            angular.element('pubad[placementIndex="1"]').last().addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
                 'height': adHeights[0] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="2"]').last().css({
+            angular.element('pubad[placementIndex="2"]').last().addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
                 'height': adHeights[1] + 'px',
                 'width': '100%',
                 'display': 'block'
