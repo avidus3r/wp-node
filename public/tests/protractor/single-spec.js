@@ -2,7 +2,6 @@ describe('single page', function() {
     var singleURL = null;
 
     it('each article should have a valid link and image', function(){
-
         browser.get('http://local.altdriver.com:3000');
         element.all(by.css('.feed-item')).first().getAttribute('data-url').then(function(attr){
             singleURL = 'http://local.altdriver.com:3000' + attr;
