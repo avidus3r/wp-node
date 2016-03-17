@@ -9,8 +9,6 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
     var FeedService = FeedServiceProvider.$get();
     var InstagramService = InstagramServiceProvider.$get();
 
-
-
     $routeProvider
         .when('/', {
             controller: 'HomeController',

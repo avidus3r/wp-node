@@ -97,6 +97,34 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
         return true;
     };
 
+    $scope.checkRequiredFields = function(){
+        var deferred = new Promise(function(fulfill, reject) {
+            angular.element('.submit-content-form').find('#file-upload, #link-url').on('change input', function (e) {
+                switch (e.currentTarget.id) {
+                    case "file-upload":
+                        var fileCount = e.currentTarget.files.length;
+                        if (fileCount > 0) {
+                            angular.element('#link-url').removeAttr('required');
+                        } else {
+                            angular.element('#link-url').attr('required', 'required');
+                        }
+                        break;
+                    case "link-url":
+                        var linkVal = angular.element(e.currentTarget).val();
+                        console.log(linkVal);
+                        if (linkVal.length > 0) {
+                            angular.element('#file-upload').removeAttr('required');
+                        } else {
+                            angular.element('#file-upload').attr('required', 'required');
+                        }
+                        break;
+                }
+                fulfill();
+            });
+        });
+        return deferred;
+    };
+
     $scope.$on('$viewContentLoaded', function(){
         var minHeight = window.innerHeight-100;
         angular.element('html, body, .view-container, #staticPage, .content, iframe').css({'min-height':minHeight+'px'});
@@ -106,46 +134,32 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
         }
         angular.element('body').addClass($scope.routeParams);
         setTimeout(function(){
-            angular.element('.submit-content-form').find('#file-upload, #link-url').on('change', function(e){
-                switch(e.currentTarget.id){
-                    case "file-upload":
-                        var fileCount = e.currentTarget.files.length;
-                        if(fileCount > 0){
-                            angular.element('#link-url').removeAttr('required');
-                        }else{
-                            angular.element('#link-url').attr('required','required');
-                        }
-                        break;
-                    case "link-url":
-                        var linkVal = angular.element(e.currentTarget).val();
-
-                        if(linkVal.length > 0){
-                            angular.element('#file-upload').removeAttr('required');
-                        }else{
-                            angular.element('#file-upload').attr('required','required');
-                        }
-                        break;
-                }
+            angular.element('.submit-content-form input[type="submit"]').on('click', function(e){
+                e.preventDefault();
+                $scope.checkRequiredFields().then(function(){
+                    angular.element('.submit-content-form').submit();
+                });
             });
             angular.element('.submit-content-form').on('submit', function(e){
-                console.log('submit');
+
                 var requiredFields = angular.element(e.currentTarget).find('input[required="required"]');
                 var shouldIStayOrShouldIGo;
+                $scope.checkRequiredFields().then(function(){
+                    try{
+                        shouldIStayOrShouldIGo = $scope.validate(requiredFields);
+                        if(!shouldIStayOrShouldIGo){
+                            angular.forEach($scope.formErrors, function(item, index){
+                                angular.element(item).parent().addClass('has-error');
+                            });
+                        }
 
-                try{
-                    shouldIStayOrShouldIGo = $scope.validate(requiredFields);
-                    if(!shouldIStayOrShouldIGo){
-                        angular.forEach($scope.formErrors, function(item, index){
-                           angular.element(item).parent().addClass('has-error');
-                        });
+                        return shouldIStayOrShouldIGo;
+
+                    }catch(e){
+                        console.error(JSON.stringify(e));
+                        return false;
                     }
-
-                    return shouldIStayOrShouldIGo;
-
-                }catch(e){
-                    console.error(JSON.stringify(e));
-                    return false;
-                }
+                });
 
             });
         },500);

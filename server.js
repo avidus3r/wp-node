@@ -57,7 +57,7 @@ function getSQSQueue(prefix){
 
     var params = {QueueNamePrefix: prefix};
     var queue = null;
-    var deferred = new Promise(function(fulfill, reject){
+        var deferred = new Promise(function(fulfill, reject){
         sqs.listQueues(params, function(err, data) {
             if (err) reject(err);
             queue = data.QueueUrls[0];
@@ -552,6 +552,7 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                 }else{
 
                     post = result;
+
                     var canonicalURL = post.postmeta.canonical_url[0];
                     metatags.canonical_url = canonicalURL;
                     metatags.published = post.date;

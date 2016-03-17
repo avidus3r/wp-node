@@ -47,7 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 // display title OVER video screeny
-.post-content h2.post-title{
+.post-content h2.post-title, .post-content h2.post-title a{
   font-size: 1.5em; // font size controls all magical ems
   position: absolute;
   bottom: 0;
@@ -85,6 +85,15 @@ h1, h2, h3, h4, h5, h6 {
   bottom: auto;
   background-color: transparent;
   width: 100%;
+  a{
+    color: inherit !important;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover{
+      color: inherit !important;
+      text-decoration: none;
+    }
+  }
 }
 
 // TODO some overrides - refactor these away soon
