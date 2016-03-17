@@ -1,9 +1,29 @@
 describe('single page', function() {
     it('should contain a feed with more than one post', function() {
         browser.get('http://local.altdriver.com:3000/lmao/trying-to-steal-gas-as-a-prank-will-get-you-assaulted/');
+        //check share buttons 
+        var shareButton = element(by.css('.ga-btn-share'));
+        shareButton.click().then(function() {
+            var facebookGA = element(by.css('.ga-sharebar-facebook'));
+            var smsGA = element(by.css('.ga-sharebar-sms'));
+            var whatsappGA = element(by.css('.ga-sharebar-whatsapp'));
+            var googleplusGA = element(by.css('.ga-sharebar-gplus'));
+            var twitterGA = element(by.css('.ga-sharebar-twitter'));
+            var emailGA = element(by.css('.ga-sharebar-mail'));
+            expect(facebookGA.isPresent()).toBe(true);
+            expect(smsGA.isPresent()).toBe(true);
+            expect(whatsappGA.isPresent()).toBe(true);
+            expect(googleplusGA.isPresent()).toBe(true);
+            expect(twitterGA.isPresent()).toBe(true);
+            expect(emailGA.isPresent()).toBe(true);
+        });
 
-        var feedItems = element.all(by.repeater('item in feedItemElements'));
-        var feedItemsCount = feedItems.count();
+        var commentButton = element(by.css('.ga-btn-comments'));
+        commentButton.click().then(function(){
+                    expect(commentButton.isPresent()).toBe(true);
+        });
+        // var feedItems = element.all(by.repeater('item in feedItemElements'));
+        // var feedItemsCount = feedItems.count();
         /*var postListItems = element.all(by.css('.feed-item.pot-list'));
         var postListItemCount = postListItems.count();
         var postImages = element.all(by.css('.feed-item.pot-list a img.featured-image'));
@@ -15,7 +35,7 @@ describe('single page', function() {
 
 
         //you see a feed with more than one post
-        expect(feedItemsCount).toBeGreaterThan(1);
+        // expect(feedItemsCount).toBeGreaterThan(1);
 
 
         // og meta should be present
