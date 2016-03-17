@@ -24,7 +24,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    if(Number(appSponsors) > 0){
+                    /*if(Number(appSponsors) > 0){
 
                         sponsorResolve = FeedService.getCampaigns().then(
                             function(data){
@@ -37,7 +37,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }
+                    }*/
 
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
@@ -652,7 +652,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
-                    if(Number(appSponsors) > 0){
+                    /*if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getSponsors().then(
                             function(data){
                                 return data;
@@ -664,7 +664,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }
+                    }*/
 
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
@@ -727,7 +727,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
-                    if(Number(appSponsors) > 0){
+                    /*if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getCampaigns().then(
                             function(data){
                                 return data;
@@ -739,7 +739,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }
+                    }*/
 
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
