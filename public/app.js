@@ -162,7 +162,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.gptReady = null;
     $rootScope.readyInterval = null;
     $rootScope.adsEnabled = true;
-    $rootScope.browserHeight = document.documentElement.clientWidth;
+    $rootScope.browserHeight = document.documentElement.clientHeight;
 
     if(location.pathname === '/articles'){
         $rootScope.adsEnabled = false;
