@@ -71,7 +71,6 @@
 
     <script type="text/javascript">
         var adsEnabled = true;
-
         if(location.pathname === '/articles' && location.pathname !== '/adtest'){
             adsEnabled = false;
         }else{
@@ -107,6 +106,8 @@
             }
         }
     </script>
+
+
 
 </head>
 <body>
@@ -276,9 +277,9 @@
             }
         };
 
-        /*angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+        angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
 
-        };*/
+        };
 
     </script>
 
