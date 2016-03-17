@@ -7,7 +7,7 @@ describe('Upload', function() {
         });
     });
 
-    it('upload feilds should be present', function() {
+    it('upload fields should be present', function() {
         browser.get('http://local.altdriver.com:3000').then(function() {
             var uploadButton = element(by.css('.btn-submit-story'));
             uploadButton.click().then(function() {
@@ -24,14 +24,18 @@ describe('Upload', function() {
         browser.get('http://local.altdriver.com:3000').then(function() {
             var uploadButton = element(by.css('.btn-submit-story'));
             var submitButton = null;
+            var userContentForm = null;
             uploadButton.click().then(function() {
-                submitButton = element(by.css('.btn-primary'));
-                element(by.css('.email-field')).sendKeys('email@email.com');
+                submitButton = element(by.css('#uploadContentSubmit'));
+                userContentForm = element(by.css('.submit-content-form'));
+
+                element(by.css('#email')).sendKeys('email@email.com');
                 element(by.css('#name')).sendKeys('name name');
                 element(by.css('#link-url')).sendKeys('https://www.youtube.com/watch?v=kKaq9WfV_js');
-                submitButton.click().then(function() {
-                    expect(submitButton.isPresent()).toBe(false);
-                });
+                userContentForm.submit();
+                browser.sleep(2000);
+                expect(browser.getLocationAbsUrl())
+                    .toBe('/thanks');
             });
         });
     });

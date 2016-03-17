@@ -57,7 +57,7 @@ function getSQSQueue(prefix){
 
     var params = {QueueNamePrefix: prefix};
     var queue = null;
-    var deferred = new Promise(function(fulfill, reject){
+        var deferred = new Promise(function(fulfill, reject){
         sqs.listQueues(params, function(err, data) {
             if (err) reject(err);
             queue = data.QueueUrls[0];
@@ -327,6 +327,7 @@ app.set('views', __dirname + '/dist');
 
 function setUserCookie(req, itsABot){
     //TODO add checkUserCookie method
+    var userIsNew = null;
     if(typeof req.headers['user-agent'] !== 'undefined') {
         if (!itsABot && req.headers['user-agent'].toLowerCase().indexOf('healthcheck') === -1) {
             var user = null;
@@ -335,6 +336,7 @@ function setUserCookie(req, itsABot){
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
                     if (req.headers.cookie.indexOf('altduuid') === -1) {
+                        userIsNew = true;
                         res.cookie('altduuid', uuid, {
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
@@ -343,7 +345,7 @@ function setUserCookie(req, itsABot){
                         if(createUser) insertUser(uuid);
 
                     } else {
-
+                        userIsNew = false;
                     }
                 }
             } catch (e) {
@@ -351,6 +353,7 @@ function setUserCookie(req, itsABot){
             }
         }
     }
+    return userIsNew;
 }
 
 function insertUser(uuid){
@@ -362,7 +365,7 @@ function insertUser(uuid){
 app.get('/', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
-    setUserCookie(req, itsABot);
+    var newUser = setUserCookie(req, itsABot);
 
     if(itsABot) {
         try {
@@ -440,7 +443,7 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
 
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
-    setUserCookie(req, itsABot);
+    var newUser = setUserCookie(req, itsABot);
     //insertUser();
 
     var rawUrl = req.url.substr(0,req.url.length-1);
@@ -552,6 +555,7 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                 }else{
 
                     post = result;
+
                     var canonicalURL = post.postmeta.canonical_url[0];
                     metatags.canonical_url = canonicalURL;
                     metatags.published = post.date;
@@ -877,7 +881,7 @@ app.post('/submit', function(req,res){
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
-    setUserCookie(req, itsABot);
+    var newUser = setUserCookie(req, itsABot);
 
     if(itsABot){
         res.send();
@@ -911,7 +915,7 @@ app.get('/search/(:query/|:query)', function(req,res, next){
 
 app.get('/category/(:category|:category/)', function(req,res){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    setUserCookie(req, itsABot);
+    var newUser = setUserCookie(req, itsABot);
     var catName = req.params.category;
     var endpoint = 'http://' + req.headers.host + '/api/category/' + catName + '/5/1/0';
     var appUrl = 'http://admin.altdriver.com/category';
@@ -1000,7 +1004,8 @@ app.get('/category/(:category|:category/)', function(req,res){
 app.get('/:category/(:slug|:slug/)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
-    setUserCookie(req, itsABot);
+    var newUser = setUserCookie(req, itsABot);
+
     //insertUser();
 
     var rawUrl = req.url.substr(0,req.url.length-1);

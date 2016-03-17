@@ -92,7 +92,7 @@
     width:100%;
   }
 
-  h2.post-title {
+  h2.post-title, h2.post-title a {
     position: relative;
     font-size: 1.2em;
     margin: .5em;
@@ -100,6 +100,14 @@
     color: $color-text-main;
     background-color: #fff;
     height: auto;
+  }
+
+  h2.post-title a{
+    color: #333 !important;
+    &:hover{
+      text-decoration: none;
+      color: #333 !important;
+    }
   }
 
 }
