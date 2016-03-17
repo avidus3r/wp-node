@@ -1005,7 +1005,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
     var newUser = setUserCookie(req, itsABot);
-    
+
     //insertUser();
 
     var rawUrl = req.url.substr(0,req.url.length-1);

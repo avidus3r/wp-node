@@ -141,6 +141,28 @@
     </script>
     <!-- End GTM -->
 
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        var fbPixID = document.getElementById('fb-px-id').innerText;
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', fbPixID);
+        fbq('track', "PageView");</script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=344487495675681&ev=PageView&noscript=1"/></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Montserrat|Pontano+Sans|Rokkitt|Lora|Lato:400,700' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="/js/app.js"></script>
+
     <!--
         TODO: testing removal of ng-include
         <ng-include src="'/views/partials/header.html'"></ng-include>
@@ -211,37 +233,27 @@
                     <div ng-if="(!_isMobile() && isMobile().indexOf('ipad') === -1) && adsEnabled && !isHome()" class="dt-ad dt-ad-post-half-page">
                         <pubad ng-init="placementIndex=4" placementIndex="4"></pubad>
                     </div>
-                    <!--<div class="dt-ad">
-                        <pubad ng-init="placementIndex=5" placementIndex="5"></pubad>
-                    </div>-->
+                    <div class="dt-ad">
+                        <div ng-if="!_isMobile()">
+                            <div id="div-gpt-ad-1448906851482-5">
+                                <script type="text/javascript">
+                                    var googletag = window.googletag;
+                                    setTimeout(function(){
+                                        googletag.defineSlot('/110669458/AD_Home_Desktop_RR_02', [[300, 600], [300, 250]], 'div-gpt-ad-1448906851482-5').addService(googletag.pubads());
+                                        googletag.pubads().collapseEmptyDivs();
+                                        googletag.pubads().enableSingleRequest();
+                                        googletag.enableServices();
+                                        googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-5"); });
+                                    },1000);
+                                </script>
+                            </div>
+                        </div>
+                    </div>
 
                 <!-- Add a trending card for 5 most popular posts -->
             </section>
         </div>
     </div>
-
-
-
-    <!-- Facebook Pixel Code -->
-    <script>
-        var fbPixID = document.getElementById('fb-px-id').innerText;
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-                document,'script','//connect.facebook.net/en_US/fbevents.js');
-
-        fbq('init', fbPixID);
-        fbq('track', "PageView");</script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=344487495675681&ev=PageView&noscript=1"/></noscript>
-    <!-- End Facebook Pixel Code -->
-
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Montserrat|Pontano+Sans|Rokkitt|Lora|Lato:400,700' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="/js/app.js"></script>
 
     <script type="text/javascript">
         angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
