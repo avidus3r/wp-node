@@ -6,7 +6,7 @@ var PostsController = function($rootScope, $scope, FeedService, InstagramService
     this.$route = $route;
     this.$routeParams = $routeParams;
     this.$location = $location;
-
+    alert();
     $scope.package = {
         name: 'newsfeed'
     };

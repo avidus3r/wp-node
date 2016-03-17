@@ -65,20 +65,20 @@ var pubad = function() {
                 if(paged > 1){
                     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 
-                        window.googletag.pubads().clear();
-                        setTimeout(function(){
+                        window.googletag.pubads().refresh();
+                        /*setTimeout(function(){
                             window.googletag.cmd.push(function() {
                                 window.googletag.cmd.push(function() { window.googletag.display(pubadID); });
                             });
-                        },1000);
+                        },1000);*/
 
                     }else{
-                        window.googletag.pubads().clear();
-                        setTimeout(function(){
+                        window.googletag.pubads().refresh();
+                        /*setTimeout(function(){
                             window.googletag.cmd.push(function() {
                                 window.googletag.cmd.push(function() { window.googletag.display(pubadID); });
                             });
-                        },1000);
+                        },1000);*/
                     }
                 }else{
                     setTimeout(function() {

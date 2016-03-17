@@ -7,7 +7,6 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
     $scope.routeParams = $location.$$path.replace('/','');
     $scope.page = null;
 
-
     $scope.getRouteParams = function(){
         return '';
     };

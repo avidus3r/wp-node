@@ -21,7 +21,7 @@ var PostsController = {
     },
 
     post: function(slug){
-        console.log(slug);
+        console.log('PostsController :: post', slug);
         var query = Post.findOne({'slug': slug});
         return query.exec();
     },
@@ -153,7 +153,7 @@ var PostsController = {
     },
 
     trending: function(req, query, numberOfPosts, pageNumber, skip){
-        console.log('controller: trending, ', query, numberOfPosts, pageNumber, skip)
+
         var skipItems = Number(skip);
         var appName = process.env.appname;
 
