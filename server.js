@@ -1169,7 +1169,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
             console.log('\n\nparams:\n', req.params);
             console.log('\n\nrawHeaders:\n ',req.rawHeaders);
             console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-            res.end();
+            //res.end();
         }
     }
 });
