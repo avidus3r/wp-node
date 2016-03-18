@@ -131,7 +131,7 @@ gulp.task('assets', function() {
     }catch(e){
         iconsPath = './public/package/favicons/altmedia';
     }
-    
+
     /*fs.realpath('./assets/favicons/'+process.env.appname, function(err, resolvedPath) {
         fs.readdir(resolvedPath, function(err, files) {
             if (err) iconsPath = './assets/favicons/altmedia';
