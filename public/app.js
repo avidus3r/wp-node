@@ -174,6 +174,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         $rootScope.displayAds = false;
     }
     $rootScope.displayAds = true;
+
     try {
 
         if (!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined') {
@@ -483,7 +484,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             $rootScope.testAds();
             return;
         }
-        //if(!$rootScope.adsEnabled) return;
+        if(!$rootScope.adsEnabled) return;
 
 
         var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
