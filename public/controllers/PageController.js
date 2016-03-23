@@ -165,7 +165,10 @@ var PageController = function($rootScope, $scope, FeedService, $route, $routePar
 
             });
         },500);
-        window.removeEventListener('scroll');
+
+        /*window.addEventListener('scroll', function(e){
+            debugger
+        });*/
     });
 
 };

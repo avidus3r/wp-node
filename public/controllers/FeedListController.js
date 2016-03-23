@@ -370,8 +370,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             'desktop': ['desktop-ad-banner-sm']
         };
         if ($scope.isMobile) {
-            var placementOneHeight = angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height();
-            var placementTwoHeight = angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height();
+
+            var ads = [
+                angular.element('pubad[placementIndex="1"]').last(),
+                angular.element('pubad[placementIndex="2"]').last()
+            ];
+
+            var placementOneHeight = angular.element(ads[0]).children(0).height();
+            var placementTwoHeight = angular.element(ads[1]).children(0).height();
+
             adHeights.push(placementOneHeight);
             adHeights.push(placementTwoHeight);
 
@@ -379,17 +386,39 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
 
-
-            angular.element('pubad[placementIndex="1"]').last().addClass(placementOneHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
+            ads[0].addClass(placementOneHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
                 'height': adHeights[0] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="2"]').last().addClass(placementTwoHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
+
+            ads[0].append(
+                angular.element('<a/>')
+                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('target','_blank')
+                    .css({
+                        'height': adHeights[0] + 'px',
+                        'width': '100%',
+                        'display': 'block'
+                    })
+            );
+
+            ads[1].addClass(placementTwoHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
                 'height': adHeights[1] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
+
+            ads[1].append(
+                angular.element('<a/>')
+                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('target','_blank')
+                    .css({
+                        'height': adHeights[1] + 'px',
+                        'width': '100%',
+                        'display': 'block'
+                    })
+            );
             /*angular.element('pubad[placementIndex="3"]').css({
                 'height': adHeights[2] + 'px',
                 'width': '100%',
@@ -398,23 +427,50 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             deferred.resolve();
         } else {
 
+            var ads = [
+                angular.element('pubad[placementIndex="1"]').last(),
+                angular.element('pubad[placementIndex="2"]').last()
+            ];
 
-            var placementOneHeight = angular.element(angular.element('pubad[placementIndex="1"]').last()).children(0).height();
-            var placementTwoHeight = angular.element(angular.element('pubad[placementIndex="2"]').last()).children(0).height();
+            var placementOneHeight = angular.element(ads[0]).children(0).height();
+            var placementTwoHeight = angular.element(ads[1]).children(0).height();
+
             adHeights.push(placementOneHeight);
             adHeights.push(placementTwoHeight);
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
-            angular.element('pubad[placementIndex="1"]').last().addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
+            ads[0].addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
                 'height': adHeights[0] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
-            angular.element('pubad[placementIndex="2"]').last().addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
+
+            ads[0].append(
+                angular.element('<a/>')
+                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('target','_blank')
+                    .css({
+                        'height': adHeights[0] + 'px',
+                        'width': '100%',
+                        'display': 'block'
+                    })
+            );
+
+            ads[1].addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
                 'height': adHeights[1] + 'px',
                 'width': '100%',
                 'display': 'block'
             }).children().remove();
+            ads[1].append(
+                angular.element('<a/>')
+                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('target','_blank')
+                    .css({
+                        'height': adHeights[1] + 'px',
+                        'width': '100%',
+                        'display': 'block'
+                    })
+            );
             /*angular.element('pubad[placementIndex="3"]').css({
                 'height': adHeights[2] + 'px',
                 'width': '100%',
