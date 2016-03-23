@@ -6,7 +6,7 @@ TODO: consolidate ad display config
 
 //var gifyParse   = require('gify-parse');
 
-var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q) {
+var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q, ngMaterial) {
 
     this.name = 'list';
     this.$route = $route;
@@ -81,13 +81,26 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
 
-
-
     $scope.postCompanionAd = app.pubads[$scope.platform][0];
 
     if ($scope.instagram !== null) {
         $scope.instagramItems = $scope.instagram.data.data;
     }
+
+    $scope.showAndroidToast = function() {
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf("android") > -1;
+        if (isAndroid) {
+            //angular.module('NewsFeed').trackEvent('Sponsored Content', 'Impression', sponsorPost.sponsor.title + ' ' + sponsorPost.id, 1, {nonInteraction: true});
+            //$rootScope.androidToast = true;
+            angular.element('.toast').css({
+                'display': 'block'
+            });
+
+        }
+    };
+
+    $scope.showAndroidToast();
 
     $scope.errorCheck = function() {
         if ($scope.post === 'error' || $scope.posts === 'error' || $scope.sponsors === 'error') {
@@ -103,7 +116,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.postsPerPage = 20;
     }
 
-    if(location.host.indexOf('app.altdriver') > -1){
+    if (location.host.indexOf('app.altdriver') > -1) {
         $scope.appConfig.adsPerPage = '';
     }
 
@@ -937,9 +950,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             siteInContentAdItem.type = 'ad';
                             //siteInContentAdItem.type = 'site-in-content';
                             siteInContentAdItem.placementIndex = 2;
-                            postmap.push(siteInContentAdItem);
                             $scope.feedItemScrollAmount += 1;
                             pushedItems++;
+                            postmap.push(siteInContentAdItem);
                         }
 
                         if (index === 1) {
@@ -1192,7 +1205,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var post = feedItem.find('.post-content');
         var expectedEmbed = post.find('iframe');
         var fbEmbed = post.find('.fb-video');
-        if(location.host.indexOf('app.altdriver') === -1) {
+        if (location.host.indexOf('app.altdriver') === -1) {
             if (content.search('</iframe>') > -1 && $scope.displayAds) {
 
                 var pieces = content.split('</iframe></p>');

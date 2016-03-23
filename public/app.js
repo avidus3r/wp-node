@@ -162,19 +162,18 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.gptReady = null;
     $rootScope.readyInterval = null;
     $rootScope.adsEnabled = true;
-    $rootScope.browserHeight = document.documentElement.clientHeight;
+    $rootScope.browserHeight = document.documentElement.clientWidth;
 
-    if(location.pathname === '/articles' || location.host.indexOf('app.altdriver') > -1){
+    if(location.pathname === '/articles'){
         $rootScope.adsEnabled = false;
     }else{
         $rootScope.adsEnabled = true;
     }
 
-    if(location.href.indexOf('local.') > -1 || location.host.indexOf('app.altdriver') > -1){
+    if(location.href.indexOf('local.') > -1){
         $rootScope.displayAds = false;
     }
     $rootScope.displayAds = true;
-
     try {
 
         if (!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined') {
@@ -484,7 +483,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             $rootScope.testAds();
             return;
         }
-        if(!$rootScope.adsEnabled) return;
+        //if(!$rootScope.adsEnabled) return;
 
 
         var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
