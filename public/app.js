@@ -145,6 +145,7 @@ NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
 NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
+NewsFeed.directive('toast', ['$rootScope', 'app', Directives.toast]);
 
 /*
  * Module Directives
@@ -162,15 +163,16 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.gptReady = null;
     $rootScope.readyInterval = null;
     $rootScope.adsEnabled = true;
-    $rootScope.browserHeight = document.documentElement.clientHeight;
+    $rootScope.browserHeight = document.documentElement.clientWidth;
+    // $rootScope.toastHide= false;
 
-    if(location.pathname === '/articles' || location.host.indexOf('app.altdriver') > -1){
+    if(location.pathname === '/articles'){
         $rootScope.adsEnabled = false;
     }else{
         $rootScope.adsEnabled = true;
     }
 
-    if(location.href.indexOf('local.') > -1 || location.host.indexOf('app.altdriver') > -1){
+    if(location.href.indexOf('local.') > -1){
         $rootScope.displayAds = false;
     }
     $rootScope.displayAds = true;

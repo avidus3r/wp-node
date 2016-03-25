@@ -67,7 +67,7 @@
     "raw-loader": "latest",
     "request": "^2.61.0",
     "request-promise": "^2.0.0",
-    "requirejs": "latest",
+    "requirejs": "~2.1",
     "run-sequence": "latest",
     "script-loader": "latest",
     "source-map": "^0.4.4",

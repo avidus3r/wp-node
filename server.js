@@ -16,7 +16,9 @@ var express         = require('express'),
     swig            = require('swig'),
     cons            = require('consolidate'),
     cc              = require('coupon-code'),
-    compression     = require('compression');
+    compression     = require('compression'),
+    ApiCache        = require('apicache'),
+    apicache        = ApiCache.options({ debug: true }).middleware;
 
 var EXPRESS_ROOT = './dist',
     feedConfig = null,
@@ -57,7 +59,8 @@ function getSQSQueue(prefix){
 
     var params = {QueueNamePrefix: prefix};
     var queue = null;
-        var deferred = new Promise(function(fulfill, reject){
+
+    var deferred = new Promise(function(fulfill, reject){
         sqs.listQueues(params, function(err, data) {
             if (err) reject(err);
             queue = data.QueueUrls[0];
@@ -66,80 +69,174 @@ function getSQSQueue(prefix){
             };
             sqs.receiveMessage(params, function(err, data) {
                 if (err) reject(err);
-                fulfill(data, queue);
+                var qData = { url: queue, data: data};
+                fulfill(qData);
             });
         });
     });
+
     return deferred;
 }
 
 function execQueue(queueData, message){
-    var msg = JSON.parse(queueData)[0];
+
     var deferred = new Promise(function(fulfill, reject){
 
         var result = null;
 
-        switch(msg.method){
-            case 'update':
-                result = true;
-                console.log('updating', msg.postID, msg.restParent, msg.restPath, msg.method);
+        var postId = queueData.postID;
+        var restBase = queueData.restBase;
+        var restParent = queueData.restParent;
+        var host = null;
+
+        switch(process.env.NODE_ENV){
+            case 'production':
+                host = restParent + '.altmedia.com';
                 break;
-            case 'create':
-                console.log('creating');
+            case 'development':
+                host = restParent + '.staging.altmedia.com';
                 break;
-            case 'delete':
-                console.log('deleting');
+            default:
+                host = restParent + '.local.altmedia.com';
                 break;
         }
 
-        if(result) fulfill(message.ReceiptHandle);
-        reject(result);
+        var url = 'http://' + host + '/wp-json/wp/v2/' + restBase + '/' + postId;
+        url = url.replace(/\s/,'');
+
+        switch(queueData.method){
+            case 'update':
+            case 'create':
+            case 'publish':
+                request(url, function (error, response, body) {
+                    //console.log('response: ', response);
+                    if(response.statusCode === 200) {
+                        var post = JSON.parse(body);
+
+                        api.PostController.exists(post.id).then(function (result) {
+                            if (result.length === 0) {
+
+                                api.PostController.insert(post, function (success) {
+                                    //if (!success) res.sendStatus(500);
+                                    //res.sendStatus(200);
+                                    api.PostController.updating = false;
+                                    fulfill(message.ReceiptHandle);
+                                });
+
+                            } else {
+                                var updatePost = result[0];
+
+                                api.PostController.update(updatePost._id, post, function (success) {
+                                    //if (!success) res.sendStatus(500);
+                                    ApiCache.clear('/api/' + updatePost.slug);
+                                    var env = process.env.NODE_ENV === 'production' ? (process.env.appname === 'altdriver' ? 'www.' : '') : 'staging.';
+                                    var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
+                                    var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
+                                    //console.log('posturl: ', postUrl);
+                                    setTimeout(function() {
+                                        request
+                                            .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
+                                            .on('response', function (response) {
+                                                console.log(response);
+                                            });
+                                    },1000);
+
+                                    //res.sendStatus(200);
+                                    fulfill(message.ReceiptHandle);
+                                    api.PostController.updating = false;
+                                });
+                            }
+                        });
+                    }else{
+                        //res.sendStatus(response.statusCode);
+                        reject(result);
+                        api.PostController.updating = false;
+                    }
+                });
+                break;
+            case 'delete':
+                api.PostController.destroy(postId);
+                fulfill(message.ReceiptHandle);
+                break;
+        }
+
     });
+
     return deferred;
 }
 
-app.get('/api/wp-exec', function(req, res, next){
 
-    var queue = getSQSQueue('wp-exec');
+function snsSubscribe(){
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-east-1'});
+    var sns = new AWS.SNS({apiVersion: '2010-03-31'});
+
+    var params = {
+        Protocol: 'sqs',
+        TopicArn: 'arn:aws:sns:us-east-1:629760438439:wp-update-queue',
+        Endpoint: 'arn:aws:sqs:us-east-1:629760438439:wp-exec'
+    };
+    sns.subscribe(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+    });
+}
+
+
+function initQueue(){
+
+    var queuePrefix = 'wp-exec';
+    var queue = getSQSQueue(queuePrefix);
 
     queue.then(function(queueData){
 
-        var messages = queueData.Messages[0];
+        var messages = queueData.data.Messages[0];
 
         if(messages.length === 0) res.stats(200).send("queue is empty");
-        var body = queueData.Messages[0].Body;
 
-        execQueue(body, queueData.Messages[0]).then(function(result){
+        var body = queueData.data.Messages[0].Body;
+        var pairs = body.split('&');
+        var resultObj = {};
+
+        pairs.forEach(function(pair) {
+            pair = pair.split('=');
+            resultObj[pair[0]] = decodeURIComponent(pair[1] || '');
+        });
+
+        execQueue(resultObj, queueData.data.Messages[0]).then(function(result){
+
+            console.log('execQueue fulfilled', result);
             var receiptHandle = result;
-
             var AWS = require('aws-sdk');
             AWS.config.update({region:'us-east-1'});
             var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
 
-            sqs.listQueues({QueueNamePrefix: prefix}, function(err, data) {
+            var params = {
+                QueueUrl: queueData.url,
+                ReceiptHandle: receiptHandle
+            };
 
-                if (err) reject(err);
-                queue = data.QueueUrls[0];
-
-                var params = {
-                    QueueUrl: queue,
-                    ReceiptHandle: receiptHandle
-                };
-
-                sqs.deleteMessage(params, function(err, data) {
-                    if (err) console.error(err);
-                    console.log('successfully removed: ', data);
-                });
-
+            sqs.deleteMessage(params, function(err, data) {
+                if (err) console.error(err);
+                console.log('successfully removed: ', data);
             });
 
+            /*sqs.listQueues({QueueNamePrefix: queuePrefix}, function(err, data) {
+             if (err) reject(err);
+             queue = data.QueueUrls[0];
+             });*/
         });
 
     });
+}
 
-    res.end();
-
+app.get('/api/wp-exec', function(req, res, next){
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-west-2'});
+    var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    console.log(s3);
 });
+
 
 var api = require('./server/index');
 var apiRouter = api.routes;
@@ -1174,7 +1271,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     }
 });
 
-app.get('/:page', function(req,res){
+app.get('/:page', apicache('2 days'), function(req,res){
     var metatags = {
 
         robots: 'index, follow',
@@ -1245,5 +1342,6 @@ app.get('*', function(req,res, next){
  create server
  */
 http.createServer(app).listen(app.get('port'), function(){
+    snsSubscribe();
     console.log('app listening on port ' + app.get('port'));
 });
