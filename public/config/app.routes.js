@@ -61,7 +61,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return 'error';
                             }
                         ),
-                        posts: FeedService.getDBPosts(5,1,4).then(
+                        posts: FeedService.getHeroPosts(5,1,4).then(
 
                             function(data){
                                 return data;

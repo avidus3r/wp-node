@@ -146,8 +146,12 @@ var PostsController = {
                 }
             });
         }
+            if(skip === 0){
+                query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
+            }else{
+                query.$where('this.type === "post" && this.type !== "animated-gif"');
+            }
 
-        query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
     },
