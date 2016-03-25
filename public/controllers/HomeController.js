@@ -87,7 +87,6 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     }
 
     $scope.ABtesting = function() {
-        alert();
         var btnColor;
         var button_color_experiment = new AlephBet.Experiment({
             name: 'button color', // the name of this experiment; required.
