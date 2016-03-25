@@ -109,7 +109,7 @@ function execQueue(queueData, message){
             case 'create':
             case 'publish':
                 request(url, function (error, response, body) {
-                    console.log('response: ', response);
+                    //console.log('response: ', response);
                     if(response.statusCode === 200) {
                         var post = JSON.parse(body);
 
@@ -137,7 +137,7 @@ function execQueue(queueData, message){
                                         request
                                             .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
                                             .on('response', function (response) {
-                                                //console.log(response);
+                                                console.log(response);
                                             });
                                     },1000);
 
@@ -165,7 +165,25 @@ function execQueue(queueData, message){
     return deferred;
 }
 
-app.get('/api/wp-exec', function(req, res, next){
+
+function snsSubscribe(){
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-east-1'});
+    var sns = new AWS.SNS({apiVersion: '2010-03-31'});
+
+    var params = {
+        Protocol: 'sqs',
+        TopicArn: 'arn:aws:sns:us-east-1:629760438439:wp-update-queue',
+        Endpoint: 'arn:aws:sqs:us-east-1:629760438439:wp-exec'
+    };
+    sns.subscribe(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+    });
+}
+
+
+function initQueue(){
 
     var queuePrefix = 'wp-exec';
     var queue = getSQSQueue(queuePrefix);
@@ -204,16 +222,21 @@ app.get('/api/wp-exec', function(req, res, next){
             });
 
             /*sqs.listQueues({QueueNamePrefix: queuePrefix}, function(err, data) {
-                if (err) reject(err);
-                queue = data.QueueUrls[0];
-            });*/
+             if (err) reject(err);
+             queue = data.QueueUrls[0];
+             });*/
         });
 
     });
+}
 
-    res.end();
-
+app.get('/api/wp-exec', function(req, res, next){
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-west-2'});
+    var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    console.log(s3);
 });
+
 
 var api = require('./server/index');
 var apiRouter = api.routes;
@@ -1319,5 +1342,6 @@ app.get('*', function(req,res, next){
  create server
  */
 http.createServer(app).listen(app.get('port'), function(){
+    snsSubscribe();
     console.log('app listening on port ' + app.get('port'));
 });
