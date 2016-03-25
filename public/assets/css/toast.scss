@@ -1,0 +1,97 @@
+//toast 
+
+.toastContainer {
+  width: 100%;
+  overflow: visible;
+  position:fixed;
+  bottom: 0px;
+}
+
+.toast {
+  width: 95%;
+  max-width: 400px;
+  height: 65px;
+  border-radius: 4px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  position:fixed;
+  bottom: 5px;
+  background-color: rgba(0,0,0,0.87);
+  display: none;
+}
+
+.toast h4 {
+  color: #fff;
+  line-height: 45px;
+  margin-left: 8px;
+  float: left;
+}
+
+.toast-button {
+  height: 40px;
+  float: right;
+  color: #fff;
+  font-weight: 500;
+  background-color:#36c600;
+  border-radius:4px;
+  text-align:center;
+  line-height: 40px;
+  margin-right: 8px;
+  margin-top: 13px;
+  padding: 0 10px 0 10px;
+}
+
+.toast-close {
+  background-color: #EB423C !important;
+}
+
+.superToast {
+  position: absolute;
+  z-index: 2000;
+  top: 0px;
+}
+
+//toast injection 
+.up-next {
+  position: relative;
+  top: -2px; // really going to be bottom fixed
+  width: 100%;
+  background: #e3e3e3;
+  
+  .toast-title {
+    font-size: 1em;
+    position: absolute;
+    top: -2em;
+    left: 3px;
+    background: #0092D7;
+    color: #fff;
+    padding: .5em;
+    -webkit-transform: rotate(-2deg);
+-moz-transform: rotate(-2deg);
+-o-transform: rotate(-2deg);
+  }
+  
+  .up-next-filmstrip {
+    .up-next-item {
+      cursor: pointer; // dummy for demo - these need to be links of course
+      padding: .5em;
+      text-align: center;
+      display: block;
+      box-sizing: border-box;
+      width: 33.333%;
+      float: left;
+      img {
+        width: 100%;
+        border: 1px solid #333;
+      }
+      h4 {
+        font-size: 1em;
+        color: darken(#0092D7, 10%);
+        max-height: 2.3em;
+        overflow: hidden;
+      }
+    }
+  }
+  
+}
