@@ -223,7 +223,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var result = null;
 
         if ( mobileUAStr.test(navigator.userAgent) ){
-            result = mobileUAStr.exec(navigator.userAgent);Hottest
+            result = mobileUAStr.exec(navigator.userAgent);
             var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
             return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
         }else if( desktopUAStr.test(navigator.userAgent) ){
