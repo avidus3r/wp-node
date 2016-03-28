@@ -80,6 +80,12 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
+    feed.queryArticles = function(type, numPosts, pageNum, skip){
+        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip || 0;
+        var data = feed.get(url, 'get');
+        return data;
+    };
+
     feed.getDBPost = function(category, slug){
         var url = '/api/'+ slug;
         console.log(category, slug);
