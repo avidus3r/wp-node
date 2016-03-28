@@ -168,7 +168,7 @@
                         <a class="navbar-brand" ng-click="goToPage($event, $index, '/')">
                             <span class="site-title">{{ app.title }}</span>
                         </a>
-                        <a ng-click="goToPage($event, $index, '/trending/hottest')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Hottest</a>
+                        <a ng-hide="abready" ng-click="goToPage($event, $index, '/trending/hottest')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Hottest</a>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right nav-submit">
@@ -205,7 +205,7 @@
             <div class="app-main">
             <section class="view-container ng-view"></section>
             <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
-            <toast frequency="3" toastid="andr" presist="true" message="Get alt_Driver app now" delay="" scroll="true" button="Install" action="https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android"></toast>
+            <toast frequency="3" toastid="andr" presist="true" message="Get the alt_driver app" delay="" scroll="true" button="Install" action="https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android"></toast>
         </div>
         <div class="app-rail">
             <section class="sidebar ng-hide">

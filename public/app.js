@@ -1,10 +1,10 @@
 'use strict';
 
-var angular     = require('angular'),
-    jQuery      = window.jQuery,
-    env         = null,
-    host        = null,
-    appName     = null;
+var angular = require('angular'),
+    jQuery = window.jQuery,
+    env = null,
+    host = null,
+    appName = null;
 
 //Angular Dependencies
 require('./vendor/angular-metatags.min');
@@ -30,7 +30,7 @@ function init() {
 
     //appName = localStorage.getItem('appName');
 
-    if(!appName) {
+    if (!appName) {
         appName = host.substring(0, host.lastIndexOf('.com'));
 
         if (appName.indexOf('local.') > -1 || appName.indexOf('beta.') > -1 || appName.indexOf('www.') > -1) {
@@ -40,7 +40,7 @@ function init() {
 
 }
 
-window.onerror = function(errorMessage, errorScript, lineNumber, columnNumber, error){
+window.onerror = function(errorMessage, errorScript, lineNumber, columnNumber, error) {
     console.error(errorMessage, errorScript, lineNumber, columnNumber, error);
 };
 
@@ -77,18 +77,18 @@ var FeedService = Services.FeedService;
 var InstagramService = Services.InstagramService;
 
 NewsFeed.factory('FeedService', ['app', 'appName', 'env', '$http', '$q', FeedService]);
-NewsFeed.provider('FeedServiceProvider',function(){
+NewsFeed.provider('FeedServiceProvider', function() {
     return {
-        $get: function(){
+        $get: function() {
             return FeedService;
         }
     }
 });
 
 NewsFeed.factory('InstagramService', ['$http', '$q', InstagramService]);
-NewsFeed.provider('InstagramServiceProvider',function(){
+NewsFeed.provider('InstagramServiceProvider', function() {
     return {
-        $get: function(){
+        $get: function() {
             return InstagramService;
         }
     }
@@ -106,28 +106,23 @@ NewsFeed.provider('InstagramServiceProvider',function(){
 var Controllers = require('./controllers/app.controllers.js');
 
 NewsFeed.controller(
-    'HeaderController',
-    ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
+    'HeaderController', ['$rootScope', '$scope', 'FeedService', 'app', Controllers.HeaderController]
 );
 
 NewsFeed.controller(
-    'PageController',
-    ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
+    'PageController', ['$rootScope', '$scope', 'FeedService', '$route', '$routeParams', '$location', '$sce', 'app', Controllers.PageController]
 );
 
 NewsFeed.controller(
-    'FeedListController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.FeedListController]
+    'FeedListController', ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.FeedListController]
 );
 
 NewsFeed.controller(
-    'HomeController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.HomeController]
+    'HomeController', ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.HomeController]
 );
 
 NewsFeed.controller(
-    'PostsController',
-    ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
+    'PostsController', ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', Controllers.PostsController]
 );
 
 /*
@@ -152,7 +147,7 @@ NewsFeed.directive('toast', ['$rootScope', 'app', Directives.toast]);
  */
 
 //run
-NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app){
+NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app) {
     MetaTags.initialize();
 
     var feedConfig = app.env;
@@ -166,13 +161,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.browserHeight = document.documentElement.clientWidth;
     // $rootScope.toastHide= false;
 
-    if(location.pathname === '/articles'){
+    if (location.pathname === '/articles') {
         $rootScope.adsEnabled = false;
-    }else{
+    } else {
         $rootScope.adsEnabled = true;
     }
 
-    if(location.href.indexOf('local.') > -1){
+    if (location.href.indexOf('local.') > -1) {
         $rootScope.displayAds = false;
     }
     $rootScope.displayAds = true;
@@ -181,55 +176,99 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         if (!localStorage.getItem('post_offset') || localStorage.getItem('post_offset') === 'null' || localStorage.getItem('post_offset') === 'undefined') {
             localStorage.setItem('post_offset', 0);
         }
-    }catch(e){
+    } catch (e) {
 
     }
 
-    $rootScope.isHome = function(){
+    $rootScope.isHome = function() {
         return location.pathname === '/';
     };
 
-    $rootScope.readMore = function($el){
+    $rootScope.readMore = function($el) {
         var openHeight = 'auto';
         var closedHeight = null;
-        if(!angular.element('.ad-post-companion + p').hasClass('reading')){
+        if (!angular.element('.ad-post-companion + p').hasClass('reading')) {
             closedHeight = angular.element('.ad-post-companion + p').css('height');
             angular.element('.ad-post-companion + p').addClass('reading');
-            angular.element('.ad-post-companion + p').css({'height': openHeight});
+            angular.element('.ad-post-companion + p').css({
+                'height': openHeight
+            });
             angular.element($el.currentTarget).remove();
         }
     };
 
-    $rootScope._isMobile = function(){
+    $rootScope._isMobile = function() {
         var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
 
-        if ( mobileUAStr.test(navigator.userAgent) ){
+        if (mobileUAStr.test(navigator.userAgent)) {
             return true;
-        }else if( desktopUAStr.test(navigator.userAgent) ){
+        } else if (desktopUAStr.test(navigator.userAgent)) {
             return false;
-        }else{
+        } else {
             return true;
         }
     };
 
-    $rootScope.getAppPath = function(){
+    $rootScope.getAppPath = function() {
         return appName + '/';
     };
 
-    $rootScope.isMobile = function(){
+    $rootScope.ABtesting = function() {
+        var btnColor;
+        var button_color_experiment = new AlephBet.Experiment({
+            name: 'button color', // the name of this experiment; required.
+            variants: { // variants for this experiment; required.
+                blue: {
+                    activate: function() { // activate function to execute if variant is selected
+                        $('.navbar-btn').addClass('navbar-btn-blue');
+                        btnColor = 'blue';
+                    }
+                },
+                grey: {
+                    activate: function() {
+                        $('.navbar-btn').addClass('navbar-btn-grey');
+                        btnColor = 'grey';
+                    }
+                }
+            },
+        });
+
+
+        // creating a goal
+        var button_clicked_goal = new AlephBet.Goal('button clicked');
+        if (btnColor == 'grey') {
+            ga('send', 'event', 'grey-btn', 'viewed', 'Goal Complete red');
+        } else {
+            ga('send', 'event', 'blue-btn', 'viewed', 'Goal Complete red');
+        }
+        // adding experiment to the goal
+        button_clicked_goal.add_experiment(button_color_experiment);
+
+        // alternatively - add the goal to the experiment
+        button_color_experiment.add_goal(button_clicked_goal);
+
+        // tracking non-unique goals, e.g. page views
+        var page_views = new AlephBet.Goal('page view', {
+            unique: false
+        });
+    };
+
+    $rootScope.ABtesting();
+
+    $rootScope.isMobile = function() {
         var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
         var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
         var result = null;
 
-        if ( mobileUAStr.test(navigator.userAgent) ){
+        if (mobileUAStr.test(navigator.userAgent)) {
             result = mobileUAStr.exec(navigator.userAgent);
             var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
-            return ios + 'mobile ' + result[0].toLowerCase().replace(' ','-');
-        }else if( desktopUAStr.test(navigator.userAgent) ){
+            return ios + 'mobile ' + result[0].toLowerCase().replace(' ', '-');
+        } else if (desktopUAStr.test(navigator.userAgent)) {
             result = desktopUAStr.exec(navigator.userAgent);
-            return 'desktop ' + result[0].toLowerCase().replace(' ','-');
-        }else{
+            return 'desktop ' + result[0].toLowerCase().replace(' ', '-');
+        } else {
             return 'unknown';
         }
     };
@@ -237,8 +276,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.gaID = appConfig.ga;
     $rootScope.app = appConfig;
 
-    $rootScope.getOrientation = function(){
-        if(!$rootScope.orientation){
+    $rootScope.getOrientation = function() {
+        if (!$rootScope.orientation) {
             $rootScope.orientation = (window.outerWidth > window.outerHeight) ? 'landscape' : 'portrait';
         }
         return $rootScope.orientation;
@@ -247,7 +286,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     angular.element('body').addClass($rootScope.isMobile());
     angular.element('body').addClass($rootScope.getOrientation());
     angular.element('body').addClass($rootScope.app.name);
-    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name +'.css">');
+    angular.element('head').append('<link rel="stylesheet" type="text/css" href="/css/site/' + $rootScope.app.name + '.css">');
 
     //$rootScope.lastIndex = 0;
 
@@ -257,7 +296,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return txt.value;
     };
 
-    $rootScope.voteLoad = function(postID, index){
+    $rootScope.voteLoad = function(postID, index) {
         var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
         var votedHistory = null;
 
@@ -266,10 +305,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
 
                 votedHistory = JSON.parse(localStorage.getItem('user_voted'));
-                angular.forEach(votedHistory, function (item, index) {
+                angular.forEach(votedHistory, function(item, index) {
                     if (item.postID === postID) {
                         var userVoted = item.voted;
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var votedOn = angular.element('.view-container').find('#votes-' + item.postID).find('button');
                             votedOn.parent().find('button[name="' + userVoted + '"]').addClass('voted');
                             votedOn.attr('disabled', 'disabled');
@@ -278,13 +317,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
                     }
                 });
             }
-        }catch(e){
+        } catch (e) {
 
 
         }
     };
 
-    $rootScope.vote = function(postID, vote, $event){
+    $rootScope.vote = function(postID, vote, $event) {
 
         //@ltDr1v3r!
         try {
@@ -305,10 +344,16 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             var userLS = null;
             if (votedHistory) {
                 var items = JSON.parse(localStorage.getItem('user_voted'));
-                items.push({postID: postID, voted: upOrDown});
+                items.push({
+                    postID: postID,
+                    voted: upOrDown
+                });
                 userLS = JSON.stringify(items);
             } else {
-                ls.push({postID: postID, voted: upOrDown});
+                ls.push({
+                    postID: postID,
+                    voted: upOrDown
+                });
                 userLS = JSON.stringify(ls);
             }
             localStorage.setItem('user_voted', userLS);
@@ -331,136 +376,145 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             } else {
                 voteButton.closest('.post-actions').find('.pointsTxt').text('points');
             }
-        }catch(e) {
+        } catch (e) {
             console.debug(e);
         }
     };
 
-    $rootScope.commentBtnHandler = function($event, $index, urlParams){
-        if($routeParams === urlParams){
+    $rootScope.commentBtnHandler = function($event, $index, urlParams) {
+        if ($routeParams === urlParams) {
             $rootScope.$broadcast('toggleComments');
-        }else{
-            angular.module('NewsFeed').trackEvent('postactions:comments','click',urlParams.slug,1,null);
+        } else {
+            angular.module('NewsFeed').trackEvent('postactions:comments', 'click', urlParams.slug, 1, null);
             urlParams.slug = urlParams.slug + '#comment';
             $rootScope.goToPage($event, $index, urlParams);
         }
     };
 
-    $rootScope.goToPage = function($event, $index, linkParams){
+    $rootScope.goToPage = function($event, $index, linkParams) {
         $event.preventDefault();
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
-        if(Number(postOffset) === 0){
+        if (Number(postOffset) === 0) {
             //postOffset = 1;
         }
         try {
             localStorage.setItem('post_offset', postOffset);
-        }catch(e) {
+        } catch (e) {
             console.debug(e);
         }
         window.location.href = page;
     };
 
-    $rootScope.goToCategory = function(category){
+    $rootScope.goToCategory = function(category) {
         //$scope.collapseNav();
         angular.module('NewsFeed').trackEvent('navigation.category', 'click', category, 1, null);
         window.location.href = '/' + category;
     };
 
-    $rootScope.getSMSLink = function(link){
-        return $rootScope.isMobile().indexOf('ios') > -1 ? 'sms:&body='+link : 'sms:?body='+link;
+    $rootScope.getSMSLink = function(link) {
+        return $rootScope.isMobile().indexOf('ios') > -1 ? 'sms:&body=' + link : 'sms:?body=' + link;
     };
 
-    $rootScope.getTrusted = function(val){
+    $rootScope.getTrusted = function(val) {
         return $sce.trustAsHtml(val);
     };
 
-    $rootScope.search = function(){
+    $rootScope.search = function() {
         window.location.href = '/search/' + encodeURIComponent(angular.element('input[name="s"]').val());
     };
 
-    if(/mobile/i.test($rootScope.isMobile())){
-        window.addEventListener('resize',function(e){
+    if (/mobile/i.test($rootScope.isMobile())) {
+        window.addEventListener('resize', function(e) {
             $rootScope.orientation = (e.currentTarget.outerWidth > e.currentTarget.outerHeight) ? 'landscape' : 'portrait';
             angular.element('body').removeClass('landscape portrait').addClass($rootScope.orientation);
         }, false);
     }
 
-    $rootScope.shareItemClick = function($event, slug){
-        angular.module('NewsFeed').trackEvent('postactions:share:' + angular.element($event.currentTarget).attr('class'),'click',slug,1,null);
+    $rootScope.shareItemClick = function($event, slug) {
+        angular.module('NewsFeed').trackEvent('postactions:share:' + angular.element($event.currentTarget).attr('class'), 'click', slug, 1, null);
     };
 
-    $rootScope.shareClick = function($event, slug, $index){
-        angular.element('.share-icon-wrapper').not(':eq('+$index+')').removeClass('ng-hide').addClass('ng-hide');
+    $rootScope.shareClick = function($event, slug, $index) {
+        angular.element('.share-icon-wrapper').not(':eq(' + $index + ')').removeClass('ng-hide').addClass('ng-hide');
         var shareBtn = angular.element($event.currentTarget).parent().parent().next();
-        if(shareBtn.hasClass('ng-hide')){
+        if (shareBtn.hasClass('ng-hide')) {
 
             shareBtn.removeClass('ng-hide');
-            angular.module('NewsFeed').trackEvent('postactions:share:open','click',slug,1,null);
-        }else{
+            angular.module('NewsFeed').trackEvent('postactions:share:open', 'click', slug, 1, null);
+        } else {
             shareBtn.addClass('ng-hide');
-            angular.module('NewsFeed').trackEvent('postactions:share:close','click',slug,1,null);
+            angular.module('NewsFeed').trackEvent('postactions:share:close', 'click', slug, 1, null);
         }
 
         var shareTop = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height() + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top;
-        if( shareTop > (window.innerHeight+window.scrollY)){
+        if (shareTop > (window.innerHeight + window.scrollY)) {
             var diff = angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').offset().top - window.innerHeight;
-            var s = window.scrollY + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height()+10;
-            window.scrollTo(0,s);
+            var s = window.scrollY + angular.element($event.currentTarget.closest('.post-actions')).find('.flexshare').height() + 10;
+            window.scrollTo(0, s);
         }
     };
 
-    $rootScope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
+    $rootScope.trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject) {
         angular.module('NewsFeed').trackEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
     };
 
-    $rootScope.getFeaturedThumbnail = function(img, attr){
-        var attrs = {'src': 0, 'width': 1, 'height': 2};
+    $rootScope.getFeaturedThumbnail = function(img, attr) {
+        var attrs = {
+            'src': 0,
+            'width': 1,
+            'height': 2
+        };
 
-        if(img.thumbnail[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
-            img.thumbnail[0] = img.thumbnail[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        if (img.thumbnail[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1) {
+            img.thumbnail[0] = img.thumbnail[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver', 'http://media.altdriver.com');
         }
 
         return img.thumbnail[attrs[attr]];
     };
 
-    $rootScope.getFeaturedImage = function(img, attr){
-        var attrs = {'src': 0, 'width': 1, 'height': 2};
-        if(img.original[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
-            img.original[0] = img.original[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+    $rootScope.getFeaturedImage = function(img, attr) {
+        var attrs = {
+            'src': 0,
+            'width': 1,
+            'height': 2
+        };
+        if (img.original[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1) {
+            img.original[0] = img.original[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver', 'http://media.altdriver.com');
         }
-        if(img.medium[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
-            img.medium[0] = img.medium[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
-        }
-
-        if(img.original[0].indexOf('http://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
-            img.original[0] = img.original[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
-        }
-        if(img.medium[0].indexOf('http://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
-            img.medium[0] = img.medium[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        if (img.medium[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1) {
+            img.medium[0] = img.medium[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver', 'http://media.altdriver.com');
         }
 
+        if (img.original[0].indexOf('http://s3-us-west-2.amazonaws.com/assets.altdriver') > -1) {
+            img.original[0] = img.original[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver', 'http://media.altdriver.com');
+        }
+        if (img.medium[0].indexOf('http://s3-us-west-2.amazonaws.com/assets.altdriver') > -1) {
+            img.medium[0] = img.medium[0].replace('http://s3-us-west-2.amazonaws.com/assets.altdriver', 'http://media.altdriver.com');
+        }
 
 
-        if(/ios/i.test($rootScope.isMobile())){
+
+        if (/ios/i.test($rootScope.isMobile())) {
             return img.medium[attrs[attr]];
-        }
-        else if(/mobile/i.test($rootScope.isMobile())){
+        } else if (/mobile/i.test($rootScope.isMobile())) {
             return img.medium[attrs[attr]];
-        }
-        else if(/desktop/i.test($rootScope.isMobile())){
+        } else if (/desktop/i.test($rootScope.isMobile())) {
             return img.original[attrs[attr]];
         }
     };
 
-    $rootScope.getAppInfo = function(param){
+    $rootScope.getAppInfo = function(param) {
         return appConfig[param];
     };
 
-    $rootScope.setTargeting = function(key, value, init){
-        var obj = { 'key': key, 'value': value };
+    $rootScope.setTargeting = function(key, value, init) {
+        var obj = {
+            'key': key,
+            'value': value
+        };
         $rootScope.adKeyPairs.push(obj);
-        if(init) $rootScope.initAds();
+        if (init) $rootScope.initAds();
     };
 
     /*$rootScope.initSidebarAd = function(placementIndex){
@@ -483,15 +537,15 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             gads.type = 'text/javascript';
             var useSSL = 'https:' === document.location.protocol;
             gads.src = (useSSL ? 'https:' : 'http:') +
-            '//www.googletagservices.com/tag/js/gpt.js';
+                '//www.googletagservices.com/tag/js/gpt.js';
             var node = document.getElementsByTagName('script')[0];
             node.parentNode.insertBefore(gads, node);
         })();
     };
 
-    $rootScope.initAds = function(){
+    $rootScope.initAds = function() {
         console.log('initAds');
-        if(location.pathname === '/adtest'){
+        if (location.pathname === '/adtest') {
             $rootScope.testAds();
             return;
         }
@@ -506,11 +560,11 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
-            if($rootScope.adKeyPairs.length > 0){
+            if ($rootScope.adKeyPairs.length > 0) {
                 var totalTargets = $rootScope.adKeyPairs.length;
-                for(var i=0;i<totalTargets;i++){
-                    console.log($rootScope.adKeyPairs[i].key,$rootScope.adKeyPairs[i].value);
-                    window.googletag.pubads().setTargeting($rootScope.adKeyPairs[i].key,$rootScope.adKeyPairs[i].value);
+                for (var i = 0; i < totalTargets; i++) {
+                    console.log($rootScope.adKeyPairs[i].key, $rootScope.adKeyPairs[i].value);
+                    window.googletag.pubads().setTargeting($rootScope.adKeyPairs[i].key, $rootScope.adKeyPairs[i].value);
                 }
             }
         });
@@ -533,7 +587,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return null;
     };
 
-    $rootScope.testAds = function(){
+    $rootScope.testAds = function() {
         window.googletag = window.googletag || {};
         window.googletag.cmd = window.googletag.cmd || [];
         (function() {
@@ -542,7 +596,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             gads.type = 'text/javascript';
             var useSSL = 'https:' === document.location.protocol;
             gads.src = (useSSL ? 'https:' : 'http:') +
-            '//www.googletagservices.com/tag/js/gpt.js';
+                '//www.googletagservices.com/tag/js/gpt.js';
             var node = document.getElementsByTagName('script')[0];
             node.parentNode.insertBefore(gads, node);
         })();
@@ -555,15 +609,15 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             window.googletag.pubads().collapseEmptyDivs();
             window.googletag.enableServices();
 
-            if($rootScope.getQueryParamValue('campaign') !== null){
-                if($rootScope.getQueryParamValue('campaign').length > 0){
-                    window.googletag.pubads().setTargeting('campaign',$rootScope.getQueryParamValue('campaign'));
-                }else{
-                    window.googletag.pubads().setTargeting('campaign','testing');
+            if ($rootScope.getQueryParamValue('campaign') !== null) {
+                if ($rootScope.getQueryParamValue('campaign').length > 0) {
+                    window.googletag.pubads().setTargeting('campaign', $rootScope.getQueryParamValue('campaign'));
+                } else {
+                    window.googletag.pubads().setTargeting('campaign', 'testing');
                 }
 
-            }else{
-                window.googletag.pubads().setTargeting('campaign','testing');
+            } else {
+                window.googletag.pubads().setTargeting('campaign', 'testing');
             }
         });
 
