@@ -350,9 +350,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         $event.preventDefault();
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
-        if(Number(postOffset) === 0){
-            //postOffset = 1;
-        }
+        //postOffset = Number(postOffset) + 1;
         try {
             localStorage.setItem('post_offset', postOffset);
         }catch(e) {

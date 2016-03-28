@@ -308,6 +308,23 @@ router.get('/api/heros/:perPage/:page/:skip', apicache('45 minutes'), function(r
     });
 });
 
+
+/*
+ Feed Raw Query Items
+ */
+router.get('/api/articles/:type', function(req,res){
+    var data = PostController.articles(req, req.params.type, parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.format);
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.json(result);
+        }
+    });
+});
+
+
 router.get('/update/:restParent/:restBase/:postId', function(req,res){
     console.log('got update request');
     if(req.headers.hasOwnProperty('secret')){
