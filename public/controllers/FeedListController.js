@@ -65,7 +65,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     try {
         if (localStorage.getItem('post_offset') === "NaN") {
-            localStorage.setItem('post_offset', '1');
+            localStorage.setItem('post_offset', '0');
         }
         $scope.postIndex = 0 || Number(localStorage.getItem('post_offset'));
         if (Number(localStorage.getItem('post_offset')) > 0) {
@@ -687,7 +687,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         }
 
                         if ($scope.currentView === 'category') {
-                            $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
+                            $scope.getDBCategoryPosts($scope.currentCategory, $scope.postsPerPage, $scope.paged, parseInt($scope.postIndex)).then(
                                 function(data) { //success
                                     if (data.length > 0) {
                                         $scope.mapPosts(data);
@@ -790,7 +790,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         window.addEventListener('scroll', $scope.onScroll);
 
         angular.forEach(posts, function(item, index) {
-            if (item.type === 'post-list') {
+            if (item.type === 'post-list' || item.type === 'animated-gif' || item.type === 'partner-post') {
                 item.post_index = $scope.postIndex;
                 $scope.postIndex++;
             }
@@ -1011,7 +1011,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             angular.forEach(postmap, function(item, index) {
                 if (typeof item !== 'undefined') {
-                    if (item.type === 'post-list') {
+                    if (item.type === 'post-list' || item.type === 'animated-gif' || item.type === 'partner-post') {
                         item.post_index = $scope.postIndex;
                         $scope.postIndex++;
                     }
@@ -1057,8 +1057,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if (item.type === 'animated-gif') item.format = 'animated-gif';
             if (item.type !== 'partner-post') item.type = 'post-single';
 
-            item.post_index = $scope.postIndex;
-            //$scope.postIndex++;
+            item.post_index = Number(localStorage.getItem('post_offset'));
+            $scope.postIndex = item.post_index;
 
             $scope.createFeedItem(item, $scope.feedItems.length);
 
@@ -1067,7 +1067,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             var skip = null;
             try {
-                skip = Number(localStorage.getItem('post_offset'));
+                skip = $scope.postIndex;
             } catch (e) {
                 skip = 0;
             }

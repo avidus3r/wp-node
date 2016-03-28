@@ -134,7 +134,6 @@ var PostsController = {
     heroItems: function(req, numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
         var appName = process.env.appname;
-        console.log(req.originalUrl);
         var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
         if(!this._isMobile(req.headers['user-agent'])){
@@ -146,12 +145,26 @@ var PostsController = {
                 }
             });
         }
-            if(skip === 0){
-                query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
-            }else{
-                query.$where('this.type === "post" && this.type !== "animated-gif"');
-            }
+        query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
+        return query.exec();
+    },
+
+    articles: function(req, type, numberOfPosts, pageNumber, skip, format){
+        var skipItems = Number(skip);
+
+        var query = Post.find({'type':type, 'format':format}).skip(skipItems).limit(numberOfPosts).sort({'date':-1});
+        query.$where(query);
+        if(!this._isMobile(req.headers['user-agent'])){
+            query.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else{
+                    return this;
+                }
+            });
+        }
+        //query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
     },

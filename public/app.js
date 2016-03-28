@@ -261,6 +261,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
         var result = null;
 
+
         if (mobileUAStr.test(navigator.userAgent)) {
             result = mobileUAStr.exec(navigator.userAgent);
             var ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios ' : '';
@@ -395,9 +396,13 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         $event.preventDefault();
         var page = typeof linkParams === 'object' ? '/' + linkParams.category + '/' + linkParams.slug + '/' : linkParams;
         var postOffset = angular.element($event.currentTarget).closest('.feed-item').data('post-index');
+<<<<<<< HEAD
         if (Number(postOffset) === 0) {
             //postOffset = 1;
         }
+=======
+        //postOffset = Number(postOffset) + 1;
+>>>>>>> 5149fcf7cfd16275789b78f93fea77070b8fcad8
         try {
             localStorage.setItem('post_offset', postOffset);
         } catch (e) {
