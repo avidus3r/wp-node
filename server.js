@@ -1349,6 +1349,8 @@ app.get('*', function(req,res, next){
  create server
  */
 http.createServer(app).listen(app.get('port'), function(){
-    snsSubscribe();
+    if(process.env.NODE_ENV !== 'local'){
+        snsSubscribe();
+    }
     console.log('app listening on port ' + app.get('port'));
 });
