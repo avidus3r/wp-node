@@ -72,7 +72,7 @@ var toast = function() {
         link: function(scope, el, attrs, ctrl, transclude) {
             var content = transclude();
             content = content[1];
-            console.log(content);
+            //console.log(content);
             if(transclude().length > 1 && content.indexOf('<!--') <= -1) {
                 angular.element(document.getElementById('toastWrapper')).empty();
                 angular.element(document.getElementById('toastWrapper')).html(content);
