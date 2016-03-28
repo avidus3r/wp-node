@@ -183,9 +183,9 @@ function snsSubscribe(){
     });
 }
 
-
-setInterval(initQueue, 60000);
-
+if(process.env.NODE_ENV !== 'local'){
+    setInterval(initQueue, 60000);
+}
 
 function initQueue(){
     console.log('initQueue');
