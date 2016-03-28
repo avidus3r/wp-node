@@ -187,16 +187,11 @@
   border: 1px solid #ddd !important;
 }
 
-<<<<<<< HEAD
 .navbar-btn-grey {
   display: block !important;
   background: transparent !important;
   border: 1px solid #ddd !important;
   color: #333 !important;
-=======
-  // temp hide button
-  display: none !important;
->>>>>>> 5149fcf7cfd16275789b78f93fea77070b8fcad8
 }
 
 // navigation submit button wide view
@@ -209,4 +204,7 @@
   .nav-submit {
       display: none;
   }
+}
+body.homehero .btn-submit-story {
+  display: none !important;
 }
