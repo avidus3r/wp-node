@@ -53,6 +53,7 @@ app.set('port', process.env.PORT || 3000);
 
 
 function getSQSQueue(prefix){
+    console.log('getSQSQueue');
     var AWS = require('aws-sdk');
     AWS.config.update({region:'us-east-1'});
     var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
@@ -79,7 +80,7 @@ function getSQSQueue(prefix){
 }
 
 function execQueue(queueData, message){
-
+    console.log('execQueue');
     var deferred = new Promise(function(fulfill, reject){
 
         var result = null;
@@ -183,8 +184,11 @@ function snsSubscribe(){
 }
 
 
-function initQueue(){
+setInterval(initQueue, 60000);
 
+
+function initQueue(){
+    console.log('initQueue');
     var queuePrefix = 'wp-exec';
     var queue = getSQSQueue(queuePrefix);
 
@@ -192,7 +196,10 @@ function initQueue(){
 
         var messages = queueData.data.Messages[0];
 
-        if(messages.length === 0) res.stats(200).send("queue is empty");
+        if(messages.length === 0){
+            console.log('queue is empty');
+            return;
+        }
 
         var body = queueData.data.Messages[0].Body;
         var pairs = body.split('&');

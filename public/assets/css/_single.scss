@@ -173,7 +173,7 @@
 
 // when you click the .post-txt-more link toggle the overflow on .expandable-text to visible and the height to auto
 
-.post-txt-more {
+.post-txt-more, div.read-more {
   position: absolute;
   bottom: 0em;
   padding-top: 19px;
@@ -182,11 +182,15 @@
   text-align: center;
   font-size: 12px;
   background: white;
-  color: lighten($color-ad-blue, 20%);
+  color: lighten($color-ad-blue, 20%) !important;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+99&0+1,1+59 */
   background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 1%, rgba(255,255,255,1) 59%, rgba(255,255,255,1) 99%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 1%,rgba(255,255,255,1) 59%,rgba(255,255,255,1) 99%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 1%,rgba(255,255,255,1) 59%,rgba(255,255,255,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+div.read-more a{
+  color: lighten($color-ad-blue, 20%) !important;
 }
 
 .post-content {

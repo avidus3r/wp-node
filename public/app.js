@@ -414,6 +414,16 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         angular.module('NewsFeed').trackEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
     };
 
+    $rootScope.getFeaturedThumbnail = function(img, attr){
+        var attrs = {'src': 0, 'width': 1, 'height': 2};
+
+        if(img.thumbnail[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
+            img.thumbnail[0] = img.thumbnail[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver','http://media.altdriver.com');
+        }
+
+        return img.thumbnail[attrs[attr]];
+    };
+
     $rootScope.getFeaturedImage = function(img, attr){
         var attrs = {'src': 0, 'width': 1, 'height': 2};
         if(img.original[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1){
