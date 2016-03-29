@@ -139,3 +139,27 @@ html, body{
 }
 
 // #################### End Nav Stuffs
+
+
+// ########### New Desktopification CSS
+// two columns in nav
+@media all and (max-width: 669px) {
+  .desktop .navbar .nav > li {
+    width: auto;
+  }
+}
+
+
+@media all and (min-width: 670px ) and (max-width:1800px) {
+  // 4 columns nav
+  .desktop .navbar .nav > li {
+    width:  auto;
+  }
+}
+
+@media all and (min-width: 1801px ) {
+  // 4 columns nav
+  .desktop .navbar .nav > li {
+    width: auto;
+  }
+}
