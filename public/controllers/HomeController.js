@@ -652,7 +652,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
                     cat = category;
                 }
             }
-            if (permalink.indexOf(category.slug) > -1) {
+            if (permalink.indexOf(category.slug) > -1 || permalink.indexOf('partner-post') > -1) {
                 cat = category;
             }
         });

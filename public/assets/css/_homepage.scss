@@ -259,6 +259,18 @@ body.mobile.homehero .app-main{
   }
 }
 
+body.homehero .latestposts{
+  .featured-image-thumbnail{
+    margin-top: 0;
+    width: 35%;
+    height: auto;
+  }
+
+  .post-content > p .read-more{
+    display:none;
+  }
+}
+
 .mega-footer .header-search-txt{
 
   min-width: 236px;

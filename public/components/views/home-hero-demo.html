@@ -103,12 +103,13 @@
     <!--  ################-->
     <div class="latestposts">
 
-        <div ng-repeat="item in feedItemElements track by $index" ng-init="item.category = item.type === 'post-list' ? item.category : [{ 'name': item.type, 'slug': item.type }]" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }} format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+        <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }} format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
 
 
             <div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
+                    <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
                     <p ng-bind-html="item.excerpt.rendered"></p>
                     <h2 class="post-title">
                         <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
@@ -122,8 +123,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div ng-if="item.type ==='post-list' || (item.type === 'partner-post' && item.format === 'video')" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
