@@ -103,7 +103,7 @@
     <!--  ################-->
     <div class="latestposts">
 
-        <div ng-repeat="item in feedItemElements track by $index" ng-init="item.category = item.type === 'post-list' ? item.category : { 'name': item.type, 'slug': item.type }" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }} format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+        <div ng-repeat="item in feedItemElements track by $index" ng-init="item.category = item.type === 'post-list' ? item.category : [{ 'name': item.type, 'slug': item.type }]" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }} format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
 
 
