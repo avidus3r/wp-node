@@ -317,7 +317,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             return data;
                         },
                         function(error){
-                            //location.href = '/trending/latest';
+                            location.href = '/trending/latest';
                             return 'error';
                         }
                     );
