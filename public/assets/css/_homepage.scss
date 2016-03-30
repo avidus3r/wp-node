@@ -95,20 +95,6 @@
   }
 }
 
-.homehero.desktop {
-    //  change the nav to fit advert widths on DT only
-    .container-fluid {
-      padding-right: 15px;
-      max-width: 1006px;
-    }
-    .app-main {
-      float: none;
-      width: 90%;
-      max-width: 974px;
-      margin: 1em auto;
-    }
-}
-
 @media all and (min-width: 1000px) {
   /* restyle homepage-carousel titles */
   .homepage-carousel .card h2.post-title,

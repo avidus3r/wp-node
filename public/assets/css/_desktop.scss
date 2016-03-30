@@ -75,6 +75,20 @@ html, body{
    }
 }
 
+.desktop {
+  //  change the nav to fit advert widths on DT only
+  .container-fluid {
+    padding-right: 15px;
+    max-width: 1006px;
+  }
+  .app-main {
+    float: none;
+    width: 90%;
+    max-width: 974px;
+    margin: 1em auto;
+  }
+}
+
 
 // ################# navigation stuff
 // HACKITY HACK HACK
@@ -96,7 +110,7 @@ html, body{
   }
 
   // hackity hack hide when nav changes
-  @media all and (min-width: $nav-switch + 1px) {
+  @media all and (min-width: $nav-switch) {
     .hidden-md-altd {
       display: none !important;
     }
@@ -142,18 +156,22 @@ html, body{
 
 
 // ########### New Desktopification CSS
-// two columns in nav
-@media all and (max-width: 669px) {
-  .desktop .navbar .nav > li {
-    width: auto;
-  }
-}
 
-
-@media all and (min-width: 670px ) and (max-width:1800px) {
+@media all and (min-width: $nav-switch ) {
   // 4 columns nav
   .desktop .navbar .nav > li {
-    width:  auto;
+    width:  auto !important;
+  }
+  .desktop .navbar .nav > li.legal {
+    display: none !important;
+  }
+
+  .desktop .navbar .nav .search {
+    display: none;
+  }
+
+  .desktop .btn-submit-story { // temp hide primary action button
+    display: none !important;
   }
 }
 
