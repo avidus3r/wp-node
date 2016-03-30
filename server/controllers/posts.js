@@ -172,7 +172,7 @@ var PostsController = {
     },
 
     trending: function(req, query, numberOfPosts, pageNumber, skip){
-    
+
         var skipItems = Number(skip);
         var appName = process.env.appname;
 
@@ -196,9 +196,9 @@ var PostsController = {
                     var yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
 
-                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main' } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
-                    //q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'facebook_rundate':{$gte:yesterday} } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
-                    q.$where('this.postmeta.run_dates_0_run_time >= ' + yesterday.getTime()/1000);
+                    //q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main' } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    q = Post.find({'postmeta.run_dates_0_channel':'Facebook Main', 'facebook_rundate':{$gte:yesterday} } ).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1});
+                    //q.$where('this.postmeta.run_dates_0_run_time >= ' + yesterday.getTime()/1000);
                     break;
                 case 'latest':
                     q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
