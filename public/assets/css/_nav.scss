@@ -169,15 +169,29 @@
 
 // submit story button
 .btn-submit-story {
+    // temp hide button
+  display: none !important;
   @extend .ad-m-r;
   float: right;
   cursor: pointer;
-  background: #EB423C !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  // background: #EB423C !important;
   color: #fff !important;
   text-transform: uppercase;
+}
 
-  // temp hide button
-  display: none !important;
+.navbar-btn-blue {
+  display: block !important;
+  background: $color-ad-blue !important;
+  border: 1px solid #ddd !important;
+}
+
+.navbar-btn-grey {
+  display: block !important;
+  background: transparent !important;
+  border: 1px solid #ddd !important;
+  color: #333 !important;
 }
 
 // navigation submit button wide view
@@ -190,4 +204,7 @@
   .nav-submit {
       display: none;
   }
+}
+body.homehero .btn-submit-story {
+  display: none !important;
 }
