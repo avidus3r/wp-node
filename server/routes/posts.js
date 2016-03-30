@@ -313,7 +313,7 @@ router.get('/api/heros/:perPage/:page/:skip', apicache('45 minutes'), function(r
  Feed Raw Query Items
  */
 router.get('/api/articles/:type', function(req,res){
-    var data = PostController.articles(req, req.params.type, parseInt(req.params.perPage),req.params.page, req.params.skip, req.params.format);
+    var data = PostController.articles(req, req.params.type, Number(req.query.perPage), Number(req.query.page), Number(req.query.skip), req.query.format);
     data.then(function(result){
         if(result.length === 0){
             res.sendStatus(404);

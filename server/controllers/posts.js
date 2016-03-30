@@ -154,7 +154,7 @@ var PostsController = {
         var skipItems = Number(skip);
 
         var query = Post.find({'type':type, 'format':format}).skip(skipItems).limit(numberOfPosts).sort({'date':-1});
-        query.$where(query);
+
         if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){

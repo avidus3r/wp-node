@@ -86,6 +86,50 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
+    feed.getSidekick = function(sidekickConfig){
+        var deferred = $q.defer();
+        var mixinType = sidekickConfig.mixin.type;
+        var mixinItemsCount = sidekickConfig.mixin.count;
+        var mixinFormat = sidekickConfig.mixin.format;
+        var mixinOffset = sidekickConfig.mixin.offset;
+
+        var sidekickOffset = sidekickConfig.offset;
+        var sidekickDefaultType = sidekickConfig.defaultType;
+        var sidekickDefaultFormat = sidekickConfig.defaultFormat;
+        var sidekickTotal = sidekickConfig.totalItems;
+        var sidekickCount = null;
+
+        var mixinUrl = '/api/articles/' + mixinType + '?perPage=' + mixinItemsCount + '&page=1&skip=' + mixinOffset + '&format=' + mixinFormat;
+        var mixinData = feed.get(mixinUrl, 'get');
+
+        var sidekicks = [];
+
+        mixinData.then(function(res){
+            var mixinActualCount = res.length;
+            for(var i=0;i<mixinActualCount;i++){
+                sidekicks.push(res[i]);
+            }
+            sidekickCount = sidekickTotal-mixinActualCount;
+            var url = '';
+            if(sidekickDefaultType === 'post'){
+                url = '/api/posts/' + sidekickCount + '/1/' + sidekickOffset;
+            }else{
+                url = '/api/articles/' + sidekickDefaultType + '?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset + '&format=' + mixinFormat;
+            }
+
+            var data = feed.get(url, 'get');
+
+            data.then(function(result){
+                for(var i=0;i<result.length;i++){
+                    sidekicks.push(result[i]);
+                    deferred.resolve(sidekicks);
+                }
+            });
+        });
+
+        return deferred.promise;
+    };
+
     feed.getDBPost = function(category, slug){
         var url = '/api/'+ slug;
         console.log(category, slug);

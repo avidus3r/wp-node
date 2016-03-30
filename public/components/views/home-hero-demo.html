@@ -103,9 +103,29 @@
     <!--  ################-->
     <div class="latestposts">
 
-        <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+        <div ng-repeat="item in feedItemElements track by $index" ng-init="item.category = item.type === 'post-list' ? item.category : { 'name': item.type, 'slug': item.type }" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }} format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
-            <div class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
+
+
+            <div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
+                <div class="post-content feed-view post-view feed ">
+                    <p ng-bind-html="item.excerpt.rendered"></p>
+                    <h2 class="post-title">
+                        <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+                    </h2>
+
+                    <div class="author-meta">
+                        <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                        <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div ng-if="item.type ==='post-list' || (item.type === 'partner-post' && item.format === 'video')" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
                     <p>
                         <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
@@ -125,6 +145,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
 
         <!--  insert another advert -->

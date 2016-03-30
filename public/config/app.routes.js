@@ -22,6 +22,19 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
+                    var sidekickConfig = {
+                        totalItems:5,
+                        defaultType: 'post',
+                        defaultFormat: 'video',
+                        offset:4,
+                        mixin: {
+                            type: 'partner-post',
+                            count: 4,
+                            format: 'standard',
+                            offset: 0
+                        }
+                    };
+
                     document.title = appConfig.title;
 
                     /*if(Number(appSponsors) > 0){
@@ -61,7 +74,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return 'error';
                             }
                         ),
-                        posts: FeedService.getHeroPosts(5,1,4).then(
+                        posts: FeedService.getSidekick(sidekickConfig).then(
 
                             function(data){
                                 return data;
