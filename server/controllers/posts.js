@@ -112,11 +112,13 @@ var PostsController = {
         return query.exec();
     },
 
-    list: function(req, numberOfPosts, pageNumber, skip){
+    list: function(req, numberOfPosts, pageNumber, skip, notIn){
         var skipItems = Number(skip);
         var appName = process.env.appname;
-        console.log(req.originalUrl);
-        var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
+
+        /*var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main', '_id': { $nin:notIn } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});*/
+
+        var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main' }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
         if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
@@ -170,7 +172,7 @@ var PostsController = {
     },
 
     trending: function(req, query, numberOfPosts, pageNumber, skip){
-
+    
         var skipItems = Number(skip);
         var appName = process.env.appname;
 

@@ -43,7 +43,7 @@ Facebook SDK
     </h2>
 
     <div class="author-meta">
-        <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+        <p class="item-author source-author"><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }}</p>
         <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
 
         <span class="clearfix"></span>
@@ -52,6 +52,9 @@ Facebook SDK
     <a name="comment"></a>
     <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
     <div class="post-content ga-post-content" ng-bind-html="renderContent(item.excerpt.rendered, $index, false)"></div>
+    <div class="pub-name">
+        <p>Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
+    </div>
     <div class="comments" ng-init="attachCommentsHandler()">
         <div class="fb-wrapper" style="width:100%;">
             <div class="fb-comments" id="comments" data-href="{{ item.link }}" data-width="100%" data-numposts="5" data-version="v2.3">Loading comments...</div>

@@ -64,9 +64,21 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
-    feed.getDBPosts = function(numPosts, pageNum, skip){
-        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip || 0;
+    feed.getDBPosts = function(numPosts, pageNum, skip, notIn){
+        skip = skip || 0;
+        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip;
         return feed.get(url, 'get');
+    };
+
+    feed.getHomePosts = function(which, sidekickConfig){
+        var data = null;
+        if(which === 1){
+            //get current index from this
+            data = feed.getHeroPosts(4,1,0);
+        }else {
+            data = feed.getSidekick(sidekickConfig);
+        }
+        return data;
     };
 
     feed.getHeroPosts = function(numPosts, pageNum, skip){

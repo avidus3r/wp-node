@@ -51,7 +51,9 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             }
                         )
                     }*/
-
+                    /*
+                        TODO: homepage items need to be queried correctly (ex. hero gets latest fb rundates but not custom types. That index needs to be carried into the next call for lower posts
+                    */
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {
@@ -65,7 +67,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        heroItems: FeedService.getHeroPosts(4,1,0).then(
+                        heroItems: FeedService.getHomePosts(1, sidekickConfig).then(
 
                             function(data){
                                 return data;
@@ -74,7 +76,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return 'error';
                             }
                         ),
-                        posts: FeedService.getSidekick(sidekickConfig).then(
+                        posts: FeedService.getHomePosts(2, sidekickConfig).then(
 
                             function(data){
                                 return data;
@@ -908,7 +910,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        heroItems: FeedService.getDBPosts(4,1,0).then(
+                        heroItems: FeedService.getDBPosts(4, 1, 0, null).then(
 
                             function(data){
                                 return data;
@@ -917,7 +919,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return 'error';
                             }
                         ),
-                        posts: FeedService.getDBPosts(5,1,4).then(
+                        posts: FeedService.getDBPosts(5, 1, 4, null).then(
 
                             function(data){
                                 return data;
@@ -992,7 +994,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          }
                          ),*/
                         config:null,
-                        posts: FeedService.getDBPosts(4,1,0).then(
+                        posts: FeedService.getDBPosts(4, 1, 0, null).then(
 
                             function(data){
                                 return data;
