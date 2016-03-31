@@ -260,6 +260,12 @@ body.mobile.homehero .app-main{
 }
 
 body.homehero .latestposts{
+  .partner-post-sidekick{
+    cursor: pointer;
+  }
+  .excerpt p{
+    position: relative;
+  }
   .featured-image-thumbnail{
     margin-top: 0;
     width: 35%;

@@ -54,6 +54,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
+    $scope.notIn = null;
 
     $scope.appConfig.displayAds = 'true';
 
@@ -267,11 +268,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return FeedService.getPosts(path, params);
     };
 
-    $scope.getDBPosts = function(perPage, pageNum, skip) {
+    $scope.getDBPosts = function(perPage, pageNum, skip, notIn) {
         if ($location.$$path === '/articles') {
             return FeedService.getArticles(perPage, pageNum, skip);
         } else {
-            return FeedService.getDBPosts(perPage, pageNum, skip);
+            return FeedService.getDBPosts(perPage, pageNum, skip, notIn);
         }
     };
 
@@ -710,7 +711,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             );
                         } else {
 
-                            $scope.getDBPosts($scope.postsPerPage, $scope.paged, Number($scope.postIndex)).then(
+                            $scope.getDBPosts($scope.postsPerPage, $scope.paged, Number($scope.postIndex), $scope.notIn).then(
                                 function(data) { //success
                                     if (data.length > 0) {
                                         $scope.mapPosts(data);
@@ -1033,7 +1034,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
         if ($scope.currentView === 'post') {
             item = $scope.post;
-            console.log('cview is post');
+            var itemId = item._id;
+
             if (item.type === 'partner-post') {
                 item.category = [{
                     'name': 'Partner Post',
@@ -1060,6 +1062,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             item.post_index = Number(localStorage.getItem('post_offset'));
             $scope.postIndex = item.post_index;
 
+            $scope.postIndex++;
+
             $scope.createFeedItem(item, $scope.feedItems.length);
 
             if (item.sponsor !== null) {
@@ -1072,7 +1076,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 skip = 0;
             }
 
-            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip).then(
+
+
+            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip, $scope.notIn).then(
                 function(data) {
                     $scope.currentView = 'list';
                     $scope.posts = data;

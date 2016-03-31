@@ -60,6 +60,8 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
+    $scope.notIn = null;
+
 
     if ($scope.heroItemElements.length === 0) {
         //$scope.heroItemElements = $scope.heroItems;
@@ -258,7 +260,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
         if ($location.$$path === '/articles') {
             return FeedService.getArticles(perPage, pageNum, skip);
         } else {
-            return FeedService.getDBPosts(perPage, pageNum, skip);
+            return FeedService.getDBPosts(perPage, pageNum, skip, null);
         }
     };
 
@@ -628,7 +630,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
 
 
         angular.forEach(posts, function(item, index) {
-            if (item.type === 'post-list') {
+            if (item.type === 'post-list' || item.type === 'animated-gif' || item.type === 'partner-post') {
                 item.post_index = $scope.postIndex;
                 $scope.postIndex++;
             }
@@ -758,7 +760,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
             }
             angular.forEach(postmap, function(item, index) {
                 if (typeof item !== 'undefined') {
-                    if (item.type === 'post-list') {
+                    if (item.type === 'post-list' || item.type === 'animated-gif' || item.type === 'partner-post') {
                         item.post_index = $scope.postIndex;
                         $scope.postIndex++;
                     }
@@ -790,8 +792,9 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
             $scope.singlePostID = item.id;
             if (item.type !== 'partner-post') item.type = 'post-single';
 
-            item.post_index = $scope.postIndex - 1;
-            //$scope.postIndex++;
+            if($scope.postIndex === 0){
+                $scope.postIndex++;
+            }
 
             $scope.createFeedItem(item, $scope.feedItems.length);
 
@@ -804,7 +807,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
             } catch (e) {
                 skip = 0;
             }
-            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip).then(
+            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip, null).then(
                 function(data) {
                     $scope.currentView = 'list';
                     $scope.posts = data;
@@ -892,7 +895,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
 
                     angular.forEach(postmap, function(item, index) {
 
-                        if (item.type === 'post-list') {
+                        if (item.type === 'post-list' || item.type === 'animated-gif' || item.type === 'partner-post') {
                             item.post_index = $scope.postIndex;
                             $scope.postIndex++;
                         }
