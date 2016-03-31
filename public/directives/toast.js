@@ -77,6 +77,11 @@ var toast = function() {
                 angular.element(document.getElementById('toastWrapper')).empty();
                 angular.element(document.getElementById('toastWrapper')).html(content);
             }
+            $(document).ready(function(){
+                $('.toast').slideToggle({
+                    direction: "up"
+                }, 300)
+            });
         },
         template: '<div id="toastWrapper" class="toastContainer" ng-hide="hideToast"><div ng-hide="hideToast" class="toast"><h4 id="toastMessage"></h4><div ng-click="closeToast()" ng-hide="hideToastClose" class="toast-button toast-close ga-toast-close">Close</div><a ng-href="{{toastActionLink}}"><div ng-hide="hideToastAction" id="toastActionButton" class="toast-button ga-toast-button">Download</div></a></div></div>'
     };
