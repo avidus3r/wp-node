@@ -64,9 +64,21 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
-    feed.getDBPosts = function(numPosts, pageNum, skip){
-        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip || 0;
+    feed.getDBPosts = function(numPosts, pageNum, skip, notIn){
+        skip = skip || 0;
+        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip;
         return feed.get(url, 'get');
+    };
+
+    feed.getHomePosts = function(which, sidekickConfig){
+        var data = null;
+        if(which === 1){
+            //get current index from this
+            data = feed.getHeroPosts(4,1,0);
+        }else {
+            data = feed.getSidekick(sidekickConfig);
+        }
+        return data;
     };
 
     feed.getHeroPosts = function(numPosts, pageNum, skip){
@@ -97,35 +109,56 @@ var FeedService = function(app, appName, env, $http, $q){
         var sidekickDefaultType = sidekickConfig.defaultType;
         var sidekickDefaultFormat = sidekickConfig.defaultFormat;
         var sidekickTotal = sidekickConfig.totalItems;
-        var sidekickCount = null;
+        var sidekickCount = 0;
 
         var mixinUrl = '/api/articles/' + mixinType + '?perPage=' + mixinItemsCount + '&page=1&skip=' + mixinOffset + '&format=' + mixinFormat;
         var mixinData = feed.get(mixinUrl, 'get');
 
         var sidekicks = [];
 
-        mixinData.then(function(res){
-            var mixinActualCount = res.length;
-            for(var i=0;i<mixinActualCount;i++){
-                sidekicks.push(res[i]);
-            }
-            sidekickCount = sidekickTotal-mixinActualCount;
-            var url = '';
-            if(sidekickDefaultType === 'post'){
-                url = '/api/posts/' + sidekickCount + '/1/' + sidekickOffset;
-            }else{
-                url = '/api/articles/' + sidekickDefaultType + '?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset + '&format=' + mixinFormat;
-            }
+        var data = null;
+        var url = '';
 
-            var data = feed.get(url, 'get');
-
-            data.then(function(result){
-                for(var i=0;i<result.length;i++){
-                    sidekicks.push(result[i]);
-                    deferred.resolve(sidekicks);
+        mixinData.then(
+            function(res){
+                var mixinActualCount = res.length;
+                for(var i=0;i<mixinActualCount;i++){
+                    sidekicks.push(res[i]);
                 }
-            });
-        });
+                sidekickCount = sidekickTotal-mixinActualCount;
+
+                if(sidekickDefaultType === 'post'){
+                    url = '/api/posts/' + sidekickCount + '/1/' + sidekickOffset;
+                }else{
+                    url = '/api/articles/' + sidekickDefaultType + '?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset + '&format=' + mixinFormat;
+                }
+
+
+                try{
+                    data = feed.get(url, 'get');
+
+                    data.then(function(result){
+                        for(var i=0;i<result.length;i++){
+                            sidekicks.push(result[i]);
+                            deferred.resolve(sidekicks);
+                        }
+                    });
+                }catch(e){
+
+                }
+
+            }, function(err){
+                url = '/api/articles/post?perPage=5&page=1&skip=4&format=video';
+                data = feed.get(url, 'get');
+
+                data.then(function(result){
+                    for(var i=0;i<result.length;i++){
+                        sidekicks.push(result[i]);
+                        deferred.resolve(sidekicks);
+                    }
+                });
+            }
+        );
 
         return deferred.promise;
     };

@@ -101,7 +101,6 @@
         ga('send', 'pageview');
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        </script>
    <script src="/js/vendor/alephbet.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     </head>
@@ -149,6 +148,7 @@
         <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Montserrat|Pontano+Sans|Rokkitt|Lora|Lato:400,700' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="/js/app.js"></script>
+
         <!--
         TODO: testing removal of ng-include
         <ng-include src="'/views/partials/header.html'"></ng-include>
@@ -205,7 +205,7 @@
             <div class="app-main">
             <section class="view-container ng-view"></section>
             <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
-            <toast frequency="3" toastid="andr" presist="true" message="Get the alt_driver app" delay="" scroll="true" button="Install" action="https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android"></toast>
+            <toast id="toast" frequency="3" toastid="andrs" presist="true" message="Get the alt_driver app" delay="" scroll="true" button="Install" action="https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android"></toast>
         </div>
         <div class="app-rail">
             <section class="sidebar ng-hide">

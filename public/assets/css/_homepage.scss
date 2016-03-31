@@ -217,11 +217,11 @@
 }
 //temp home page show full feed button
 .ad-home-more {
-  background-color: rgba(0,0,0,.04);
+  background-color: rgba(0,0,0,.03);
   border-radius: .25em;
-  border: 1px solid #999;
-  color: #333;
-  margin: .5em;
+  border: 1px solid #e3e3e3 ;
+  color: #444;
+  margin: .5em 0px;
   font-size: 2em;
   padding: .25em;
   text-transform: uppercase;
@@ -260,6 +260,12 @@ body.mobile.homehero .app-main{
 }
 
 body.homehero .latestposts{
+  .partner-post-sidekick{
+    cursor: pointer;
+  }
+  .excerpt p{
+    position: relative;
+  }
   .featured-image-thumbnail{
     margin-top: 0;
     width: 35%;

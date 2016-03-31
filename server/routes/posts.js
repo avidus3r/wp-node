@@ -247,7 +247,7 @@ router.get('/api/:slug', apicache('45 minutes'), function(req,res){
  Feed Posts Query
  */
 router.get('/api/trending/:query/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
-    console.log(req.params.query);
+
     var data = PostController.trending(req, req.params.query, parseInt(req.params.perPage), parseInt(req.params.page), parseInt(req.params.skip));
     data.then(function(result){
         if(result.length === 0){
@@ -281,7 +281,7 @@ router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'
  Feed Posts List
  */
 router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(req,res){
-    var data = PostController.list(req, parseInt(req.params.perPage),req.params.page, req.params.skip);
+    var data = PostController.list(req, parseInt(req.params.perPage),req.params.page, req.params.skip, req.query.notIn);
     data.then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
