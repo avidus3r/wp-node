@@ -845,14 +845,29 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.loadGif = function(item, $event) {
         var postContainer = angular.element($event.currentTarget).closest('.post-content');
+        var originalView = postContainer.html();
+        $scope.currentGifItem = item;
+        $scope.currentGifEvt = $event;
+
         postContainer.css({
             'height': postContainer.height() + 'px'
         });
-        angular.element($event.currentTarget).parent().html('');
+
+        postContainer.find('.post-title, .item-cat, .featured-image').hide();
+        var imgContainer = angular.element($event.currentTarget).parent();
+        imgContainer.hide();
+
         var gif = angular.element(item.content.rendered);
         gif.find('img').css({
             'max-width': '100%',
             'height': 'auto'
+        }).on('click', function(e){
+            e.preventDefault();
+            postContainer.html(originalView);
+            angular.element(postContainer.find('.gif-btn')).on('click', function(e){
+
+                $scope.loadGif($scope.currentGifItem, e);
+            });
         });
         postContainer.prepend(gif);
     };
