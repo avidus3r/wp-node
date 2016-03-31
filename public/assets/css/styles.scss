@@ -339,15 +339,20 @@ body.submit{
 }
 
 
-.ad-banner-sm{
-  background: url('../images/app_banner-320x50.jpg') center no-repeat;
+.ad-banner {
+  display: block;
+  width: 100%;
 }
 
-.ad-banner-lg{
-  background: url('../images/app_banner-300x250.jpg') center no-repeat;
-}
+// .ad-banner-sm{
+//   background: url('../images/app_banner-320x50.jpg') center no-repeat;
+// }
 
-.desktop-ad-banner-sm{
-  background: url('../images/app_banner-728x90.jpg') center no-repeat;
-}
+// .ad-banner-lg{
+//   background: url('../images/app_banner-300x250.jpg') center no-repeat;
+// }
+
+// .desktop-ad-banner-sm{
+//   background: url('../images/app_banner-728x90.jpg') center no-repeat;
+// }
 
