@@ -264,16 +264,41 @@ body.homehero .latestposts{
     cursor: pointer;
   }
   .excerpt p{
-    position: relative;
+    //position: relative;
+    margin: 10px 10px 10px;
+    //float: left;
+    padding-top: 38px;
   }
   .featured-image-thumbnail{
     margin-top: 0;
     width: 35%;
     height: auto;
   }
-
+  .format-standard {
+    .post-title {
+      top: -147px;
+      position: relative;
+      padding-bottom: 10px;
+      float: right;
+      padding-right: 22px;
+      display: inline-block;
+      width: 50%;
+      height: 10%;
+    }
+    .read-more a {
+      color: #3ec1ff!important;
+      position: relative;
+      top: -7px;
+      height:0px;
+    }
+  }
   .post-content > p .read-more{
     display:none;
+  }
+  .card-item {
+    width: 100%;
+    clear: both;
+    display: inline-block;
   }
 }
 
@@ -285,5 +310,17 @@ body.homehero .latestposts{
 
   .homehero .mega-footer .ad-copyright {
     width: auto;
+  }
+  .format-standard {
+    .post-title {
+      top: 6px !important;
+      position: absolute !important;
+      float: right !important;
+      padding-right: 10px;
+      left: 121px;
+      display: inline-block;
+      width: 60% !important;
+      height: 10%;
+    }
   }
 }
