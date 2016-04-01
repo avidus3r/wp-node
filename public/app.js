@@ -138,6 +138,7 @@ var Directives = require('./directives/app.directives.js');
 
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
+NewsFeed.directive('cardlist', ['FeedService', '$rootScope', Directives.cardlist]);
 NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
 NewsFeed.directive('toast', ['$rootScope', 'app', Directives.toast]);
@@ -479,6 +480,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.getFeaturedImage = function(img, attr) {
+
         var attrs = {
             'src': 0,
             'width': 1,

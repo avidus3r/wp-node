@@ -102,6 +102,22 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/abc/123/', {
+            controller: 'FeedListController',
+            templateUrl: '/views/cardlist.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route){
+                    return $q.all({
+                        config:null,
+                        posts:null,
+                        instagram:null,
+                        sponsors:null
+                    })
+                }
+            }
+        })
         .when('/partner-post/:slug/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',

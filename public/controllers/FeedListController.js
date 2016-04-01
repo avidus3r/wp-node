@@ -22,6 +22,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.package = {
         name: 'newsfeed'
     };
+    if(!data.hasOwnProperty('sponsors')){
+        data.sponsors = null;
+    }
+    if(!data.hasOwnProperty('instagram')){
+        data.instagram = null;
+    }
+    if(!data.hasOwnProperty('posts')){
+        data.sponsors = null;
+    }
+    if(!data.hasOwnProperty('post')){
+        data.instagram = null;
+    }
     $scope.appConfig = app;
     $scope.feedItems = [];
     $scope.feedItemElements = [];
@@ -288,6 +300,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.feedItemElements[index] = $scope.feedItems[index];
             $scope.feedItemPosition += 1;
         }
+
     };
 
     if ($location.$$path === '/adtest') {
