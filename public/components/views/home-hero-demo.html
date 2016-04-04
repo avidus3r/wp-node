@@ -192,9 +192,23 @@
 
 <div class="mega-footer clearfix">
 
-    <div class="pull-left">
-        <ng-include src="'/views/partials/search.html'"></ng-include>
-    </div>
+    <ul class="">
+
+        <li class="search">
+            <input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+            <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
+        </li>
+        <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
+            <a href="/contact" class="ga-nav-about">Contact</a>
+        </li>
+        <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+            <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+        </li>
+        <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+            <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
+        </li>
+    </ul>
+
     <div class="ad-copyright" >
         <div>
             © 2016 alt_driver. All rights reserved.

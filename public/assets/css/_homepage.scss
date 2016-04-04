@@ -1,72 +1,84 @@
 .homehero {
-    .app-rail {
-      display: none;
-    }
-    //  carousel controls
-    .carousel-indicators {
-        bottom: 0;
-    }
-    .carousel-control {
-      background: transparent;
-    }
-    //  new nav for homepage
-    .trending-nav {
-      max-width: 974px;
-      margin: auto;
-    }
+  .app-rail {
+    display: none;
+  }
+  //  carousel controls
+  .carousel-indicators {
+    bottom: 0;
+  }
+  .carousel-control {
+    background: transparent;
+  }
+  //  new nav for homepage
+  .trending-nav {
+    max-width: 974px;
+    margin: auto;
+  }
 
-    /* fix the padding on this page only */
-    .feed-view .item-cat {
-      padding: .25em;
-    }
-    .homeadwrapper {
-      margin-top:.25em;
-      margin-bottom:.25em;
+  /* fix the padding on this page only */
+  .feed-view .item-cat {
+    padding: .25em;
+  }
+  .homeadwrapper {
+    margin-top: .25em;
+    margin-bottom: .25em;
 
-      div{
-        margin: 0em auto .25em;
-        div {
-          margin: 0;
-        }
+    div {
+      margin: 0em auto .25em;
+      div {
+        margin: 0;
       }
-      width: 728px;
-      text-align: center;
     }
-    //  tighten up homepage a bit
+    width: 728px;
+    text-align: center;
+  }
+  //  tighten up homepage a bit
+  .latestposts .post-list {
+    margin: .5%;
+  }
+
+  // space for smaller screens
+  @media all and (max-width: 800px) {
     .latestposts .post-list {
-      margin: .5%;
+      margin-bottom: 1em;
     }
+  }
 
-// space for smaller screens
-    @media all and (max-width:800px) {
-      .latestposts .post-list {
-        margin-bottom: 1em;
-      }
-    }
-
-    //  homepage only footer
-    .mega-footer {
-      position: absolute;
+  //  homepage only footer
+  .mega-footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    color: white;
+    background: #19232d;
+    padding: 3em 1.5em;
+    clear: both;
+    li.search {
       width: 100%;
-      left: 0;
-      color: white;
-      background: #19232d;
-      padding: 3em 1.5em;
-      clear: both;
-
-      //  make links in footer white
-      a,
-      a:visited {
-        color: white !important;
-      }
-
-      //  copyright in footer
-      .ad-copyright {
-        width:33%;
-        text-align:right;
-        float: right;
-      }
+      display: block;
     }
+    li.legal {
+      display: inline;
+      text-transform: none;
+      padding: 10px 15px;
+      font-size: .75em;
+      color: rgba(255, 255, 255, 0.5) !important;
+      position: relative;
+      top: 30px;
+    }
+    a,
+    a:visited {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+  }
+
+  //  copyright in footer
+  .ad-copyright {
+    width: 33%;
+    text-align: right;
+    float: right;
+  }
+
 //  end MAIN  homepage component
 }
 
@@ -289,7 +301,7 @@ body.homehero .latestposts{
       color: #3ec1ff!important;
       position: relative;
       top: -7px;
-      height:0px;
+      height: 0px;
     }
   }
   .post-content > p .read-more{
@@ -305,7 +317,13 @@ body.homehero .latestposts{
 .mega-footer .header-search-txt{
 
   min-width: 236px;
+  
 }
+
+//.mega-footer li {
+//  display: inline !important;
+//}
+
 @media all and (max-width: 700px) {
 
   .homehero .mega-footer .ad-copyright {
