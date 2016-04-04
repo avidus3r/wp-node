@@ -42,6 +42,8 @@
     .latestposts .post-list {
       margin-bottom: 1em;
     }
+
+
   }
 
   //  homepage only footer
@@ -86,6 +88,9 @@
 // small screen footer tweaks
   .homehero .mega-footer {
     text-align: center;
+    li.legal {
+      top: 8px !important;
+    }
     .ad-copyright {
       float: none;
       text-align: center;
