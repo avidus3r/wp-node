@@ -153,10 +153,22 @@ router.get('/api/vote/:id/:val', function(req, res){
 /*
  Sponsor List
  */
-
-
 router.get('/api/sponsors', apicache('45 minutes'), function(req, res){
     PostController.sponsorList().then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+/*
+ Sponsor Articles
+ */
+router.get('/api/sponsor/:sponsorID/articles', apicache('45 minutes'), function(req, res){
+    PostController.sponsorArticles(Number(req.params.sponsorID)).then(function(result){
         if(result.length === 0){
             res.sendStatus(404);
         }else{

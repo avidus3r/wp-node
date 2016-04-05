@@ -7,13 +7,14 @@
         <div class="featured" ng-switch-default style="background:url({{ item.sponsor.featured_image[0] }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
     </span>
     <h1 class="sponsor-header sponsor-large">
-        {{ item.sponsor.title }}
+        {{ item.title.rendered }}
     </h1>
-    <p class="notes" ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>
+
+    <!--<p class="notes" ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>-->
     <div class="sponsor-follow">
-        <div class="fb-like" data-href="{{ item.sponsor.urls.facebook }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
+        <div class="fb-like" data-href="{{ $scope.sponsor[0].postmeta.social_links.facebook }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
         <div>
-            <a href="{{ item.sponsor.urls.twitter }}" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>
+            <a href="{{ $scope.sponsor[0].postmeta.social_links.twitter }}" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         </div>
     </div>

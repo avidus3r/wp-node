@@ -202,6 +202,11 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
+    feed.sponsorPosts = function(sponsorID){
+        var url = '/api/sponsor/' + sponsorID + '/articles';
+        return feed.get(url, 'get');
+    };
+
     feed.search = function(query, numPosts, pageNum, skip) {
         var data = null;
         try{

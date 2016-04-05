@@ -231,7 +231,7 @@ var PostsController = {
     },
 
     sponsor: function(name){
-        var query = Post.find({ 'sponsor.name': name});
+        var query = Post.find({ 'slug': name, 'type': 'altdsc_sponsor'});
         return query.exec();
     },
 

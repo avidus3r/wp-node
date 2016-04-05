@@ -652,7 +652,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         config:null,
                         posts: null,
                         instagram: null,
-                        sponsors: FeedService.sponsor($route.current.params.sponsor).then(
+                        sponsor: FeedService.sponsor($route.current.params.sponsor).then(
                             function(data){
                                 return data;
                             },
@@ -662,7 +662,18 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             function(notification){
 
                             }
-                        )
+                        )/*,
+                        sponsorPosts: FeedService.sponsorPosts($route.current.params.sponsor).then(
+                            function(data){
+                                return data;
+                            },
+                            function(error){
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
+                        )*/
 
                     });
                 }
