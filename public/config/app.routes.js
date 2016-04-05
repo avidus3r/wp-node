@@ -103,7 +103,6 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             }
         })
         .when('/abc/123/', {
-            controller: 'FeedListController',
             templateUrl: '/views/cardlist.html',
             redirectTo: false,
             reloadOnSearch: false,

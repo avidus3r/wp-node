@@ -3,11 +3,15 @@
 var cardlist = function() {
     return {
         restrict: 'EA',
-        $scope:{
-            cards: '='
+        scope:{
+            posttype: '='
         },
-        controller: function($scope, $attrs, FeedService, $rootScope, $q) {
+        controller: function($scope, $attrs, FeedService, $rootScope, $sce) {
+            console.log(typeof $rootScope.getFeaturedImage);
             $scope.cards = [];
+            $scope.cardListItems = null;
+            $scope.displayAds = true;
+
             var postType = $attrs.posttype,
                 numPosts = $attrs.numposts,
                 pageNum = $attrs.pagenum,
@@ -18,11 +22,8 @@ var cardlist = function() {
             if(excerpt){
                 $scope.showExcerpt = true;
             }
+
             $scope.postType = postType;
-            $attrs.$observe('posttype',function(attr){
-                $scope.cardType = attr;
-                $scope.contentUrl = '/views/cards/' + attr + '.html';
-            });
 
             $scope.cardListItems = FeedService.queryArticles(postType,numPosts,pageNum,skip, format).then(function(result){
                 $scope.cards = result;
@@ -31,7 +32,7 @@ var cardlist = function() {
             return $scope.cardListItems;
         },
         link:function($scope, $attrs){
-            //$scope.cards = $scope.cardListItems;
+            $scope.cards = $scope.cardListItems;
         },
         template: '<div ng-include="\'/views/cards/cardlistItems.html\'"></div>'
     };

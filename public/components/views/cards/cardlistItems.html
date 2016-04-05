@@ -1,13 +1,10 @@
 <div ng-repeat="item in cards track by $index">
-    <div ng-switch="{{ postType }}">
-
-        <div ng-switch-default>
-            <ng-include src="'/views/cards/animated-gif.html'"></ng-include>
-        </div>
-
-        <div ng-switch-when="animated-gif">
-            <ng-include src="'/views/cards/animated-gif.html'"></ng-include>
-        </div>
-
+    <div ng-if="postType === 'animated-gif'">
+        <ng-include src="'/views/cards/animated-gif.html'"></ng-include>
     </div>
+
+    <div ng-if="postType === 'partner-post'">
+        <ng-include src="'/views/cards/partner-post.html'"></ng-include>
+    </div>
+
 </div>

@@ -138,7 +138,7 @@ var Directives = require('./directives/app.directives.js');
 
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
-NewsFeed.directive('cardlist', ['FeedService', '$rootScope', Directives.cardlist]);
+NewsFeed.directive('cardlist', ['FeedService', '$rootScope', '$sce', Directives.cardlist]);
 NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
 NewsFeed.directive('toast', ['$rootScope', 'app', Directives.toast]);
@@ -299,6 +299,35 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return txt.value;
     };
 
+    $rootScope.loadGif = function(item, $event) {
+        var postContainer = angular.element($event.currentTarget).closest('.post-content');
+        var originalView = postContainer.html();
+        $rootScope.currentGifItem = item;
+        $rootScope.currentGifEvt = $event;
+
+        postContainer.css({
+            'height': postContainer.height() + 'px'
+        });
+
+        postContainer.find('.post-title, .item-cat, .featured-image').hide();
+        var imgContainer = angular.element($event.currentTarget).parent();
+        imgContainer.hide();
+
+        var gif = angular.element(item.content.rendered);
+        gif.find('img').css({
+            'max-width': '100%',
+            'height': 'auto'
+        }).on('click', function(e){
+            e.preventDefault();
+            postContainer.html(originalView);
+            angular.element(postContainer.find('.gif-btn')).on('click', function(e){
+
+                $rootScope.loadGif($rootScope.currentGifItem, e);
+            });
+        });
+        postContainer.prepend(gif);
+    };
+
     $rootScope.voteLoad = function(postID, index) {
         var voteButton = angular.element('.votes:eq(' + index + ')').find('button');
         var votedHistory = null;
@@ -324,6 +353,92 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
 
         }
+    };
+
+    $rootScope.attachCommentsHandler = function() {
+        $rootScope.$watch('$viewContentLoaded', function() {
+            angular.element('.fb-wrapper').css({
+                'height': '0',
+                'overflow': 'hidden'
+            });
+        });
+    };
+
+    $rootScope.renderContent = function(content, index, fromClick) {
+
+        //post.html(content);
+
+
+        var feedItem = angular.element('.feed-item:eq(' + index + ')');
+        var post = feedItem.find('.post-content');
+        var expectedEmbed = post.find('iframe');
+        var fbEmbed = post.find('.fb-video');
+        /*if (location.host.indexOf('app.altdriver') === -1) {
+            if (content.search('</iframe>') > -1 && $rootScope.displayAds) {
+
+                var pieces = content.split('</iframe></p>');
+                if (pieces.length === 1) {
+                    pieces = content.split('</iframe> </p>');
+                }
+                var glue = $rootScope.getAdvertisementGlue();
+
+                content = pieces.join(glue);
+                content += '<div class="post-txt-more ga-post-more">Read More</div>';
+            }
+        }*/
+        if (expectedEmbed.length > 0 && fbEmbed.length === 0) {
+            expectedEmbed.addClass('video-container');
+            $rootScope.resizeEmbed(expectedEmbed);
+        }
+
+        if (fbEmbed.length > 0) {
+
+            fbEmbed.addClass('video-container').addClass('fb-embed').css({
+                width: '100%'
+            });
+            $rootScope.resizeEmbed(fbEmbed);
+        }
+
+        return $sce.trustAsHtml(content);
+    };
+
+    $rootScope.resizeEmbed = function(embed) {
+        var iframe = embed;
+
+        var maxWidth = iframe.closest('.post-content').width(); // Max width for the image
+        var maxHeight = 10000; // Max height for the image
+        var ratio = 0; // Used for aspect ratio
+
+        var width = iframe[0].width; // Current image width
+        var height = iframe[0].height; // Current image height
+
+
+        // Check if the current width is larger than the max
+        if (width > maxWidth) {
+            ratio = maxWidth / width; // get ratio for scaling image
+            iframe.css('width', maxWidth); // Set new width
+            iframe.css('height', height * ratio); // Scale height based on ratio
+            height = height * ratio; // Reset height to match scaled image
+            width = width * ratio; // Reset width to match scaled image
+        }
+
+        if (width < maxWidth) {
+            ratio = maxWidth / width; // get ratio for scaling image
+            iframe.css('width', maxWidth); // Set new width
+            iframe.css('height', height * ratio); // Scale height based on ratio
+            height = height * ratio; // Reset height to match scaled image
+            width = width * ratio; // Reset width to match scaled image
+        }
+
+        // Check if current height is larger than max
+        if (height > maxHeight) {
+            ratio = maxHeight / height; // get ratio for scaling image
+            iframe.css('height', maxHeight); // Set new height
+            iframe.css('width', width * ratio); // Scale width based on ratio
+            width = width * ratio; // Reset width to match scaled image
+            height = height * ratio; // Reset height to match scaled image
+        }
+
     };
 
     $rootScope.vote = function(postID, vote, $event) {
