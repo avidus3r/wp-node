@@ -123,6 +123,9 @@ var FeedService = function(app, appName, env, $http, $q){
         mixinData.then(
             function(res){
                 var mixinActualCount = res.length;
+                if(res.hasOwnProperty('data')){
+                    if(res.data.status === 404) mixinActualCount = 0;
+                }
                 for(var i=0;i<mixinActualCount;i++){
                     sidekicks.push(res[i]);
                 }
