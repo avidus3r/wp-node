@@ -15,7 +15,13 @@ var toast = function() {
             var toastId = $attrs['toastid'];
             var frequency = $attrs['frequency'];
             var date = new Date();
-            var localDate = localStorage.getItem('toast' + toastId);
+            var localDate = null;
+            try{
+                localDate = localStorage.getItem('toast' + toastId);
+            }catch(e){
+
+            }
+
             //check date to show or hide toast 
             if (localDate != 'undefined' && localDate != undefined && localDate != 'null' && localDate != null) {
                 localDate = new Date(localDate);
@@ -65,10 +71,15 @@ var toast = function() {
             }
             //add close button local storage event 
             $scope.closeToast = function() {
-                localStorage.setItem('toast' + toastId, date);
-                $scope.hideToast = true;
+                try{
+                    localStorage.setItem('toast' + toastId, date);
+                    $scope.hideToast = true;
+                }catch(e){
+                    $scope.hideToast = true;
+                }
             };
         },
+
         link: function(scope, el, attrs, ctrl, transclude) {
             var content = transclude();
             content = content[1];

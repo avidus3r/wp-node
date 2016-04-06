@@ -24,7 +24,13 @@
 </script>
 
 <div ng-if="!_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <div id="div-gpt-ad-1455657666158-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });</script></div>
+    <div id="div-gpt-ad-1455657666158-0">
+        <script type="text/javascript">
+            if(!_isMobile()){
+                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });
+            }
+        </script>
+    </div>
 </div>
 
 <!--  end ad insertion -->
@@ -85,13 +91,26 @@
 
 </div>
 
-<div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });</script></div>
+<div ng-if="_isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+    <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7">
+        <script type="text/javascript">
+            if(_isMobile()){
+                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });
+            }
+        </script>
+    </div>
 </div>
 
 <!--   insert an advert -->
+
 <div ng-if="!_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <div id="div-gpt-ad-1455657666158-1"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });</script></div>
+    <div ng-if="!_isMobile()" id="div-gpt-ad-1455657666158-1">
+        <script type="text/javascript">
+            if(!_isMobile()){
+                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });
+            }
+        </script>
+    </div>
 </div>
 
 <!--  end ad insertion -->
@@ -152,12 +171,24 @@
 
         <!--  insert another advert -->
         <div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-            <div id="div-gpt-ad-1448906851482-8"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });</script></div>
+            <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-8">
+                <script type="text/javascript">
+                    if(_isMobile()){
+                        googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });
+                    }
+                </script>
+            </div>
         </div>
     </div>
 
     <div class="lower-rail-ads" ng-if="adsEnabled">
-        <div id="div-gpt-ad-1455657666158-2"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });</script></div>
+        <div ng-if="!_isMobile()" id="div-gpt-ad-1455657666158-2">
+            <script type="text/javascript">
+                if(!_isMobile()){
+                    googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });
+                }
+            </script>
+        </div>
         <!--<script>
             window.fbAsyncInit = function() {
                 FB.Event.subscribe(
