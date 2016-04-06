@@ -138,7 +138,7 @@ var Directives = require('./directives/app.directives.js');
 
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
-NewsFeed.directive('cardlist', ['FeedService', '$rootScope', '$sce', Directives.cardlist]);
+//NewsFeed.directive('cardlist', ['FeedService', '$rootScope', '$sce', Directives.cardlist]);
 NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
 NewsFeed.directive('toast', ['$rootScope', 'app', Directives.toast]);
