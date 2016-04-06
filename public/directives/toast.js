@@ -14,6 +14,7 @@ var toast = function() {
             var action = $attrs['action'];
             var toastId = $attrs['toastid'];
             var frequency = $attrs['frequency'];
+            var android = $attrs['android'];
             var date = new Date();
             var localDate = localStorage.getItem('toast' + toastId);
             //check date to show or hide toast 
@@ -68,12 +69,28 @@ var toast = function() {
                 localStorage.setItem('toast' + toastId, date);
                 $scope.hideToast = true;
             };
+            // show for android items
+            if (android == 'true') {
+                var ua = navigator.userAgent.toLowerCase();
+                var isAndroid = ua.indexOf("android") > -1;
+                if (isAndroid) {
+                    slideInToast();
+                }
+            }
+
+            function slideInToast() {
+                $(document).ready(function(){
+                    $('.toast').slideToggle({
+                        direction: "up"
+                    }, 300)
+                });
+            }
         },
         link: function(scope, el, attrs, ctrl, transclude) {
             var content = transclude();
             content = content[1];
             console.log(content);
-            if(transclude().length > 1) {
+            if (transclude().length > 1) {
                 angular.element(document.getElementById('toastWrapper')).empty();
                 angular.element(document.getElementById('toastWrapper')).html(content);
             }

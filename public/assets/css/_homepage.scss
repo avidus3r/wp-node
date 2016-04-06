@@ -1,72 +1,86 @@
 .homehero {
-    .app-rail {
-      display: none;
-    }
-    //  carousel controls
-    .carousel-indicators {
-        bottom: 0;
-    }
-    .carousel-control {
-      background: transparent;
-    }
-    //  new nav for homepage
-    .trending-nav {
-      max-width: 974px;
-      margin: auto;
-    }
+  .app-rail {
+    display: none;
+  }
+  //  carousel controls
+  .carousel-indicators {
+    bottom: 0;
+  }
+  .carousel-control {
+    background: transparent;
+  }
+  //  new nav for homepage
+  .trending-nav {
+    max-width: 974px;
+    margin: auto;
+  }
 
-    /* fix the padding on this page only */
-    .feed-view .item-cat {
-      padding: .25em;
-    }
-    .homeadwrapper {
-      margin-top:.25em;
-      margin-bottom:.25em;
+  /* fix the padding on this page only */
+  .feed-view .item-cat {
+    padding: .25em;
+  }
+  .homeadwrapper {
+    margin-top: .25em;
+    margin-bottom: .25em;
 
-      div{
-        margin: 0em auto .25em;
-        div {
-          margin: 0;
-        }
+    div {
+      margin: 0em auto .25em;
+      div {
+        margin: 0;
       }
-      width: 728px;
-      text-align: center;
     }
-    //  tighten up homepage a bit
+    width: 728px;
+    text-align: center;
+  }
+  //  tighten up homepage a bit
+  .latestposts .post-list {
+    margin: .5%;
+  }
+
+  // space for smaller screens
+  @media all and (max-width: 800px) {
     .latestposts .post-list {
-      margin: .5%;
+      margin-bottom: 1em;
     }
 
-// space for smaller screens
-    @media all and (max-width:800px) {
-      .latestposts .post-list {
-        margin-bottom: 1em;
-      }
-    }
 
-    //  homepage only footer
-    .mega-footer {
-      position: absolute;
+  }
+
+  //  homepage only footer
+  .mega-footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    color: white;
+    background: #19232d;
+    padding: 3em 1.5em;
+    clear: both;
+    li.search {
       width: 100%;
-      left: 0;
-      color: white;
-      background: #19232d;
-      padding: 3em 1.5em;
-      clear: both;
-
-      //  make links in footer white
-      a,
-      a:visited {
-        color: white !important;
-      }
-
-      //  copyright in footer
-      .ad-copyright {
-        width:33%;
-        text-align:right;
-        float: right;
-      }
+      display: block;
     }
+    li.legal {
+      display: inline;
+      text-transform: none;
+      padding: 10px 15px;
+      font-size: .75em;
+      color: rgba(255, 255, 255, 0.5) !important;
+      position: relative;
+      top: 30px;
+    }
+    a,
+    a:visited {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+  }
+
+  //  copyright in footer
+  .ad-copyright {
+    width: 33%;
+    text-align: right;
+    float: right;
+  }
+
 //  end MAIN  homepage component
 }
 
@@ -74,6 +88,9 @@
 // small screen footer tweaks
   .homehero .mega-footer {
     text-align: center;
+    li.legal {
+      top: 8px !important;
+    }
     .ad-copyright {
       float: none;
       text-align: center;
@@ -217,11 +234,11 @@
 }
 //temp home page show full feed button
 .ad-home-more {
-  background-color: rgba(0,0,0,.04);
+  background-color: rgba(0,0,0,.03);
   border-radius: .25em;
-  border: 1px solid #999;
-  color: #333;
-  margin: .5em;
+  border: 1px solid #e3e3e3 ;
+  color: #444;
+  margin: .5em 0px;
   font-size: 2em;
   padding: .25em;
   text-transform: uppercase;
@@ -264,26 +281,69 @@ body.homehero .latestposts{
     cursor: pointer;
   }
   .excerpt p{
-    position: relative;
+    //position: relative;
+    margin: 10px 10px 10px;
+    //float: left;
+    padding-top: 38px;
   }
   .featured-image-thumbnail{
     margin-top: 0;
     width: 35%;
     height: auto;
   }
-
+  .format-standard {
+    .post-title {
+      top: -147px;
+      position: relative;
+      padding-bottom: 10px;
+      float: right;
+      padding-right: 22px;
+      display: inline-block;
+      width: 50%;
+      height: 10%;
+    }
+    .read-more a {
+      color: #3ec1ff!important;
+      position: relative;
+      top: -7px;
+      height: 0px;
+    }
+  }
   .post-content > p .read-more{
     display:none;
+  }
+  .card-item {
+    width: 100%;
+    clear: both;
+    display: inline-block;
   }
 }
 
 .mega-footer .header-search-txt{
 
   min-width: 236px;
+  
 }
+
+//.mega-footer li {
+//  display: inline !important;
+//}
+
 @media all and (max-width: 700px) {
 
   .homehero .mega-footer .ad-copyright {
     width: auto;
+  }
+  .format-standard {
+    .post-title {
+      top: 6px !important;
+      position: absolute !important;
+      float: right !important;
+      padding-right: 10px;
+      left: 121px;
+      display: inline-block;
+      width: 60% !important;
+      height: 10%;
+    }
   }
 }

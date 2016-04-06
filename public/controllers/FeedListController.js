@@ -54,7 +54,22 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.initialOffset = null;
     $scope.hideLoading = true;
     $scope.fbReady = false;
+    $scope.vendorIndex = 0;
+    $scope.bannerElements = [{
+        vendor: 'altdriver',
+        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
+        mobileSmall: '../images/app_banner-320x50.jpg',
+        mobileLarge: '../images/app_banner-300x250.jpg',
+        desktop: '../images/app_banner-728x90.jpg'
+    }, {
+        vendor: 'autoTrader',
+        actionLink: 'http://www.autotrader.com/?LNX=SPGOOGBRANDCAMP&cid=SI_288975366_86803589220_1',
+        mobileSmall: '../images/autoTrader320x50.jpg',
+        mobileLarge: '',
+        desktop: ''
+    }];
     $scope.notIn = null;
+
 
     $scope.appConfig.displayAds = 'true';
 
@@ -88,20 +103,20 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.instagramItems = $scope.instagram.data.data;
     }
 
-    $scope.showAndroidToast = function() {
-        var ua = navigator.userAgent.toLowerCase();
-        var isAndroid = ua.indexOf("android") > -1;
-        if (isAndroid) {
-            //angular.module('NewsFeed').trackEvent('Sponsored Content', 'Impression', sponsorPost.sponsor.title + ' ' + sponsorPost.id, 1, {nonInteraction: true});
-            //$rootScope.androidToast = true;
-            angular.element('.toast').css({
-                'display': 'block'
-            });
+    // $scope.showAndroidToast = function() {
+    //     var ua = navigator.userAgent.toLowerCase();
+    //     var isAndroid = ua.indexOf("android") > -1;
+    //     if (isAndroid) {
+    //         //angular.module('NewsFeed').trackEvent('Sponsored Content', 'Impression', sponsorPost.sponsor.title + ' ' + sponsorPost.id, 1, {nonInteraction: true});
+    //         //$rootScope.androidToast = true;
+    //         angular.element('.toast').css({
+    //             'display': 'block'
+    //         });
 
-        }
-    };
+    //     }
+    // };
 
-    $scope.showAndroidToast();
+    // $scope.showAndroidToast();
 
     $scope.errorCheck = function() {
         if ($scope.post === 'error' || $scope.posts === 'error' || $scope.sponsors === 'error') {
@@ -377,12 +392,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.clearAds = function() {
-        var adHeights = [];
         var deferred = $q.defer();
-        var bannerClasses = {
-            'mobile': ['ad-banner-sm', 'ad-banner-lg'],
-            'desktop': ['desktop-ad-banner-sm']
-        };
+        var replacementElements = [];
+
         if ($scope.isMobile) {
 
             var ads = [
@@ -393,45 +405,44 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var placementOneHeight = angular.element(ads[0]).children(0).height();
             var placementTwoHeight = angular.element(ads[1]).children(0).height();
 
-            adHeights.push(placementOneHeight);
-            adHeights.push(placementTwoHeight);
-
-
+            replacementElements.push($scope.getAddElement('mobile', placementOneHeight));
+            setTimeout(function(){
+                replacementElements.push($scope.getAddElement('mobile', placementTwoHeight));
+            }, 3000);
+            // replacementElements.push($scope.getAddElement('mobile', placementTwoHeight));
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
 
-            ads[0].addClass(placementOneHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
-                'height': adHeights[0] + 'px',
-                'width': '100%',
-                'display': 'block'
+            ads[0].addClass('ad-banner').css({
+                'height': placementOneHeight + 'px',
+                'background': 'url(' + replacementElements[0].ad + ') center no-repeat',
             }).children().remove();
 
             ads[0].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
-                    .attr('target','_blank')
-                    .css({
-                        'height': adHeights[0] + 'px',
-                        'width': '100%',
-                        'display': 'block'
-                    })
+                .attr('href', replacementElements[0].link)
+                .attr('target', '_blank')
+                .css({
+                    'height': placementOneHeight + 'px',
+                    'width': '100%',
+                    'display': 'block'
+                })
             );
 
-            ads[1].addClass(placementTwoHeight > 200 ? bannerClasses.mobile[1] : bannerClasses.mobile[0]).css({
-                'height': adHeights[1] + 'px',
-                'width': '100%',
-                'display': 'block'
+            ads[1].addClass('ad-banner').css({
+                'height': placementTwoHeight + 'px',
+                'background': 'url(' + replacementElements[1].ad + ') center no-repeat',
             }).children().remove();
 
             ads[1].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
-                    .attr('target','_blank')
-                    .css({
-                        'height': adHeights[1] + 'px',
-                        'width': '100%',
-                        'display': 'block'
-                    })
+                .attr('href', replacementElements[1].link)
+                .attr('target', '_blank')
+                .css({
+                    'height': placementTwoHeight + 'px',
+                    'width': '100%',
+                    'display': 'block'
+                })
             );
             /*angular.element('pubad[placementIndex="3"]').css({
                 'height': adHeights[2] + 'px',
@@ -449,41 +460,39 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var placementOneHeight = angular.element(ads[0]).children(0).height();
             var placementTwoHeight = angular.element(ads[1]).children(0).height();
 
-            adHeights.push(placementOneHeight);
-            adHeights.push(placementTwoHeight);
+            replacementElements.push($scope.getAddElement('desktop', placementOneHeight));
+            replacementElements.push($scope.getAddElement('desktop', placementTwoHeight));
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
-            ads[0].addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
-                'height': adHeights[0] + 'px',
-                'width': '100%',
-                'display': 'block'
+            ads[0].addClass('ad-banner').css({
+                'height': placementOneHeight + 'px',
+                'background': 'url(' + replacementElements[0].ad + ') center no-repeat',
             }).children().remove();
 
             ads[0].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
-                    .attr('target','_blank')
-                    .css({
-                        'height': adHeights[0] + 'px',
-                        'width': '100%',
-                        'display': 'block'
-                    })
+                .attr('href', replacementElements[0].link)
+                .attr('target', '_blank')
+                .css({
+                    'height': placementTwoHeight + 'px',
+                    'width': '100%',
+                    'display': 'block'
+                })
             );
 
-            ads[1].addClass(placementOneHeight > 90 ? bannerClasses.desktop[0] : bannerClasses.desktop[0]).css({
-                'height': adHeights[1] + 'px',
-                'width': '100%',
-                'display': 'block'
+            ads[1].addClass('ad-banner').css({
+                'height': placementTwoHeight + 'px',
+                'background': 'url(' + replacementElements[1].ad + ') center no-repeat',
             }).children().remove();
             ads[1].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
-                    .attr('target','_blank')
-                    .css({
-                        'height': adHeights[1] + 'px',
-                        'width': '100%',
-                        'display': 'block'
-                    })
+                .attr('href', replacementElements[1].link)
+                .attr('target', '_blank')
+                .css({
+                    'height': placementTwoHeight + 'px',
+                    'width': '100%',
+                    'display': 'block'
+                })
             );
             /*angular.element('pubad[placementIndex="3"]').css({
                 'height': adHeights[2] + 'px',
@@ -494,6 +503,49 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
 
         return deferred.promise;
+    };
+
+    $scope.getAddElement = function(type, height) {
+        var adElement;
+        var comparedHeight = 90;
+
+        function incVendorIndex() {
+            if ($scope.vendorIndex >= $scope.bannerElements.length -1) {
+                $scope.vendorIndex = 0;
+            } else {
+                $scope.vendorIndex++;
+            }
+        };
+
+        if (type == 'desktop') {
+            // while ($scope.bannerElements[$scope.vendorIndex].desktop == '') {
+            //     incVendorIndex();
+            // }
+            adElement = {
+                'ad': $scope.bannerElements[$scope.vendorIndex].desktop,
+                'link': $scope.bannerElements[$scope.vendorIndex].actionLink
+            };
+        } else {
+            if (height > comparedHeight) {
+                adElement = {
+                    'ad': $scope.bannerElements[$scope.vendorIndex].mobileLarge,
+                    'link': $scope.bannerElements[$scope.vendorIndex].actionLink
+                };
+            } else {
+                adElement = {
+                    'ad': $scope.bannerElements[$scope.vendorIndex].mobileSmall,
+                    'link': $scope.bannerElements[$scope.vendorIndex].actionLink
+                };
+            }
+        }
+        incVendorIndex();
+        // if ($scope.vendorIndex >= $scope.bannerElements.length - 1) {
+        //     $scope.vendorIndex = 0;
+        // } else {
+        //     $scope.vendorIndex++;
+        // }
+        console.log(adElement);
+        return adElement;
     };
 
     $scope.mapPosts = function(data) {

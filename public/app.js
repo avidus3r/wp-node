@@ -159,7 +159,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.readyInterval = null;
     $rootScope.adsEnabled = true;
     $rootScope.browserHeight = document.documentElement.clientWidth;
-    // $rootScope.toastHide= false;
+    $rootScope.toastHide= false;
+    $rootScope.year = new Date().getFullYear();
 
     if (location.pathname === '/articles') {
         $rootScope.adsEnabled = false;

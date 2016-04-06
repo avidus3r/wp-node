@@ -16,11 +16,15 @@
   right: 0px;
   margin: auto;
   position:fixed;
-  bottom: 0px;
+  bottom:0px;
   background-color: rgba(0,0,0,0.87);
   display: none;
 }
-
+@media only screen and (min-width : 1224px) {
+  .toast {
+    display: none !important;
+  }
+}
 .toast h4 {
   color: #fff;
   line-height: 45px;
