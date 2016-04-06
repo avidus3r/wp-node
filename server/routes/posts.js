@@ -316,7 +316,13 @@ router.get('/api/articles/:type', function(req,res){
     var data = PostController.articles(req, req.params.type, Number(req.query.perPage), Number(req.query.page), Number(req.query.skip), req.query.format);
     data.then(function(result){
         if(result.length === 0){
-            res.sendStatus(404);
+            var response = {
+                message:'request not found',
+                data:{
+                    status: 404
+                }
+            };
+            res.json(response);
         }else{
             res.set('Cache-Control','max-age=600');
             res.json(result);
