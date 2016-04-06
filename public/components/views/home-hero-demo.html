@@ -119,7 +119,7 @@
                         <div class="author-meta">
                             <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
                             <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a>
-                            <h3 class="post-title">{{ item.title.rendered }}</h3>
+                            <h3 class="post-title" ng-bind-html="item.title.rendered">{{ item.title.rendered }}</h3>
                             </p>
 
                             <span class="clearfix"></span>
