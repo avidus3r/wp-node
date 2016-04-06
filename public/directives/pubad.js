@@ -3,6 +3,12 @@
 var pubad = function() {
     return {
         restrict: 'EA',
+        scope:{
+            placementIndex: '='
+        },
+        link: function($scope, $attrs){
+            $scope.placementIndex = $attrs.placementIndex;
+        },
         controller: function($scope, $element, $attrs, $rootScope, app) {
             //window.googletag = window.googletag || {};
             //window.googletag.cmd = window.googletag.cmd || [];
@@ -10,7 +16,7 @@ var pubad = function() {
             var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
             var ads = app.pubads[platform];
             $scope.isDesktop = false;
-            $scope.placementIndex = null;
+            //$scope.placementIndex = null;
             $attrs.$observe('placementIndex',function(attr){
                 $scope.placementIndex = attr;
             });
