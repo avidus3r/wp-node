@@ -133,7 +133,7 @@
 
                         <span class="excerpt" ng-bind-html="item.excerpt.rendered"></span>
 
-                        <h2 class="post-title">{{ item.title.rendered }}</h2>
+                        <h2 class="post-title" ng-bind-html="item.title.rendered">{{ item.title.rendered }}</h2>
 
                         <div class="author-meta">
                             <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
