@@ -460,6 +460,10 @@ app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/dist');
 
+function htmlEntities(str) {
+    str = str.replace('&amp;#8217;',"'");
+    return str;
+}
 
 function setUserCookie(req, itsABot){
     //TODO add checkUserCookie method
