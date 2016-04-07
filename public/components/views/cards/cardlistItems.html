@@ -1,5 +1,7 @@
-<div ng-repeat="item in cards track by $index">
-    <div ng-if="postType === 'animated-gif'">
+<div class="card-list" ng-repeat="item in cards track by $index">
+
+    <card class="view-type-{{ viewType }}" type="{{ item.type === 'post' ? 'post-list' : item.type }}"></card>
+    <!--<div ng-if="postType === 'animated-gif'">
         <ng-include src="'/views/cards/animated-gif.html'"></ng-include>
     </div>
 
@@ -7,4 +9,11 @@
         <ng-include src="'/views/cards/partner-post.html'"></ng-include>
     </div>
 
+    <div ng-if="postType === 'post'">
+        <ng-include src="'/views/cards/post-list.html'"></ng-include>
+    </div>
+
+    <div ng-if="postType === 'email-signup'">
+        <ng-include src="'/views/cards/email-signup.html'"></ng-include>
+    </div>-->
 </div>

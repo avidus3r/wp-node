@@ -92,9 +92,9 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
-    feed.queryArticles = function(type, numPosts, pageNum, skip, format){
+    feed.queryArticles = function(type, numPosts, pageNum, skip, format, category){
         skip = skip || 0;
-        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip;
+        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip + '&category=' + category;
         var data = feed.get(url, 'get');
         return data;
     };

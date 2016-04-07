@@ -316,7 +316,7 @@ router.get('/api/articles/:type', function(req,res){
     if(!req.query.format && req.params.type !== 'animated-gif'){
         req.query.format = 'video';
     }
-    var data = PostController.articles(req, req.params.type, Number(req.query.perPage), Number(req.query.page), Number(req.query.skip), req.query.format);
+    var data = PostController.articles(req, req.params.type, Number(req.query.perPage), Number(req.query.page), Number(req.query.skip), req.query.format, req.query);
     data.then(function(result){
         if(result.length === 0){
             var response = {

@@ -12,20 +12,24 @@ var cardlist = function() {
             $scope.cardListItems = null;
             $scope.displayAds = true;
 
-            var postType = $attrs.posttype,
-                numPosts = $attrs.numposts,
-                pageNum = $attrs.pagenum,
-                skip = $attrs.skip,
-                format = $attrs.format,
-                excerpt = $attrs.excerpt;
+            var postType    = $attrs.posttype,
+                numPosts    = $attrs.numposts,
+                pageNum     = $attrs.pagenum,
+                skip        = $attrs.skip,
+                format      = $attrs.format,
+                excerpt     = $attrs.excerpt,
+                viewType    = $attrs.viewtype,
+                category    = $attrs.category;
 
             if(excerpt){
                 $scope.showExcerpt = true;
             }
 
             $scope.postType = postType;
+            $scope.viewType = viewType;
+            $scope.postCategory = category;
 
-            $scope.cardListItems = FeedService.queryArticles(postType,numPosts,pageNum,skip, format).then(function(result){
+            $scope.cardListItems = FeedService.queryArticles(postType, numPosts, pageNum, skip, format, category).then(function(result){
                 $scope.cards = result;
             });
 

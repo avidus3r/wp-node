@@ -138,7 +138,7 @@ var Directives = require('./directives/app.directives.js');
 
 NewsFeed.directive('card', Directives.card);
 NewsFeed.directive('instagram', ['InstagramService', Directives.instagram]);
-//NewsFeed.directive('cardlist', ['FeedService', '$rootScope', '$sce', Directives.cardlist]);
+NewsFeed.directive('cardlist', ['FeedService', '$rootScope', '$sce', Directives.cardlist]);
 NewsFeed.directive('pubad', ['$rootScope', 'app', Directives.pubad]);
 NewsFeed.directive('gtm', ['$rootScope', 'app', Directives.gtm]);
 NewsFeed.directive('toast', ['$rootScope', 'app', Directives.toast]);
@@ -183,6 +183,32 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.isHome = function() {
         return location.pathname === '/';
+    };
+
+    $rootScope.getCategory = function(categories, permalink) {
+        var cat = null;
+        var catParent = null;
+
+        /*angular.forEach(categories, function (category, index) {
+         if(category.slug.replace('-','') === appName){
+         catParent = category.term_id;
+         }
+         });*/
+
+        /*angular.forEach(categories, function(category, index) {
+            if (catParent) {
+                if (category.parent === catParent) {
+                    cat = category;
+                }
+            }
+            if (permalink.indexOf(category.slug) > -1) {
+                cat = category;
+            }
+        });*/
+
+        cat = categories[0];
+
+        return cat;
     };
 
     $rootScope.readMore = function($el) {

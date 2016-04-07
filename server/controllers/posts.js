@@ -152,10 +152,16 @@ var PostsController = {
         return query.exec();
     },
 
-    articles: function(req, type, numberOfPosts, pageNumber, skip, format){
+    articles: function(req, type, numberOfPosts, pageNumber, skip, format, params){
         var skipItems = Number(skip);
+        var q = null;
 
-        var query = Post.find({'type':type, 'format':format}).skip(skipItems).limit(numberOfPosts).sort({'date':-1});
+        if(!params.hasOwnProperty('category')){
+            q = {'type':type, 'format':format};
+        }else{
+            q = {'type':type, 'format':format, 'category.slug':params.category};
+        }
+        var query = Post.find(q).skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
         if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
