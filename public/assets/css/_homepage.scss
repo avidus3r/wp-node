@@ -44,29 +44,41 @@
       }
     }
 
-    //  homepage only footer
-    .mega-footer {
-      position: absolute;
+  //  homepage only footer
+  .mega-footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    color: white;
+    background: #19232d;
+    padding: 3em 1.5em;
+    clear: both;
+    li.search {
       width: 100%;
-      left: 0;
-      color: white;
-      background: #19232d;
-      padding: 3em 1.5em;
-      clear: both;
-
-      //  make links in footer white
-      a,
-      a:visited {
-        color: white !important;
-      }
-
-      //  copyright in footer
-      .ad-copyright {
-        width:33%;
-        text-align:right;
-        float: right;
-      }
+      display: block;
     }
+    li.legal {
+      display: inline;
+      text-transform: none;
+      padding: 10px 15px;
+      font-size: .75em;
+      color: rgba(255, 255, 255, 0.5) !important;
+      position: relative;
+      top: 30px;
+    }
+    a,
+    a:visited {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+  }
+
+  //  copyright in footer
+  .ad-copyright {
+    width: 33%;
+    text-align: right;
+    float: right;
+  }
+
 //  end MAIN  homepage component
 }
 
@@ -262,9 +274,11 @@ body.mobile.homehero .app-main{
 body.homehero .latestposts{
   .partner-post-sidekick{
     cursor: pointer;
+
   }
   .excerpt p{
     position: relative;
+    margin: 10px;
   }
   .featured-image-thumbnail{
     margin-top: 0;
@@ -276,7 +290,9 @@ body.homehero .latestposts{
     display:none;
   }
 }
-
+.format-standard .post-content {
+  top: -19px;
+}
 .mega-footer .header-search-txt{
 
   min-width: 236px;
@@ -285,5 +301,8 @@ body.homehero .latestposts{
 
   .homehero .mega-footer .ad-copyright {
     width: auto;
+  }
+  .format-standard .post-content {
+    top: 0px;
   }
 }

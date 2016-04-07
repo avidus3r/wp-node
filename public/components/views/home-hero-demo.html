@@ -110,11 +110,12 @@
             <div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
                     <span class="partner-post-sidekick" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">
-                        <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
 
+                        <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
+                       <h2 class="excerpt-title" ng-bind-html="item.title.rendered"></h2>
                         <span class="excerpt" ng-bind-html="item.excerpt.rendered"></span>
 
-                        <h2 class="post-title">{{ item.title.rendered }}</h2>
+
 
                         <div class="author-meta">
                             <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
@@ -190,9 +191,23 @@
 
 <div class="mega-footer clearfix">
 
-    <div class="pull-left">
-        <ng-include src="'/views/partials/search.html'"></ng-include>
-    </div>
+    <ul class="">
+
+        <li class="search">
+            <input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+            <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
+        </li>
+        <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
+            <a href="/contact" class="ga-nav-about">Contact</a>
+        </li>
+        <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+            <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+        </li>
+        <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+            <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
+        </li>
+    </ul>
+
     <div class="ad-copyright" >
         <div>
             © 2016 alt_driver. All rights reserved.
