@@ -33,9 +33,20 @@
       text-align: center;
     }
     //  tighten up homepage a bit
-    .latestposts .post-list {
-      margin: .5%;
+    // .latestposts .post-list {
+    //   margin: .5%;
+    // }
+
+    .post-article {
+      width: 49%;
+      float: left;
+      margin-top: 20px !important;
+    }  
+
+    .post-article-right {
+      margin-left: 19px;
     }
+
 
 // space for smaller screens
     @media all and (max-width:800px) {
@@ -97,6 +108,14 @@
       text-align: center;
     }
   }
+
+.homehero .post-article-right {
+    margin-left: 0px;
+}
+
+.homehero .post-article {
+    width: 100%;
+}
 }
 
 @media all and (max-width:1000px) {
@@ -105,6 +124,15 @@
     .carousel-indicators {
       display: none;
   }
+
+  .homehero .post-article-right {
+    margin-left: 0px;
+}
+
+.homehero .post-article {
+    width: 100%;
+}
+
 }
 
 .homehero.desktop {
@@ -133,15 +161,15 @@
     }
 
   // the bottom half of home page
-  .homehero .latestposts .post-list {
-    float: left;
-    width: 49%;
-    margin: .5%;
-  }
+  // .homehero .latestposts .post-list {
+  //   float: left;
+  //   // width: 49%;
+  //   margin: .5%;
+  // }
 
   // set one post to full width - the third post
   .homehero .latestposts .full-width {
-    width:99%;
+    width:100%;
   }
 }
 
@@ -156,7 +184,7 @@
 
 @media all and (min-width:650px) {
   .split-lower .latestposts {
-    width: calc(100% - 310px);
+    // width: calc(100% - 310px);
     margin-right: 10px;
     float: left;
   }
@@ -241,6 +269,11 @@
 
 
 /* some mobile styles */
+
+  // set one post to full width - the third post
+.homehero .latestposts .full-width {
+  width:100%;
+}
 
 body.mobile .trending-nav {
   border:none;

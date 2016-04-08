@@ -44,18 +44,18 @@ Facebook SDK
 
     <div class="author-meta">
         <p class="item-author source-author"><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }}</p>
-        <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+        <p class="item-cat {{ $root.getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="$root.getCategory(item.category, item.link).name" ng-click="$root.goToCategory($root.getCategory(item.category, item.link).taxonomy +'/'+ $root.getCategory(item.category, item.link).slug)"></a></p>
 
         <span class="clearfix"></span>
     </div>
 
     <a name="comment"></a>
-    <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
-    <div class="post-content ga-post-content" ng-bind-html="renderContent(item.excerpt.rendered, $index, false)"></div>
+    <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ $root.getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ $root.getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ $root.getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
+    <div class="post-content ga-post-content" ng-bind-html="$root.renderContent(item.excerpt.rendered, $index, false)"></div>
     <div class="pub-name">
         <p>Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
     </div>
-    <div class="comments" ng-init="attachCommentsHandler()">
+    <div class="comments" ng-init="$root.attachCommentsHandler()">
         <div class="fb-wrapper" style="width:100%;">
             <div class="fb-comments" id="comments" data-href="{{ item.link }}" data-width="100%" data-numposts="5" data-version="v2.3">Loading comments...</div>
         </div>
@@ -70,17 +70,17 @@ Facebook SDK
         <div class="share-meta"><span class="vote-count" ng-init="totalVotes = item.votes.total_votes - (item.votes.votes_down || 0)">{{ totalVotes*7 }}</span> <span class="pointsTxt">{{ totalVotes*7 === 1 ? "point" : "points" }}</span></div>
         <div class="left pa-voting">
             <!--<ng-include src="'/views/partials/voting.html'"></ng-include>-->
-            <p id="votes-{{ item.id }}" class="votes right" ng-init="voteLoad(item.id, $index)">
-                <button type="button" ng-click="vote(item.id, 'up', $event)" data-post-id="{{ item.id }}" class="up btn ga-vote-up" name="up"><i class="fa fa-chevron-up"></i></button>
-                <button type="button" ng-click="vote(item.id, 'down', $event)" data-post-id="{{ item.id }}" class="down btn ga-vote-down" name="down"><i class="fa fa-chevron-down"></i></button>
+            <p id="votes-{{ item.id }}" class="votes right" ng-init="$root.voteLoad(item.id, $index)">
+                <button type="button" ng-click="$root.vote(item.id, 'up', $event)" data-post-id="{{ item.id }}" class="up btn ga-vote-up" name="up"><i class="fa fa-chevron-up"></i></button>
+                <button type="button" ng-click="$root.vote(item.id, 'down', $event)" data-post-id="{{ item.id }}" class="down btn ga-vote-down" name="down"><i class="fa fa-chevron-down"></i></button>
             </p>
         </div>
         <div class="ad-m-lr left pa-comments">
             <!-- take me to single with comments open -->
-            <button type="button" ng-click="commentBtnHandler($event, $index, {category: getCategory(item.category, item.link).slug, slug: item.slug})" class="btn ga-btn-comments"><i class="fa fa-comment"></i></button>
+            <button type="button" ng-click="$root.commentBtnHandler($event, $index, {category: $root.getCategory(item.category, item.link).slug, slug: item.slug})" class="btn ga-btn-comments"><i class="fa fa-comment"></i></button>
         </div>
         <div class="right pa-share">
-            <button type="button" class="btn ga-btn-share" ng-click="shareClick($event, item.slug, $index)">
+            <button type="button" class="btn ga-btn-share" ng-click="$root.shareClick($event, item.slug, $index)">
                 Share
             </button>
         </div>
@@ -92,17 +92,17 @@ Facebook SDK
         <div class="flexshare">
 
             <!-- facebook -->
-            <a ng-click="shareItemClick($event, item.slug)" class="flex-facebook fs-item ga-sharebar-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
+            <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-facebook fs-item ga-sharebar-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
                 <i class="fa fa-3x fa-facebook"></i>
             </a>
 
             <!-- email -->
-            <a ng-click="shareItemClick($event, item.slug)" class="flex-mail fs-item ga-sharebar-mail" href="mailto:?subject=Check out this video&body=You have got to see this - http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}" target="_blank">
+            <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-mail fs-item ga-sharebar-mail" href="mailto:?subject=Check out this video&body=You have got to see this - http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}" target="_blank">
                 <i class="fa fa-3x fa-envelope"></i>
             </a>
 
             <!-- sms -->
-            <a ng-click="shareItemClick($event, item.slug)" class="flex-sms fs-item ga-sharebar-sms" href="{{ getSMSLink('http://'+ getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug) }}">
+            <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-sms fs-item ga-sharebar-sms" href="{{ $root.getSMSLink('http://'+ $root.getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug) }}">
         <span class="fa-2x fa-stack fa-lg">
             <i class="fa fa-flip-horizontal fa-mobile fa-stack-2x fa-2x"></i>
             <i class="flex-sms-txt">...</i>
@@ -112,24 +112,24 @@ Facebook SDK
 
 
             <!-- whatsapp -->
-            <a ng-click="shareItemClick($event, item.slug)" href="whatsapp://send?text={{ decodeHtml(item.title.rendered) + ' - ' + 'http://'+ getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug }}" class="flex-whatsapp fs-item ga-sharebar-whatsapp">
+            <a ng-click="$root.shareItemClick($event, item.slug)" href="whatsapp://send?text={{ decodeHtml(item.title.rendered) + ' - ' + 'http://'+ $root.getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug }}" class="flex-whatsapp fs-item ga-sharebar-whatsapp">
                 <i class="fa fa-3x fa-whatsapp"></i>
             </a>
 
             <!-- reddit -->
-            <a ng-click="shareItemClick($event, item.slug)" class="flex-reddit fs-item ga-sharebar-reddit" href="//www.reddit.com/submit?url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&title={{ decodeHtml(item.title.rendered) }}" target="_blank">
+            <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-reddit fs-item ga-sharebar-reddit" href="//www.reddit.com/submit?url=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&title={{ decodeHtml(item.title.rendered) }}" target="_blank">
                 <i class="fa fa-3x fa-reddit"></i>
             </a>
 
 
             <!-- twitter -->
-            <a ng-click="shareItemClick($event, item.slug)" class="flex-twitter fs-item ga-sharebar-twitter" href="http://www.twitter.com/share?&text={{ decodeHtml(item.title.rendered) }}&url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
+            <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-twitter fs-item ga-sharebar-twitter" href="http://www.twitter.com/share?&text={{ decodeHtml(item.title.rendered) }}&url=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
                 <i class="fa fa-3x fa-twitter"></i>
             </a>
 
             <!-- googleplus -->
 
-            <a ng-click="shareItemClick($event, item.slug)" class="flex-gplus fs-item ga-sharebar-gplus" href="https://plus.google.com/share?url=http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
+            <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-gplus fs-item ga-sharebar-gplus" href="https://plus.google.com/share?url=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
                 <i class="fa fa-3x fa-google-plus"></i>
             </a>
         </div>

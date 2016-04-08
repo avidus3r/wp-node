@@ -102,12 +102,17 @@
     <!--  ################-->
     <!--  ################-->
     <div class="latestposts">
+    <cardlist posttype="post" numposts="3" viewtype="row" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true"></cardlist>
+<cardlist posttype="post" numposts="1" viewtype="column" category="gaming" pagenum="1" skip="0" format="" excerpt="true"></cardlist>
+<cardlist posttype="post" numposts="2" viewtype="row" category="crash-burn" pagenum="1" skip="0" format="" excerpt="true"></cardlist>
 
-        <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }} format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+
+
+        <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}  format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
 
 
-            <div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
+            <div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list post-article {{ $index === 2 ? 'full-width': '' }} {{ $index % 2 == 0 ? 'post-article-left': 'post-article-right' }}">
                 <div class="post-content feed-view post-view feed ">
                     <span class="partner-post-sidekick" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">
 
@@ -127,7 +132,7 @@
                 </div>
             </div>
 
-            <div ng-if="item.type ==='post-list' || (item.type === 'partner-post' && item.format === 'video')" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
+<!--             <div ng-if="item.type ==='post-list' || (item.type === 'partner-post' && item.format === 'video')" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
                 <div class="post-content feed-view post-view feed ">
                     <p>
                         <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
@@ -146,7 +151,7 @@
                         <span class="clearfix"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
         </div>
