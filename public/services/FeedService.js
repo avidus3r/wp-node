@@ -94,7 +94,12 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.queryArticles = function(type, numPosts, pageNum, skip, format, category){
         skip = skip || 0;
-        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip + '&category=' + category;
+
+        if(typeof category === 'string' && category !== '' && category !== null) category = '&category=' + category;
+        if(typeof format === 'string' && format !== '' && format !== null) format = '&format=' + format;
+
+        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip + category + format;
+
         var data = feed.get(url, 'get');
         return data;
     };
