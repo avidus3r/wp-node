@@ -1,6 +1,6 @@
 <div class="card-list" ng-repeat="item in cards track by $index">
 
-    <card class="view-type-{{ viewType }}" type="{{ item.type === 'post' ? 'post-list' : item.type }}"></card>
+    <card class="view-type-{{ viewType }}" type="{{ viewTemplate }}"></card>
     <!--<div ng-if="postType === 'animated-gif'">
         <ng-include src="'/views/cards/animated-gif.html'"></ng-include>
     </div>

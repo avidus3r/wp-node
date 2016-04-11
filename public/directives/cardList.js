@@ -12,21 +12,33 @@ var cardlist = function() {
             $scope.cardListItems = null;
             $scope.displayAds = true;
 
-            var postType    = $attrs.posttype,
-                numPosts    = $attrs.numposts,
-                pageNum     = $attrs.pagenum,
-                skip        = $attrs.skip,
-                format      = $attrs.format,
-                excerpt     = $attrs.excerpt,
-                viewType    = $attrs.viewtype,
-                category    = $attrs.category;
+            var postType        = $attrs.posttype,
+                numPosts        = $attrs.numposts,
+                pageNum         = $attrs.pagenum,
+                skip            = $attrs.skip,
+                format          = $attrs.format,
+                excerpt         = $attrs.excerpt,
+                viewType        = $attrs.viewtype,
+                viewTemplate    = $attrs.viewtemplate,
+                showSharebar    = $attrs.sharebar,
+                category        = $attrs.category;
 
-            if(excerpt){
-                $scope.showExcerpt = true;
+            if(excerpt === 'false'){
+                excerpt = false;
             }
-
+            if(showSharebar === 'false'){
+                showSharebar = false;
+            }
+            $scope.showExcerpt = excerpt;
             $scope.postType = postType;
             $scope.viewType = viewType;
+            $scope.showSharebar = showSharebar;
+            $scope.viewTemplate = viewTemplate;
+
+            if(viewTemplate === 'post-single') $scope.viewType = 'column';
+            if(typeof viewTemplate === 'undefined') $scope.viewTemplate = postType;
+            if(typeof showSharebar === 'undefined') $scope.showSharebar = true;
+
             $scope.postCategory = category;
 
             $scope.cardListItems = FeedService.queryArticles(postType, numPosts, pageNum, skip, format, category).then(function(result){

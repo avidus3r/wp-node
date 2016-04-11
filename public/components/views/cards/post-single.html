@@ -25,7 +25,7 @@ Facebook SDK
         <span class="clearfix"></span>
     </div>
     <a name="comment"></a>
-    <div class="post-content ga-post-content" ng-bind-html="renderContent(item.content.rendered, $index, false)"></div>
+    <div class="post-content ga-post-content" ng-bind-html="$root.renderContent(item.content.rendered, $index, false)"></div>
 
     <!--<ng-include src="'/views/partials/comments.html'" onload="attachCommentsHandler()"></ng-include>-->
     <div class="comments" ng-init="attachCommentsHandler()">

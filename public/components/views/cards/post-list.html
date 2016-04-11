@@ -16,11 +16,14 @@
 
         <span class="clearfix"></span>
     </div>
+
+    <div ng-if="showExcerpt" class="ad-p" ng-bind-html="item.excerpt.rendered"></div>
+
 </div>
 <!--
 <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>-->
 
-<div class="post-actions clearfix" ng-init="isVisible = false">
+<div ng-if="showSharebar" class="post-actions clearfix" ng-init="isVisible = false">
     <div class="ad-m">
         <div class="share-meta"><span class="vote-count" ng-init="totalVotes = item.votes.total_votes - (item.votes.votes_down || 0)">{{ totalVotes*7 }}</span> <span class="pointsTxt">{{ totalVotes*7 === 1 ? "point" : "points" }}</span></div>
         <div class="left pa-voting">
