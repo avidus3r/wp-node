@@ -75,7 +75,7 @@
       font-size: .75em;
       color: rgba(255, 255, 255, 0.5) !important;
       position: relative;
-      top: 30px;
+      top: 9px;
     }
     a,
     a:visited {
@@ -305,14 +305,61 @@ body.mobile.homehero .app-main{
 }
 
 body.homehero .latestposts{
+
+  .partner-post{
+
+    &.format-standard{
+
+      .item-cat{
+        position: relative;
+        float: left;
+        display: none;
+      }
+      .pub-name{
+        float: left;
+        font-size: .85em;
+        line-height: 1.25em;
+        margin: .25em 0 .5em .5em;
+      }
+      .excerpt-title{
+        clear:both;
+        padding: .5em .5em 0;
+        margin:0;
+        color:#000 !important;
+      }
+
+      .featured-image-thumbnail{
+        margin: .5em;
+        width: 35%;
+        height: auto;
+      }
+
+      .read-more{
+
+        background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 1%, rgba(255,255,255,1) 49%, rgba(255,255,255,1) 99%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 1%,rgba(255,255,255,1) 49%,rgba(255,255,255,1) 99%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 1%,rgba(255,255,255,1) 49%,rgba(255,255,255,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+        padding: 2em 0 .5em;
+        a{
+          display: block;
+          line-height:1em;
+        }
+      }
+
+    }
+  }
+
   .partner-post-sidekick{
     cursor: pointer;
-
   }
+
   .excerpt p{
     position: relative;
-    margin: 10px;
+    margin: 0 .5em;
+    //margin: 10px;
   }
+
   .featured-image-thumbnail{
     margin-top: 0;
     width: 35%;
@@ -322,14 +369,17 @@ body.homehero .latestposts{
   .post-content > p .read-more{
     display:none;
   }
-}
-.format-standard .post-content {
-  top: -19px;
-}
-.mega-footer .header-search-txt{
 
-  min-width: 236px;
 }
+
+.format-standard .post-content {
+  //top: -19px;
+}
+
+.mega-footer .header-search-txt{
+  min-width: 235px;
+}
+
 @media all and (max-width: 700px) {
 
   .homehero .mega-footer .ad-copyright {

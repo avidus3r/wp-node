@@ -137,7 +137,7 @@ var FeedService = function(app, appName, env, $http, $q){
                 sidekickCount = sidekickTotal-mixinActualCount;
 
                 if(sidekickDefaultType === 'post'){
-                    url = '/api/posts/' + sidekickCount + '/1/' + sidekickOffset;
+                    url = '/api/articles/post?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset;
                 }else{
                     url = '/api/articles/' + sidekickDefaultType + '?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset + '&format=' + mixinFormat;
                 }

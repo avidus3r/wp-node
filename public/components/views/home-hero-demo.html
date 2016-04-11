@@ -2,7 +2,6 @@
 
 <script type='text/javascript'>
     if(location.host.indexOf('app.altdriver') === -1) {
-        console.log('hi');
         var googletag = window.googletag;
         googletag.cmd.push(function () {
             if (!_isMobile()) {
@@ -23,8 +22,14 @@
     }
 </script>
 
-<div ng-if="!_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <div id="div-gpt-ad-1455657666158-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });</script></div>
+<div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+    <div id="div-gpt-ad-1455657666158-0">
+        <script type="text/javascript">
+            if(!_isMobile() && adsEnabled){
+                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });
+            }
+        </script>
+    </div>
 </div>
 
 <!--  end ad insertion -->
@@ -86,12 +91,24 @@
 </div>
 
 <div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });</script></div>
+    <div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7">
+        <script type="text/javascript">
+            if(_isMobile() && adsEnabled){
+                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });
+            }
+        </script>
+    </div>
 </div>
 
 <!--   insert an advert -->
 <div ng-if="!_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <div id="div-gpt-ad-1455657666158-1"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });</script></div>
+    <div id="div-gpt-ad-1455657666158-1">
+        <script type="text/javascript">
+            if(!_isMobile() && adsEnabled){
+                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });
+            }
+        </script>
+    </div>
 </div>
 
 <!--  end ad insertion -->
@@ -108,6 +125,7 @@
 
 
 
+
         <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}  format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
 
 
@@ -116,15 +134,22 @@
                 <div class="post-content feed-view post-view feed ">
                     <span class="partner-post-sidekick" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">
 
+                        <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+
+                        <h2 class="excerpt-title" ng-bind-html="item.title.rendered"></h2>
+                        <div class="pub-name">
+                            <p><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }} - Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
+                        </div>
+                        <span class="clearfix"></span>
                         <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
-                       <h2 class="excerpt-title" ng-bind-html="item.title.rendered"></h2>
+
                         <span class="excerpt" ng-bind-html="item.excerpt.rendered"></span>
 
 
 
                         <div class="author-meta">
                             <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-                            <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+
 
                             <span class="clearfix"></span>
                         </div>
@@ -158,12 +183,24 @@
 
         <!--  insert another advert -->
         <div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-            <div id="div-gpt-ad-1448906851482-8"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });</script></div>
+            <div id="div-gpt-ad-1448906851482-8">
+                <script type="text/javascript">
+                    if(_isMobile() && adsEnabled){
+                        googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });
+                    }
+                </script>
+            </div>
         </div>
     </div>
 
     <div class="lower-rail-ads" ng-if="adsEnabled">
-        <div id="div-gpt-ad-1455657666158-2"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });</script></div>
+        <div id="div-gpt-ad-1455657666158-2">
+            <script type="text/javascript">
+                if(!_isMobile() && adsEnabled){
+                    googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });
+                }
+            </script>
+        </div>
         <!--<script>
             window.fbAsyncInit = function() {
                 FB.Event.subscribe(

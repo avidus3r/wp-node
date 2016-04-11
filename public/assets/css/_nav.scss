@@ -208,3 +208,21 @@
 body.homehero .btn-submit-story {
   display: none !important;
 }
+
+.nav-bar-trending{
+  margin-left: 1em;
+  display: inline-block;
+  a{
+    line-height: 2em;
+    color: #666;
+    padding: .5em .75em;
+    margin: .5em .25em;
+    display: inline-block;
+    border-radius: 4px;
+    &:hover{
+      background: #ddd;
+      text-decoration: none;
+      color:#666;
+    }
+  }
+}
