@@ -85,7 +85,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.appConfig.displayAds = 'true';
 
-    if (location.href.indexOf('local.') > -1 || location.host.indexOf('app.altdriver') > -1) {
+    if (location.host.indexOf('app.altdriver') > -1) {
         $scope.appConfig.displayAds = 'false';
     }
 
