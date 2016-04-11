@@ -22,6 +22,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.package = {
         name: 'newsfeed'
     };
+    if(!data.hasOwnProperty('sponsors')){
+        data.sponsors = null;
+    }
+    if(!data.hasOwnProperty('instagram')){
+        data.instagram = null;
+    }
+    if(!data.hasOwnProperty('posts')){
+        data.sponsors = null;
+    }
+    if(!data.hasOwnProperty('post')){
+        data.instagram = null;
+    }
     $scope.appConfig = app;
     $scope.feedItems = [];
     $scope.feedItemElements = [];
@@ -303,6 +315,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             $scope.feedItemElements[index] = $scope.feedItems[index];
             $scope.feedItemPosition += 1;
         }
+
     };
 
     if ($location.$$path === '/adtest') {
@@ -358,6 +371,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         console.log('onScroll');
         if ($scope.currentView !== 'ads' && $scope.posts.length >= $scope.postsPerPage) {
             var feedItemEl = angular.element('.feed-item:last');
+
             if ((window.innerHeight + window.scrollY) >= angular.element('.app-main').height() - 50) {
                 angular.element('#loading-more').removeClass('hidden').show();
                 $scope.paged += 1;
@@ -375,6 +389,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             } else {
                 angular.element('#loading-more').hide();
             }
+
 
             if ($scope.sponsorPosts.length > 0) {
                 //$scope.trackSponsor();
@@ -582,26 +597,38 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.feedItemScrollAmount += 1;
                     pushedItems++;
                 }*/
+                if($scope.currentView === 'category'){
+                    /*if (index % 5 === 0 && index > 0) {
+                        var siteInContentAdItem = {};
+                        siteInContentAdItem.type = 'ad';
+                        //siteInContentAdItem.type = 'site-in-content';
+                        siteInContentAdItem.placementIndex = 2;
+                        postmap.push(siteInContentAdItem);
+                        $scope.feedItemScrollAmount += 1;
+                        pushedItems++;
+                    }*/
+                }else{
+                    if (index === 3) {
+                        var siteInContentAdItem = {};
+                        siteInContentAdItem.type = 'ad';
+                        //siteInContentAdItem.type = 'site-in-content';
+                        siteInContentAdItem.placementIndex = 2;
+                        pagedpostmap.push(siteInContentAdItem);
+                        $scope.feedItemScrollAmount += 1;
+                        pushedItems++;
+                    }
 
-                if (index === 3) {
-                    var siteInContentAdItem = {};
-                    siteInContentAdItem.type = 'ad';
-                    //siteInContentAdItem.type = 'site-in-content';
-                    siteInContentAdItem.placementIndex = 2;
-                    pagedpostmap.push(siteInContentAdItem);
-                    $scope.feedItemScrollAmount += 1;
-                    pushedItems++;
+                    if (index === 1) {
+                        var mainLeaderboardAdItem = {};
+                        mainLeaderboardAdItem.type = 'ad';
+                        //mainLeaderboardAdItem.type = 'main-leaderboard';
+                        mainLeaderboardAdItem.placementIndex = 1;
+                        pagedpostmap.push(mainLeaderboardAdItem);
+                        $scope.feedItemScrollAmount += 1;
+                        pushedItems++;
+                    }
                 }
 
-                if (index === 1) {
-                    var mainLeaderboardAdItem = {};
-                    mainLeaderboardAdItem.type = 'ad';
-                    //mainLeaderboardAdItem.type = 'main-leaderboard';
-                    mainLeaderboardAdItem.placementIndex = 1;
-                    pagedpostmap.push(mainLeaderboardAdItem);
-                    $scope.feedItemScrollAmount += 1;
-                    pushedItems++;
-                }
             }
 
             if ($scope.sponsors !== null && $scope.sponsorItems.length > 0) {
@@ -897,14 +924,29 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.loadGif = function(item, $event) {
         var postContainer = angular.element($event.currentTarget).closest('.post-content');
+        var originalView = postContainer.html();
+        $scope.currentGifItem = item;
+        $scope.currentGifEvt = $event;
+
         postContainer.css({
             'height': postContainer.height() + 'px'
         });
-        angular.element($event.currentTarget).parent().html('');
+
+        postContainer.find('.post-title, .item-cat, .featured-image').hide();
+        var imgContainer = angular.element($event.currentTarget).parent();
+        imgContainer.hide();
+
         var gif = angular.element(item.content.rendered);
         gif.find('img').css({
             'max-width': '100%',
             'height': 'auto'
+        }).on('click', function(e){
+            e.preventDefault();
+            postContainer.html(originalView);
+            angular.element(postContainer.find('.gif-btn')).on('click', function(e){
+
+                $scope.loadGif($scope.currentGifItem, e);
+            });
         });
         postContainer.prepend(gif);
     };
@@ -997,26 +1039,38 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             $scope.feedItemScrollAmount += 1;
                             pushedItems++;
                         }*/
+                        if($scope.currentView === 'category'){
+                            /*if (index % 5 === 0 && index > 0) {
+                                var siteInContentAdItem = {};
+                                siteInContentAdItem.type = 'ad';
+                                //siteInContentAdItem.type = 'site-in-content';
+                                siteInContentAdItem.placementIndex = 2;
+                                postmap.push(siteInContentAdItem);
+                                $scope.feedItemScrollAmount += 1;
+                                pushedItems++;
+                            }*/
+                        }else{
+                            if (index === 3) {
+                                var siteInContentAdItem = {};
+                                siteInContentAdItem.type = 'ad';
+                                //siteInContentAdItem.type = 'site-in-content';
+                                siteInContentAdItem.placementIndex = 2;
+                                $scope.feedItemScrollAmount += 1;
+                                pushedItems++;
+                                postmap.push(siteInContentAdItem);
+                            }
 
-                        if (index === 3) {
-                            var siteInContentAdItem = {};
-                            siteInContentAdItem.type = 'ad';
-                            //siteInContentAdItem.type = 'site-in-content';
-                            siteInContentAdItem.placementIndex = 2;
-                            $scope.feedItemScrollAmount += 1;
-                            pushedItems++;
-                            postmap.push(siteInContentAdItem);
+                            if (index === 1) {
+                                var mainLeaderboardAdItem = {};
+                                mainLeaderboardAdItem.type = 'ad';
+                                //mainLeaderboardAdItem.type = 'main-leaderboard';
+                                mainLeaderboardAdItem.placementIndex = 1;
+                                postmap.push(mainLeaderboardAdItem);
+                                $scope.feedItemScrollAmount += 1;
+                                pushedItems++;
+                            }
                         }
 
-                        if (index === 1) {
-                            var mainLeaderboardAdItem = {};
-                            mainLeaderboardAdItem.type = 'ad';
-                            //mainLeaderboardAdItem.type = 'main-leaderboard';
-                            mainLeaderboardAdItem.placementIndex = 1;
-                            postmap.push(mainLeaderboardAdItem);
-                            $scope.feedItemScrollAmount += 1;
-                            pushedItems++;
-                        }
                     }
 
                     /*angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {

@@ -207,5 +207,69 @@
   }
 }
 
+
+cardlist[viewtype="column"], .wrapper.category .feed-item .view-type-column{
+  width:100%;
+  float:left;
+  margin: 1em 0;
+  .item-cat{
+    font-size: .75em;
+  }
+  h2.post-title{
+    font-size:.95em;
+  }
+}
+
+cardlist[viewtype="row"]{
+  width:100%;
+  .card-list{
+    width:49%;
+    float:left;
+    &:first-child{
+      margin: 0 2% 0 0;
+    }
+
+    &:nth-child(3n){
+      margin-top: 1em;
+      width:100%;
+    }
+
+    font-size: 1em;
+
+    .item-cat{
+      font-size: .75em;
+    }
+
+    h2.post-title{
+      font-size:.95em;
+    }
+  }
+}
+
+.wrapper.category .feed-item .view-type-row{
+
+  width:49%;
+  float:left;
+  &:first-child{
+    margin: 0 1% 0 0;
+  }
+
+  &:nth-child(3n){
+    margin-top: 1em;
+    width:100%;
+  }
+
+  font-size: 1em;
+
+  .item-cat{
+    font-size: .75em;
+  }
+
+  h2.post-title{
+    font-size:.95em;
+  }
+
+}
+
 // Sponsored posts styles
 @import 'sponsors';

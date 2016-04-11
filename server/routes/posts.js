@@ -313,7 +313,10 @@ router.get('/api/heros/:perPage/:page/:skip', apicache('45 minutes'), function(r
  Feed Raw Query Items
  */
 router.get('/api/articles/:type', function(req,res){
-    var data = PostController.articles(req, req.params.type, Number(req.query.perPage), Number(req.query.page), Number(req.query.skip), req.query.format);
+    if(!req.query.format && req.params.type !== 'animated-gif'){
+        req.query.format = 'video';
+    }
+    var data = PostController.articles(req, req.params.type, Number(req.query.perPage), Number(req.query.page), Number(req.query.skip), req.query.format, req.query);
     data.then(function(result){
         if(result.length === 0){
             var response = {

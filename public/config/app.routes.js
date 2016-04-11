@@ -102,6 +102,21 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/abc/123/', {
+            templateUrl: '/views/cardlist.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route){
+                    return $q.all({
+                        config:null,
+                        posts:null,
+                        instagram:null,
+                        sponsors:null
+                    })
+                }
+            }
+        })
         .when('/partner-post/:slug/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -479,12 +494,15 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
         })
         .when('/category/:category/', {
             controller: 'FeedListController',
-            templateUrl: '/views/post.html',
+            templateUrl: '/views/category-post.html',
             redirectTo: false,
             reloadOnSearch: false,
             resolve:{
                 data: function($q, $route) {
                     var params = {};
+
+                    appConfig.per_page = 5;
+
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {

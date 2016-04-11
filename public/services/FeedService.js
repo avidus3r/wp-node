@@ -92,8 +92,14 @@ var FeedService = function(app, appName, env, $http, $q){
         return data;
     };
 
-    feed.queryArticles = function(type, numPosts, pageNum, skip){
-        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip || 0;
+    feed.queryArticles = function(type, numPosts, pageNum, skip, format, category){
+        skip = skip || 0;
+
+        if(typeof category === 'string' && category !== '' && category !== null) category = '&category=' + category;
+        if(typeof format === 'string' && format !== '' && format !== null) format = '&format=' + format;
+
+        var url = '/api/articles/' + type + '?perPage=' + numPosts + '&page=' + pageNum + '&skip=' + skip + category + format;
+
         var data = feed.get(url, 'get');
         return data;
     };
@@ -131,7 +137,7 @@ var FeedService = function(app, appName, env, $http, $q){
                 sidekickCount = sidekickTotal-mixinActualCount;
 
                 if(sidekickDefaultType === 'post'){
-                    url = '/api/posts/' + sidekickCount + '/1/' + sidekickOffset;
+                    url = '/api/articles/post?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset;
                 }else{
                     url = '/api/articles/' + sidekickDefaultType + '?perPage=' + sidekickCount + '&page=1&skip=' + sidekickOffset + '&format=' + mixinFormat;
                 }
