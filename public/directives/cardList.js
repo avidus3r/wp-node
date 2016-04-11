@@ -29,13 +29,17 @@ var cardlist = function() {
             if(showSharebar === 'false'){
                 showSharebar = false;
             }
+
+            if(postType === 'post' && typeof viewTemplate === 'undefined') viewTemplate = 'post-list';
+
             $scope.showExcerpt = excerpt;
             $scope.postType = postType;
             $scope.viewType = viewType;
             $scope.showSharebar = showSharebar;
             $scope.viewTemplate = viewTemplate;
 
-            if(viewTemplate === 'post-single') $scope.viewType = 'column';
+
+            if(viewTemplate === 'post-single') $attrs.$set('viewtype', 'column');
             if(typeof viewTemplate === 'undefined') $scope.viewTemplate = postType;
             if(typeof showSharebar === 'undefined') $scope.showSharebar = true;
 
