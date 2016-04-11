@@ -178,6 +178,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     if (!$routeParams.hasOwnProperty('slug') && $routeParams.hasOwnProperty('category')) {
         $scope.currentView = 'category';
+        $scope.postsPerPage = 10;
         $scope.currentCategory = $routeParams.category;
     }
 
@@ -598,15 +599,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     pushedItems++;
                 }*/
                 if($scope.currentView === 'category'){
-                    /*if (index % 5 === 0 && index > 0) {
+                    if (index > 0 && index % 5 === 0) {
                         var siteInContentAdItem = {};
                         siteInContentAdItem.type = 'ad';
                         //siteInContentAdItem.type = 'site-in-content';
                         siteInContentAdItem.placementIndex = 2;
-                        postmap.push(siteInContentAdItem);
+                        pagedpostmap.push(siteInContentAdItem);
                         $scope.feedItemScrollAmount += 1;
                         pushedItems++;
-                    }*/
+                    }
                 }else{
                     if (index === 3) {
                         var siteInContentAdItem = {};
@@ -1040,7 +1041,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             pushedItems++;
                         }*/
                         if($scope.currentView === 'category'){
-                            /*if (index % 5 === 0 && index > 0) {
+                            if (index === 5) {
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
                                 //siteInContentAdItem.type = 'site-in-content';
@@ -1048,7 +1049,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 postmap.push(siteInContentAdItem);
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
-                            }*/
+                            }
                         }else{
                             if (index === 3) {
                                 var siteInContentAdItem = {};
@@ -1116,6 +1117,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                 });
             }
+
             angular.forEach(postmap, function(item, index) {
                 if (typeof item !== 'undefined') {
                     if (item.type === 'post-list' || item.type === 'animated-gif' || item.type === 'partner-post') {

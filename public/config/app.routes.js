@@ -501,7 +501,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 data: function($q, $route) {
                     var params = {};
 
-                    appConfig.per_page = 5;
+                    appConfig.per_page = 9;
+                    appConfig.scroll_amount = 9;
 
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
