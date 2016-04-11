@@ -120,11 +120,22 @@
   }
 }
 
+.ad-post-companion:before{
+  content: "Advertisement";
+  float: left;
+  color: #999;
+  padding-bottom: .25em;
+  font-size: .75em;
+}
+
 @media all and (min-width: 728px) {
   .ad-post-companion{
 
     iframe{
       max-height:90px !important;
+    }
+   &:before{
+      font-size: .25em;
     }
 }
 }
