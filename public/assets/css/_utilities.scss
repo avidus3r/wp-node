@@ -65,6 +65,12 @@
   color: #fff !important;
   background-color: $color-ad-orange !important;
 }
+.ad-post-companion:before{
+  content: "Advertisement";
+  float: left;
+  color: #999;
+  padding-bottom: 5px;
+}
 
 /**
  * For modern browsers
