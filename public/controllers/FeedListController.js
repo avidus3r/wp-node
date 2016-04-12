@@ -22,16 +22,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.package = {
         name: 'newsfeed'
     };
-    if(!data.hasOwnProperty('sponsors')){
+    if (!data.hasOwnProperty('sponsors')) {
         data.sponsors = null;
     }
-    if(!data.hasOwnProperty('instagram')){
+    if (!data.hasOwnProperty('instagram')) {
         data.instagram = null;
     }
-    if(!data.hasOwnProperty('posts')){
+    if (!data.hasOwnProperty('posts')) {
         data.sponsors = null;
     }
-    if(!data.hasOwnProperty('post')){
+    if (!data.hasOwnProperty('post')) {
         data.instagram = null;
     }
     $scope.appConfig = app;
@@ -73,13 +73,45 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         mobileSmall: '../images/app_banner-320x50.jpg',
         mobileLarge: '../images/app_banner-300x250.jpg',
         desktop: '../images/app_banner-728x90.jpg'
+    }];
+
+    $scope.bannerElementsRef = [{
+        vendor: 'altdriver',
+        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
+        ad: '../images/app_banner-320x50.jpg',
+        adSize: '320x50'
+    }, {
+        vendor: 'altdriver',
+        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
+        ad: '../images/app_banner-300x250.jpg',
+        adSize: '320x250'
+    }, {
+        vendor: 'altdriver',
+        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
+        ad: '../images/app_banner-728x90.jpg',
+        adSize: '728x90'
     }, {
         vendor: 'autoTrader',
-        actionLink: 'http://www.autotrader.com/?LNX=SPGOOGBRANDCAMP&cid=SI_288975366_86803589220_1',
-        mobileSmall: '../images/autoTrader320x50.jpg',
-        mobileLarge: '',
-        desktop: ''
+        actionLink: 'http://www.autotrader.com/?&LNX=FYCALTDRIVER',
+        ad: '../images/autoTrader320x50.jpg',
+        adSize: '320x50'
+    }, {
+        vendor: 'wheelwell',
+        actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
+        ad: '../images/wheelwell728x90Ad1.gif',
+        adSize: '728x90'
+    }, {
+        vendor: 'wheelwell',
+        actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
+        ad: '../images/wheelwell728x90Ad2.jpg',
+        adSize: '728x90'
+    }, {
+        vendor: 'wheelwell',
+        actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
+        ad: '../images/wheelwell320x250Ad3.jpg',
+        adSize: '320x250'
     }];
+
     $scope.notIn = null;
 
 
@@ -420,11 +452,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var placementOneHeight = angular.element(ads[0]).children(0).height();
             var placementTwoHeight = angular.element(ads[1]).children(0).height();
 
-            replacementElements.push($scope.getAddElement('mobile', placementOneHeight));
-            setTimeout(function(){
-                replacementElements.push($scope.getAddElement('mobile', placementTwoHeight));
-            }, 3000);
-            // replacementElements.push($scope.getAddElement('mobile', placementTwoHeight));
+            replacementElements.push($scope.getAdElement('mobile', placementOneHeight));
+            replacementElements.push($scope.getAdElement('mobile', placementTwoHeight));
+            // replacementElements.push($scope.getAdElement('mobile', placementTwoHeight));
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
 
@@ -459,11 +489,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     'display': 'block'
                 })
             );
-            /*angular.element('pubad[placementIndex="3"]').css({
-                'height': adHeights[2] + 'px',
+            angular.element('pubad[placementIndex="3"]').css({
+                'height': placementTwoHeight + 'px',
                 'width': '100%',
                 'display': 'block'
-            }).children().remove();*/
+            }).children().remove();
             deferred.resolve();
         } else {
 
@@ -475,8 +505,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             var placementOneHeight = angular.element(ads[0]).children(0).height();
             var placementTwoHeight = angular.element(ads[1]).children(0).height();
 
-            replacementElements.push($scope.getAddElement('desktop', placementOneHeight));
-            replacementElements.push($scope.getAddElement('desktop', placementTwoHeight));
+            replacementElements.push($scope.getAdElement('desktop', placementOneHeight));
+            replacementElements.push($scope.getAdElement('desktop', placementTwoHeight));
             //adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
 
             ads[0].addClass('ad-banner').css({
@@ -520,12 +550,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         return deferred.promise;
     };
 
-    $scope.getAddElement = function(type, height) {
+    $scope.getAdElement = function(type, height) {
         var adElement;
         var comparedHeight = 90;
 
         function incVendorIndex() {
-            if ($scope.vendorIndex >= $scope.bannerElements.length -1) {
+            if ($scope.vendorIndex >= $scope.bannerElementsRef.length - 1) {
                 $scope.vendorIndex = 0;
             } else {
                 $scope.vendorIndex++;
@@ -533,32 +563,33 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         };
 
         if (type == 'desktop') {
-            // while ($scope.bannerElements[$scope.vendorIndex].desktop == '') {
-            //     incVendorIndex();
-            // }
+            while ($scope.bannerElementsRef[$scope.vendorIndex].adSize != '728x90') {
+                incVendorIndex();
+            }
             adElement = {
-                'ad': $scope.bannerElements[$scope.vendorIndex].desktop,
-                'link': $scope.bannerElements[$scope.vendorIndex].actionLink
+                'ad': $scope.bannerElementsRef[$scope.vendorIndex].ad,
+                'link': $scope.bannerElementsRef[$scope.vendorIndex].actionLink
             };
         } else {
             if (height > comparedHeight) {
+                while ($scope.bannerElementsRef[$scope.vendorIndex].adSize != '320x250') {
+                    incVendorIndex();
+                }
                 adElement = {
-                    'ad': $scope.bannerElements[$scope.vendorIndex].mobileLarge,
-                    'link': $scope.bannerElements[$scope.vendorIndex].actionLink
+                    'ad': $scope.bannerElementsRef[$scope.vendorIndex].ad,
+                    'link': $scope.bannerElementsRef[$scope.vendorIndex].actionLink
                 };
             } else {
+                while ($scope.bannerElementsRef[$scope.vendorIndex].adSize != '320x50') {
+                    incVendorIndex();
+                }
                 adElement = {
-                    'ad': $scope.bannerElements[$scope.vendorIndex].mobileSmall,
-                    'link': $scope.bannerElements[$scope.vendorIndex].actionLink
+                    'ad': $scope.bannerElementsRef[$scope.vendorIndex].ad,
+                    'link': $scope.bannerElementsRef[$scope.vendorIndex].actionLink
                 };
             }
         }
         incVendorIndex();
-        // if ($scope.vendorIndex >= $scope.bannerElements.length - 1) {
-        //     $scope.vendorIndex = 0;
-        // } else {
-        //     $scope.vendorIndex++;
-        // }
         console.log(adElement);
         return adElement;
     };
@@ -597,7 +628,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.feedItemScrollAmount += 1;
                     pushedItems++;
                 }*/
-                if($scope.currentView === 'category'){
+                if ($scope.currentView === 'category') {
                     /*if (index % 5 === 0 && index > 0) {
                         var siteInContentAdItem = {};
                         siteInContentAdItem.type = 'ad';
@@ -607,7 +638,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         $scope.feedItemScrollAmount += 1;
                         pushedItems++;
                     }*/
-                }else{
+                } else {
                     if (index === 3) {
                         var siteInContentAdItem = {};
                         siteInContentAdItem.type = 'ad';
@@ -940,10 +971,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         gif.find('img').css({
             'max-width': '100%',
             'height': 'auto'
-        }).on('click', function(e){
+        }).on('click', function(e) {
             e.preventDefault();
             postContainer.html(originalView);
-            angular.element(postContainer.find('.gif-btn')).on('click', function(e){
+            angular.element(postContainer.find('.gif-btn')).on('click', function(e) {
 
                 $scope.loadGif($scope.currentGifItem, e);
             });
@@ -1039,7 +1070,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             $scope.feedItemScrollAmount += 1;
                             pushedItems++;
                         }*/
-                        if($scope.currentView === 'category'){
+                        if ($scope.currentView === 'category') {
                             /*if (index % 5 === 0 && index > 0) {
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
@@ -1049,7 +1080,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
                             }*/
-                        }else{
+                        } else {
                             if (index === 3) {
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
