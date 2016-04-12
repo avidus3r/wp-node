@@ -421,7 +421,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
             ads[0].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('href','https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner')
                     .attr('target','_blank')
                     .css({
                         'height': adHeights[0] + 'px',
@@ -438,7 +438,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
             ads[1].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('href','https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner')
                     .attr('target','_blank')
                     .css({
                         'height': adHeights[1] + 'px',
@@ -474,7 +474,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
             ads[0].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('href','https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner')
                     .attr('target','_blank')
                     .css({
                         'height': adHeights[0] + 'px',
@@ -490,7 +490,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }).children().remove();
             ads[1].append(
                 angular.element('<a/>')
-                    .attr('href','https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android')
+                    .attr('href','https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner')
                     .attr('target','_blank')
                     .css({
                         'height': adHeights[1] + 'px',
