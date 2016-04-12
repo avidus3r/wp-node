@@ -22,7 +22,7 @@
     }
 </script>-->
 
-<div class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+<div ng-if="!isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
     <pubad placementIndex="6"></pubad>
     <!--<div id="div-gpt-ad-1455657666158-0">
         <script type="text/javascript">
@@ -196,7 +196,7 @@
         </div>
     </div>
 
-    <div class="lower-rail-ads" ng-if="adsEnabled">
+    <div class="lower-rail-ads" ng-if="adsEnabled && !_isMobile()">
         <!--<div id="div-gpt-ad-1455657666158-2">
             <script type="text/javascript">
                 if(!_isMobile() && adsEnabled){
