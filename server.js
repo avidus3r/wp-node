@@ -1098,46 +1098,35 @@ app.get('/category/(:category|:category/)', function(req,res){
         }
     }else{
 
-        try {
-            request(endpoint, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var category = {};
-                    var metatags = {};
-                    var categories = JSON.parse(body);
-                    //console.log(categories);
-                    if(typeof categories !== 'undefined') {
-                        /*for (var i = 0; i < categories.length; i++) {
-                            //console.log(categories[i]);
-                            if (categories[i].slug === catName) {
-                                category = categories[i];
-                            }
-                        }*/
-                        // Standard meta
-                        var categoryTitleWords = catName.split('-');
-                        var categoryTitle = '';
-                        for(var i=0;i<categoryTitleWords.length;i++){
-                            var word = categoryTitleWords[i].charAt(0).toUpperCase() + categoryTitleWords[i].slice(1) + ' ';
-                            categoryTitle += word;
-                        }
-                        metatags.title = categoryTitle + ' - Archives';
-                        //metatags.description = category.description;
+        var metatags = {
+            robots: 'index, follow',
+            title: appConfig.title,
+            description: appConfig.description,
+            // Facebook
+            fb_title: appConfig.title,
+            fb_site_name: appConfig.fb_sitename,
+            fb_url: appConfig.url,
+            fb_description: appConfig.description,
+            fb_type: 'website',
+            fb_image: appConfig.avatar,
+            fb_appid: appConfig.fb_appid,
+            canonical_url: '',
+            // Twitter
+            tw_card: '',
+            tw_description: '',
+            tw_title: '',
+            tw_site: '@altdriver',
+            tw_domain: 'alt_driver',
+            tw_creator: '@altdriver',
+            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+            url: 'http://admin.altdriver.com'
+        };
 
-                        // Facebook meta
-                        metatags.fb_type = 'object';
-                        metatags.canonical_url = '';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = categoryTitle + ' - Archives';
-                        metatags.fb_description = category.description;
-                        metatags.url = appUrl + '/' + req.params.category;
-                        metatags.fb_image = appConfig.avatar;
+        /*var template = swig.compileFile('./dist/index.html');
+         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+         res.send(output);*/
 
-                        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
-                    }
-                }
-            });
-        } catch (e) {
-            console.error(e);
-        }
+        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
     }
 });
 
