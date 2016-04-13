@@ -1071,13 +1071,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             $scope.feedItemScrollAmount += 1;
                             pushedItems++;
                         }*/
-<<<<<<< HEAD
                         if ($scope.currentView === 'category') {
                             /*if (index % 5 === 0 && index > 0) {
-=======
-                        if($scope.currentView === 'category'){
-                            if (index === 5) {
->>>>>>> 003abc8afdfd232c11596ea44be4bcf18ac70b8e
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
                                 //siteInContentAdItem.type = 'site-in-content';
@@ -1085,13 +1080,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 postmap.push(siteInContentAdItem);
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
-<<<<<<< HEAD
+
                             }*/
                         } else {
-=======
-                            }
-                        }else{
->>>>>>> 003abc8afdfd232c11596ea44be4bcf18ac70b8e
                             if (index === 3) {
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
