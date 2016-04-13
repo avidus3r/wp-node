@@ -9,10 +9,10 @@ describe('hlb-nav', function() {
         browser.get('http://local.altdriver.com:3000');
         // menu button click should open nav
         hottestLink.click();
-        browser.getCurrentUrl().then(function() {
+        var currentUrl  = browser.getCurrentUrl().then(function() {
         }).then(function () {
-            expect(currentUrl !== 'http://local.altdriver.com:3000/trending/hottest/'||'http://local.altdriver.com:3000/trending/latest/';
-        };
+            expect(currentUrl !== 'http://local.altdriver.com:3000/trending/hottest/'||'http://local.altdriver.com:3000/trending/latest/');
+        })
     });
 
     it('should navigate to Latest view', function() {
