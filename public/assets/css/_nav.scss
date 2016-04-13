@@ -153,19 +153,13 @@
 }
 
 
-@media all and (min-width: 670px ) and (max-width:1800px) {
+@media all and (min-width: 670px ) {
   // 4 columns nav
   .navbar .nav > li {
     width: 25%;
   }
 }
 
-@media all and (min-width: 1801px ) {
-  // 4 columns nav
-  .navbar .nav > li {
-    width: 10%;
-  }
-}
 
 // submit story button
 .btn-submit-story {
