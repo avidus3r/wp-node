@@ -218,6 +218,8 @@
 
 cardlist[viewtype="column"], .wrapper.category .feed-item .view-type-column{
   width:100%;
+  display: block;
+  overflow: auto;
   float:left;
   margin: 1em 0;
   .item-cat{
@@ -230,6 +232,8 @@ cardlist[viewtype="column"], .wrapper.category .feed-item .view-type-column{
 
 cardlist[viewtype="row"]{
   width:100%;
+  display: block;
+  overflow: auto;
   .card-list{
     width:49%;
     float:left;

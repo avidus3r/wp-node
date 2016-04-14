@@ -93,6 +93,11 @@
   //  end MAIN  homepage component
 }
 
+  .category-header {
+    margin: 35px 0 5px 0;
+    color: #333;
+  }
+
 @media all and (max-width:800px) {
   // small screen footer tweaks
   .homehero .mega-footer {
