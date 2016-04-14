@@ -67,13 +67,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.hideLoading = true;
     $scope.fbReady = false;
     $scope.vendorIndex = 0;
-    $scope.bannerElements = [{
-        vendor: 'altdriver',
-        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        mobileSmall: '../images/app_banner-320x50.jpg',
-        mobileLarge: '../images/app_banner-300x250.jpg',
-        desktop: '../images/app_banner-728x90.jpg'
-    }];
 
     $scope.bannerElementsRef = [{
         vendor: 'altdriver',
@@ -1217,32 +1210,33 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
 
 
+            $scope.$on('$viewContentLoaded', function() {
+                // content is fully loaded !!
+                FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip, $scope.notIn).then(
+                    function(data) {
+                        $scope.currentView = 'list';
+                        $scope.posts = data;
+                        var postmap = [];
 
-            FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip, $scope.notIn).then(
-                function(data) {
-                    $scope.currentView = 'list';
-                    $scope.posts = data;
-                    var postmap = [];
+                        angular.forEach($scope.posts, function(item, index) {
+                            if (item.type !== 'animated-gif' && item.type !== 'partner-post') {
+                                item.type = 'post-list';
+                            }
+                            if (item.type === 'partner-post') {
+                                item.category = [{
+                                    'name': 'Partner Post',
+                                    'slug': 'partner-post'
+                                }];
+                            }
+                            if (item.type === 'animated-gif') {
+                                item.category = [{
+                                    'name': 'Animated GIF',
+                                    'slug': 'animated-gif'
+                                }];
+                            }
+                            if (Number($scope.appConfig.adsPerPage) > 0) {
 
-                    angular.forEach($scope.posts, function(item, index) {
-                        if (item.type !== 'animated-gif' && item.type !== 'partner-post') {
-                            item.type = 'post-list';
-                        }
-                        if (item.type === 'partner-post') {
-                            item.category = [{
-                                'name': 'Partner Post',
-                                'slug': 'partner-post'
-                            }];
-                        }
-                        if (item.type === 'animated-gif') {
-                            item.category = [{
-                                'name': 'Animated GIF',
-                                'slug': 'animated-gif'
-                            }];
-                        }
-                        if (Number($scope.appConfig.adsPerPage) > 0) {
-
-                            /*if (index === 5) {
+                                /*if (index === 5) {
                                 var adItem = {};
                                 adItem.type = 'ad';
                                 //adItem.type = 'post-half-page';
@@ -1252,32 +1246,32 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 pushedItems++;
                             }*/
 
-                            if (index === 3) {
-                                var siteInContentAdItem = {};
-                                siteInContentAdItem.type = 'ad';
-                                //siteInContentAdItem.type = 'site-in-content';
-                                siteInContentAdItem.placementIndex = 2;
-                                postmap.push(siteInContentAdItem);
-                                $scope.feedItemScrollAmount += 1;
-                                pushedItems++;
-                            }
+                                if (index === 3) {
+                                    var siteInContentAdItem = {};
+                                    siteInContentAdItem.type = 'ad';
+                                    //siteInContentAdItem.type = 'site-in-content';
+                                    siteInContentAdItem.placementIndex = 2;
+                                    postmap.push(siteInContentAdItem);
+                                    $scope.feedItemScrollAmount += 1;
+                                    pushedItems++;
+                                }
 
-                            if (index === 1) {
-                                var mainLeaderboardAdItem = {};
-                                mainLeaderboardAdItem.type = 'ad';
-                                //mainLeaderboardAdItem.type = 'main-leaderboard';
-                                mainLeaderboardAdItem.placementIndex = 1;
-                                postmap.push(mainLeaderboardAdItem);
-                                $scope.feedItemScrollAmount += 1;
-                                pushedItems++;
+                                if (index === 1) {
+                                    var mainLeaderboardAdItem = {};
+                                    mainLeaderboardAdItem.type = 'ad';
+                                    //mainLeaderboardAdItem.type = 'main-leaderboard';
+                                    mainLeaderboardAdItem.placementIndex = 1;
+                                    postmap.push(mainLeaderboardAdItem);
+                                    $scope.feedItemScrollAmount += 1;
+                                    pushedItems++;
+                                }
                             }
-                        }
-                        /*angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
+                            /*angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
 
                             var card = cardItem.card;
 
                             */
-                        /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+                            /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
                              card = $scope.sponsorItems[$scope.paged];
                              card.type = 'sponsor';
                              card.position = Number(item.card.position);
@@ -1285,7 +1279,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                              $scope.splicedItems++;
                              $scope.sponsorPosts.push(index);
                              }*/
-                        /*
+                            /*
                             if (card.type === 'instagram' && index === Number(card.position)) {
 
                                 if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null) {
@@ -1302,37 +1296,38 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                         });*/
 
-                        if ($scope.sponsors !== null && $scope.sponsorItems.length > 0) {
-                            if (index > 0 && index % 2 === 0) {
-                                if ($scope.sponsorCount <= $scope.sponsorItems.length - 1) {
-                                    $scope.sponsorItems[$scope.sponsorCount].type = 'sponsor';
-                                    postmap.push($scope.sponsorItems[$scope.sponsorCount]);
-                                    $scope.sponsorCount++;
-                                    $scope.feedItemScrollAmount += 1;
-                                    pushedItems++;
+                            if ($scope.sponsors !== null && $scope.sponsorItems.length > 0) {
+                                if (index > 0 && index % 2 === 0) {
+                                    if ($scope.sponsorCount <= $scope.sponsorItems.length - 1) {
+                                        $scope.sponsorItems[$scope.sponsorCount].type = 'sponsor';
+                                        postmap.push($scope.sponsorItems[$scope.sponsorCount]);
+                                        $scope.sponsorCount++;
+                                        $scope.feedItemScrollAmount += 1;
+                                        pushedItems++;
+                                    }
                                 }
                             }
-                        }
 
-                        postmap.push(item);
-                    });
+                            postmap.push(item);
+                        });
 
-                    angular.forEach(postmap, function(item, index) {
+                        angular.forEach(postmap, function(item, index) {
 
-                        if (item.type === 'post-list' || item.type === 'partner-post' || item.type === 'animated-gif') {
-                            item.post_index = $scope.postIndex;
-                            $scope.postIndex++;
-                        }
-                        $scope.createFeedItem(item, $scope.feedItems.length);
-                    });
-                },
-                function(error) {
+                            if (item.type === 'post-list' || item.type === 'partner-post' || item.type === 'animated-gif') {
+                                item.post_index = $scope.postIndex;
+                                $scope.postIndex++;
+                            }
+                            $scope.createFeedItem(item, $scope.feedItems.length);
+                        });
+                    },
+                    function(error) {
 
-                },
-                function(notification) {
+                    },
+                    function(notification) {
 
-                }
-            );
+                    }
+                );
+            });
         }
     };
 
