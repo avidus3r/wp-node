@@ -1,269 +1,230 @@
 <!--   insert an advert -->
-
 <!--<script type='text/javascript'>
-    if(location.host.indexOf('app.altdriver') === -1) {
-        var googletag = window.googletag;
-        googletag.cmd.push(function () {
-            if (!_isMobile()) {
-                googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_01', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_02', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-1').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/AD_Home_Desktop_RR_01', [[300, 600], [300, 250]], 'div-gpt-ad-1455657666158-2').addService(googletag.pubads());
-                googletag.pubads().collapseEmptyDivs();
-                googletag.pubads().enableSingleRequest();
-                googletag.enableServices();
-            } else {
-                googletag.defineSlot('/110669458/AD_Mobile_Feed01_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-7').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/AD_Mobile_Feed02_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-8').addService(googletag.pubads());
-                googletag.pubads().collapseEmptyDivs();
-                googletag.pubads().enableSingleRequest();
-                googletag.enableServices();
-            }
-        });
-    }
+if(location.host.indexOf('app.altdriver') === -1) {
+var googletag = window.googletag;
+googletag.cmd.push(function () {
+if (!_isMobile()) {
+googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_01', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-0').addService(googletag.pubads());
+googletag.defineSlot('/110669458/AD_Home_Desktop_Leaderboard_02', [[728, 90], [970, 90]], 'div-gpt-ad-1455657666158-1').addService(googletag.pubads());
+googletag.defineSlot('/110669458/AD_Home_Desktop_RR_01', [[300, 600], [300, 250]], 'div-gpt-ad-1455657666158-2').addService(googletag.pubads());
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+} else {
+googletag.defineSlot('/110669458/AD_Mobile_Feed01_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-7').addService(googletag.pubads());
+googletag.defineSlot('/110669458/AD_Mobile_Feed02_Flex', [[300, 250], [320, 50], [1, 1]], 'div-gpt-ad-1448906851482-8').addService(googletag.pubads());
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+}
+});
+}
 </script>-->
-
 <div ng-if="!isMobile()" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <pubad placementIndex="6"></pubad>
-    <!--<div id="div-gpt-ad-1455657666158-0">
-        <script type="text/javascript">
-            if(!_isMobile() && adsEnabled){
-                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });
-            }
-        </script>
-    </div>-->
+<pubad placementIndex="6"></pubad>
+<!--<div id="div-gpt-ad-1455657666158-0">
+    <script type="text/javascript">
+    if(!_isMobile() && adsEnabled){
+    googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-0"); });
+    }
+    </script>
+</div>-->
 </div>
-
 <!--  end ad insertion -->
 <div class="clearfix cf homepage-wrapper">
-    <div class="homepage-carousel">
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-                <div ng-repeat="item in heroItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
-                    <div ng-if="item.type === 'post-list'" class="card-item post-list ">
-                        <div class="post-content feed-view post-view feed ">
-                            <p>
-                                <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
-                                    <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
-                                    <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
-                                </a>
-                            </p>
-                            <h2 class="post-title">
-                                <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
-                            </h2>
-
-                            <div class="author-meta">
-                                <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-                                <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
-
-                                <span class="clearfix"></span>
-                            </div>
+<div class="homepage-carousel">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div ng-repeat="item in heroItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+                <div ng-if="item.type === 'post-list'" class="card-item post-list ">
+                    <div class="post-content feed-view post-view feed ">
+                        <p>
+                            <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                                <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
+                                <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
+                            </a>
+                        </p>
+                        <h2 class="post-title">
+                        <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+                        </h2>
+                        <div class="author-meta">
+                            <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                            <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+                            <span class="clearfix"></span>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--  end carousel items -->
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
+        <!--  end carousel items -->
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-
-    <!--  new trending menu-->
-    <div>
-        <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
-    </div>
-
 </div>
-
+<!--  new trending menu-->
+<div>
+    <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
+</div>
+</div>
 <div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <!--<div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7">
-        <script type="text/javascript">
-            if(_isMobile() && adsEnabled){
-                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });
-            }
-        </script>
-    </div>-->
-    <pubad placementIndex="2"></pubad>
+<!--<div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7">
+    <script type="text/javascript">
+    if(_isMobile() && adsEnabled){
+    googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-7"); });
+    }
+    </script>
+</div>-->
+<pubad placementIndex="2"></pubad>
 </div>
-
 <!--   insert an advert -->
 <div ng-if="!_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-    <!--<div id="div-gpt-ad-1455657666158-1">
-        <script type="text/javascript">
-            if(!_isMobile() && adsEnabled){
-                googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });
-            }
-        </script>
-    </div>-->
-    <pubad placementIndex="7"></pubad>
+<!--<div id="div-gpt-ad-1455657666158-1">
+<script type="text/javascript">
+if(!_isMobile() && adsEnabled){
+googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1"); });
+}
+</script>
+</div>-->
+<pubad placementIndex="7"></pubad>
 </div>
-
 <!--  end ad insertion -->
-
 <!--  ################-->
 <!--  ################ to see split bottom, change add class of split-lower-->
 <div class="split-lower clearfix">
-    <!--  ################-->
-    <!--  ################-->
-    <div class="latestposts">
-        <h3 class="category-header">Insane Stunts</h3>
-        <cardlist posttype="post" numposts="3" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-        <h3 class="category-header">Gaming</h3>
-        <cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="gaming" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-        <h3 class="category-header">Crash Burn</h3>
-        <cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="crash-burn" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-
-
-
-
-        <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}  format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
-
-
-
-            <div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list post-article {{ $index === 2 ? 'full-width': '' }} {{ $index % 2 == 0 ? 'post-article-left': 'post-article-right' }}">
-                <div class="post-content feed-view post-view feed ">
-                    <span class="partner-post-sidekick" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">
-
-                        <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
-
-                        <!--<div class="pub-name">
-                            <p><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }} - Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
-                        </div>-->
-
-                        <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
-                        <h2 class="excerpt-title" ng-bind-html="item.title.rendered"></h2>
-                        <span class="excerpt" ng-bind-html="item.excerpt.rendered"></span>
-
-
-
-                        <div class="author-meta">
-                            <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-
-
-                            <span class="clearfix"></span>
-                        </div>
-                    </span>
-                </div>
-            </div>
-
-            <!--             <div ng-if="item.type ==='post-list' || (item.type === 'partner-post' && item.format === 'video')" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
-                            <div class="post-content feed-view post-view feed ">
-                                <p>
-                                    <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
-                                        <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
-                                        <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
-                                    </a>
-                                </p>
-                                <h2 class="post-title">
-                                    <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
-                                </h2>
-
-                                <div class="author-meta">
-                                    <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
-                                    <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
-
-                                    <span class="clearfix"></span>
-                                </div>
-                            </div>
-                        </div> -->
-
-
-        </div>
-
-        <!--  insert another advert -->
-        <div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
-            <!--<div id="div-gpt-ad-1448906851482-8">
-                <script type="text/javascript">
-                    if(_isMobile() && adsEnabled){
-                        googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });
-                    }
-                </script>
+<!--  ################-->
+<!--  ################-->
+<div class="latestposts">
+<h3 class="category-header">Insane Stunts</h3>
+<cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<h3 class="category-header">Gaming</h3>
+<cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="gaming" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="crash-burn" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}  format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
+<div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list post-article {{ $index === 2 ? 'full-width': '' }} {{ $index % 2 == 0 ? 'post-article-left': 'post-article-right' }}">
+    <div class="post-content feed-view post-view feed ">
+        <span class="partner-post-sidekick" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">
+            <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+            <!--<div class="pub-name">
+                <p><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }} - Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
             </div>-->
-            <pubad placementIndex="3"></pubad>
+            <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
+            <h2 class="excerpt-title" ng-bind-html="item.title.rendered"></h2>
+            <span class="excerpt" ng-bind-html="item.excerpt.rendered"></span>
+            <div class="author-meta">
+                <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+                <span class="clearfix"></span>
+            </div>
+        </span>
+    </div>
+</div>
+<!--             <div ng-if="item.type ==='post-list' || (item.type === 'partner-post' && item.format === 'video')" class="card-item post-list {{ $index === 2 ? 'full-width': '' }}">
+    <div class="post-content feed-view post-view feed ">
+        <p>
+            <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
+                <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
+                <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
+            </a>
+        </p>
+        <h2 class="post-title">
+        <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+        </h2>
+        <div class="author-meta">
+            <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
+            <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>
+            <span class="clearfix"></span>
         </div>
     </div>
-
-    <div class="lower-rail-ads" ng-if="adsEnabled && !_isMobile()">
-        <!--<div id="div-gpt-ad-1455657666158-2">
-            <script type="text/javascript">
-                if(!_isMobile() && adsEnabled){
-                    googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });
-                }
-            </script>
-        </div>-->
-        <!--<pubad placementIndex="4"></pubad>-->
-        <pubad placementIndex="8"></pubad>
-        <!--<script>
-            window.fbAsyncInit = function() {
-                FB.Event.subscribe(
-                        'ad.loaded',
-                        function(placementId) {
-                            console.log('Audience Network ad loaded');
-                        }
-                );
-                FB.Event.subscribe(
-                        'ad.error',
-                        function(errorCode, errorMessage, placementId) {
-                            console.log('Audience Network error (' + errorCode + ') ' + errorMessage);
-                        }
-                );
-            };
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk/xfbml.ad.js#xfbml=1&version=v2.5&appId=638692042912150";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-        <fb:ad placementid="638692042912150_912028795578472" format="300x250" testmode="true"></fb:ad>-->
-    </div>
+</div> -->
+</div>
+<!--  insert another advert -->
+<div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
+<!--<div id="div-gpt-ad-1448906851482-8">
+    <script type="text/javascript">
+    if(_isMobile() && adsEnabled){
+    googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-8"); });
+    }
+    </script>
+</div>-->
+<pubad placementIndex="3"></pubad>
+</div>
+</div>
+<div class="lower-rail-ads" ng-if="adsEnabled && !_isMobile()">
+<!--<div id="div-gpt-ad-1455657666158-2">
+<script type="text/javascript">
+if(!_isMobile() && adsEnabled){
+googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-2"); });
+}
+</script>
+</div>-->
+<!--<pubad placementIndex="4"></pubad>-->
+<pubad placementIndex="8"></pubad>
+<!--<script>
+window.fbAsyncInit = function() {
+FB.Event.subscribe(
+'ad.loaded',
+function(placementId) {
+console.log('Audience Network ad loaded');
+}
+);
+FB.Event.subscribe(
+'ad.error',
+function(errorCode, errorMessage, placementId) {
+console.log('Audience Network error (' + errorCode + ') ' + errorMessage);
+}
+);
+};
+(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/sdk/xfbml.ad.js#xfbml=1&version=v2.5&appId=638692042912150";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+<fb:ad placementid="638692042912150_912028795578472" format="300x250" testmode="true"></fb:ad>-->
+</div>
 </div>
 <div class="trending-nav row clearfix">
-    <button type="button" ng-click="goToPage($event,$index,'/trending/best')" class="col-sm-12 col-xs-12 btn-default ad-home-more">View More</button>
+<button type="button" ng-click="goToPage($event,$index,'/trending/best')" class="col-sm-12 col-xs-12 btn-default ad-home-more">View More</button>
 </div>
-
 <div class="mega-footer clearfix">
-
-    <ul class="">
-
-        <li class="search">
-            <input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
-            <button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
-        </li>
-        <li class="about legal" ng-click="goToPage($event, $index, '/contact')">
-            <a href="/contact" class="ga-nav-about">Contact</a>
-        </li>
-        <li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
-            <a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
-        </li>
-        <li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
-            <a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
-        </li>
-    </ul>
-
-    <div class="ad-copyright" >
-        <div>
-            © 2016 alt_driver. All rights reserved.
-        </div>
-        <div>
-            <a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
-        </div>
-    </div>
+<ul class="">
+<li class="search">
+<input type="text" name="s" class="header-search-txt" ng-keypress="$event.keyCode === 13 ? search() : return" placeholder="Search...">
+<button ng-click="search()" id="search" type="button" class="btn btn-default btn-search ga-btn-search"><i class="fa fa-search"></i></button>
+</li>
+<li class="about legal" ng-click="goToPage($event, $index, '/contact')">
+<a href="/contact" class="ga-nav-about">Contact</a>
+</li>
+<li class="legal visitor" ng-click="goToPage($event, $index, '/visitor-agreement')">
+<a href="/visitor-agreement" class="ga-nav-visitor">Visitor Agreement</a>
+</li>
+<li class="legal privacy" ng-click="goToPage($event, $index, '/privacy-policy')">
+<a href="/privacy-policy" class="ga-nav-privacy">Privacy</a>
+</li>
+</ul>
+<div class="ad-copyright" >
+<div>
+© 2016 alt_driver. All rights reserved.
+</div>
+<div>
+<a id="_bapw-link" href="http://info.evidon.com/pub_info/3675?v=1&amp;nt=0&amp;nw=false" target="_blank" style="text-decoration:none !important;"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important;" class="no-display appear" src="http://c.betrad.com/pub/icon1.png"><span style="vertical-align:middle !important">AdChoices</span></a>
+</div>
+</div>
 </div>
