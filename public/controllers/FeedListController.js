@@ -89,6 +89,26 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         ad: '../images/autoTrader320x50.jpg',
         adSize: '320x50'
     }, {
+        vendor: 'caffeineOctane',
+        actionLink: 'http://bit.ly/1Y2lb10',
+        ad: '../images/co-320x50YouTube.jpg',
+        adSize: '320x50'
+    }, {
+        vendor: 'caffeineOctane',
+        actionLink: 'http://bit.ly/1Y2lb10',
+        ad: '../images/co-320x250youtube.jpg',
+        adSize: '320x250'
+    }, {
+        vendor: 'caffeineOctane',
+        actionLink: 'http://bit.ly/1pxqcCQ',
+        ad: '../images/co-320x250instagram.jpg',
+        adSize: '320x250'
+    }, {
+        vendor: 'caffeineOctane',
+        actionLink: ' http://bit.ly/1bbw5b8',
+        ad: '../images/co-320x50web1.jpg',
+        adSize: '320x50'
+    }, {
         vendor: 'wheelwell',
         actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
         ad: '../images/wheelwell728x90Ad1.gif',
