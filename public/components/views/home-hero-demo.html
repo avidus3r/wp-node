@@ -109,14 +109,19 @@ googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1");
 <!--  ################-->
 <!--  ################-->
 <div class="latestposts">
-<h3 class="category-header">Insane Stunts</h3>
-<cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-<h3 class="category-header">Gaming</h3>
+<h3 class="category-header insane-stunts">Insane Stunts</h3>
+<cardlist posttype="post" numposts="2" viewtype="column" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="2" format="" excerpt="false" sharebar="false"></cardlist>
+
+    <h3 class="category-header luxury">Luxury</h3>
+    <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="luxury" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+    <cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="luxury" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+
+    <h3 class="category-header gaming">Gaming</h3>
 <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="gaming" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="crash-burn" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="gaming" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
 <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}  format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">
-<div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list post-article {{ $index === 2 ? 'full-width': '' }} {{ $index % 2 == 0 ? 'post-article-left': 'post-article-right' }}">
+<div ng-if="item.type ==='partner-post' && item.format === 'standard'" class="card-item post-list post-article full-width">
     <div class="post-content feed-view post-view feed ">
         <span class="partner-post-sidekick" ng-click="goToPage($event, $index, '/partner-post/' + item.slug +'/')">
             <p class="item-cat {{ getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="getCategory(item.category, item.link).name" ng-click="goToCategory(getCategory(item.category, item.link).taxonomy +'/'+ getCategory(item.category, item.link).slug)"></a></p>

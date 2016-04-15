@@ -93,10 +93,10 @@
   //  end MAIN  homepage component
 }
 
-  .category-header {
-    margin: 35px 0 5px 0;
-    color: #333;
-  }
+.category-header {
+  margin: 35px 0 5px 0;
+  color: #333;
+}
 
 @media all and (max-width:800px) {
   // small screen footer tweaks
@@ -165,17 +165,6 @@
     padding: .25em;
   }
 
-  // the bottom half of home page
-  // .homehero .latestposts .post-list {
-  //   float: left;
-  //   // width: 49%;
-  //   margin: .5%;
-  // }
-
-  // set one post to full width - the third post
-  .homehero .latestposts .full-width {
-    width:100%;
-  }
 }
 
 .homehero {
@@ -310,6 +299,32 @@ body.mobile.homehero .app-main{
 }
 
 body.homehero .latestposts{
+
+  // hide category from homepage
+  .item-cat{
+    display: none;
+  }
+
+  // TEMP REFACTOR LATER
+  h3 {
+
+    @extend h4;
+
+    color: white;
+    padding:.5em;
+    margin-bottom: 0;
+    background-color: $color-ad-green; // default
+
+    //insane stunts
+    &.insane-stunts {background-color: $color-ad-purple;}
+
+    // crash and burn
+    &.crash-burn {background-color: $color-ad-red;}
+
+    // gaming
+    &.gaming {background-color: black;}
+
+  }
 
   .partner-post{
 

@@ -204,6 +204,13 @@
   }
 }
 
+// titles in partner posts are not OVER the featured images but need to be the correct size
+.partner-post-sidekick {
+  h2.excerpt-title, h2.excerpt-title a {
+    font-size: 1.5em; // font size controls all magical ems
+  }
+}
+
 // animated gif
 .animated-gif {
   .post-content img {
@@ -255,6 +262,26 @@ cardlist[viewtype="row"]{
     h2.post-title{
       font-size:.95em;
     }
+  }
+}
+
+// style the articles with excerpts visible. need to undo title crap
+cardlist[excerpt="true"] {
+  // display title
+  .post-content h2.post-title, .post-content h2.post-title a {
+    font-size: 1.5em; // font size controls all magical ems
+    position: relative;
+    bottom: 0;
+    //height: 3em;
+    height: auto;
+    width: 100%;
+    overflow: visible;
+    background-color: transparent;
+    color: $color-text-main;
+    margin: 0;
+    padding: .25em;
+    padding-left: .5em;
+    line-height: 1.3;
   }
 }
 
