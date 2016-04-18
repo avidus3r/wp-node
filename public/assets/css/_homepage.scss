@@ -187,6 +187,7 @@
     display: block;
     float: left;
     width: 300px;
+    margin-top: .6em; // line up ads and first story
   }
 }
 
@@ -249,6 +250,26 @@
 .ad-hottest {
   background-color: #EB423C;
 }
+
+// hide latest on mobile and split to 50/50 display
+@media all and (max-width:480px) {
+  .trending-nav .trend-link {
+    float: left;
+    width: 50%;
+  }
+  .trend-link.ad-latest {
+    display: none;
+  }
+}
+
+// hide latest on mobile and split to 50/50 display
+@media all and (min-width:481px) and (max-width:772px) {
+  .trending-nav .trend-link {
+    float: left;
+    width: 33%;
+  }
+}
+
 //temp home page show full feed button
 .ad-home-more {
   background-color: rgba(0,0,0,.04);
@@ -415,6 +436,10 @@ body.homehero .latestposts{
 
 .homehero cardlist .post-list{
   width:auto !important;
+}
+
+// no box shadow on homepage
+.homehero .post-list {
   margin-bottom: 1em;
   box-shadow: 0 0 0 #fff;
 }
