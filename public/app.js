@@ -337,6 +337,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return txt.value;
     };
 
+    $rootScope.formatExcerpt = function(excerpt){
+        return excerpt.replace('http://altdriver.altmedia.com','http://www.altdriver.com');
+    };
+
     $rootScope.loadGif = function(item, $event) {
         var postContainer = angular.element($event.currentTarget).closest('.post-content');
         var originalView = postContainer.html();
