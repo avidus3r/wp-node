@@ -108,8 +108,10 @@ body.category #loading-more{
 }
 
 // TODO some overrides - refactor these away soon
-.single  .post-title, .single-post .post-title{
-  font-family: $font-headline; // altD font
+.single  .post-title, .single-post .post-title,
+.post-title,
+.excerpt-title {
+  font-family: $font-headline !important; // altD font
 }
 
 // hide author for altD theme - almost all are the same

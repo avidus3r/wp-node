@@ -213,12 +213,6 @@
   }
 }
 
-
-// tighten the excerpt visible post titles
-[excerpt="true"] .post-title {
-  padding-left: 0;
-}
-
 // animated gif
 .animated-gif {
   .post-content img {
@@ -321,7 +315,7 @@ cardlist[excerpt="true"] {
     background-color: transparent;
     color: #666;
     margin: 0;
-    padding: .25em .25em .25em .5em;
+    padding: .25em .25em .25em 0;
     line-height: 1.3;
   }
 
