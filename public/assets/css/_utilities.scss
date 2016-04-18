@@ -66,6 +66,12 @@
   background-color: $color-ad-orange !important;
 }
 
+.no-shadow{
+  .card-item{
+    box-shadow: none;
+  }
+}
+
 
 /**
  * For modern browsers
