@@ -233,7 +233,19 @@ cardlist[viewtype="column"], .wrapper.category .feed-item .view-type-column{
   .item-cat{
     font-size: .75em;
   }
-  h2.post-title{
+
+}
+
+// keep the font smaller on headlines for mobile
+@media all and (max-width:700px) {
+  cardlist[viewtype="column"],
+  cardlist[viewtype="row"],
+  .wrapper.category .feed-item .view-type-column {
+    h2.post-title {
+      font-size: .95em;
+    }
+  }
+  .wrapper.category .feed-item h2.post-title{
     font-size:.95em;
   }
 }
@@ -260,9 +272,6 @@ cardlist[viewtype="row"]{
       font-size: .75em;
     }
 
-    h2.post-title{
-      font-size:.95em;
-    }
   }
 }
 
@@ -300,10 +309,6 @@ cardlist[excerpt="true"] {
 
     .item-cat{
       font-size: .75em;
-    }
-
-    h2.post-title{
-      font-size:.95em;
     }
 
     &:first-child{
