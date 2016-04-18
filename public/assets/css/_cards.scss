@@ -206,6 +206,7 @@
 }
 
 // titles in partner posts are not OVER the featured images but need to be the correct size
+
 .partner-post-sidekick {
   h2.excerpt-title, h2.excerpt-title a {
     font-size: 1.5em; // font size controls all magical ems
@@ -234,6 +235,12 @@ cardlist[viewtype="column"], .wrapper.category .feed-item .view-type-column{
     font-size: .75em;
   }
 
+}
+
+@media all and (max-width: 480px) {
+  cardlist[viewtype="column"], .wrapper.category .feed-item .view-type-column{
+    margin: 0;
+  }
 }
 
 // keep the font smaller on headlines for mobile

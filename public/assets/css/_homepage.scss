@@ -300,16 +300,16 @@ body.mobile .trend-link {
   padding: .5em;
 }
 
+@media all and (max-width: $nav-switch) {
+  body.mobile.homehero .app-main .post-title{
+    height:auto;
+    font-weight: bold;
+  }
+}
 body.mobile.homehero .app-main{
   padding:.5em;
   .latestposts .post-list {
     margin: 1em 0 0;
-
-    .post-title{
-      font-size:1em;
-      height:3.3em;
-      font-weight: normal;
-    }
   }
   .homepage-carousel .card h2.post-title,
   .homepage-carousel .post-content h2.post-title {
@@ -319,11 +319,19 @@ body.mobile.homehero .app-main{
   }
 }
 
-body.homehero .latestposts{
+body.homehero .app-main .latestposts{
 
   // hide category from homepage
   .item-cat{
     display: none;
+  }
+
+  .post-title{
+    padding-left: .67em;
+  }
+
+  [excerpt="true"] .post-title {
+    padding-left: 0;
   }
 
   // TEMP REFACTOR LATER
@@ -396,7 +404,7 @@ body.homehero .latestposts{
 
   .excerpt p{
     position: relative;
-    margin: 0 .5em;
+    margin: 0;
     //margin: 10px;
   }
 
