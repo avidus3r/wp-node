@@ -213,6 +213,12 @@
   }
 }
 
+
+// tighten the excerpt visible post titles
+[excerpt="true"] .post-title {
+  padding-left: 0;
+}
+
 // animated gif
 .animated-gif {
   .post-content img {
