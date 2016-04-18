@@ -493,7 +493,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             }
         })
         .when('/category/:category/', {
-            controller: 'FeedListController',
+            controller: 'CategoryController',
             templateUrl: '/views/category-post.html',
             redirectTo: false,
             reloadOnSearch: false,
@@ -501,8 +501,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 data: function($q, $route) {
                     var params = {};
 
-                    appConfig.per_page = 9;
-                    appConfig.scroll_amount = 9;
+                    appConfig.per_page = 10;
+                    appConfig.scroll_amount = 10;
 
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(

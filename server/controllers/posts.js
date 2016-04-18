@@ -230,9 +230,9 @@ var PostsController = {
     },
 
     listByCategory: function(numberOfPosts, pageNumber, skip, category) {
-
+        /* TODO: remove type:post restriction and fix layout for gifs and partner post/other post types */
         var skipItems = Number(skip);
-        var query = Post.find({'category.slug':category}).limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
+        var query = Post.find({'category.slug':category, 'type': 'post'}).limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
         return query.exec();
     },
 

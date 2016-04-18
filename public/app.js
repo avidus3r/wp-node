@@ -118,6 +118,10 @@ NewsFeed.controller(
 );
 
 NewsFeed.controller(
+    'CategoryController', ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.CategoryController]
+);
+
+NewsFeed.controller(
     'HomeController', ['$rootScope', '$scope', 'FeedService', 'InstagramService', '$route', '$routeParams', '$location', 'data', 'app', 'appName', '$sce', '$q', Controllers.HomeController]
 );
 
@@ -186,6 +190,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.isHome = function() {
         return location.pathname === '/';
+    };
+
+    $rootScope.isCategory = function() {
+        return location.href.indexOf('/category/') > -1;
     };
 
     $rootScope.getCategory = function(categories, permalink) {
@@ -315,6 +323,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return $rootScope.orientation;
     };
 
+    if($rootScope.isCategory()) angular.element('body').addClass('category');
     angular.element('body').addClass($rootScope.isMobile());
     angular.element('body').addClass($rootScope.getOrientation());
     angular.element('body').addClass($rootScope.app.name);
