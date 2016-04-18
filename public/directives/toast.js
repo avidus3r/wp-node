@@ -16,6 +16,7 @@ var toast = function() {
             var frequency = $attrs['frequency'];
             var android = $attrs['android'];
             var date = new Date();
+            var currentUrl = window.location.href; 
             var localDate = localStorage.getItem('toast' + toastId);
             //check date to show or hide toast 
             if (localDate != 'undefined' && localDate != undefined && localDate != 'null' && localDate != null) {
@@ -73,11 +74,12 @@ var toast = function() {
             if (android == 'true') {
                 var ua = navigator.userAgent.toLowerCase();
                 var isAndroid = ua.indexOf("android") > -1;
-                if (isAndroid) {
+                if (isAndroid && currentUrl.indexOf('app.altdriver.com') < 0) {
                     slideInToast();
                 }
+            } else {
+                slideInToast();
             }
-
             function slideInToast() {
                 $(document).ready(function(){
                     $('.toast').slideToggle({

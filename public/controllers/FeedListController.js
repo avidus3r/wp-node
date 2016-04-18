@@ -160,19 +160,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         $scope.instagramItems = $scope.instagram.data.data;
     }
 
-    // $scope.showAndroidToast = function() {
-    //     var ua = navigator.userAgent.toLowerCase();
-    //     var isAndroid = ua.indexOf("android") > -1;
-    //     if (isAndroid) {
-    //         //angular.module('NewsFeed').trackEvent('Sponsored Content', 'Impression', sponsorPost.sponsor.title + ' ' + sponsorPost.id, 1, {nonInteraction: true});
-    //         //$rootScope.androidToast = true;
-    //         angular.element('.toast').css({
-    //             'display': 'block'
-    //         });
-
-    //     }
-    // };
-
     // $scope.showAndroidToast();
 
     $scope.errorCheck = function() {
