@@ -45,6 +45,17 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
+//loading more display for category page layout
+body.category #loading-more{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 82%;
+  margin: 0 9%;
+  z-index: 10;
+  text-align: center;
+}
+
 
 // display title OVER video screeny
 .post-content h2.post-title, .post-content h2.post-title a{
