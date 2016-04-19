@@ -117,12 +117,14 @@
 
   iframe{
     max-height:50px !important;
+    border: 2px solid #666 !important;
   }
 }
 
 .ad-post-companion:before{
   content: "Advertisement";
-  float: left;
+  display: block;
+  text-align: left;
   color: #999;
   padding-bottom: .25em;
   font-size: .75em;
@@ -133,7 +135,6 @@
 
     iframe{
       max-height:90px !important;
-      border: 2px solid #666 !important;
     }
 }
 }
