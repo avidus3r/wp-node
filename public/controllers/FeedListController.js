@@ -600,6 +600,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var pagedpostmap = [];
         angular.forEach(data, function(item, index) {
 
+            if(typeof $scope.showSharebar === 'undefined' || $scope.showSharebar === null){
+                $scope.showSharebar = true;
+            }
+
             if (item.type === 'partner-post') {
                 item.type = 'partner-post';
                 item.category = [{
@@ -984,6 +988,10 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.init = function() {
+
+        if(typeof $scope.showSharebar === 'undefined' || $scope.showSharebar === null){
+            $scope.showSharebar = true;
+        }
 
         var item = null;
 
