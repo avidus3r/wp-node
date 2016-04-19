@@ -71,57 +71,57 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.bannerElementsRef = [{
         vendor: 'altdriver',
         actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        ad: '../images/app_banner-320x50.jpg',
+        ad: '/images/app_banner-320x50.jpg',
         adSize: '320x50'
     }, {
         vendor: 'altdriver',
         actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        ad: '../images/app_banner-300x250.jpg',
+        ad: '/images/app_banner-300x250.jpg',
         adSize: '320x250'
     }, {
         vendor: 'altdriver',
         actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        ad: '../images/app_banner-728x90.jpg',
+        ad: '/images/app_banner-728x90.jpg',
         adSize: '728x90'
     }, {
         vendor: 'autoTrader',
         actionLink: 'http://www.autotrader.com/?&LNX=FYCALTDRIVER',
-        ad: '../images/autoTrader320x50.jpg',
+        ad: '/images/autoTrader320x50.jpg',
         adSize: '320x50'
     }, {
         vendor: 'caffeineOctane',
         actionLink: 'http://bit.ly/1Y2lb10',
-        ad: '../images/co-320x50YouTube.jpg',
+        ad: '/images/co-320x50YouTube.jpg',
         adSize: '320x50'
     }, {
         vendor: 'caffeineOctane',
         actionLink: 'http://bit.ly/1Y2lb10',
-        ad: '../images/co-320x250youtube.jpg',
+        ad: '/images/co-320x250youtube.jpg',
         adSize: '320x250'
     }, {
         vendor: 'caffeineOctane',
         actionLink: 'http://bit.ly/1pxqcCQ',
-        ad: '../images/co-320x250instagram.jpg',
+        ad: '/images/co-320x250instagram.jpg',
         adSize: '320x250'
     }, {
         vendor: 'caffeineOctane',
         actionLink: ' http://bit.ly/1bbw5b8',
-        ad: '../images/co-320x50web1.jpg',
+        ad: '/images/co-320x50web1.jpg',
         adSize: '320x50'
     }, {
         vendor: 'wheelwell',
         actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
-        ad: '../images/wheelwell728x90Ad1.gif',
+        ad: '/images/wheelwell728x90Ad1.gif',
         adSize: '728x90'
     }, {
         vendor: 'wheelwell',
         actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
-        ad: '../images/wheelwell728x90Ad2.jpg',
+        ad: '/images/wheelwell728x90Ad2.jpg',
         adSize: '728x90'
     }, {
         vendor: 'wheelwell',
         actionLink: 'https://www.wheelwell.com/?utm_source=alt_driver&utm_medium=atldcom&utm_campaign=banner',
-        ad: '../images/wheelwell320x250Ad3.jpg',
+        ad: '/images/wheelwell320x250Ad3.jpg',
         adSize: '320x250'
     }];
 
