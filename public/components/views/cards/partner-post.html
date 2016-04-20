@@ -51,7 +51,8 @@ Facebook SDK
 
     <a name="comment"></a>
     <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ $root.getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ $root.getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ $root.getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
-    <div class="post-content ga-post-content" ng-bind-html="$root.renderContent(item.excerpt.rendered, $index, false)"></div>
+    <div ng-if="$index === 0" class="post-content ga-post-content" ng-bind-html="$root.renderContent(item.content.rendered, $index, false)"></div>
+    <div ng-if="$index > 0" class="post-content ga-post-content" ng-bind-html="$root.renderContent(item.excerpt.rendered, $index, false)"></div>
     <div class="pub-name">
         <p>Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
     </div>
