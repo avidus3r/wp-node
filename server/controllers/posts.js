@@ -83,20 +83,21 @@ var PostsController = {
         var reggie = new RegExp(s, 'i');
         /*var dbQuery = db.collection('posts').find({ $or:[ {'content.rendered': reggie}, {'title.rendered': reggie} ]}).limit(Number(numberOfPosts)).skip(Number(skipItems));
 
-        var results = [];
+         var results = [];
 
-        dbQuery.forEach( function(doc){
-            results.push(doc);
-        });
+         dbQuery.forEach( function(doc){
+         results.push(doc);
+         });
 
-        console.log(dbQuery.itcount());
-        return results;*/
+         console.log(dbQuery.itcount());
+         return results;*/
         var query = Post.find({'title.rendered': reggie}).limit(Number(numberOfPosts)).skip(Number(skipItems));
         return query.exec();
     },
 
     posts: function(req, numberOfPosts, pageNumber, skip){
         var skipItems = Number(skip);
+
         var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({'modified':-1});
         query.$where('this.type === "post" || this.type === "animated-gif" || this.type === "partner-post"');
         /*if(!this._isMobile(req.headers['user-agent'])){
@@ -115,10 +116,17 @@ var PostsController = {
     list: function(req, numberOfPosts, pageNumber, skip, notIn){
         var skipItems = Number(skip);
         var appName = process.env.appname;
+        var currentPath = req.headers.referer.replace('http://'+req.headers.host+'/','');
+        var currentItem = currentPath.replace(currentPath.split('/').shift(), '');
+        currentItem = currentItem.replace(new RegExp('/', 'g'), '');
+
+        if(currentItem.indexOf('?') !== -1){
+            currentItem = currentItem.replace(currentItem.substring(currentItem.indexOf('?'),currentItem.length),'');
+        }
 
         /*var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main', '_id': { $nin:notIn } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});*/
 
-        var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main' }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
+        var query = appName === 'altdriver' ? Post.find({ 'postmeta.run_dates_0_channel':'Facebook Main', 'slug':{ $nin: currentItem } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
         if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
@@ -255,8 +263,8 @@ var PostsController = {
     sponsoredPosts: function(campaigns){
         var query = Post.find({'postmeta._altdsc_campaign_id': { $in: campaigns} });
         /*query.$where(function(){
-            return this.postmeta.hasOwnProperty("_altdsc_campaign_id");
-        });*/
+         return this.postmeta.hasOwnProperty("_altdsc_campaign_id");
+         });*/
         return query.exec();
     },
 

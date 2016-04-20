@@ -1210,7 +1210,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             item.post_index = Number(localStorage.getItem('post_offset'));
             $scope.postIndex = item.post_index;
 
-            $scope.postIndex++;
+            //$scope.postIndex++;
 
             $scope.createFeedItem(item, $scope.feedItems.length);
 
