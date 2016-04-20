@@ -52,7 +52,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
     $scope.feedPath = app.feedPath;
     $scope.isSingle = false;
     $scope.singleParams = {};
-    $scope.isMobile = $rootScope._isMobile();
+    //$scope.isMobile = $rootScope._isMobile();
     $scope.currentCategory = null;
     $scope.renderedSingleContent = null;
     $scope.useMongo = true;
@@ -344,7 +344,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
         var adHeights = [];
         var deferred = $q.defer();
 
-        if ($scope.isMobile) {
+        if ($rootScope._isMobile()) {
             adHeights.push(angular.element(angular.element('pubad[placementIndex="1"]')[0]).children(0).height());
             adHeights.push(angular.element(angular.element('pubad[placementIndex="2"]')[0]).children(0).height());
             adHeights.push(angular.element(angular.element('pubad[placementIndex="3"]')[0]).children(0).height());
