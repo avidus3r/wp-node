@@ -188,7 +188,9 @@ function snsSubscribe(){
     });
 }
 
-if(process.env.NODE_ENV !== 'localss'){
+var cronEnabled = false;
+
+if(process.env.NODE_ENV !== 'local'){
 
     //start polling SQS for wordpress updates
     setInterval(function(){
@@ -211,7 +213,7 @@ if(process.env.NODE_ENV !== 'localss'){
     });
 
     //start job
-    job.start();
+    if(cronEnabled) job.start();
 }
 
 function getSQSQueue(params){
