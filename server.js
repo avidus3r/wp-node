@@ -550,6 +550,7 @@ app.get('/', function(req,res,next){
                         fb_url: appConfig.url,
                         fb_description: appConfig.description,
                         canonical_url: '',
+                        fb_pages:appConfig.fb_pages,
                         fb_appid:appConfig.fb_appid,
                         fb_type: 'website',
                         fb_image: appConfig.avatar,
