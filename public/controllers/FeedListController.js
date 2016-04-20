@@ -943,7 +943,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if (typeof event.data === 'string') {
             if (event.data.search('action=plugin_ready') > -1) {
                 if (!$scope.fbReady) {
-                    $scope.$emit('fbReady');
+                    $scope.$broadcast('fbReady');
                 }
                 $scope.fbReady = true;
             }

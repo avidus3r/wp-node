@@ -577,12 +577,34 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.commentBtnHandler = function($event, $index, urlParams) {
-        if ($routeParams === urlParams) {
-            $rootScope.$broadcast('toggleComments');
+        var samePage = false;
+        for(var prop in $routeParams){
+            samePage = $routeParams[prop] === urlParams[prop];
+        }
+
+        if (samePage) {
+            $rootScope.toggleComments($event);
         } else {
-            angular.module('NewsFeed').trackEvent('postactions:comments', 'click', urlParams.slug, 1, null);
             urlParams.slug = urlParams.slug + '#comment';
             $rootScope.goToPage($event, $index, urlParams);
+        }
+    };
+
+    $rootScope.toggleComments = function(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        if ($rootScope.comments === 1) {
+            angular.element('.fb-wrapper').css({
+                'height': '0'
+            });
+            $rootScope.comments = 0;
+        } else {
+            angular.element('.fb-wrapper').css({
+                'height': 'auto'
+            });
+            $rootScope.comments = 1;
         }
     };
 
