@@ -24,6 +24,7 @@
     "continuation-local-storage": "^3.1.4",
     "cookie-parser": "^1.4.1",
     "coupon-code": "^0.4.3",
+    "cron": "^1.1.0",
     "del": "^2.2.0",
     "event-stream": "^3.3.1",
     "express": "latest",

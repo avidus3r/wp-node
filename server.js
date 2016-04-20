@@ -18,7 +18,8 @@ var express         = require('express'),
     cc              = require('coupon-code'),
     compression     = require('compression'),
     ApiCache        = require('apicache'),
-    apicache        = ApiCache.options({ debug: true }).middleware;
+    apicache        = ApiCache.options({ debug: true }).middleware,
+    CronJob         = require('cron').CronJob;
 
 var EXPRESS_ROOT = './dist',
     feedConfig = null,
@@ -82,34 +83,6 @@ app.get('/abc/123/', function(req,res, next){
 
     res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
 });
-
-
-function getSQSQueue(prefix){
-    console.log('getSQSQueue');
-    var AWS = require('aws-sdk');
-    AWS.config.update({region:'us-east-1'});
-    var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-
-    var params = {QueueNamePrefix: prefix};
-    var queue = null;
-
-    var deferred = new Promise(function(fulfill, reject){
-        sqs.listQueues(params, function(err, data) {
-            if (err) reject(err);
-            queue = data.QueueUrls[0];
-            var params = {
-                QueueUrl: queue
-            };
-            sqs.receiveMessage(params, function(err, data) {
-                if (err) reject(err);
-                var qData = { url: queue, data: data};
-                fulfill(qData);
-            });
-        });
-    });
-
-    return deferred;
-}
 
 function execQueue(queueData, message){
     console.log('execQueue');
@@ -215,14 +188,68 @@ function snsSubscribe(){
     });
 }
 
-if(process.env.NODE_ENV !== 'local'){
-    setInterval(initQueue, 60000);
+if(process.env.NODE_ENV !== 'localss'){
+
+    //start polling SQS for wordpress updates
+    setInterval(function(){
+        initQueue('wp-exec', false);
+    }, 60000);
+
+    //create daily cron task
+    var job = new CronJob({
+        cronTime: '10 05 09 * * 1-7',
+        onTick: function () {
+            console.log('starting cron job');
+            /*
+             * Runs every weekday (Monday through Sunday)
+             * at 3:30:00 AM.
+             */
+            initQueue('wp-daily-sync', true);
+        },
+        start: true, /* Start the job right now */
+        timeZone: 'America/New_York' /* Time zone of this job. */
+    });
+
+    //start job
+    job.start();
 }
 
-function initQueue(){
-    console.log('initQueue');
-    var queuePrefix = 'wp-exec';
-    var queue = getSQSQueue(queuePrefix);
+function getSQSQueue(params){
+
+    var AWS = require('aws-sdk');
+    AWS.config.update({region:'us-east-1'});
+    var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
+
+    var queue = null;
+
+    var deferred = new Promise(function(fulfill, reject){
+        sqs.listQueues(params, function(err, data) {
+            if (err) reject(err);
+            queue = data.QueueUrls[0];
+            var params = {
+                QueueUrl: queue,
+                AttributeNames: [
+                    'All'
+                ],
+                MaxNumberOfMessages: 10
+            };
+
+            sqs.receiveMessage(params, function(err, data) {
+                if (err) reject(err);
+                var qData = { url: queue, data: data};
+                fulfill(qData);
+            });
+        });
+    });
+
+    return deferred;
+}
+
+function initQueue(queuePrefix, isJob){
+
+    var params = {QueueNamePrefix: queuePrefix};
+
+    var queue = getSQSQueue(params);
 
     queue.then(function(queueData){
 
@@ -242,7 +269,7 @@ function initQueue(){
             resultObj[pair[0]] = decodeURIComponent(pair[1] || '');
         });
 
-        execQueue(resultObj, queueData.data.Messages[0]).then(function(result){
+        execQueue(resultObj, queueData.data.Messages[0], isJob).then(function(result){
 
             console.log('execQueue fulfilled', result);
             var receiptHandle = result;
