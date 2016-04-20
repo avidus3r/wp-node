@@ -536,7 +536,7 @@ app.get('/', function(req,res,next){
 
     if(itsABot) {
         try {
-            var endpoint = feedConfig.remoteUrl + feedConfig.basePath + appConfig.feedPath + '?page=1&per_page=' + appConfig.per_page;
+            var endpoint = 'http://' + req.headers.host + '/api/articles/post?perPage=5&pageNum=1&skip=0';
 
             request(endpoint, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
