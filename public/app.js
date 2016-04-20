@@ -338,7 +338,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.formatExcerpt = function(excerpt){
-        return excerpt.replace('http://altdriver.altmedia.com','http://www.altdriver.com');
+        return excerpt.replace('http://altdriver.altmedia.com','http://www.altdriver.com').replace('http://altdriver.staging.altmedia.com','http://staging.altdriver.com');
     };
 
     $rootScope.loadGif = function(item, $event) {
