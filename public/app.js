@@ -252,47 +252,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return appName + '/';
     };
 
-    $rootScope.ABtesting = function() {
-        var btnColor;
-        var button_color_experiment = new AlephBet.Experiment({
-            name: 'button color', // the name of this experiment; required.
-            variants: { // variants for this experiment; required.
-                blue: {
-                    activate: function() { // activate function to execute if variant is selected
-                        $('.navbar-btn').addClass('navbar-btn-blue');
-                        btnColor = 'blue';
-                    }
-                },
-                grey: {
-                    activate: function() {
-                        $('.navbar-btn').addClass('navbar-btn-grey');
-                        btnColor = 'grey';
-                    }
-                }
-            },
-        });
 
-
-        // creating a goal
-        var button_clicked_goal = new AlephBet.Goal('button clicked');
-        if (btnColor == 'grey') {
-            ga('send', 'event', 'grey-btn', 'viewed', 'Goal Complete red');
-        } else {
-            ga('send', 'event', 'blue-btn', 'viewed', 'Goal Complete red');
-        }
-        // adding experiment to the goal
-        button_clicked_goal.add_experiment(button_color_experiment);
-
-        // alternatively - add the goal to the experiment
-        button_color_experiment.add_goal(button_clicked_goal);
-
-        // tracking non-unique goals, e.g. page views
-        var page_views = new AlephBet.Goal('page view', {
-            unique: false
-        });
-    };
-
-    $rootScope.ABtesting();
 
     $rootScope.isMobile = function() {
         var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
