@@ -169,6 +169,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     $rootScope.platform = _isMobile() ? 'mobile' : 'desktop';
     $rootScope.year = new Date().getFullYear();
 
+    $rootScope.currentCategory = null;
+
     if (location.pathname === '/articles') {
         $rootScope.adsEnabled = false;
     } else {
@@ -590,6 +592,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         //$scope.collapseNav();
         angular.module('NewsFeed').trackEvent('navigation.category', 'click', category, 1, null);
         window.location.href = '/' + category;
+        $rootScope.currentCategory = category;
     };
 
     $rootScope.getSMSLink = function(link) {
