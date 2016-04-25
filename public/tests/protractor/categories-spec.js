@@ -48,6 +48,7 @@ describe('categories', function() {
 
                     //element(by.model('todoList.todoText')).sendKeys('write first protractor test');
                     var feedItems = element.all(by.css('.feed-item'));
+                    var categoryHeader = element.all(by.css('.category-header'));
 
                     // feed should have at least 1 item
                     expect(feedItems.count()).toBeGreaterThan(0);
@@ -71,6 +72,10 @@ describe('categories', function() {
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
                         })
+                    }).then(function () {
+                        expect(categoryHeader).toBe('Insane Stunts', 'Insane Stunts categoryHeader is present');
+                    }).then(function () {
+                        expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Insane Stunts excerpt is present');
                     })
 
                 });
@@ -106,6 +111,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Crash & Burn', 'Crash & Burn categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Crash & Burn excerpt is present');
                         })
                     })
                 });
@@ -139,6 +148,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Gaming', 'Gaming categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Gaming excerpt is present');
                         })
                     })
                 });
@@ -171,6 +184,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Sports Car', 'Sports Car categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Sports Car excerpt is present');
                         })
                     })
                 });
@@ -203,6 +220,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Luxury', 'Luxury categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Luxury excerpt is present');
                         })
                     })
                 });
@@ -235,6 +256,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Motorcycles', 'Motorcycles categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Motorcycles excerpt is present');
                         })
                     })
                 });
@@ -267,6 +292,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Classics', 'Classics categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Classics excerpt is present');
                         })
                     })
                 });
@@ -296,6 +325,10 @@ describe('categories', function() {
                             expect(currentUrl !== newUrl, 'page url changes');
                             var newfeedItems = element.all(by.css('.feed-item'));
                             expect(newfeedItems).toBeGreaterThan(feedItems);
+                        }).then(function () {
+                            expect(categoryHeader).toBe('Off Road', 'Off Road categoryHeader is present');
+                        }).then(function () {
+                            expect(hasClass(element(by.name('excerpt')), 'ng-dirty')).toBe(true, 'Off Road excerpt is present');
                         })
                     })
                 });
