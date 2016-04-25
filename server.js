@@ -606,7 +606,7 @@ app.get('/', function(req,res,next){
         };
 
         res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
-            console.log(html);
+            res.set('Content-Type', 'text/html');
             res.send(html);
         });
     }
@@ -766,6 +766,7 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                     }
 
                     res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+                        res.set('Content-Type', 'text/html');
                         res.send(html);
                     });
                 }
@@ -810,6 +811,7 @@ app.get('/stories/:type', function(req,res){
     };
 
     res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
+        res.set('Content-Type', 'text/html');
         res.send(html);
     });
 });
@@ -841,6 +843,7 @@ app.get('/trending/:page', function(req,res){
     };
 
     res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
+        res.set('Content-Type', 'text/html');
         res.send(html);
     });
 });
@@ -1089,6 +1092,7 @@ app.get('/search/(:query/|:query)', function(req,res, next){
             url: 'http://admin.altdriver.com'
         };
         res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+            res.set('Content-Type', 'text/html');
             res.send(html);
         });
     }
@@ -1168,6 +1172,7 @@ app.get('/category/(:category|:category/)', function(req,res){
          res.send(output);*/
 
         res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+            res.set('Content-Type', 'text/html');
             res.send(html);
         });
     }
@@ -1330,6 +1335,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
 
                     res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+                        res.set('Content-Type', 'text/html');
                         res.send(html);
                     });
                 }
@@ -1380,6 +1386,7 @@ app.get('/:page', apicache('2 days'), function(req,res){
 
     res.send(output);*/
     res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+        res.set('Content-Type', 'text/html');
         res.send(html);
     });
 });
@@ -1413,7 +1420,10 @@ app.get('*', function(req,res, next){
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
     res.send(output);*/
 
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+        res.set('Content-Type', 'text/html');
+        res.send(html);
+    });
     next();
 });
 
