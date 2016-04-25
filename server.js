@@ -605,7 +605,10 @@ app.get('/', function(req,res,next){
             url: 'http://admin.altdriver.com'
         };
 
-        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000});
+        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
+            console.log(html);
+            res.send(html);
+        });
     }
 });
 
@@ -762,7 +765,9 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                         metatags.fb_image_height = post.featured_image_src.original_wp[2];
                     }
 
-                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+                        res.send(html);
+                    });
                 }
 
             });
@@ -804,7 +809,9 @@ app.get('/stories/:type', function(req,res){
         url: 'http://admin.altdriver.com'
     };
 
-    res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000});
+    res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
+        res.send(html);
+    });
 });
 
 app.get('/trending/:page', function(req,res){
@@ -833,7 +840,9 @@ app.get('/trending/:page', function(req,res){
         url: 'http://admin.altdriver.com'
     };
 
-    res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000});
+    res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
+        res.send(html);
+    });
 });
 
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
@@ -1079,7 +1088,9 @@ app.get('/search/(:query/|:query)', function(req,res, next){
             tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
             url: 'http://admin.altdriver.com'
         };
-        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+            res.send(html);
+        });
     }
 });
 
@@ -1156,7 +1167,9 @@ app.get('/category/(:category|:category/)', function(req,res){
          var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
          res.send(output);*/
 
-        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+            res.send(html);
+        });
     }
 });
 
@@ -1316,7 +1329,9 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                     }
 
 
-                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+                    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+                        res.send(html);
+                    });
                 }
 
 
@@ -1334,6 +1349,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 });
 
 app.get('/:page', apicache('2 days'), function(req,res){
+    console.log(req.params.page);
     var metatags = {
 
         robots: 'index, follow',
@@ -1363,7 +1379,9 @@ app.get('/:page', apicache('2 days'), function(req,res){
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
 
     res.send(output);*/
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
+    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+        res.send(html);
+    });
 });
 
 app.get('*', function(req,res, next){
