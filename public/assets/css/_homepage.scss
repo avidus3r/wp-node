@@ -95,9 +95,40 @@
 
 .category-header {
   margin: 35px 0 5px 0;
-  color: #333;
+  color: #FFF;
+  padding: .5em;
+  margin-bottom: 0;
+  font-size: 18px;
+
+}
+.insane-stunts-header {
+  background-color: #a50063;
+}
+.crash-burn-header {
+  background-color: #EB423C;
+}
+.gaming-header {
+  background-color: #000;
+}
+.sports-car-header {
+  background-color: red;
+}
+.luxury-header {
+  background-color: #dbcc00;
+}
+.motorcycles-header {
+  background-color: #FAAF3A;
+}
+.classics-header {
+  background-color: #19232D;
+}
+.off-road-header {
+  background-color: #843d13;
 }
 
+//.post-content .item-cat {
+//  display: none;
+//}
 @media all and (max-width:800px) {
   // small screen footer tweaks
   .homehero .mega-footer {

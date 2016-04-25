@@ -1,5 +1,13 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container">
+        <h3 ng-if="currentCategory=='insane-stunts'" class="category-header insane-stunts-header">Insane Stunts</h3>
+        <h3 ng-if="currentCategory=='crash-burn'" class="category-header crash-burn-header">Crash & Burn</h3>
+        <h3 ng-if="currentCategory=='gaming'" class="category-header gaming-header">Gaming</h3>
+        <h3 ng-if="currentCategory=='sports-car'" class="category-header sports-car-header">Sports Car</h3>
+        <h3 ng-if="currentCategory=='luxury'" class="category-header luxury-header">Luxury</h3>
+        <h3 ng-if="currentCategory=='motorcycles'" class="category-header motorcycles-header">Motorcycles</h3>
+        <h3 ng-if="currentCategory=='classics'" class="category-header classics-header">Classics</h3>
+        <h3 ng-if="currentCategory=='off-road'" class="category-header off-road-header">Off Road</h3>
         <div ng-init="viewType = ($index === 0 || $index%5 === 0) ? 'view-type-column' : 'view-type-row'" ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="feed-item format-{{ item.format }} {{ item.type }} {{ viewType }} {{ viewType === 'view-type-column' ? 'no-shadow' : '' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.type !== 'ad' ? item.post_index+1 : '' }}">
 
             <div ng-if="currentView === 'sponsor' && $index === 0">

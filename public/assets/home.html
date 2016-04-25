@@ -101,8 +101,8 @@
         ga('send', 'pageview');
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    </script>
-    <script src="/js/vendor/alephbet.min.js"></script>
+
+    <!--<script src="/js/vendor/alephbet.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </head>
 <body>
@@ -168,7 +168,7 @@ TODO: testing removal of ng-include
                 <a class="navbar-brand" ng-click="goToPage($event, $index, '/')">
                     <span class="site-title">{{ app.title }}</span>
                 </a>
-                <a ng-hide="abready" ng-click="goToPage($event, $index, '/trending/hottest')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Hottest</a>
+                <a  ng-click="goToPage($event, $index, '/trending/hottest')" class="btn btn-default navbar-btn visible-md-altd btn-submit-story ga-btn-submit-story">Hottest</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right nav-submit">
