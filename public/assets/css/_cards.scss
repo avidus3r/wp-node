@@ -354,6 +354,7 @@ cardlist[excerpt="true"] {
 .wrapper.category .feed-item.view-type-column + .feed-item.view-type-row + .feed-item.view-type-row+ .feed-item.view-type-row {
   &:nth-child(1n+1){
     margin-left: 0%;
+    clear:left;
     margin-right: 1%;
   }
 }
