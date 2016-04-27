@@ -147,6 +147,8 @@ describe('homepage', function() {
         var menuButton = element.all(by.css('.navbar-toggle'));
         var menuButtonClosed = element.all(by.css('.navbar-toggle.collapsed'));
         var menuButtonOpen = element.all(by.css('.navbar-toggle:not(.collapsed)'));
+
+
         var menuState = null;
 
         //nav should be closed
@@ -167,4 +169,11 @@ describe('homepage', function() {
         // menu should have at least 1 item
         expect(navItems.count()).toBeGreaterThan(0, 'menu was expected to contain more than 0 items');
     });
+
+    it('should have a partner post', function() {
+        var partnerPost = element.all(by.css('.navbar-toggle:not(.collapsed)'));
+
+
+    });
+
 });
