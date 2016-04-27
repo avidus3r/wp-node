@@ -52,6 +52,14 @@ app.set('port', process.env.PORT || 3000);
  */
 
 
+app.get('/', function(req, res, next){
+    if(req.query.hasOwnProperty('p')){
+        console.log(req.url);
+    }
+    next();
+});
+
+
 app.get('/abc/123/', function(req,res, next){
     var metatags = {
         robots: 'index, follow',
