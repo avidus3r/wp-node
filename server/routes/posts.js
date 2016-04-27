@@ -265,7 +265,7 @@ router.get('/api/trending/:query/:perPage/:page/:skip', apicache('45 minutes'), 
  */
 router.get('/api/category/:category/:perPage/:page/:skip', apicache('45 minutes'), function(req, res){
 
-    var data = PostController.listByCategory(parseInt(req.params.perPage),parseInt(req.params.page), parseInt(req.params.skip), req.params.category);
+    var data = PostController.listByCategory(req, parseInt(req.params.perPage),parseInt(req.params.page), parseInt(req.params.skip), req.params.category);
     data.then(function(result){
         if(result.length === 0){
             res.sendStatus(404);

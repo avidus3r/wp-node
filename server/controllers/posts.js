@@ -237,10 +237,19 @@ var PostsController = {
         return q.exec();
     },
 
-    listByCategory: function(numberOfPosts, pageNumber, skip, category) {
+    listByCategory: function(req, numberOfPosts, pageNumber, skip, category) {
         /* TODO: remove type:post restriction and fix layout for gifs and partner post/other post types */
         var skipItems = Number(skip);
         var query = Post.find({'category.slug':category, 'type': 'post'}).limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
+        if(!this._isMobile(req.headers['user-agent'])){
+            query.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else{
+                    return this;
+                }
+            });
+        }
         return query.exec();
     },
 
