@@ -618,6 +618,14 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return $sce.trustAsHtml(val);
     };
 
+    $rootScope.getShareLink = function() {
+        var link = location.href;
+        if (location.hash) {
+            link = link.replace(location.hash, '');
+        }
+        return link;
+    };
+
     $rootScope.search = function() {
         window.location.href = '/search/' + encodeURIComponent(angular.element('input[name="s"]').val());
     };
