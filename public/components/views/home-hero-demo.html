@@ -48,7 +48,14 @@ googletag.enableServices();
                     <div class="post-content feed-view post-view feed ">
                         <p>
                             <a href="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" ng-click="goToPage($event,$index,{category: getCategory(item.category, item.link).slug, slug: item.slug})">
-                                <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ getFeaturedImage(item.featured_image_src, 'height') }}" />
+                                <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image"
+                                src="http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true"
+                                alt="{{ item.title.rendered }}"
+                                srcset="http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }} 1200w,
+                                http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=1200&q=70&overlay=true 2x,
+                                http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=800&q=55&overlay=true 900w,
+                                http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true 480w"
+                                sizes="100vw"/>
                                 <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
                             </a>
                         </p>
@@ -112,12 +119,10 @@ googletag.cmd.push(function() { googletag.display("div-gpt-ad-1455657666158-1");
 <h3 class="category-header insane-stunts">Insane Stunts</h3>
 <cardlist posttype="post" numposts="2" viewtype="column" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
 <cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="2" format="" excerpt="false" sharebar="false"></cardlist>
-
-    <h3 class="category-header luxury">Luxury</h3>
-    <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="luxury" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
-    <cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="luxury" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
-
-    <h3 class="category-header gaming">Gaming</h3>
+<h3 class="category-header luxury">Luxury</h3>
+<cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="luxury" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+<cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="luxury" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+<h3 class="category-header gaming">Gaming</h3>
 <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="gaming" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
 <cardlist posttype="post" numposts="2" viewtype="row" viewtemplate="post-list" category="gaming" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
 <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="{{ $index === 0 ? 'feed-item item active' : 'feed-item item' }}  format-{{ item.format }}" id="feed-item-{{ $index }}" data-post-index="{{ item.post_index+1 }}">

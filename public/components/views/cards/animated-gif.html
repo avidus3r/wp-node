@@ -1,27 +1,28 @@
-
 <div class="post-content feed-view post-view feed">
-
     <p>
         <span class="gif-btn-wrap ga-gifplay" ng-click="$root.loadGif(item, $event)"><button class="gif-btn ga-gifplay">GIF</button></span>
         <a ng-click="$root.goToPage($event,$index,{category: $root.getCategory(item.category, item.link).slug, slug: item.slug})">
-            <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}" width="{{ $root.getFeaturedImage(item.featured_image_src, 'width') }}" height="{{ $root.getFeaturedImage(item.featured_image_src, 'height') }}" />
+            <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55"
+            alt="{{ item.title.rendered }}"
+            srcset="http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }} 1200w,
+            http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=1200&q=70 2x,
+            http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=800&q=55 900w,
+            http://assets.altdriver.com:3000/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55 480w"
+            sizes="100vw"/>
             <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
         </a>
     </p>
     <h2 class="post-title">
-        <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
+    <span ng-bind-html="item.title.rendered" >{{ item.title.rendered }}</span>
     </h2>
-
     <div class="author-meta">
         <p class="item-author"><span class="light-grey">By</span> {{ item.author_meta.name }}</p>
         <p class="item-cat {{ $root.getCategory(item.category, item.link).slug }} ga-item-cat"><a ng-bind-html="$root.getCategory(item.category, item.link).name" ng-click="$root.goToCategory($root.getCategory(item.category, item.link).taxonomy +'/'+ $root.getCategory(item.category, item.link).slug)"></a></p>
-
         <span class="clearfix"></span>
     </div>
 </div>
 <!--
 <ng-include src="'/views/partials/post-actions.html'" ng-init="isVisible = false"></ng-include>-->
-
 <div class="post-actions clearfix" ng-init="isVisible = false">
     <div class="ad-m">
         <div class="share-meta"><span class="vote-count" ng-init="totalVotes = item.votes.total_votes - (item.votes.votes_down || 0)">{{ totalVotes*7 }}</span> <span class="pointsTxt">{{ totalVotes*7 === 1 ? "point" : "points" }}</span></div>
@@ -38,7 +39,7 @@
         </div>
         <div class="right pa-share">
             <button type="button" class="btn ga-btn-share" ng-click="$root.shareClick($event, item.slug, $index)">
-                Share
+            Share
             </button>
         </div>
     </div>
@@ -47,49 +48,37 @@
         <!-- Flexbox share bar requires fontawesome -->
         <!-- Add a class of "share-small" to reduce font size -->
         <div class="flexshare">
-
             <!-- facebook -->
             <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-facebook fs-item ga-sharebar-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=facebook&utm_medium=share&utm_campaign=site-share&ref=fb.s.mw" title="Share on Facebook" target="_blank">
                 <i class="fa fa-3x fa-facebook"></i>
             </a>
-
             <!-- email -->
             <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-mail fs-item ga-sharebar-mail" href="mailto:?subject=Check out this video&body=You have got to see this - http://{{ getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}" target="_blank">
                 <i class="fa fa-3x fa-envelope"></i>
             </a>
-
             <!-- sms -->
             <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-sms fs-item ga-sharebar-sms" href="{{ $root.getSMSLink('http://'+ $root.getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug) }}">
-        <span class="fa-2x fa-stack fa-lg">
-            <i class="fa fa-flip-horizontal fa-mobile fa-stack-2x fa-2x"></i>
-            <i class="flex-sms-txt">...</i>
-        </span>
+                <span class="fa-2x fa-stack fa-lg">
+                    <i class="fa fa-flip-horizontal fa-mobile fa-stack-2x fa-2x"></i>
+                    <i class="flex-sms-txt">...</i>
+                </span>
             </a>
-
-
-
             <!-- whatsapp -->
             <a ng-click="$root.shareItemClick($event, item.slug)" href="whatsapp://send?text={{ $root.decodeHtml(item.title.rendered) + ' - ' + 'http://'+ $root.getAppInfo('url') + '/' + item.category[0].slug +'/' + item.slug }}" class="flex-whatsapp fs-item ga-sharebar-whatsapp">
                 <i class="fa fa-3x fa-whatsapp"></i>
             </a>
-
             <!-- reddit -->
             <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-reddit fs-item ga-sharebar-reddit" href="//www.reddit.com/submit?url=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&title={{ $root.decodeHtml(item.title.rendered) }}" target="_blank">
                 <i class="fa fa-3x fa-reddit"></i>
             </a>
-
-
             <!-- twitter -->
             <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-twitter fs-item ga-sharebar-twitter" href="http://www.twitter.com/share?&text={{ $root.decodeHtml(item.title.rendered) }}&url=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=twitter&utm_medium=share&utm_campaign=site-share" title="Share on Twitter" target="_blank">
                 <i class="fa fa-3x fa-twitter"></i>
             </a>
-
             <!-- googleplus -->
-
             <a ng-click="$root.shareItemClick($event, item.slug)" class="flex-gplus fs-item ga-sharebar-gplus" href="https://plus.google.com/share?url=http://{{ $root.getAppInfo('url') }}/{{ item.category[0].slug }}/{{ item.slug }}&utm_source=google&utm_medium=share&utm_campaign=site-share" title="Share on Google+" target="_blank">
                 <i class="fa fa-3x fa-google-plus"></i>
             </a>
         </div>
-
     </div>
 </div>
