@@ -695,7 +695,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             'width': 1,
             'height': 2
         };
-        
+
         if (img.original[0].indexOf('https://s3-us-west-2.amazonaws.com/assets.altdriver') > -1) {
             img.original[0] = img.original[0].replace('https://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/', '');
         }
@@ -839,4 +839,5 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         });
 
     };
+
 });
