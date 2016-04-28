@@ -748,6 +748,14 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
+        .when('/articles/:id/', {
+            controller: function(){
+
+            },
+            templateUrl: '/views/lists.html',
+            redirectTo: false,
+            reloadOnSearch: false
+        })
         .when('/:category/:slug/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',
@@ -761,32 +769,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
-                    /*if(Number(appSponsors) > 0){
-                        sponsorResolve = FeedService.getCampaigns().then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-                                return 'error';
-                            },
-                            function(notification){
-
-                            }
-                        )
-                    }*/
-
                     return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
-
-                         },
-                         function (notification) {
-
-                         }
-                         ),*/
                         config:null,
                         post: FeedService.getDBPost(params.category, params.slug).then(
                             function(data){
@@ -797,17 +780,6 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return 'error';
                             }
                         ),
-                        /*instagram: InstagramService.get(10,'nofilter').then(
-                            function(data){
-                                return data;
-                            },
-                            function(error){
-
-                            },
-                            function(notification){
-
-                            }
-                        ),*/
                         instagram:null,
                         sponsors: sponsorResolve,
                         posts: null

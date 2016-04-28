@@ -19,7 +19,7 @@ var express         = require('express'),
     compression     = require('compression'),
     ApiCache        = require('apicache'),
     apicache        = ApiCache.options({ debug: true }).middleware,
-    CronJob         = require('cron').CronJob;
+    AWSTools        = require('./server/utils/AWSTools');
 
 var EXPRESS_ROOT = './dist',
     feedConfig = null,
@@ -27,6 +27,12 @@ var EXPRESS_ROOT = './dist',
     createUser = false;
 
 app.use(compression());
+
+var config = require('./public/config/config.json');
+var appName = process.env.appname;
+if(!appName) appName = 'altdriver';
+var appConfig = config[appName].app;
+var env = 'prod';
 
 /*
  middleware
@@ -45,267 +51,46 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.set('port', process.env.PORT || 3000);
 
-//app.locals.config = require('./app/config/feed.conf.json');
+//app.locals.config = require('./public/config/feed.conf.json');
+
+var defaultMeta = {
+    robots: 'index, follow',
+    title: appConfig.title,
+    description: appConfig.description,
+    // Facebook
+    fb_title: appConfig.title,
+    fb_site_name: appConfig.fb_sitename,
+    fb_url: appConfig.url,
+    fb_description: appConfig.description,
+    fb_type: 'website',
+    fb_image: appConfig.avatar,
+    fb_appid: appConfig.fb_appid,
+    canonical_url: '',
+    // Twitter
+    tw_card: '',
+    tw_description: '',
+    tw_title: '',
+    tw_site: '@altdriver',
+    tw_domain: 'alt_driver',
+    tw_creator: '@altdriver',
+    tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
+    url: 'http://admin.altdriver.com'
+};
+
+
+AWSTools.init();
 
 /*
  Server Routes
  */
+var api = require('./server/index');
+var apiRouter = api.routes;
+app.use(apiRouter);
 
 
-app.get('/', function(req, res, next){
-    if(req.query.hasOwnProperty('p')){
-        console.log(req.url);
-    }
-    next();
-});
-
-
-app.get('/abc/123/', function(req,res, next){
-    var metatags = {
-        robots: 'index, follow',
-        title: appConfig.title,
-        description: appConfig.description,
-        // Facebook
-        fb_title: appConfig.title,
-        fb_site_name: appConfig.fb_sitename,
-        fb_url: appConfig.url,
-        fb_description: appConfig.description,
-        fb_type: 'website',
-        fb_image: appConfig.avatar,
-        fb_appid: appConfig.fb_appid,
-        canonical_url: '',
-        // Twitter
-        tw_card: '',
-        tw_description: '',
-        tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
-    };
-
-    /*var template = swig.compileFile('./dist/index.html');
-     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-     res.send(output);*/
-
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
-});
-
-function execQueue(queueData, message){
-    console.log('execQueue');
-    var deferred = new Promise(function(fulfill, reject){
-
-        var result = null;
-
-        var postId = queueData.postID;
-        var restBase = queueData.restBase;
-        var restParent = queueData.restParent;
-        var host = null;
-
-        switch(process.env.NODE_ENV){
-            case 'production':
-                host = restParent + '.altmedia.com';
-                break;
-            case 'development':
-                host = restParent + '.staging.altmedia.com';
-                break;
-            default:
-                host = restParent + '.local.altmedia.com';
-                break;
-        }
-
-        var url = 'http://' + host + '/wp-json/wp/v2/' + restBase + '/' + postId;
-        url = url.replace(/\s/,'');
-
-        switch(queueData.method){
-            case 'update':
-            case 'create':
-            case 'publish':
-                request(url, function (error, response, body) {
-                    //console.log('response: ', response);
-                    if(response.statusCode === 200) {
-                        var post = JSON.parse(body);
-
-                        api.PostController.exists(post.id).then(function (result) {
-                            if (result.length === 0) {
-
-                                api.PostController.insert(post, function (success) {
-                                    //if (!success) res.sendStatus(500);
-                                    //res.sendStatus(200);
-                                    api.PostController.updating = false;
-                                    fulfill(message.ReceiptHandle);
-                                });
-
-                            } else {
-                                var updatePost = result[0];
-
-                                api.PostController.update(updatePost._id, post, function (success) {
-                                    //if (!success) res.sendStatus(500);
-                                    ApiCache.clear('/api/' + updatePost.slug);
-                                    var env = process.env.NODE_ENV === 'production' ? (process.env.appname === 'altdriver' ? 'www.' : '') : 'staging.';
-                                    var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
-                                    var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
-                                    //console.log('posturl: ', postUrl);
-                                    setTimeout(function() {
-                                        request
-                                            .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
-                                            .on('response', function (response) {
-                                                console.log(response);
-                                            });
-                                    },1000);
-
-                                    //res.sendStatus(200);
-                                    fulfill(message.ReceiptHandle);
-                                    api.PostController.updating = false;
-                                });
-                            }
-                        });
-                    }else{
-                        //res.sendStatus(response.statusCode);
-                        reject(result);
-                        api.PostController.updating = false;
-                    }
-                });
-                break;
-            case 'delete':
-                api.PostController.destroy(postId);
-                fulfill(message.ReceiptHandle);
-                break;
-        }
-
-    });
-
-    return deferred;
-}
-
-
-function snsSubscribe(){
-    var AWS = require('aws-sdk');
-    AWS.config.update({region:'us-east-1'});
-    var sns = new AWS.SNS({apiVersion: '2010-03-31'});
-
-    var params = {
-        Protocol: 'sqs',
-        TopicArn: 'arn:aws:sns:us-east-1:629760438439:wp-update-queue',
-        Endpoint: 'arn:aws:sqs:us-east-1:629760438439:wp-exec'
-    };
-    sns.subscribe(params, function(err, data) {
-        if (err) console.log(err, err.stack); // an error occurred
-        else     console.log(data);           // successful response
-    });
-}
-
-var cronEnabled = false;
-
-if(process.env.NODE_ENV !== 'local'){
-
-    //start polling SQS for wordpress updates
-    setInterval(function(){
-        initQueue('wp-exec', false);
-    }, 60000);
-
-    //create daily cron task
-    var job = new CronJob({
-        cronTime: '10 05 09 * * 1-7',
-        onTick: function () {
-            console.log('starting cron job');
-            /*
-             * Runs every weekday (Monday through Sunday)
-             * at 3:30:00 AM.
-             */
-            initQueue('wp-daily-sync', true);
-        },
-        start: true, /* Start the job right now */
-        timeZone: 'America/New_York' /* Time zone of this job. */
-    });
-
-    //start job
-    if(cronEnabled) job.start();
-}
-
-function getSQSQueue(params){
-
-    var AWS = require('aws-sdk');
-    AWS.config.update({region:'us-east-1'});
-    var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-
-    var queue = null;
-
-    var deferred = new Promise(function(fulfill, reject){
-        sqs.listQueues(params, function(err, data) {
-            if (err) reject(err);
-            queue = data.QueueUrls[0];
-            var params = {
-                QueueUrl: queue,
-                AttributeNames: [
-                    'All'
-                ],
-                MaxNumberOfMessages: 10
-            };
-
-            sqs.receiveMessage(params, function(err, data) {
-                if (err) reject(err);
-                var qData = { url: queue, data: data};
-                fulfill(qData);
-            });
-        });
-    });
-
-    return deferred;
-}
-
-function initQueue(queuePrefix, isJob){
-
-    var params = {QueueNamePrefix: queuePrefix};
-
-    var queue = getSQSQueue(params);
-
-    queue.then(function(queueData){
-
-        var messages = queueData.data.Messages[0];
-
-        if(messages.length === 0){
-            console.log('queue is empty');
-            return;
-        }
-
-        var body = queueData.data.Messages[0].Body;
-        var pairs = body.split('&');
-        var resultObj = {};
-
-        pairs.forEach(function(pair) {
-            pair = pair.split('=');
-            resultObj[pair[0]] = decodeURIComponent(pair[1] || '');
-        });
-
-        execQueue(resultObj, queueData.data.Messages[0], isJob).then(function(result){
-
-            console.log('execQueue fulfilled', result);
-            var receiptHandle = result;
-            var AWS = require('aws-sdk');
-            AWS.config.update({region:'us-east-1'});
-            var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-
-            var params = {
-                QueueUrl: queueData.url,
-                ReceiptHandle: receiptHandle
-            };
-
-            sqs.deleteMessage(params, function(err, data) {
-                if (err) console.error(err);
-                console.log('successfully removed: ', data);
-            });
-
-            /*sqs.listQueues({QueueNamePrefix: queuePrefix}, function(err, data) {
-             if (err) reject(err);
-             queue = data.QueueUrls[0];
-             });*/
-        });
-
-    });
-}
-
+/*
+ Temp Routes
+ */
 app.get('/api/wp-exec', function(req, res, next){
     var AWS = require('aws-sdk');
     AWS.config.update({region:'us-west-2'});
@@ -313,10 +98,22 @@ app.get('/api/wp-exec', function(req, res, next){
     console.log(s3);
 });
 
-
-var api = require('./server/index');
-var apiRouter = api.routes;
-app.use(apiRouter);
+app.get('/articles/:id', apicache('45 minutes'), function(req,res){
+    var data = api.PostController.findByID(req.params.id);
+    var metatags = defaultMeta;
+    data.then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, posts: result, cache:true, maxAge:600000}, function(err, html){
+                res.set('Content-Type', 'text/html');
+                res.send(html);
+            });
+            //res.send(JSON.stringify(result));
+        }
+    });
+});
 
 app.get('/home', function(req, res, next){
     var locals = {};
@@ -333,13 +130,6 @@ app.get('/home', function(req, res, next){
         }
     });
 });
-
-/*
-app.get('*', function(req,res,next){
-    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-    next();
-});
-*/
 
 app.get('/subscribe', function(req, res){
     res.redirect('/subscribe-hub');
@@ -473,19 +263,13 @@ app.get('/feed/:feedname/', function(req,res){
  static paths
  */
 
-//app.use(express.static('./admin'));
+app.use(express.static('/admin'));
 //app.use(express.static(__dirname + './data'));
-//app.use(express.static(__dirname + './app/config'));
+//app.use(express.static(__dirname + './public/config'));
 
 app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true}));
 app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
 app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
-
-var config = require('./public/config/config.json');
-var appName = process.env.appname;
-if(!appName) appName = 'altdriver';
-var appConfig = config[appName].app;
-var env = 'prod';
 
 if(!process.env.envhost){
     process.env.envhost = 'www.altdriver.com';
@@ -859,14 +643,9 @@ app.get('/trending/:page', function(req,res){
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
 
-/*
-TODO: move this to admin controller
-
-
-
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
-    var creds = require('./app/config/creds.json');
+    var creds = require('./public/config/creds.json');
 
     input.parse(req, function(err, fields, files) {
         var inputUname = md5(fields.uname.toString());
@@ -916,13 +695,13 @@ app.post('/admin', function(req, res){
 
     var data = req.body;
 
-    fs.realpath('./app/config', function(err, resolvedPath){
+    fs.realpath('./public/config', function(err, resolvedPath){
         fs.readdir(resolvedPath, function(err, files){
             if (files.indexOf('feed.conf.json') > -1) {
                 var file = files[files.indexOf('feed.conf.json')];
 
-                fs.unlink('./app/config/'+ file, function(){
-                    fs.writeFile('./app/config/feed.conf.json', JSON.stringify(data), function(err){
+                fs.unlink('./public/config/'+ file, function(){
+                    fs.writeFile('./public/config/feed.conf.json', JSON.stringify(data), function(err){
                         if(err) throw err;
                         data.cards.forEach(function(element, index, data){
                             var tpl = element.card.type + '.html';
@@ -945,8 +724,6 @@ app.post('/admin', function(req, res){
     res.writeHead(200);
     res.end();
 });
-/TODO
-*/
 
 
 app.post('/submit', function(req,res){

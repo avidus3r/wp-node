@@ -20,6 +20,11 @@ var PostsController = {
         }
     },
 
+    findByID: function(id){
+        var query = Post.findOne({'_id': id});
+        return query.exec();
+    },
+
     post: function(slug){
         console.log('PostsController :: post', slug);
         var query = Post.findOne({'slug': slug});

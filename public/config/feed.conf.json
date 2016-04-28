@@ -1,1 +1,1 @@
-{"env":[{"env":"dev", "app":"altdriver", "per_page":"12","prefetch_at":"8","scroll_amount":"6"}],"cards":[{"card":{"position":"1","type":"instagram", "perPage":"on"}},{"card":{"type":"sponsor","name":"vinli","position":"2","perPage":"on"}}]}
+{"env":[{"env":"dev","per_page":"12","prefetch_at":"8","scroll_amount":"6"}],"cards":[{"card":{"position":"1","type":"instagram","perPage":"on"}},{"card":{"type":"sponsor","name":"vinli","position":"2","perPage":"on"}},{"card":{"type":"arbitrary-html","html":"<h1>hello</h1>","count":"1","position":"4"}}]}
