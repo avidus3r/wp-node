@@ -169,12 +169,13 @@ TODO: testing removal of ng-include
     </div>
 </div>
 <script type="text/javascript">
-    $('html').click(function(){
+    /*$('html').click(function(e){
+        debugger;
         if(!$('.navbar-toggle').hasClass('collapsed')){
             $('#bs-example-navbar-collapse-1').removeClass('in');
             $('.navbar-toggle').attr("aria-expanded", "false");
         }
-    });
+    });*/
 </script>
 <script type="text/javascript">
     angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
