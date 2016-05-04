@@ -27,7 +27,7 @@ router.post('/api/cache/clear', function(req, res, next) {
     /*getIP(function (err, ip) {
      if (err) {
      throw err;
-     }
+     } 
      if(ip.indexOf('159.63.144.2') === -1) return false;
 
      });*/

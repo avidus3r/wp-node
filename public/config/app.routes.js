@@ -55,17 +55,17 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         TODO: homepage items need to be queried correctly (ex. hero gets latest fb rundates but not custom types. That index needs to be carried into the next call for lower posts
                     */
                     return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
+                        // config: FeedService.getData('/appdata/feed.conf.json').then(
+                        //  function (data) {
+                        //  return data;
+                        //  },
+                        //  function (error) {
 
-                         },
-                         function (notification) {
+                        //  },
+                        //  function (notification) {
 
-                         }
-                         ),*/
+                        //  }
+                        //  ),
                         config:null,
                         heroItems: FeedService.getHomePosts(1, sidekickConfig).then(
 
@@ -776,7 +776,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     }*/
 
                     return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {
                          return data;
                          },
@@ -786,8 +786,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          function (notification) {
 
                          }
-                         ),*/
-                        config:null,
+                         ),
+                        //config:null,
                         post: FeedService.getDBPost(params.category, params.slug).then(
                             function(data){
                                 console.log(data);
