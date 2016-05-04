@@ -797,6 +797,14 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     };
 
+    $rootScope.getShareLink = function() {
+        var link = location.href;
+        if (location.hash) {
+            link = link.replace(location.hash, '');
+        }
+        return link;
+    };
+
     $rootScope.getQueryParamValue = function(variable) {
 
         var query = window.location.search.substring(1);
