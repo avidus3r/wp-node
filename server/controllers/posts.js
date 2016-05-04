@@ -137,8 +137,10 @@ var PostsController = {
     searchV2: function(term, pageNumber) {
         var s = decodeURIComponent(term);
         var reggie = new RegExp(s, 'i');
-        //TODO 
         // group like items from config
+        mockConfig.forEach(function(doc, ind){
+            console.log(doc);
+        });
         // get length of groups to later determine offset
         //  offset items by multiplying page number by group length 
         // query for items and store in groups 
