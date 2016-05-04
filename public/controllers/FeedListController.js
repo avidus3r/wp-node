@@ -1380,7 +1380,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
 
         if (fbEmbed.length > 0) {
-
+            debugger
+            content += $scope.getAdvertisementGlue();
             fbEmbed.addClass('video-container').addClass('fb-embed').css({
                 width: '100%'
             });

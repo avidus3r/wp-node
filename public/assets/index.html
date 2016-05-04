@@ -92,14 +92,6 @@
             }
         }
     </script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-53305609-1', 'auto');
-        ga('send', 'pageview');
-    </script>
 
     <script src="/js/vendor/alephbet.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -176,14 +168,7 @@ TODO: testing removal of ng-include
         </section>
     </div>
 </div>
-<script type="text/javascript">
-    $('.app-main').click(function(){
-        if(!angular.element('.navbar-toggle').hasClass('collapsed in')){
-            $('#bs-example-navbar-collapse-1').removeClass('in')
-            $('.navbar-toggle').attr("aria-expanded", "false")
-        }
-    });
-</script>
+
 <script type="text/javascript">
     angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
         var UAPageViewType = 'VirtualPageview';
