@@ -1,4 +1,4 @@
-<header class="feed-header clearfix" ng-controller="HeaderController">
+<header class="feed-header clearfix" ng-controller="HeaderController" ng-show=isArticle()">
     <div ng-switch="{{ $root._isMobile() }}">
         <nav ng-switch-when="true" class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">

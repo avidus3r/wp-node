@@ -192,6 +192,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return location.pathname === '/';
     };
 
+    $rootScope.isArticle = function() {
+        return location.href.indexOf('/article')  > -1;
+    };
+
     $rootScope.isCategory = function() {
         return location.href.indexOf('/category/') > -1;
     };

@@ -1,10 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Facebook Login JavaScript Example</title>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
+<script>
+    // This is called with the results from from FB.getLoginStatus().
 
-</body>
-</html>
+    var iaToken;
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response.authResponse);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        iaToken = response.authResponse;
+        if (response.status === 'connected') {
+            // Logged into your app and Facebook.
+            testAPI();
+        } else if (response.status === 'not_authorized') {
+            // The person is logged into Facebook, but not your app.
+            document.getElementById('status').innerHTML = 'Please log ' +
+                    'into this app.';
+        } else {
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+            document.getElementById('status').innerHTML = 'Please log ' +
+                    'into Facebook.';
+        }
+    }
+
+    // This function is called when someone finishes with the Login
+    // Button.  See the onlogin handler attached to it in the sample
+    // code below.
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '638692042912150',
+            cookie     : true,  // enable cookies to allow the server to access
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.5' // use graph api version 2.5
+        });
+
+        // Now that we've initialized the JavaScript SDK, we call
+        // FB.getLoginStatus().  This function gets the state of the
+        // person visiting this page and can return one of three states to
+        // the callback you provide.  They can be:
+        //
+        // 1. Logged into your app ('connected')
+        // 2. Logged into Facebook, but not your app ('not_authorized')
+        // 3. Not logged into Facebook and can't tell if they are logged into
+        //    your app or not.
+        //
+        // These three cases are handled in the callback function.
+
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+
+    };
+
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            document.getElementById('status').innerHTML =
+                    'Thanks for logging in, ' + response.name + '!';
+
+        });
+
+        var htmlString = "<!doctype html><html lang='en' prefix='op: http://media.facebook.com/op#'><head><meta charset='utf-8'><link rel='canonical' href='http://local.altdriver.com:3000/instantArticle.html'>" +
+                         "<meta property='op:markup_version' content='v1.0'></head>" +
+                         "<body><article><header><figure>" +
+                         "<img src='https://s3-us-west-2.amazonaws.com/assets.altdriver/logo_alt_driver.png' />" +
+                         "<figcaption>image caption</figcaption></figure>" +
+                         "<h1>Biker Gets Pulled Over By the Coolest Cop Ever!</h1>" +
+                         "<figure>" +
+                         "<iframe width='100%' height='720' src='https://www.youtube.com/embed/JRA9ncOxG_k' frameborder='0' allowfullscreen></iframe>" +
+                         "</figure>" +
+                         "<time class='op-published' datetime='2015-11-11T04:44:16Z'>November 11th, 4:44 PM</time>" +
+                         "<time class='op-modified' dateTime='2015-12-11T04:44:16Z'>December 11th, 4:44 PM</time>" +
+                         "<address>" +
+                         "<a rel='facebook' href='http://facebook.com/altdriver'>BY ALT DRIVER</a>" +
+                         "</address>" +
+                         "<h3 class='op-kicker'>Pulled Over by the Coolest COP EVER!!!</h3>" +
+                         "</header>" +
+                         "<p> While on his way to work this biker wanted to show off a bit in front of a Mustang he passed on the highway. While he’s speeding up a bit he fails to see a cop behind him catching him dead to rights on speeding. The biker even admits he had no excuse for driving that fast and was simply caught up in the moment and acting stupid. The cop runs his details and is surprised to find out he doesn’t have any previous violations or speeding tickets. He then tells the biker he’s not going to give him a ticket but asks if he’ll turn off his camera so he can ask him something unrelated. What he asks him is whether or not he knows about some of the larger biker groups that have been terrorizing the streets and highways. You can’t fault the cop for trying to get some inside info!</p>" +
+                        "<figure class='op-ad>" +
+                        "<iframe src='http://placehold.it/880x100' height='100' width='880'></iframe>" +
+                        "</figure>" +
+                        "<figure class='op-tracker'>" +
+                        "<iframe src='' hidden></iframe>" +
+                        "</figure>" +
+                        "<footer><aside>Acknowledgements</aside>" +
+                        "<small>Legal notes</small></footer></article></body></html>"
+
+
+    $.ajax({
+            url: "https://graph.facebook.com/0503/instant_articles",
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            processData: false,
+            data: {
+                "id": "0503",
+                "html_source": htmlString,
+                "canonical_url": "http://local.altdriver.com:3000/0503"
+            },
+            success: function (data) {
+                alert(JSON.stringify(data));
+            },
+            error: function(){
+                alert("Cannot get data");
+            }
+        });
+
+    }
+</script>
+
+<!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+
+<fb:login-button scope="public_profile,email,pages_manage_instant_articles, pages_show_list" onlogin="checkLoginState();">
+</fb:login-button>
+
+<!--<div id="status">-->
+<!--</div>-->
+<!--<form action="https://graph.facebook.com/0421/instant_articles" method="get">-->
+    <!--<input type="text" name="token" value="iaToken">-->
+    <!--First name: <input type="text" name="fname"><br>-->
+    <!--Last name: <input type="text" name="lname"><br>-->
+    <!--<input type="submit" value="Submit">-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->

@@ -51,7 +51,7 @@ app.set('port', process.env.PORT || 3000);
  */
 
 
-app.get('/abc/123/', function(req,res, next){
+app.get('/instantArticle', function(req,res, next){
     var metatags = {
         robots: 'index, follow',
         title: appConfig.title,

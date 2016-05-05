@@ -102,8 +102,38 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                 }
             }
         })
-        .when('/abc/123/', {
-            templateUrl: '/views/cardlist.html',
+        .when('/instantArticle', {
+            templateUrl: '/views/instant-article-demo.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route){
+                    return $q.all({
+                        config:null,
+                        posts:null,
+                        instagram:null,
+                        sponsors:null
+                    })
+                }
+            }
+        })
+        .when('articles/article01.html', {
+            templateUrl: 'articles/article01.html',
+            redirectTo: false,
+            reloadOnSearch: false,
+            resolve:{
+                data: function($q, $route){
+                    return $q.all({
+                        config:null,
+                        posts:null,
+                        instagram:null,
+                        sponsors:null
+                    })
+                }
+            }
+        })
+        .when('/article02.html', {
+            templateUrl: 'articles/article02.html',
             redirectTo: false,
             reloadOnSearch: false,
             resolve:{
