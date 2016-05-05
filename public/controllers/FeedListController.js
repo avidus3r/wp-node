@@ -46,7 +46,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.currentY = null;
     $scope.cardType = 'email';
     $scope.instagramPost = null;
-    //$scope.feedConfig = data.config;
+    $scope.feedConfig = data.config;
     $scope.sponsors = data.sponsors;
     $scope.instagram = data.instagram;
     $scope.instagramItems = [];
@@ -600,7 +600,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         var pagedpostmap = [];
         angular.forEach(data, function(item, index) {
 
-            if(typeof $scope.showSharebar === 'undefined' || $scope.showSharebar === null){
+            if (typeof $scope.showSharebar === 'undefined' || $scope.showSharebar === null) {
                 $scope.showSharebar = true;
             }
 
@@ -678,38 +678,38 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }
             }
 
-            /*angular.forEach($scope.feedConfig.cards, function (item, cardIndex) {
-                if (item.card.perPage === 'on') {
+            // /*angular.forEach($scope.feedConfig.cards, function (item, cardIndex) {
+            //     if (item.card.perPage === 'on') {
 
-                    var card = item.card;
+            //         var card = item.card;
 
-                    */
-            /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
-                     card = $scope.sponsorItems[$scope.paged];
-                     card.type = 'sponsor';
-                     card.position = Number(item.card.position);
+            //         */
+            // /*if (card.type === 'sponsor' && $scope.sponsorItems !== null && $scope.sponsorItems.length > ($scope.paged)) {
+            //          card = $scope.sponsorItems[$scope.paged];
+            //          card.type = 'sponsor';
+            //          card.position = Number(item.card.position);
 
-                     pagedpostmap.splice((card.position*$scope.paged), 0, card);
-                     $scope.splicedItems++;
-                     $scope.sponsorPosts.push(card.position*$scope.paged);
-                     }*/
-            /*
-                    if (card.type === 'instagram') {
-                        if (index === Number(card.position)) {
-                            if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > $scope.instagramIndex) {
-                                card.data = $scope.instagram.data.data[$scope.instagramIndex];
-                                $scope.instagramIndex++;
-                                pagedpostmap.push(card);
-                                $scope.feedItemScrollAmount++;
-                                pushedItems++;
-                            } else {
-                                card.type = 'social-follow';
-                            }
+            //          pagedpostmap.splice((card.position*$scope.paged), 0, card);
+            //          $scope.splicedItems++;
+            //          $scope.sponsorPosts.push(card.position*$scope.paged);
+            //          }*/
 
-                        }
-                    }
-                }
-            });*/
+            //         if (card.type === 'instagram') {
+            //             if (index === Number(card.position)) {
+            //                 if (typeof $scope.instagram !== 'undefined' && $scope.instagram !== null && $scope.instagram.data.data.length > $scope.instagramIndex) {
+            //                     card.data = $scope.instagram.data.data[$scope.instagramIndex];
+            //                     $scope.instagramIndex++;
+            //                     pagedpostmap.push(card);
+            //                     $scope.feedItemScrollAmount++;
+            //                     pushedItems++;
+            //                 } else {
+            //                     card.type = 'social-follow';
+            //                 }
+
+            //             }
+            //         }
+            //     }
+            // });
 
             pagedpostmap.push(item);
         });
@@ -989,7 +989,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.init = function() {
 
-        if(typeof $scope.showSharebar === 'undefined' || $scope.showSharebar === null){
+        if (typeof $scope.showSharebar === 'undefined' || $scope.showSharebar === null) {
             $scope.showSharebar = true;
         }
 
@@ -1380,7 +1380,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         }
 
         if (fbEmbed.length > 0) {
-
+            content += $scope.getAdvertisementGlue();
             fbEmbed.addClass('video-container').addClass('fb-embed').css({
                 width: '100%'
             });

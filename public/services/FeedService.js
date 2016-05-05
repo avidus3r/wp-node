@@ -15,8 +15,12 @@ var FeedService = function(app, appName, env, $http, $q){
 
         switch(type){
             case 'get':
+                var opts = {};
+                if(!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                    opts = {headers:{'x-apicache-bypass':true}};
+                }
 
-                $http.get(url)
+                $http.get(url, opts)
                     .then(function (response) {
 
                         if(response.data.length === 0){

@@ -168,6 +168,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     // $rootScope.toastHide= false;
     $rootScope.platform = _isMobile() ? 'mobile' : 'desktop';
     $rootScope.year = new Date().getFullYear();
+    $rootScope.adAppended = false;
 
     $rootScope.currentCategory = null;
 
@@ -384,7 +385,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
                 if (pieces.length === 1) {
                     pieces = content.split('</iframe> </p>');
                 }
-                var glue = $rootScope.getAdvertisementGlue();
+                var glue = $rootScope.getAdvertisementGlue('</iframe></p>');
 
                 content = pieces.join(glue);
                 content += '<div class="post-txt-more ga-post-more">Read More</div>';
@@ -397,6 +398,12 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
         if (fbEmbed.length > 0) {
 
+            var txt = post.find('p');
+            if(!$rootScope.adAppended){
+                $rootScope.adAppended = true;
+                txt.prepend($rootScope.getAdvertisementGlue(''));
+            }
+
             fbEmbed.addClass('video-container').addClass('fb-embed').css({
                 width: '100%'
             });
@@ -406,35 +413,36 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return $sce.trustAsHtml(content);
     };
 
-    $rootScope.getAdvertisementGlue = function() {
+    $rootScope.getAdvertisementGlue = function(prependHtml) {
         var glue = '';
+
         switch ($rootScope.appConfig.name) {
             case 'altdriver':
                 if ($rootScope.platform === 'desktop') {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag || {}; googletag.cmd = window.googletag.cmd || [];var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/AD_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag || {}; googletag.cmd = window.googletag.cmd || [];var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/AD_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
                 } else {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag || {}; googletag.cmd = window.googletag.cmd || [];var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/AD_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag || {}; googletag.cmd = window.googletag.cmd || [];var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/AD_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
                 }
                 break;
             case 'driversenvy':
                 if ($rootScope.platform === 'desktop') {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/DE_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/DE_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
                 } else {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/DE_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/DE_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
                 }
                 break;
             case 'mamashares':
                 if ($rootScope.platform === 'desktop') {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/MS_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/MS_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
                 } else {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/MS_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/MS_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
                 }
                 break;
             case 'upshift':
                 if ($rootScope.platform === 'desktop') {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/UP_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [728,90]).build();window.googletag.defineSlot("/110669458/UP_Desktop_Companion_Leaderboard", [728, 90], "div-gpt-ad-1448906851482-0").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-0"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-0"); });</script></div>';
                 } else {
-                    glue = '</iframe></p><script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/UP_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
+                    glue = prependHtml + '<script type="text/javascript">var googletag = window.googletag = window.googletag || {}; window.googletag.cmd = window.googletag.cmd || [];(function() {var gads = document.createElement("script");gads.async = true;gads.type = "text/javascript";var useSSL = "https:" == document.location.protocol;gads.src = (useSSL ? "https:" : "http:") +"//www.googletagservices.com/tag/js/gpt.js";var node = document.getElementsByTagName("script")[0];node.parentNode.insertBefore(gads, node);})();</script><script type="text/javascript">var gptAdSlots = [];window.googletag.cmd.push(function() {var mapping2 = window.googletag.sizeMapping().addSize([0, 0], [[300, 50], [320, 50]]).build();window.googletag.defineSlot("/110669458/UP_Mobile_Companion_Flex", [[300, 50], [320, 50]], "div-gpt-ad-1448906851482-6").defineSizeMapping(mapping2).addService(googletag.pubads());googletag.pubads().enableSingleRequest();googletag.pubads().collapseEmptyDivs();googletag.enableServices();});</script><div class="ad-post-companion" id="div-gpt-ad-1448906851482-6"><script type="text/javascript">googletag.cmd.push(function() { googletag.display("div-gpt-ad-1448906851482-6"); });</script></div>';
                 }
                 break;
         }
@@ -656,6 +664,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return img.thumbnail[attrs[attr]];
     };
 
+    $rootScope.getImage = function(item){
+        return '<img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=320&q=55&overlay=true" alt="'+ item.title.rendered +'" srcset="http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?overlay=true 1200w, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=1200&q=70&overlay=true 2x, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=800&q=55&overlay=true 900w, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=320&q=55&overlay=true 480w" sizes="100vw"/>';
+    };
+
     // $rootScope.getFeaturedImage = function(img, attr) {
 
     // var attrs = {
@@ -712,13 +724,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
 
 
-        if (/ios/i.test($rootScope.isMobile())) {
-            return img.medium[attrs[attr]];
-        } else if (/mobile/i.test($rootScope.isMobile())) {
-            return img.medium[attrs[attr]];
-        } else if (/desktop/i.test($rootScope.isMobile())) {
-            return img.original[attrs[attr]];
-        }
+        return img.original[attrs[attr]];
+
     };
 
     $rootScope.getAppInfo = function(param) {
@@ -788,6 +795,14 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
         $rootScope.gptReady = true;
 
+    };
+
+    $rootScope.getShareLink = function() {
+        var link = location.href;
+        if (location.hash) {
+            link = link.replace(location.hash, '');
+        }
+        return link;
     };
 
     $rootScope.getQueryParamValue = function(variable) {

@@ -75,7 +75,12 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
     };
 
     $scope.navClick = function(){
-        angular.module('NewsFeed').trackEvent('navigation.main','click','menu button',1,null);
+        //menu is open
+        if(angular.element('.navbar-toggle').hasClass('collapsed')){
+            angular.element(document).on('click', function(e){
+               if(angular.element(e.target).closest('header').length === 0) $scope.collapseNav();
+            });
+        }
     };
 
 

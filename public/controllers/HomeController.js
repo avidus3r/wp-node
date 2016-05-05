@@ -1096,6 +1096,17 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
             });
 
         }, 1500);
+
+        $(window).resize(function() {
+            carouselHeight = $('.carousel-inner').height();
+            carouselWidth = $('.carousel-inner').width();
+            $('.carousel-inner').children().each(function(ind, item) {
+                $(item).find('img').css({
+                    'height': 'auto',
+                    'width': carouselWidth
+                });
+            });
+        });
     };
 
     $scope.setHeroHeight();
