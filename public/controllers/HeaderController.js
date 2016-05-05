@@ -7,7 +7,7 @@ var HeaderController = function($rootScope, $scope, FeedService, $route, $routeP
 
     $scope.collapseNav = function(){
         if(!angular.element('.navbar-toggle').hasClass('collapsed')){
-            angular.element('.navbar-toggle').click();
+            $('#bs-example-navbar-collapse-1').hide();
         }
     };
 
