@@ -456,8 +456,12 @@ body.homehero .app-main .latestposts{
 
 .mega-footer .header-search-txt{
   min-width: 235px;
+  left: -20px !important;
 }
-
+.mega-footer .ga-btn-search{
+  position: relative;
+  left: -20px;
+}
 .excerpt-title{
   margin-top: 0 !important;
 }
