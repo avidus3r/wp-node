@@ -753,8 +753,6 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
 
     $rootScope.initGpt = function() {
         console.log('initGpt');
-        window.googletag = window.googletag || {};
-        window.googletag.cmd = window.googletag.cmd || [];
         (function() {
             var gads = document.createElement('script');
             gads.async = true;
@@ -765,6 +763,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
             var node = document.getElementsByTagName('script')[0];
             node.parentNode.insertBefore(gads, node);
         })();
+        window.googletag = window.googletag || {};
+        window.googletag.cmd = window.googletag.cmd || [];
     };
 
     $rootScope.initAds = function() {
@@ -839,6 +839,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         window.googletag.cmd.push(function() {
             window.googletag.pubads().enableSingleRequest();
             window.googletag.pubads().collapseEmptyDivs();
+
             window.googletag.enableServices();
 
             if ($rootScope.getQueryParamValue('campaign') !== null) {
