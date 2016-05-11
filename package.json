@@ -15,7 +15,7 @@
     "angular-route": "^1.4.3",
     "angular-sanitize": "^1.4.3",
     "apicache": "0.0.12",
-    "async": "^1.4.2",
+    "async": "^1.5.2",
     "aws-sdk": "^2.2.25",
     "body-parser": "^1.13.3",
     "clean": "^4.0.1",

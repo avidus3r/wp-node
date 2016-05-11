@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
-    Menu = mongoose.model('Menu');
+    Menu = mongoose.model('Menu'),
+    async = require('async');
 
 var mockConfig = {
     cardAmount: 10,
@@ -15,7 +16,7 @@ var mockConfig = {
     }, {
         type: 'video'
     }, {
-        type: 'partner-post'
+        type: 'partner'
     }, {
         type: 'html'
     }, {
@@ -25,9 +26,7 @@ var mockConfig = {
     }, {
         type: 'video'
     }, {
-        type: 'partner-post'
-    }, {
-        type: 'html'
+        type: 'partner'
     }]
 };
 
@@ -134,23 +133,136 @@ var PostsController = {
         return query.exec();
     },
 
-    searchV2: function(term, pageNumber) {
-        var s = decodeURIComponent(term);
-        var reggie = new RegExp(s, 'i');
-        // group like items from config
-        mockConfig.forEach(function(doc, ind){
-            console.log(doc);
-        });
-        // get length of groups to later determine offset
-        //  offset items by multiplying page number by group length 
+    searchV2: function(req, res) {
+        //TODO
+        // determine offset in congif 
         // query for items and store in groups 
         // combine items in Array in order of config 
-        // sned Array in response 
+        // send Array in response 
+        var query = req.params.query;
+        var skipItems = parseInt(req.params.skip);
+        var configPosition = mockConfig.cards.length - skipItems;
+        var cards = mockConfig.cards.slice(configPosition, mockConfig.cards.length);
+        var skippedCards = mockConfig.cards.slice(0, configPosition);
+        var skipRemainder = skipItems % mockConfig.cards.length;
+        var pageSkip = Math.floor(skipItems / mockConfig.cards.length);
+        var s = decodeURIComponent(query);
+        var reggie = new RegExp(s, 'i');
 
-        var query = Post.find({
-            'title.rendered': reggie
-        }).limit(Number(numberOfPosts)).skip(Number(skipItems));
-        return query.exec();
+        var typeCounts = [{
+            type: 'video',
+            count: 0
+        }, {
+            type: 'ad',
+            count: 0,
+        }, {
+            type: 'gif',
+            count: 0,
+        }, {
+            type: 'partner',
+            count: 0,
+        }, {
+            type: 'html',
+            count: 0,
+        }];
+
+        var skippedTypeCounts = [{
+            type: 'video',
+            count: 0
+        }, {
+            type: 'ad',
+            count: 0,
+        }, {
+            type: 'gif',
+            count: 0,
+        }, {
+            type: 'partner',
+            count: 0,
+        }, {
+            type: 'html',
+            count: 0,
+        }];
+
+        var offSetCounts = [{
+            type: 'video',
+            count: 0
+        }, {
+            type: 'ad',
+            count: 0,
+        }, {
+            type: 'gif',
+            count: 0,
+        }, {
+            type: 'partner',
+            count: 0,
+        }, {
+            type: 'html',
+            count: 0,
+        }];
+
+        async.series(
+            [
+
+                function(callback) {
+                    // Get post skip items
+                    async.each(cards, function(item, callback) {
+                        async.each(typeCounts, function(config, callback) {
+                            if (config.type == item.type) {
+                                config.count += 1;
+                            }
+                            callback();
+                        });
+                        callback();
+                    }, function(err) {
+                        console.log(typeCounts);
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    // Get pre skip items
+                    async.each(skippedCards, function(item, callback) {
+                        async.each(skippedTypeCounts, function(config, callback) {
+                            if (config.type == item.type) {
+                                config.count += 1;
+                            }
+                            callback();
+                        });
+                        callback();
+                    }, function(err) {
+                        console.log(skippedTypeCounts);
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    // determine offsets
+                    if (skipRemainder == 0) {
+                        //full page of items offset by pageSkip
+                        async.each(offSetCounts, function(item, callback) {
+                            async.each(typeCounts, function(config, callback) {
+                                if (config.type == item.type) {
+                                    console.log('increasing count');
+                                    item.count = config.count * pageSkip;
+                                }
+                                callback();
+                            });
+                            callback();
+                        }, function(err) {
+                            console.log(offSetCounts);
+                            callback(null);
+                        });
+                    } else {
+                        //partial page
+
+                    }
+                }
+            ],
+            //callback 
+            function(err, results) {
+                // results 
+            }
+        );
+
+        res.send('success');
     },
 
     posts: function(req, numberOfPosts, pageNumber, skip) {

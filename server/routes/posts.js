@@ -226,6 +226,9 @@ router.get('/api/search/:query/:perPage/:page/:skip', apicache('5 minutes'), fun
     });
 });
 
+//TODO need to add apicache('5 minutes') back in
+router.get('/apiV2/search/:query/:skip', PostController.searchV2);
+
 
 /*
  Single Post
