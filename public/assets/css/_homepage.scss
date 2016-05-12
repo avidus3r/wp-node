@@ -4,7 +4,7 @@
   }
   //  carousel controls
   .carousel-indicators {
-    bottom: 0;
+    bottom: 10px;
   }
   .carousel-control {
     background: transparent;
@@ -68,6 +68,7 @@
       width: 100%;
       display: block;
     }
+    
     li.legal {
       display: inline;
       text-transform: none;
@@ -217,7 +218,7 @@
     display: block;
     float: left;
     width: 300px;
-    margin-top: .6em; // line up ads and first story
+    margin-top: 10px;// line up ads and first story
   }
 }
 
@@ -237,6 +238,7 @@
   text-align: center;
   border-bottom: 2px solid white;
   border-top: 2px solid white;
+  padding-bottom: 11px;
 }
 
 .trend-link {
@@ -347,6 +349,9 @@ body.mobile.homehero .app-main{
     height:3.3em;
     font-weight: normal;
   }
+  .pubad {
+    padding-top: 20px;
+  }
 }
 
 body.homehero .app-main .latestposts{
@@ -456,8 +461,12 @@ body.homehero .app-main .latestposts{
 
 .mega-footer .header-search-txt{
   min-width: 235px;
+  left: -20px !important;
 }
-
+.mega-footer .ga-btn-search{
+  position: relative;
+  left: -20px;
+}
 .excerpt-title{
   margin-top: 0 !important;
 }
