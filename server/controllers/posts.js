@@ -133,21 +133,78 @@ var PostsController = {
         return query.exec();
     },
 
-    searchV2: function(req, res) {
+    posts: function(req, numberOfPosts, pageNumber, skip) {
+        var skipItems = Number(skip);
+
+        var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({
+            'modified': -1
+        });
+        query.$where('this.type === "post" || this.type === "animated-gif" || this.type === "partner-post"');
+        /*if(!this._isMobile(req.headers['user-agent'])){
+         query.$where(function(){
+         if(this.postmeta.hasOwnProperty('explicit')){
+         return this.postmeta.explicit[0] === '';
+         }else{
+         return this;
+         }
+         });
+         }*/
+
+        return query.exec();
+    },
+
+    list: function(req, numberOfPosts, pageNumber, skip, notIn) {
+        var skipItems = Number(skip);
+        var appName = process.env.appname;
+        var currentPath = req.headers.referer.replace('http://' + req.headers.host + '/', '');
+        var currentItem = currentPath.replace(currentPath.split('/').shift(), '');
+        currentItem = currentItem.replace(new RegExp('/', 'g'), '');
+
+        if (currentItem.indexOf('?') !== -1) {
+            currentItem = currentItem.replace(currentItem.substring(currentItem.indexOf('?'), currentItem.length), '');
+        }
+
+        /*var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main', '_id': { $nin:notIn } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});*/
+
+        var query = appName === 'altdriver' ? Post.find({
+            'postmeta.run_dates_0_channel': 'Facebook Main',
+            'slug': {
+                $nin: currentItem
+            }
+        }).skip(skipItems).limit(numberOfPosts).sort({
+            'postmeta.run_dates_0_run_time': -1
+        }) : Post.find().skip(skipItems).limit(numberOfPosts).sort({
+            'date': -1
+        });
+
+        if (!this._isMobile(req.headers['user-agent'])) {
+            query.$where(function() {
+                if (this.postmeta.hasOwnProperty('explicit')) {
+                    return this.postmeta.explicit[0] === '';
+                } else {
+                    return this;
+                }
+            });
+        }
+
+        return query.exec();
+    },
+
+    listV2: function(req, res) {
         //TODO
-        // determine offset in congif 
         // query for items and store in groups 
         // combine items in Array in order of config 
         // send Array in response 
-        var query = req.params.query;
+        var appName = process.env.appname;
         var skipItems = parseInt(req.params.skip);
-        var configPosition = mockConfig.cards.length - skipItems;
-        var cards = mockConfig.cards.slice(configPosition, mockConfig.cards.length);
-        var skippedCards = mockConfig.cards.slice(0, configPosition);
         var skipRemainder = skipItems % mockConfig.cards.length;
+        var configPosition = mockConfig.cards.length - skipRemainder;
+        var skippedCards = mockConfig.cards.slice(0, configPosition);
+        var cards = mockConfig.cards.slice(configPosition, mockConfig.cards.length);
         var pageSkip = Math.floor(skipItems / mockConfig.cards.length);
-        var s = decodeURIComponent(query);
-        var reggie = new RegExp(s, 'i');
+        var dbData = null;
+
+
 
         var typeCounts = [{
             type: 'video',
@@ -229,13 +286,13 @@ var PostsController = {
                         });
                         callback();
                     }, function(err) {
-                        console.log(skippedTypeCounts);
+                        //console.log(skippedTypeCounts);
                         callback(null);
                     });
                 },
                 function(callback) {
                     // determine offsets
-                    if (skipRemainder == 0) {
+                    if (pageSkip > 0) {
                         //full page of items offset by pageSkip
                         async.each(offSetCounts, function(item, callback) {
                             async.each(typeCounts, function(config, callback) {
@@ -247,13 +304,122 @@ var PostsController = {
                             });
                             callback();
                         }, function(err) {
-                            console.log(offSetCounts);
-                            callback(null);
+                            //console.log(offSetCounts);
+                            if (skipRemainder != 0) {
+                                async.each(offSetCounts, function(item, callback) {
+                                    async.each(skippedTypeCounts, function(config, callback) {
+                                        if (config.type == item.type) {
+                                            console.log('increasing count');
+                                            item.count = item.count + config.count;
+                                        }
+                                        callback();
+                                    });
+                                    callback();
+                                }, function(err) {
+                                    //console.log(offSetCounts);
+                                    callback(null);
+                                });
+                            } else {
+                                callback(null);
+                            }
                         });
-                    } else {
-                        //partial page
-
                     }
+                },
+                function(callback) {
+                    //make DB queries 
+                    console.log('config');
+                    console.log(mockConfig.cards);
+                    console.log('---------------');
+                    console.log('type count');
+                    console.log(typeCounts);
+                    console.log('---------------');
+                    console.log('skipped Type Counts');
+                    console.log(skippedTypeCounts);
+                    console.log('---------------');
+                    console.log('off Set Counts');
+                    console.log(offSetCounts);
+                    console.log('---------------');
+                    // async.parallel({
+                    //         video: function(callback) {
+                    //             var query = appName === 'altdriver' ? Post.find({
+                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
+                    //             }).skip(skippedTypeCounts[0].count).limit(typeCounts[0].count).sort({
+                    //                 'postmeta.run_dates_0_run_time': -1
+                    //             }) : Post.find().skip(skippedTypeCounts[0].count).limit(typeCounts[0].count).sort({
+                    //                 'date': -1
+                    //             });
+                    //             query.$where('this.type === "post"');
+                    //             query.exec().then(function(results) {
+                    //                 console.log(results.length);
+                    //                 callback(null, results);
+                    //             });
+                    //         },
+                    //         ad: function(callback) {
+                    //             var query = appName === 'altdriver' ? Post.find({
+                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
+                    //             }).skip(skippedTypeCounts[1].count).limit(typeCounts[1].count).sort({
+                    //                 'postmeta.run_dates_0_run_time': -1
+                    //             }) : Post.find().skip(skippedTypeCounts[1].count).limit(typeCounts[1].count).sort({
+                    //                 'date': -1
+                    //             });
+                    //             query.$where('this.type === "ad"');
+                    //             query.exec().then(function(results) {
+                    //                 console.log(results.length);
+                    //                 callback(null, results);
+                    //             });
+                    //         },
+                    //         gif: function(callback) {
+                    //             var query = appName === 'altdriver' ? Post.find({
+                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
+                    //             }).skip(skippedTypeCounts[2].count).limit(typeCounts[2].count).sort({
+                    //                 'postmeta.run_dates_0_run_time': -1
+                    //             }) : Post.find().skip(skippedTypeCounts[2].count).limit(typeCounts[2].count).sort({
+                    //                 'date': -1
+                    //             });
+                    //             query.$where('this.type === "animated-gif"');
+                    //             query.exec().then(function(results) {
+                    //                 console.log(results.length);
+                    //                 callback(null, results);
+                    //             });
+                    //         },
+                    //         html: function(callback) {
+                    //             var query = appName === 'altdriver' ? Post.find({
+                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
+                    //             }).skip(skippedTypeCounts[4].count).limit(typeCounts[4].count).sort({
+                    //                 'postmeta.run_dates_0_run_time': -1
+                    //             }) : Post.find().skip(skippedTypeCounts[4].count).limit(typeCounts[4].count).sort({
+                    //                 'date': -1
+                    //             });
+                    //             query.$where('this.type === "html"');
+                    //             query.exec().then(function(results) {
+                    //                 console.log(results.length);
+                    //                 callback(null, results);
+                    //             });
+                    //         },
+                    //         partner: function(callback) {
+                    //             var query = appName === 'altdriver' ? Post.find({
+                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
+                    //             }).skip(skippedTypeCounts[3].count).limit(typeCounts[3].count).sort({
+                    //                 'postmeta.run_dates_0_run_time': -1
+                    //             }) : Post.find().skip(skippedTypeCounts[3].count).limit(typeCounts[3].count).sort({
+                    //                 'date': -1
+                    //             });
+                    //             query.$where('this.type === "partner-post"');
+                    //             query.exec().then(function(results) {
+                    //                 console.log(results.length);
+                    //                 callback(null, results);
+                    //             });
+                    //         },
+                    //     },
+                    //     function(err, results) {
+                    //         dbData = results;
+                    //         callback(null);
+                    //     }
+                    // );
+                },
+                function(callback) {
+                    console.log('done with db queries');
+
                 }
             ],
             //callback 
@@ -263,63 +429,6 @@ var PostsController = {
         );
 
         res.send('success');
-    },
-
-    posts: function(req, numberOfPosts, pageNumber, skip) {
-        var skipItems = Number(skip);
-
-        var query = Post.find().skip(skipItems).limit(numberOfPosts).sort({
-            'modified': -1
-        });
-        query.$where('this.type === "post" || this.type === "animated-gif" || this.type === "partner-post"');
-        /*if(!this._isMobile(req.headers['user-agent'])){
-         query.$where(function(){
-         if(this.postmeta.hasOwnProperty('explicit')){
-         return this.postmeta.explicit[0] === '';
-         }else{
-         return this;
-         }
-         });
-         }*/
-
-        return query.exec();
-    },
-
-    list: function(req, numberOfPosts, pageNumber, skip, notIn) {
-        var skipItems = Number(skip);
-        var appName = process.env.appname;
-        var currentPath = req.headers.referer.replace('http://' + req.headers.host + '/', '');
-        var currentItem = currentPath.replace(currentPath.split('/').shift(), '');
-        currentItem = currentItem.replace(new RegExp('/', 'g'), '');
-
-        if (currentItem.indexOf('?') !== -1) {
-            currentItem = currentItem.replace(currentItem.substring(currentItem.indexOf('?'), currentItem.length), '');
-        }
-
-        /*var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main', '_id': { $nin:notIn } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});*/
-
-        var query = appName === 'altdriver' ? Post.find({
-            'postmeta.run_dates_0_channel': 'Facebook Main',
-            'slug': {
-                $nin: currentItem
-            }
-        }).skip(skipItems).limit(numberOfPosts).sort({
-            'postmeta.run_dates_0_run_time': -1
-        }) : Post.find().skip(skipItems).limit(numberOfPosts).sort({
-            'date': -1
-        });
-
-        if (!this._isMobile(req.headers['user-agent'])) {
-            query.$where(function() {
-                if (this.postmeta.hasOwnProperty('explicit')) {
-                    return this.postmeta.explicit[0] === '';
-                } else {
-                    return this;
-                }
-            });
-        }
-
-        return query.exec();
     },
 
     heroItems: function(req, numberOfPosts, pageNumber, skip) {
