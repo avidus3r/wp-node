@@ -16,7 +16,7 @@ var FeedService = function(app, appName, env, $http, $q){
         switch(type){
             case 'get':
                 var opts = {};
-                if(!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                if(!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && location.pathname.indexOf('visitor-agreement') === -1 && location.pathname.indexOf('privacy') === -1 && location.pathname.indexOf('contact') === -1){
                     opts = {headers:{'x-apicache-bypass':true}};
                 }
 
