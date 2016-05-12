@@ -401,7 +401,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function() {
-        console.log('onScroll');
+        //console.debug('onScroll');
         if ($scope.currentView !== 'ads' && $scope.posts.length >= $scope.postsPerPage) {
             var feedItemEl = angular.element('.feed-item:last');
 
@@ -591,7 +591,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
         }
         incVendorIndex();
-        console.log(adElement);
+        //console.debug(adElement);
         return adElement;
     };
 
@@ -719,14 +719,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.getNext = function(params) {
-        console.log('getNext');
+        //console.debug('getNext');
         $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
         $scope.clearAds().then(function() {
             var skip = null;
             if ($routeParams.page === 'hottest' || $routeParams.page === 'best' || $routeParams.page === 'latest') {
                 FeedService.queryDBPosts($routeParams.page, $scope.postsPerPage, $scope.paged, $scope.postIndex).then(
                     function(data) { //success
-                        console.log(data);
                         if (data.length > 0) {
                             $scope.mapPosts(data);
                         } else {
@@ -756,7 +755,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
 
             if ($routeParams.page !== 'hottest' && $routeParams.page !== 'best' && $routeParams.page !== 'latest') {
-                console.log('i shouldnt be here');
                 if ($scope.currentView !== 'search') {
 
                     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params + '&post__not_in=' + $scope.singlePostID;
@@ -895,22 +893,25 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }
             }
         });
-        var timer = window.setInterval(function(){
-            try{
-                if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
-                    var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
-                    angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
-                    window.clearInterval(timer);
-                }
-            }catch(e){
-                console.debug('gpt iframe not loaded yet');
-            }
 
-        }, 1000);
+        if($scope.adsEnabled){
+            var timer = window.setInterval(function(){
+                try{
+                    if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
+                        var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
+                        angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
+                        window.clearInterval(timer);
+                    }
+                }catch(e){
+                    //console.debug('gpt iframe not loaded yet');
+                }
+
+            }, 1000);
+        }
     };
 
     $scope.$on('next:done', function($event, posts) {
-        console.log('next:done');
+        //console.debug('next:done');
         if ($scope.currentView === 'ads') {
             return false;
         }
@@ -1474,7 +1475,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         if ($scope.currentView === 'post') {
             $scope.$on('fbReady', function() {
                 if (location.hash.indexOf('comment') > -1) {
-                    console.log(true);
                     $scope.toggleComments(null);
                 }
                 angular.element('#commentHook').on('click', function(e) {

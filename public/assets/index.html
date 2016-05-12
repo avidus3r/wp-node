@@ -231,19 +231,20 @@ TODO: testing removal of ng-include
     </div>
 
     <script type="text/javascript">
-        var timer = window.setInterval(function(){
-            try{
-                console.log('int');
-                if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
-                    var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
-                    angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
-                    window.clearInterval(timer);
+        if(adsEnabled){
+            var timer = window.setInterval(function(){
+                try{
+                    if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
+                        var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
+                        angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
+                        window.clearInterval(timer);
+                    }
+                }catch(e){
+                    console.debug('gpt iframe not loaded yet');
                 }
-            }catch(e){
-                console.debug('gpt iframe not loaded yet');
-            }
 
-        }, 1000);
+            }, 1000);
+        }
     </script>
     <!-- rising star -->
 </body>

@@ -34,7 +34,7 @@ var pubad = function() {
                 }
             }
 
-            console.log($scope.currentPubad);
+            //console.debug($scope.currentPubad);
 
             $scope.pubadID = $scope.currentPubad.tagID;
             if(typeof $scope.currentPubad.dimensions[0] !== 'number'){
@@ -83,7 +83,7 @@ var pubad = function() {
                 }else{
                     setTimeout(function() {
                         window.googletag.cmd.push(function () {
-                            console.log('googpush: window.googletag.display(' + pubadID + ')');
+                            //console.debug('googpush: window.googletag.display(' + pubadID + ')');
                             window.googletag.display(pubadID);
                         });
                     },1000);

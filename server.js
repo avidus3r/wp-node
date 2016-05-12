@@ -85,7 +85,7 @@ app.get('/abc/123/', function(req,res, next){
 });
 
 function execQueue(queueData, message){
-    console.log('execQueue');
+    //console.debug('initQueue');
     var deferred = new Promise(function(fulfill, reject){
 
         var result = null;
@@ -115,7 +115,7 @@ function execQueue(queueData, message){
             case 'create':
             case 'publish':
                 request(url, function (error, response, body) {
-                    //console.log('response: ', response);
+                    //console.debug('response: ', response);
                     if(response.statusCode === 200) {
                         var post = JSON.parse(body);
 
@@ -138,12 +138,12 @@ function execQueue(queueData, message){
                                     var env = process.env.NODE_ENV === 'production' ? (process.env.appname === 'altdriver' ? 'www.' : '') : 'staging.';
                                     var appUrl = process.env.appname === 'altdriver' ? env + 'altdriver.com' : env + process.env.appname + '.com';
                                     var postUrl = updatePost.link.replace(updatePost.link.substring(0,updatePost.link.indexOf('.com/')+4),'http://'+appUrl);
-                                    //console.log('posturl: ', postUrl);
+                                    //console.debug('posturl: ', postUrl);
                                     setTimeout(function() {
                                         request
                                             .post('https://graph.facebook.com/?id=' + encodeURIComponent(postUrl) + '&scrape=true')
                                             .on('response', function (response) {
-                                                console.log(response);
+                                                //console.debug(response);
                                             });
                                     },1000);
 
@@ -183,8 +183,8 @@ function snsSubscribe(){
         Endpoint: 'arn:aws:sqs:us-east-1:629760438439:wp-exec'
     };
     sns.subscribe(params, function(err, data) {
-        if (err) console.log(err, err.stack); // an error occurred
-        else     console.log(data);           // successful response
+        if (err) console.error(err, err.stack); // an error occurred
+        else     console.debug(data);           // successful response
     });
 }
 
@@ -201,7 +201,7 @@ if(process.env.NODE_ENV !== 'local'){
     var job = new CronJob({
         cronTime: '10 05 09 * * 1-7',
         onTick: function () {
-            console.log('starting cron job');
+            //console.debug('starting cron job');
             /*
              * Runs every weekday (Monday through Sunday)
              * at 3:30:00 AM.
@@ -258,7 +258,7 @@ function initQueue(queuePrefix, isJob){
         var messages = queueData.data.Messages[0];
 
         if(messages.length === 0){
-            console.log('queue is empty');
+            //console.debug('queue is empty');
             return;
         }
 
@@ -273,7 +273,7 @@ function initQueue(queuePrefix, isJob){
 
         execQueue(resultObj, queueData.data.Messages[0], isJob).then(function(result){
 
-            console.log('execQueue fulfilled', result);
+            //console.debug('execQueue fulfilled', result);
             var receiptHandle = result;
             var AWS = require('aws-sdk');
             AWS.config.update({region:'us-east-1'});
@@ -286,7 +286,7 @@ function initQueue(queuePrefix, isJob){
 
             sqs.deleteMessage(params, function(err, data) {
                 if (err) console.error(err);
-                console.log('successfully removed: ', data);
+                //console.debug('successfully removed: ', data);
             });
 
             /*sqs.listQueues({QueueNamePrefix: queuePrefix}, function(err, data) {
@@ -302,7 +302,6 @@ app.get('/api/wp-exec', function(req, res, next){
     var AWS = require('aws-sdk');
     AWS.config.update({region:'us-west-2'});
     var s3 = new AWS.S3({apiVersion: '2006-03-01'});
-    console.log(s3);
 });
 
 
@@ -635,13 +634,18 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
     }
 
     if(postName === undefined || postName === null){
-        console.log('no params present... trying raw url');
+        //console.debug('no params present... trying raw url');
         postName = originalUrl;
     }
 
     var endpoint = 'http://' + req.headers.host + '/api/' + postName;
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
+
+    var AWSSSLImgUrl = 'https://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
+    var AWSImgUrl = 'http://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
+    var imgUrl = 'http://assets.altdriver.com/img/';
+    var imgUrlFailover = 'http://media.altdriver.com/uploads/sites/2/';
 
     if(itsABot) {
         try {
@@ -665,6 +669,8 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                         metatags.title = '';
                         metatags.description = '';
 
+                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrl).replace(AWSSSLImgUrl, imgUrl) + '?overlay=false';
+
                         try{
                             if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
                                 metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
@@ -687,7 +693,7 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                         metatags.fb_url = siteUrl + req.url;
                         metatags.fb_description = metatags.description;
                         metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image = imgSrc;
                         metatags.fb_image_width = post.featured_image_src.original_wp[1];
                         metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
@@ -1209,6 +1215,11 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     var siteUrl = 'http://'+ appConfig.url;
     var appUrl = 'http://admin.altdriver.com';
 
+    var AWSImgUrl = 'http://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
+    var AWSSSLImgUrl = 'https://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
+    var imgUrl = 'http://assets.altdriver.com/img/';
+    var imgUrlFailover = 'http://media.altdriver.com/uploads/sites/2/';
+
     if(itsABot) {
         try {
             request(endpoint, function (error, response, body) {
@@ -1244,6 +1255,8 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                         // Facebook meta
 
+                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrl).replace(AWSSSLImgUrl, imgUrl) + '?overlay=false';
+
                         metatags.fb_appid = fbAppId;
                         metatags.fb_publisher = fbUrl;
                         metatags.fb_type = 'article';
@@ -1252,7 +1265,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                         metatags.fb_url = siteUrl + req.url;
                         metatags.fb_description = metatags.description;
                         metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
+                        metatags.fb_image = imgSrc;
                         metatags.fb_image_width = post.featured_image_src.original_wp[1];
                         metatags.fb_image_height = post.featured_image_src.original_wp[2];
 
