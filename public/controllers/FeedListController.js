@@ -895,6 +895,22 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }
             }
         });
+
+        if($scope.adsEnabled){
+            var timer = window.setInterval(function(){
+                try{
+                    if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
+                        var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
+                        angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
+                        window.clearInterval(timer);
+                    }
+                }catch(e){
+                    //console.debug('gpt iframe not loaded yet');
+                }
+
+            }, 1000);
+        }
+
     };
 
     $scope.$on('next:done', function($event, posts) {
