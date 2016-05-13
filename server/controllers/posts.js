@@ -92,6 +92,13 @@ var PostsController = {
          console.log(dbQuery.itcount());
          return results;*/
         var query = Post.find({'title.rendered': reggie}).limit(Number(numberOfPosts)).skip(Number(skipItems));
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
         return query.exec();
     },
 
@@ -109,6 +116,13 @@ var PostsController = {
          }
          });
          }*/
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
 
         return query.exec();
     },
@@ -128,7 +142,7 @@ var PostsController = {
 
         var query = appName === 'altdriver' ? Post.find({ 'postmeta.run_dates_0_channel':'Facebook Main', 'slug':{ $nin: currentItem } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
-        if(!this._isMobile(req.headers['user-agent'])){
+        /*if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){
                     return this.postmeta.explicit[0] === '';
@@ -137,7 +151,14 @@ var PostsController = {
                 }
             });
         }
-
+        */
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
         return query.exec();
     },
 
@@ -146,7 +167,7 @@ var PostsController = {
         var appName = process.env.appname;
         var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main'}).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
-        if(!this._isMobile(req.headers['user-agent'])){
+        /*if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){
                     return this.postmeta.explicit[0] === '';
@@ -154,7 +175,15 @@ var PostsController = {
                     return this;
                 }
             });
-        }
+        }*/
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
+
         query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
@@ -171,7 +200,7 @@ var PostsController = {
         }
         var query = Post.find(q).skip(skipItems).limit(numberOfPosts).sort({'date':-1});
 
-        if(!this._isMobile(req.headers['user-agent'])){
+        /*if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){
                     return this.postmeta.explicit[0] === '';
@@ -179,7 +208,14 @@ var PostsController = {
                     return this;
                 }
             });
-        }
+        }*/
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
         //query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
@@ -224,7 +260,7 @@ var PostsController = {
             q = Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});
         }
 
-        if(!this._isMobile(req.headers['user-agent'])){
+        /*if(!this._isMobile(req.headers['user-agent'])){
             q.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){
                     return this.postmeta.explicit[0] === '';
@@ -232,7 +268,15 @@ var PostsController = {
                     return this;
                 }
             });
-        }
+        }*/
+
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
 
         return q.exec();
     },
@@ -241,7 +285,8 @@ var PostsController = {
         /* TODO: remove type:post restriction and fix layout for gifs and partner post/other post types */
         var skipItems = Number(skip);
         var query = Post.find({'category.slug':category, 'type': 'post'}).limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
-        if(!this._isMobile(req.headers['user-agent'])){
+
+        /*if(!this._isMobile(req.headers['user-agent'])){
             query.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){
                     return this.postmeta.explicit[0] === '';
@@ -249,7 +294,16 @@ var PostsController = {
                     return this;
                 }
             });
-        }
+        }*/
+
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
+
         return query.exec();
     },
 
@@ -284,6 +338,15 @@ var PostsController = {
         }else{
             query = Post.find({ 'type': type });
         }
+
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else{
+                return this;
+            }
+        });
+
         return query.exec();
     },
 
