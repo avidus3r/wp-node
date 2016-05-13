@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 var mockConfig = {
     cardAmount: 10,
     cards: [{
-        type: 'video'
+        type: 'ad'
     }, {
         type: 'ad'
     }, {
@@ -204,6 +204,7 @@ var PostsController = {
         var cards = mockConfig.cards.slice(skipRemainder, mockConfig.cards.length);
         var pageSkip = Math.floor(skipItems / mockConfig.cards.length);
         var dbData = null;
+        var subResponse = [];
 
 
 
@@ -354,15 +355,15 @@ var PostsController = {
                                 }) : Post.find().skip(offSetCounts[0].count).limit(typeCounts[0].count + skippedTypeCounts[0].count).sort({
                                     'date': -1
                                 });
-                                query.$where('this.type === "post"'); 
+                                query.$where('this.type === "post"');
                                 query.exec().then(function(results) {
-                                    console.log(results.length);
+                                    console.log('videos ' + results.length);
                                     callback(null, results);
                                 });
                             },
                             ad: function(callback) {
                                 var query = appName === 'altdriver' ? Post.find({
-                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                    // 'postmeta.run_dates_0_channel': 'Facebook Main'
                                 }).skip(offSetCounts[1].count).limit(typeCounts[1].count + skippedTypeCounts[1].count).sort({
                                     'postmeta.run_dates_0_run_time': -1
                                 }) : Post.find().skip(offSetCounts[1].count).limit(typeCounts[1].count + skippedTypeCounts[1].count).sort({
@@ -370,7 +371,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "ad"');
                                 query.exec().then(function(results) {
-                                    console.log(results.length);
+                                    console.log('ad ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -384,13 +385,13 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "animated-gif"');
                                 query.exec().then(function(results) {
-                                    console.log(results.length);
+                                    console.log('gifs ' + results.length);
                                     callback(null, results);
                                 });
                             },
                             html: function(callback) {
                                 var query = appName === 'altdriver' ? Post.find({
-                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                    // 'postmeta.run_dates_0_channel': 'Facebook Main'
                                 }).skip(offSetCounts[4].count).limit(typeCounts[4].count + skippedTypeCounts[4].count).sort({
                                     'postmeta.run_dates_0_run_time': -1
                                 }) : Post.find().skip(offSetCounts[4].count).limit(typeCounts[4].count + skippedTypeCounts[4].count).sort({
@@ -398,7 +399,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "html"');
                                 query.exec().then(function(results) {
-                                    console.log(results.length);
+                                    console.log('html ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -412,7 +413,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "partner-post"');
                                 query.exec().then(function(results) {
-                                    console.log(results.length);
+                                    console.log('partners ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -424,17 +425,35 @@ var PostsController = {
                     );
                 },
                 function(callback) {
-                    console.log('done with db queries');
-
+                    //arranging response
+                    console.log('arranging response');
+                    console.log(skippedCards);
+                    async.forEachOf(cards, function(item, ind, callback) {
+                        var unit = dbData[item.type].shift();
+                        //console.log(unit.type); 
+                        subResponse.push(unit);
+                        callback();
+                    }, function(err) {
+                        async.forEachOf(skippedCards, function(item, ind, callback) {
+                            console.log('----');
+                            console.log(item);
+                            var unit = dbData[item.type].shift();
+                            subResponse.push(unit);
+                            callback();
+                        }, function(err) {
+                            callback(null);
+                        });
+                    });
                 }
             ],
             //callback 
-            function(err, results) {
+            function(err) {
                 // results 
+                res.send(subResponse);
             }
         );
 
-        res.send('success');
+        //res.send('success');
     },
 
     heroItems: function(req, numberOfPosts, pageNumber, skip) {
