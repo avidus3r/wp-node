@@ -239,9 +239,10 @@ TODO: testing removal of ng-include
 
 <script type="text/javascript">
     if(adsEnabled){
+        var timerCount = 0;
         var timer = window.setInterval(function(){
             try{
-                if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
+                if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0 || timerCount === 10){
                     var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
                     angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
                     window.clearInterval(timer);
@@ -249,7 +250,7 @@ TODO: testing removal of ng-include
             }catch(e){
                 console.debug('gpt iframe not loaded yet');
             }
-
+            timerCount++;
         }, 1000);
     }
 </script>

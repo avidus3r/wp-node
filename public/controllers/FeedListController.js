@@ -895,11 +895,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }
             }
         });
-
+        $scope.timerCount = 0;
         if($scope.adsEnabled){
             var timer = window.setInterval(function(){
                 try{
-                    if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
+                    if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0 || $scope.timerCount === 10){
                         var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
                         angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
                         window.clearInterval(timer);
@@ -907,7 +907,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 }catch(e){
                     //console.debug('gpt iframe not loaded yet');
                 }
-
+                $scope.timerCount++;
             }, 1000);
         }
 
