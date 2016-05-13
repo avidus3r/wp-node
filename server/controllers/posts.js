@@ -198,9 +198,10 @@ var PostsController = {
         var appName = process.env.appname;
         var skipItems = parseInt(req.params.skip);
         var skipRemainder = skipItems % mockConfig.cards.length;
-        var configPosition = mockConfig.cards.length - skipRemainder;
-        var skippedCards = mockConfig.cards.slice(0, configPosition);
-        var cards = mockConfig.cards.slice(configPosition, mockConfig.cards.length);
+        // var configPosition = mockConfig.cards.length - skipRemainder;
+        // console.log('config position -> ' + configPosition);
+        var skippedCards = mockConfig.cards.slice(0, skipRemainder);
+        var cards = mockConfig.cards.slice(skipRemainder, mockConfig.cards.length);
         var pageSkip = Math.floor(skipItems / mockConfig.cards.length);
         var dbData = null;
 
@@ -295,10 +296,9 @@ var PostsController = {
                     if (pageSkip > 0) {
                         //full page of items offset by pageSkip
                         async.each(offSetCounts, function(item, callback) {
-                            async.each(typeCounts, function(config, callback) {
+                            async.each(mockConfig.cards, function(config, callback) {
                                 if (config.type == item.type) {
-                                    console.log('increasing count');
-                                    item.count = config.count * pageSkip;
+                                    item.count += pageSkip;
                                 }
                                 callback();
                             });
@@ -323,99 +323,105 @@ var PostsController = {
                                 callback(null);
                             }
                         });
+                    } else {
+                        // add the offset for a partial first page
+                        if (skipRemainder != 0) {
+                            async.each(offSetCounts, function(item, callback) {
+                                async.each(skippedTypeCounts, function(config, callback) {
+                                    if (config.type == item.type) {
+                                        item.count = item.count + config.count;
+                                    }
+                                    callback();
+                                });
+                                callback();
+                            }, function(err) {
+                                //console.log(offSetCounts);
+                                callback(null);
+                            });
+                        } else {
+                            callback(null);
+                        }
                     }
                 },
                 function(callback) {
                     //make DB queries 
-                    console.log('config');
-                    console.log(mockConfig.cards);
-                    console.log('---------------');
-                    console.log('type count');
-                    console.log(typeCounts);
-                    console.log('---------------');
-                    console.log('skipped Type Counts');
-                    console.log(skippedTypeCounts);
-                    console.log('---------------');
-                    console.log('off Set Counts');
-                    console.log(offSetCounts);
-                    console.log('---------------');
-                    // async.parallel({
-                    //         video: function(callback) {
-                    //             var query = appName === 'altdriver' ? Post.find({
-                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
-                    //             }).skip(skippedTypeCounts[0].count).limit(typeCounts[0].count).sort({
-                    //                 'postmeta.run_dates_0_run_time': -1
-                    //             }) : Post.find().skip(skippedTypeCounts[0].count).limit(typeCounts[0].count).sort({
-                    //                 'date': -1
-                    //             });
-                    //             query.$where('this.type === "post"');
-                    //             query.exec().then(function(results) {
-                    //                 console.log(results.length);
-                    //                 callback(null, results);
-                    //             });
-                    //         },
-                    //         ad: function(callback) {
-                    //             var query = appName === 'altdriver' ? Post.find({
-                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
-                    //             }).skip(skippedTypeCounts[1].count).limit(typeCounts[1].count).sort({
-                    //                 'postmeta.run_dates_0_run_time': -1
-                    //             }) : Post.find().skip(skippedTypeCounts[1].count).limit(typeCounts[1].count).sort({
-                    //                 'date': -1
-                    //             });
-                    //             query.$where('this.type === "ad"');
-                    //             query.exec().then(function(results) {
-                    //                 console.log(results.length);
-                    //                 callback(null, results);
-                    //             });
-                    //         },
-                    //         gif: function(callback) {
-                    //             var query = appName === 'altdriver' ? Post.find({
-                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
-                    //             }).skip(skippedTypeCounts[2].count).limit(typeCounts[2].count).sort({
-                    //                 'postmeta.run_dates_0_run_time': -1
-                    //             }) : Post.find().skip(skippedTypeCounts[2].count).limit(typeCounts[2].count).sort({
-                    //                 'date': -1
-                    //             });
-                    //             query.$where('this.type === "animated-gif"');
-                    //             query.exec().then(function(results) {
-                    //                 console.log(results.length);
-                    //                 callback(null, results);
-                    //             });
-                    //         },
-                    //         html: function(callback) {
-                    //             var query = appName === 'altdriver' ? Post.find({
-                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
-                    //             }).skip(skippedTypeCounts[4].count).limit(typeCounts[4].count).sort({
-                    //                 'postmeta.run_dates_0_run_time': -1
-                    //             }) : Post.find().skip(skippedTypeCounts[4].count).limit(typeCounts[4].count).sort({
-                    //                 'date': -1
-                    //             });
-                    //             query.$where('this.type === "html"');
-                    //             query.exec().then(function(results) {
-                    //                 console.log(results.length);
-                    //                 callback(null, results);
-                    //             });
-                    //         },
-                    //         partner: function(callback) {
-                    //             var query = appName === 'altdriver' ? Post.find({
-                    //                 'postmeta.run_dates_0_channel': 'Facebook Main'
-                    //             }).skip(skippedTypeCounts[3].count).limit(typeCounts[3].count).sort({
-                    //                 'postmeta.run_dates_0_run_time': -1
-                    //             }) : Post.find().skip(skippedTypeCounts[3].count).limit(typeCounts[3].count).sort({
-                    //                 'date': -1
-                    //             });
-                    //             query.$where('this.type === "partner-post"');
-                    //             query.exec().then(function(results) {
-                    //                 console.log(results.length);
-                    //                 callback(null, results);
-                    //             });
-                    //         },
-                    //     },
-                    //     function(err, results) {
-                    //         dbData = results;
-                    //         callback(null);
-                    //     }
-                    // );
+                    async.parallel({
+                            video: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[0].count).limit(typeCounts[0].count + skippedTypeCounts[0].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[0].count).limit(typeCounts[0].count + skippedTypeCounts[0].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "post"'); 
+                                query.exec().then(function(results) {
+                                    console.log(results.length);
+                                    callback(null, results);
+                                });
+                            },
+                            ad: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[1].count).limit(typeCounts[1].count + skippedTypeCounts[1].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[1].count).limit(typeCounts[1].count + skippedTypeCounts[1].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "ad"');
+                                query.exec().then(function(results) {
+                                    console.log(results.length);
+                                    callback(null, results);
+                                });
+                            },
+                            gif: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[2].count).limit(typeCounts[2].count + skippedTypeCounts[2].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[2].count).limit(typeCounts[2].count + skippedTypeCounts[2].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "animated-gif"');
+                                query.exec().then(function(results) {
+                                    console.log(results.length);
+                                    callback(null, results);
+                                });
+                            },
+                            html: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[4].count).limit(typeCounts[4].count + skippedTypeCounts[4].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[4].count).limit(typeCounts[4].count + skippedTypeCounts[4].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "html"');
+                                query.exec().then(function(results) {
+                                    console.log(results.length);
+                                    callback(null, results);
+                                });
+                            },
+                            partner: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[3].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[3].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "partner-post"');
+                                query.exec().then(function(results) {
+                                    console.log(results.length);
+                                    callback(null, results);
+                                });
+                            },
+                        },
+                        function(err, results) {
+                            dbData = results;
+                            callback(null);
+                        }
+                    );
                 },
                 function(callback) {
                     console.log('done with db queries');
