@@ -270,7 +270,7 @@ var PostsController = {
             });
         }*/
 
-        query.$where(function(){
+        q.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
             }else{
@@ -308,12 +308,17 @@ var PostsController = {
     },
 
     sponsor: function(name){
+        var query = Post.find({'type':'altdsc_sponsor', 'slug':name}).limit(1);
+        return query.exec();
+    },
+
+    sponsorPosts: function(name){
         var query = Post.find({ 'sponsor.name': name});
         return query.exec();
     },
 
-    sponsorList: function(){
-        var query = Post.find({'type':'altdsc_sponsor'}).limit(10);
+    sponsorList: function(name){
+        var query = Post.find({'type':'altdsc_sponsor', 'slug':name}).limit(1);
         return query.exec();
     },
 

@@ -195,6 +195,22 @@ router.get('/api/campaigns', apicache('45 minutes'), function(req, res){
     });
 });
 
+
+/*
+ Sponsor List
+ */
+router.get('/api/sponsorPosts/:sponsor', apicache('45 minutes'), function(req, res){
+    PostController.sponsorPosts(req.params.sponsor).then(function(result){
+        if(result.length === 0){
+            res.sendStatus(404);
+        }else{
+            res.set('Cache-Control','max-age=600');
+            res.json(result);
+        }
+    });
+});
+
+
 /*
  Sponsor Single
  */

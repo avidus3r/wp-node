@@ -214,6 +214,11 @@ var FeedService = function(app, appName, env, $http, $q){
         return feed.get(url, 'get');
     };
 
+    feed.sponsorPosts = function(name){
+        var url = '/api/sponsorPosts/' + name;
+        return feed.get(url, 'get');
+    };
+
     feed.search = function(query, numPosts, pageNum, skip) {
         var data = null;
         try{

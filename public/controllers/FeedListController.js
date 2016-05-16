@@ -22,6 +22,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.package = {
         name: 'newsfeed'
     };
+    if (!data.hasOwnProperty('sponsor')) {
+        data.sponsor = null;
+    }
     if (!data.hasOwnProperty('sponsors')) {
         data.sponsors = null;
     }
@@ -47,6 +50,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.cardType = 'email';
     $scope.instagramPost = null;
     //$scope.feedConfig = data.config;
+    $scope.sponsor = data.sponsor;
     $scope.sponsors = data.sponsors;
     $scope.instagram = data.instagram;
     $scope.instagramItems = [];
@@ -296,9 +300,12 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     if ((typeof $scope.sponsors === 'array' || typeof $scope.sponsors === 'object') && $scope.sponsors !== null && $scope.sponsors.length > 0) {
         angular.forEach($scope.shuffle($scope.sponsors), function(item, index) {
             item.type = 'sponsor';
+            item.sponsor = $scope.sponsor[0];
+            item.sponsor.avatar = item.sponsor.postmeta.sponsor_image[0];
             $scope.sponsorItems.push(item);
         });
     }
+
 
     $scope.getParams = function(param, encode) {
         var val = null;

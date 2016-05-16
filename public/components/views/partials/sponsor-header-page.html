@@ -1,19 +1,29 @@
+<div id="fb-root"></div>
+<script>
+    var fbAppID = document.getElementById('fb-app-id').innerText;
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId="+ fbAppID;
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 <!-- Sponsored Post Sponsor PAGE Header -->
 <div class="sponsored sp-page-head cf">
     <!-- Display the sponsor's avatar -->
-
-    <span class="sponsor-avatar" ng-switch="item.sponsor.featured_image">
-        <div class="avatar" ng-switch-when="false" style="background:url({{item.sponsor.avatar }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
-        <div class="featured" ng-switch-default style="background:url({{ item.sponsor.featured_image[0] }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
+    <span class="sponsor-avatar" ng-switch="item.sponsor.postmeta.sponsor_image[0]">
+        <div class="avatar" ng-switch-when="false" style="background:url({{item.sponsor.postmeta.sponsor_image[0] }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
+        <div class="featured" ng-switch-default style="background:url({{ item.sponsor.postmeta.sponsor_image[0] }}) top left no-repeat; min-height:6em; background-size:contain;"></div>
     </span>
     <h1 class="sponsor-header sponsor-large">
-        {{ item.sponsor.title }}
+        {{ item.sponsor.title.rendered }}
     </h1>
-    <p class="notes" ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>
+    <!--<p class="notes" ng-bind-html="item.sponsor.campaign.notes">{{ item.sponsor.campaign.notes }}</p>-->
     <div class="sponsor-follow">
-        <div class="fb-like" data-href="{{ item.sponsor.urls.facebook }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
+        <div class="fb-like" data-href="{{ item.sponsor.postmeta._altdsc_sponsor_urls_facebook[0] }}" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
         <div>
-            <a href="{{ item.sponsor.urls.twitter }}" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>
+            <a href="{{ item.sponsor.postmeta._altdsc_sponsor_urls_twitter[0] }}" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         </div>
     </div>
