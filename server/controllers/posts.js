@@ -95,6 +95,8 @@ var PostsController = {
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -119,6 +121,8 @@ var PostsController = {
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -155,6 +159,8 @@ var PostsController = {
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -179,6 +185,8 @@ var PostsController = {
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -212,6 +220,8 @@ var PostsController = {
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -273,6 +283,8 @@ var PostsController = {
         q.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -299,6 +311,8 @@ var PostsController = {
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
                 return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
             }else{
                 return this;
             }
@@ -349,6 +363,8 @@ var PostsController = {
             query.$where(function(){
                 if(this.postmeta.hasOwnProperty('explicit')){
                     return this.postmeta.explicit[0] === '';
+                }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                    return this.postmeta.rw_check_synd[0] === '';
                 }else{
                     return this;
                 }
