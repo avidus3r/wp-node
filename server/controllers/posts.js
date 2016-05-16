@@ -322,6 +322,10 @@ var PostsController = {
         return query.exec();
     },
 
+    getSponsorByID: function(id){
+
+    },
+
     campaignList: function(){
         var query = Post.find({'type':'altdsc-campaign', 'campaign_active':true});
         query.select('id');
@@ -342,15 +346,14 @@ var PostsController = {
             query = Post.findOne({ 'type': type, 'slug': slug});
         }else{
             query = Post.find({ 'type': type });
+            query.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else{
+                    return this;
+                }
+            });
         }
-
-        query.$where(function(){
-            if(this.postmeta.hasOwnProperty('explicit')){
-                return this.postmeta.explicit[0] === '';
-            }else{
-                return this;
-            }
-        });
 
         return query.exec();
     },
