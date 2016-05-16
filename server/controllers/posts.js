@@ -425,24 +425,28 @@ var PostsController = {
                     );
                 },
                 function(callback) {
-                    //arranging response
-                    console.log('arranging response');
-                    console.log(skippedCards);
-                    async.forEachOf(cards, function(item, ind, callback) {
+                    //arranging response pre config
+                    async.forEachOf(skippedCards, function(item, ind, callback) {
+                        console.log('----');
+                        console.log(item.type);
                         var unit = dbData[item.type].shift();
-                        //console.log(unit.type); 
                         subResponse.push(unit);
                         callback();
                     }, function(err) {
-                        async.forEachOf(skippedCards, function(item, ind, callback) {
-                            console.log('----');
-                            console.log(item);
-                            var unit = dbData[item.type].shift();
-                            subResponse.push(unit);
-                            callback();
-                        }, function(err) {
-                            callback(null);
-                        });
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    //arranging response post config
+                    console.log('arranging response');
+                    console.log(dbData['ad'].length);
+                    async.forEachOf(cards, function(item, ind, callback) {
+                        var unit = dbData[item.type].shift();
+                        console.log(item.type);
+                        subResponse.push(unit);
+                        callback();
+                    }, function(err) {
+                        callback(null);
                     });
                 }
             ],
