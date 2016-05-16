@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.set('port', process.env.PORT || 3000);
 
-//app.locals.config = require('./app/config/feed.conf.json');
+//app.locals.config = require('./public/config/feed.conf.json');
 
 /*
  Server Routes
@@ -465,9 +465,9 @@ app.get('/feed/:feedname/', function(req,res){
  static paths
  */
 
-//app.use(express.static('./admin'));
+app.use(express.static('./admin'));
 //app.use(express.static(__dirname + './data'));
-//app.use(express.static(__dirname + './app/config'));
+app.use(express.static(__dirname + './public/config'));
 
 app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true}));
 app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
@@ -851,14 +851,14 @@ app.get('/trending/:page', function(req,res){
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
 
-/*
-TODO: move this to admin controller
+
+//TODO: move this to admin controller
 
 
 
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
-    var creds = require('./app/config/creds.json');
+    var creds = require('./public/config/creds.json');
 
     input.parse(req, function(err, fields, files) {
         var inputUname = md5(fields.uname.toString());
@@ -908,20 +908,20 @@ app.post('/admin', function(req, res){
 
     var data = req.body;
 
-    fs.realpath('./app/config', function(err, resolvedPath){
+    fs.realpath('./public/config', function(err, resolvedPath){
         fs.readdir(resolvedPath, function(err, files){
             if (files.indexOf('feed.conf.json') > -1) {
                 var file = files[files.indexOf('feed.conf.json')];
 
-                fs.unlink('./app/config/'+ file, function(){
-                    fs.writeFile('./app/config/feed.conf.json', JSON.stringify(data), function(err){
+                fs.unlink('./public/config/'+ file, function(){
+                    fs.writeFile('./public/config/feed.conf.json', JSON.stringify(data), function(err){
                         if(err) throw err;
                         data.cards.forEach(function(element, index, data){
                             var tpl = element.card.type + '.html';
-                            fs.realpath('./app/components/views/cards', function(err, resolvedPath) {
+                            fs.realpath('./public/components/views/cards', function(err, resolvedPath) {
                                 fs.readdir(resolvedPath, function (err, files) {
                                     if(files.indexOf(tpl) === -1){
-                                        fs.writeFile('./app/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
+                                        fs.writeFile('./public/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
 
                                         });
                                     }
@@ -937,8 +937,8 @@ app.post('/admin', function(req, res){
     res.writeHead(200);
     res.end();
 });
-/TODO
-*/
+//TODO
+
 
 
 app.post('/submit', function(req,res){

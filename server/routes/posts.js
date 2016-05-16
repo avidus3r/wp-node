@@ -1,15 +1,16 @@
 'use strict';
 
-var express         = require('express'),
-    app             = express(),
-    router          = express.Router(),
-    request         = require('request'),
-    md5             = require('js-md5'),
-    multiparty      = require('multiparty'),
+var express          = require('express'),
+    app              = express(),
+    router           = express.Router(),
+    request          = require('request'),
+    md5              = require('js-md5'),
+    multiparty       = require('multiparty'),
 //extIP	        = require('external-ip'),
-    PostController  = require('../controllers/posts'),
-    ApiCache        = require('apicache'),
-    apicache        = ApiCache.options({ debug: true }).middleware;
+    PostController   = require('../controllers/posts'),
+    ConfigController = require('../controllers/config'),
+    ApiCache         = require('apicache'),
+    apicache         = ApiCache.options({ debug: true }).middleware;
 
 router.get('/api/cache/index', function(req, res, next) {
     res.send(ApiCache.getIndex());
@@ -429,6 +430,10 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
 
     //res.end();
 });
+
+router.get('/apiV2/config/post-config', ConfigController.getConfig);
+router.put('/apiV2/config/post-config', ConfigController.updateCards);
+
 
 /*router.get('/posts/:perPage/:page', function(req, res) {
  var post = require('./lib/post');

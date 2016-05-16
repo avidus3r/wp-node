@@ -3,32 +3,9 @@
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
     Menu = mongoose.model('Menu'),
+    Config = mongoose.model('Config'),
     async = require('async');
 
-var mockConfig = {
-    cardAmount: 10,
-    cards: [{
-        type: 'ad'
-    }, {
-        type: 'ad'
-    }, {
-        type: 'gif'
-    }, {
-        type: 'video'
-    }, {
-        type: 'partner'
-    }, {
-        type: 'html'
-    }, {
-        type: 'ad'
-    }, {
-        type: 'gif'
-    }, {
-        type: 'video'
-    }, {
-        type: 'partner'
-    }]
-};
 
 var PostsController = {
     updating: false,
@@ -192,22 +169,16 @@ var PostsController = {
 
     listV2: function(req, res) {
         //TODO
-        // query for items and store in groups 
-        // combine items in Array in order of config 
-        // send Array in response 
+        // check if FB run dates should be added to ads and html in DB 
         var appName = process.env.appname;
         var skipItems = parseInt(req.params.skip);
-        var skipRemainder = skipItems % mockConfig.cards.length;
-        // var configPosition = mockConfig.cards.length - skipRemainder;
-        // console.log('config position -> ' + configPosition);
-        var skippedCards = mockConfig.cards.slice(0, skipRemainder);
-        var cards = mockConfig.cards.slice(skipRemainder, mockConfig.cards.length);
-        var pageSkip = Math.floor(skipItems / mockConfig.cards.length);
+        var skipRemainder = null;
+        var skippedCards = null;
+        var cards = null;
+        var pageSkip = null;
         var dbData = null;
         var subResponse = [];
-
-
-
+        var postConfig = null;
         var typeCounts = [{
             type: 'video',
             count: 0
@@ -224,7 +195,6 @@ var PostsController = {
             type: 'html',
             count: 0,
         }];
-
         var skippedTypeCounts = [{
             type: 'video',
             count: 0
@@ -241,7 +211,6 @@ var PostsController = {
             type: 'html',
             count: 0,
         }];
-
         var offSetCounts = [{
             type: 'video',
             count: 0
@@ -263,6 +232,27 @@ var PostsController = {
             [
 
                 function(callback) {
+                    // Get config
+                    console.log('retrieving config');
+                    var query = Config.findOne({
+                        'type': 'post-config'
+                    });
+                    query.exec().then(function(results) {
+                        postConfig = results;
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    // set variables 
+                    console.log('setting variables');
+                    skipRemainder = skipItems % postConfig.cards.length;
+                    skippedCards = postConfig.cards.slice(0, skipRemainder);
+                    cards = postConfig.cards.slice(skipRemainder, postConfig.cards.length);
+                    pageSkip = Math.floor(skipItems / postConfig.cards.length);
+                    subResponse = [];
+                    callback(null);
+                },
+                function(callback) {
                     // Get post skip items
                     async.each(cards, function(item, callback) {
                         async.each(typeCounts, function(config, callback) {
@@ -273,7 +263,7 @@ var PostsController = {
                         });
                         callback();
                     }, function(err) {
-                        console.log(typeCounts);
+                        //console.log(typeCounts);
                         callback(null);
                     });
                 },
@@ -297,7 +287,7 @@ var PostsController = {
                     if (pageSkip > 0) {
                         //full page of items offset by pageSkip
                         async.each(offSetCounts, function(item, callback) {
-                            async.each(mockConfig.cards, function(config, callback) {
+                            async.each(postConfig.cards, function(config, callback) {
                                 if (config.type == item.type) {
                                     item.count += pageSkip;
                                 }
@@ -310,7 +300,7 @@ var PostsController = {
                                 async.each(offSetCounts, function(item, callback) {
                                     async.each(skippedTypeCounts, function(config, callback) {
                                         if (config.type == item.type) {
-                                            console.log('increasing count');
+                                            //console.log('increasing count');
                                             item.count = item.count + config.count;
                                         }
                                         callback();
@@ -357,7 +347,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "post"');
                                 query.exec().then(function(results) {
-                                    console.log('videos ' + results.length);
+                                    //console.log('videos ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -371,7 +361,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "ad"');
                                 query.exec().then(function(results) {
-                                    console.log('ad ' + results.length);
+                                    //console.log('ad ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -385,7 +375,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "animated-gif"');
                                 query.exec().then(function(results) {
-                                    console.log('gifs ' + results.length);
+                                    //console.log('gifs ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -399,7 +389,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "html"');
                                 query.exec().then(function(results) {
-                                    console.log('html ' + results.length);
+                                    //console.log('html ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -413,7 +403,7 @@ var PostsController = {
                                 });
                                 query.$where('this.type === "partner-post"');
                                 query.exec().then(function(results) {
-                                    console.log('partners ' + results.length);
+                                    //console.log('partners ' + results.length);
                                     callback(null, results);
                                 });
                             },
@@ -425,11 +415,10 @@ var PostsController = {
                     );
                 },
                 function(callback) {
-                    //arranging response pre config
-                    async.forEachOf(skippedCards, function(item, ind, callback) {
-                        console.log('----');
-                        console.log(item.type);
+                    //arranging response post config
+                    async.forEachOf(cards, function(item, ind, callback) {
                         var unit = dbData[item.type].shift();
+                        //console.log(item.type);
                         subResponse.push(unit);
                         callback();
                     }, function(err) {
@@ -437,12 +426,11 @@ var PostsController = {
                     });
                 },
                 function(callback) {
-                    //arranging response post config
-                    console.log('arranging response');
-                    console.log(dbData['ad'].length);
-                    async.forEachOf(cards, function(item, ind, callback) {
+                    //arranging response pre config
+                    async.forEachOf(skippedCards, function(item, ind, callback) {
+                        // console.log('----');
+                        // console.log(item.type);
                         var unit = dbData[item.type].shift();
-                        console.log(item.type);
                         subResponse.push(unit);
                         callback();
                     }, function(err) {
@@ -456,8 +444,6 @@ var PostsController = {
                 res.send(subResponse);
             }
         );
-
-        //res.send('success');
     },
 
     heroItems: function(req, numberOfPosts, pageNumber, skip) {
