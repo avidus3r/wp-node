@@ -14,22 +14,33 @@ var ConfigController = {
     },
 
     updateCards: function(req, res) {
-    	var numbersOfcards = req.body.cardAmount;
-    	var cards = req.body.cards;
-    	var update = Config.update({'type':'post-config'}, {$set:{}});
-    	console.log(cards);
+        var numbersOfcards = req.body.cardAmount;
+        var cards = req.body.cards;
+        console.log(cards);
+        var response = {
+            success: null,
+            errMessage: null
+        };
+        var update = Config.update({
+            'type': 'post-config'
+        }, {
+            $set: {
+                cards: cards,
+                cardAmount: cards.length
+            }
+        });
+        if (cards.length > 0) {
+            update.exec().then(function(results, err) {
+                console.log(results.Query);
+                response.success = true;
+                res.send(response);
+            });
+        } else {
+            response.success = false;
+            response.errMessage = 'cards must be defined'
+            res.send(response);
+        }
 
-
-        // var update = Config.update({
-        //     'type': 'post-config'
-        // }, {
-        //     $set: {
-        //         'cards': cards
-        //     }
-        // });
-        // update.exec().then(function(err) {
-        //     console.log(err);
-        // });
     }
 
 };

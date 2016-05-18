@@ -5,6 +5,7 @@ html {
     height: 100%;
     min-height: 100%;
 }
+
 body{
     margin:0;
     padding: 0;
@@ -14,113 +15,19 @@ body{
     font-size: 13px;
 }
 
-.wrapper{
-    padding:1em;
+.form-control {
+    margin-bottom: 15px;
 }
 
-form#config, form#auth{
-    display: flex;
-    flex-direction: column;
-    width:75%;
-    margin: 0 auto;
+.card {
+    background-color: #ccc;
+    height: 100px;
+    color: #767676;
+    text-align: center;
+    line-height: 100px;
+    margin-bottom: 15px;
 }
 
-#formContent{
-    display: flex;
-    flex-direction: column;
-}
-
-.card{
-    display: flex;
-    margin-bottom: 2em;
-    background: #fafafa;
-    border:1px solid #f0f0f0;
-    padding: 1em;
-}
-
-.card fieldset{
-    width:100%;
-}
-
-.card fieldset legend{
-    font-size: 1.25em;
-    color:#666;
-    margin-bottom: .5em;
-}
-
-.card p.count, .card p.position{
-    width:47%;
-    float: left;
-}
-
-.card p:last-child{
-    float:right;
-}
-
-.card p input{
-    width:100%;
-    color: #777;
-    padding: .35em;
-}
-
-.card p label{
-    display: block;
-    color: #999;
-    font-weight: normal;
-}
-
-form#config button[type="submit"]{
-    width:65%;
-    margin: 1em auto 0;
-}
-
-#add{
-    width:25%;
-    float: right;
-    margin-bottom: 2em;
-    align-self: flex-end;
-}
-
-#add button{
-    width: 100%;
-}
-
-#add ul{
-    width:100%;
-}
-
-#add ul li{
-    padding:.25em;
-    cursor: pointer;
-    border-top: 1px solid #f0f0f0;
-}
-
-#add ul li:first-child{
-    border-top: none;
-}
-
-#add ul li:hover{
-    background: #f0f0f0;
-}
-
-#modal .content{
-    display: flex;
-    height: 100%;
-    padding-top: 25%;
-    width: 65%;
-    flex-direction: column;
-    margin: 0 auto;
-}
-
-#modal .content .card{
-    align-self: auto;
-}
-
-#modal .content .card p input[disabled]{
-    color:#ccc;
-}
-
-#modal .content .card textarea{
-    width: 100%;
-    min-height: 7em;
+.container {
+    margin-top: 50px;
 }

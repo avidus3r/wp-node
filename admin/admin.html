@@ -1,154 +1,50 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="wrapper">
-        <form id="config" name="config" method="post" enctype="text/plain">
-            <div id="add" class="btn-group">
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Add New <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li class="generic-card" id="instagram">Instagram</li>
-                    <li class="generic-card" id="twitter">Twitter</li>
-                    <li id="sponsor">Sponsored Post</li>
-                    <li class="generic-card" id="social-follow">Social Follow</li>
-                    <li class="generic-card" id="email-signup">Email Signup</li>
-                    <li id="external-post-single">External Single Post</li>
-                    <li id="arbitrary-html">HTML</li>
-                    <li id="custom">Custom</li>
-                </ul>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <h1 class="text-center">Feed Admin</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <h5>Cards per page</h5>
+                        <input id="card-amount" class="form-control" type="number"></input>
+                    </div>
+                    <div id="card-selector-container">
+                    </div>
+                    <button class="btn btn-success pull-right" id="configUpdate" type="submit">Update</button>
+                    <button class="btn btn-danger pull-right" id="configRevert" type="submit">Revert</button>
+                </div>
+                <div id="visual-cards-container" class="col-md-6">
+                    
+                </div>
             </div>
-
-            <section id="envConfig">
-                <!--<select name="env">
-                    <option selected value="dev">dev</option>
-                    <option value="stage">stage</option>
-                    <option value="prod">prod</option>
-                </select>
-                <p><label for="per_page">Posts Per Page</label><input id="per_page" type="number" name="per_page" value=""></p>
-                <p><label for="prefetch_at">Prefetch At</label><input id="prefetch_at" type="number" name="prefetch_at" value=""></p>
-                <p><label for="scroll_amount">Scroll Amount</label><input id="scroll_amount" type="number" name="scroll_amount" value=""></p>-->
-            </section>
-
-            <section id="formContent">
-
-            </section>
-
-            <button class="btn btn-success" id="save" type="button">Save</button>
-        </form>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="content">
-            <form id="newCard">
-
-            </form>
-            <button class="btn btn-primary" name="ok" type="button">OK</button>
         </div>
-    </div>
-
-    <div id="cardPlaceholder-generic" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-                <p class="perPage">
-                    <label for="perPage" style="text-transform: capitalize;">show every page</label>
-                    <input type="checkbox" name="perPage">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-    <div id="cardPlaceholder-sponsor" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                    <input type="text" name="" value="sponsor" disabled>
-                    <input type="hidden" name="type" value="sponsor">
-                </p>
-                <p class="type">
-                    <label for="sponsor" style="text-transform: capitalize;">Sponsor Name</label>
-                    <input type="text" name="name" value="">
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-                <p class="perPage">
-                    <label for="perPage" style="text-transform: capitalize;">show every page</label>
-                    <input type="checkbox" name="perPage">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-    <div id="cardPlaceholder-external-post-single" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                    <input type="text" name="" value="external-post-single" disabled>
-                    <input type="hidden" name="type" value="external-post-single">
-                </p>
-                <p class="permalink">
-                    <label for="permalink" style="text-transform: capitalize;">permalink</label>
-                    <input type="text" name="permalink" value="">
-                </p>
-                <p class="count">
-                    <label for="count" style="text-transform: capitalize;">count</label>
-                    <input type="number" name="count" value="">
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-    <div id="cardPlaceholder-arbitrary-html" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                    <input type="text" name="" value="arbitrary-html" disabled>
-                    <input type="hidden" name="type" value="arbitrary-html">
-                </p>
-                <p class="html">
-                    <label for="html" style="text-transform: uppercase;">HTML</label>
-                    <textarea name="html"></textarea>
-                </p>
-                <p class="count">
-                    <label for="count" style="text-transform: capitalize;">count</label>
-                    <input type="number" name="count" value="">
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-</body>
+    </body>
+    <script id="card-selector-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <h5>Card {{@index}}</h5>
+    <select class="form-control card-selector">
+        <option value="video">Video</option>
+        <option value="ad">Ad</option>
+        <option value="html">HTML</option>
+        <option value="gif">Gif</option>
+        <option value="partner">Partner-post</option>
+    </select>
+    {{/each}}
+    </script>
+    <script id="card-visual-template" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="col-md-4 col-md-offset-3 card">{{this.type}}</div>
+    {{/each}}
+    </script>
 </html>
