@@ -2,11 +2,11 @@
     <p>
         <span class="gif-btn-wrap ga-gifplay" ng-click="$root.loadGif(item, $event)"><button class="gif-btn ga-gifplay">GIF</button></span>
         <a ng-click="$root.goToPage($event,$index,{category: $root.getCategory(item.category, item.link).slug, slug: item.slug})">
-            <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" ng-src="http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true&overlayType=gifplay"
+            <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" ng-src="{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true&overlayType=gifplay"
             alt="{{ item.title.rendered }}"
-            ng-srcset="http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=1200&q=70&overlay=true&overlayType=gifplay 2x,
-            http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=800&q=55&overlay=true&overlayType=gifplay 900w,
-            http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true&overlayType=gifplay 480w"
+            ng-srcset="{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=1200&q=70&overlay=true&overlayType=gifplay 2x,
+            {{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=800&q=55&overlay=true&overlayType=gifplay 900w,
+            {{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true&overlayType=gifplay 480w"
             sizes="100vw"/>
             <span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>
         </a>

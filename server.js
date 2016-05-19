@@ -669,7 +669,7 @@ app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
                         metatags.title = '';
                         metatags.description = '';
 
-                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrl).replace(AWSSSLImgUrl, imgUrl) + '?overlay=false';
+                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrlFailover).replace(AWSSSLImgUrl, imgUrlFailover) + '?overlay=false';
 
                         try{
                             if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
@@ -1255,7 +1255,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
                         // Facebook meta
 
-                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrl).replace(AWSSSLImgUrl, imgUrl) + '?overlay=false';
+                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrlFailover).replace(AWSSSLImgUrl, imgUrlFailover) + '?overlay=false';
 
                         metatags.fb_appid = fbAppId;
                         metatags.fb_publisher = fbUrl;
