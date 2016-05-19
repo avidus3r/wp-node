@@ -1369,7 +1369,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     }
 });
 
-app.get('/:page', apicache('24 Hours'), function(req,res, next){
+app.get('/:page', function(req,res, next){
     console.log(req.params.page);
     var metatags = {
 
