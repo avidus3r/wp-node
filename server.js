@@ -1369,7 +1369,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
     }
 });
 
-app.get('/:page', apicache('2 days'), function(req,res){
+app.get('/:page', apicache('24 Hours'), function(req,res, next){
     console.log(req.params.page);
     var metatags = {
 
@@ -1398,11 +1398,12 @@ app.get('/:page', apicache('2 days'), function(req,res){
 
     /*var template = swig.compileFile('./dist/index.html');
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-
     res.send(output);*/
+    //res.set('Content-Type', 'text/html');
     res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
-        res.set('Content-Type', 'text/html');
+
         res.send(html);
+        res.end();
     });
 });
 
