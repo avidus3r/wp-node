@@ -15,7 +15,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/home-hero-demo.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -23,10 +23,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var sponsorResolve = null;
 
                     var sidekickConfig = {
-                        totalItems:5,
+                        totalItems: 5,
                         defaultType: 'post',
                         defaultFormat: 'video',
-                        offset:4,
+                        offset: 4,
                         mixin: {
                             type: 'partner-post',
                             count: 4,
@@ -66,22 +66,22 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                         //  }
                         //  ),
-                        config:null,
+                        config: null,
                         heroItems: FeedService.getHomePosts(1, sidekickConfig).then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
                         posts: FeedService.getHomePosts(2, sidekickConfig).then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
@@ -96,7 +96,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -106,13 +106,13 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/cardlist.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
-                data: function($q, $route){
+            resolve: {
+                data: function($q, $route) {
                     return $q.all({
-                        config:null,
-                        posts:null,
-                        instagram:null,
-                        sponsors:null
+                        config: null,
+                        posts: null,
+                        instagram: null,
+                        sponsors: null
                     })
                 }
             }
@@ -156,18 +156,18 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         post: FeedService.getDBPost('partner-post', params.slug).then(
-                            function(data){
+                            function(data) {
                                 console.log(data);
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
                         posts: null,
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -213,17 +213,17 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         posts: FeedService.getPostType(params.type).then(
-                            function(data){
+                            function(data) {
                                 console.log(data);
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -234,7 +234,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -243,16 +243,16 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    if(Number(appSponsors) > 0){
+                    if (Number(appSponsors) > 0) {
 
                         sponsorResolve = FeedService.getCampaigns().then(
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             },
-                            function(notification){
+                            function(notification) {
 
                             }
                         )
@@ -270,13 +270,13 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
-                        posts: FeedService.getPosts('feed','?per_page=10&page=1').then(
+                        config: null,
+                        posts: FeedService.getPosts('feed', '?per_page=10&page=1').then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
@@ -291,7 +291,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -302,7 +302,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -312,26 +312,26 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    if(Number(appSponsors) > 0){
+                    if (Number(appSponsors) > 0) {
 
                         sponsorResolve = FeedService.getCampaigns().then(
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             },
-                            function(notification){
+                            function(notification) {
 
                             }
                         )
                     }
 
-                    postsResolve = FeedService.queryDBPosts($route.current.params.page,5,1,0).then(
-                        function(data){
+                    postsResolve = FeedService.queryDBPosts($route.current.params.page, 5, 1, 0).then(
+                        function(data) {
                             return data;
                         },
-                        function(error){
+                        function(error) {
                             location.href = '/trending/latest';
                             return 'error';
                         }
@@ -352,7 +352,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         posts: postsResolve,
                         /*instagram: InstagramService.get(10,'nofilter').then(
                          function(data){
@@ -365,7 +365,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -376,7 +376,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -415,13 +415,13 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),*/
-                        config:null,
-                        posts: FeedService.getArticles(20,1,0).then(
+                        config: null,
+                        posts: FeedService.getArticles(20, 1, 0).then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
@@ -436,7 +436,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -447,7 +447,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     return $q.all({
@@ -462,15 +462,15 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
-                        posts: FeedService.getDBCategoryPosts($route.current.params.category,10,1,0).then(
-                            function (data) {
+                        config: null,
+                        posts: FeedService.getDBCategoryPosts($route.current.params.category, 10, 1, 0).then(
+                            function(data) {
                                 return data;
                             },
-                            function (error) {
+                            function(error) {
                                 return 'error';
                             },
-                            function (notification) {
+                            function(notification) {
 
                             }
                         ),
@@ -485,7 +485,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: null,
                         categories: null
                     });
@@ -497,7 +497,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/category-post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
 
@@ -516,15 +516,15 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
-                        posts: FeedService.getDBCategoryPosts($route.current.params.category,appConfig.per_page,1,0).then(
-                            function (data) {
+                        config: null,
+                        posts: FeedService.getDBCategoryPosts($route.current.params.category, appConfig.per_page, 1, 0).then(
+                            function(data) {
                                 return data;
                             },
-                            function (error) {
+                            function(error) {
                                 return 'error';
                             },
-                            function (notification) {
+                            function(notification) {
 
                             }
                         ),
@@ -539,7 +539,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: null,
                         categories: null
                     });
@@ -551,7 +551,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
 
@@ -567,20 +567,20 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
-                        posts: FeedService.search($route.current.params.query,5,1,0).then(
-                            function(data){
+                        config: null,
+                        posts: FeedService.search($route.current.params.query, 5, 1, 0).then(
+                            function(data) {
                                 console.log(data);
                                 return data;
                             },
-                            function(reason){
-                                if(reason === 'end'){
+                            function(reason) {
+                                if (reason === 'end') {
                                     var data = [];
                                     return data;
                                 }
                                 return 'error';
                             },
-                            function(notification){
+                            function(notification) {
 
                             }
                         ),
@@ -595,7 +595,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     console.log('app.route sponsor');
@@ -611,19 +611,19 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         posts: null,
                         instagram: null,
                         sponsors: FeedService.sponsor($route.current.params.sponsor).then(
-                            function(data){
+                            function(data) {
 
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 console.log('error', error);
                                 return 'error';
                             },
-                            function(notification){
+                            function(notification) {
 
                             }
                         )
@@ -637,7 +637,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     console.log('app.route sponsor');
@@ -653,17 +653,17 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         posts: null,
                         instagram: null,
                         sponsors: FeedService.sponsor($route.current.params.sponsor).then(
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             },
-                            function(notification){
+                            function(notification) {
 
                             }
                         )
@@ -712,9 +712,9 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         post: FeedService.getPosts('posts', '?name=' + params.slug).then(
-                            function (data) {
+                            function(data) {
                                 $route.singleId = data[0].id;
                                 var txt = document.createElement('textarea');
                                 txt.innerHTML = data[0].title.rendered;
@@ -723,10 +723,10 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 localStorage.setItem('singID', $route.singleId);
                                 return data;
                             },
-                            function (error) {
+                            function(error) {
                                 return 'error';
                             },
-                            function (notification) {
+                            function(notification) {
 
                             }
                         ),
@@ -741,7 +741,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve,
                         posts: null
                     });
@@ -777,23 +777,23 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
+                            function(data) {
+                                return data;
+                            },
+                            function(error) {
 
-                         },
-                         function (notification) {
+                            },
+                            function(notification) {
 
-                         }
-                         ),
+                            }
+                        ),
                         //config:null,
                         post: FeedService.getDBPost(params.category, params.slug).then(
-                            function(data){
+                            function(data) {
                                 console.log(data);
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
@@ -808,19 +808,19 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve,
                         posts: null
                     });
                 }
             }
         })
-        .when('/adtest',{
+        .when('/adtest', {
             templateUrl: '/views/post.html',
             controller: 'FeedListController',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -848,48 +848,60 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                      instagramResolve = null;
                      }*/
                     return $q.all({
-                        config:null,
+                        config: null,
                         posts: null,
-                        instagram:null,
+                        instagram: null,
                         sponsors: null
                     });
                 }
             }
         })
-        .when('/submit',{
+        .when('/adtest1', {
+            controller: 'PageController',
+            templateUrl: '/views/home-hero-demo.html'
+        })
+        .when('/adtest2', {
+            controller: 'PageController',
+            templateUrl: '/views/home-hero-demo.html'
+        })
+        .when('/adtest3', {
+            controller: 'PageController',
+            templateUrl: '/views/home-hero-demo.html'
+        })
+        .when('/submit', {
             controller: 'PageController',
             templateUrl: '/views/submit.html'
         })
-        .when('/thanks',{
+        .when('/thanks', {
             controller: 'PageController',
             templateUrl: '/views/thanks.html'
         })
-        .when('/visitor-agreement',{
+        .when('/visitor-agreement', {
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
         })
-        .when('/privacy-policy',{
+        .when('/privacy-policy', {
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
         })
-        .when('/contact',{
+        .when('/contact', {
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
         })
-        .when('/about',{
+        .when('/about', {
             templateUrl: '/views/static-page.html',
             controller: 'PageController'
         })
-        .when('/subscribe-hub',{
+        .when('/subscribe-hub', {
             templateUrl: '/views/subscribe-hub.html',
             controller: 'PageController'
         })
-        .when('/homehero',{
+        .when('/homehero', {
             templateUrl: '/views/home-hero-demo.html',
             controller: 'HomeController',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -898,16 +910,16 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                     document.title = appConfig.title;
 
-                    if(Number(appSponsors) > 0){
+                    if (Number(appSponsors) > 0) {
 
                         sponsorResolve = FeedService.getCampaigns().then(
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             },
-                            function(notification){
+                            function(notification) {
 
                             }
                         )
@@ -928,22 +940,22 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         heroItems: FeedService.getDBPosts(4, 1, 0, null).then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
                         posts: FeedService.getDBPosts(5, 1, 4, null).then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
@@ -958,13 +970,13 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
             }
         })
-        .when('/subscribe',{
+        .when('/subscribe', {
             templateUrl: '/views/subscribe.html',
             controller: 'PageController'
         })
@@ -973,7 +985,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             templateUrl: '/views/post404.html',
             redirectTo: false,
             reloadOnSearch: false,
-            resolve:{
+            resolve: {
                 data: function($q, $route) {
                     var params = {};
                     var feedPath = app.feedPath;
@@ -1012,13 +1024,13 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        config:null,
+                        config: null,
                         posts: FeedService.getDBPosts(4, 1, 0, null).then(
 
-                            function(data){
+                            function(data) {
                                 return data;
                             },
-                            function(error){
+                            function(error) {
                                 return 'error';
                             }
                         ),
@@ -1033,7 +1045,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                          }
                          ),*/
-                        instagram:null,
+                        instagram: null,
                         sponsors: sponsorResolve
                     });
                 }
@@ -1062,8 +1074,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
     };
 
     MetaTagsProvider
-        .when('/', metatagsDefaults)    // the meta for the following routes get set by the controller but have defaults provided
-        .when('/category/:category', metatagsDefaults)
+        .when('/', metatagsDefaults) // the meta for the following routes get set by the controller but have defaults provided
+    .when('/category/:category', metatagsDefaults)
         .when('/search/:query', metatagsDefaults)
         .when('/:category/:slug', metatagsDefaults);
 

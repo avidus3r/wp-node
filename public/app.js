@@ -255,7 +255,11 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return appName + '/';
     };
 
-
+    $rootScope.getPath = function() {
+        var uri = window.location.pathname;
+        console.log(uri);
+        return uri;
+    };
 
     $rootScope.isMobile = function() {
         var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -399,7 +403,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         if (fbEmbed.length > 0) {
 
             var txt = post.find('p');
-            if(!$rootScope.adAppended){
+            if (!$rootScope.adAppended) {
                 $rootScope.adAppended = true;
                 txt.prepend($rootScope.getAdvertisementGlue(''));
             }
@@ -664,8 +668,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return img.thumbnail[attrs[attr]];
     };
 
-    $rootScope.getImage = function(item){
-        return '<img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=320&q=55&overlay=true" alt="'+ item.title.rendered +'" srcset="http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?overlay=true 1200w, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=1200&q=70&overlay=true 2x, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=800&q=55&overlay=true 900w, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=320&q=55&overlay=true 480w" sizes="100vw"/>';
+    $rootScope.getImage = function(item) {
+        return '<img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image" src="http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=320&q=55&overlay=true" alt="' + item.title.rendered + '" srcset="http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?overlay=true 1200w, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=1200&q=70&overlay=true 2x, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=800&q=55&overlay=true 900w, http://assets.altdriver.com/img/' + $rootScope.getFeaturedImage(item.featured_image_src, 'src') + '?w=320&q=55&overlay=true 480w" sizes="100vw"/>';
     };
 
     // $rootScope.getFeaturedImage = function(img, attr) {
