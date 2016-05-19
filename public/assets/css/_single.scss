@@ -44,7 +44,7 @@
   padding: 1em 1.25em 0;
 
   .feed-item {
-    margin-top: .25em;
+    margin-top: 1.25em;
   }
 
 }
@@ -119,6 +119,12 @@
 
 .single-post .post-view.full .post-content p {
   padding: 0;
+}
+
+.single-post .partner-post  .featured-image-thumbnail{
+  margin-top: 0;
+  width: 100%;
+  height: auto;
 }
 
 .post-content.feed-view{

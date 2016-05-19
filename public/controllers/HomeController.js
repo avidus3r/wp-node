@@ -792,7 +792,7 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
             $scope.singlePostID = item.id;
             if (item.type !== 'partner-post') item.type = 'post-single';
 
-            if($scope.postIndex === 0){
+            if ($scope.postIndex === 0) {
                 $scope.postIndex++;
             }
 
@@ -1081,6 +1081,35 @@ var HomeController = function($rootScope, $scope, FeedService, InstagramService,
         }
         return glue;
     };
+
+    $scope.setHeroHeight = function() {
+        var carouselHeight = null;
+        var carouselWidth = null;
+        setTimeout(function() {
+            carouselHeight = $('.carousel-inner').height();
+            carouselWidth = $('.carousel-inner').width();
+            $('.carousel-inner').children().each(function(ind, item) {
+                $(item).find('img').css({
+                    'height': carouselHeight,
+                    'width': carouselWidth
+                });
+            });
+
+        }, 1500);
+
+        $(window).resize(function() {
+            carouselHeight = $('.carousel-inner').height();
+            carouselWidth = $('.carousel-inner').width();
+            $('.carousel-inner').children().each(function(ind, item) {
+                $(item).find('img').css({
+                    'height': 'auto',
+                    'width': carouselWidth
+                });
+            });
+        });
+    };
+
+    $scope.setHeroHeight();
 
     if ($scope.utilityViews.indexOf($scope.currentView) === -1) {
         $scope.init();

@@ -95,6 +95,7 @@
 
     <script src="/js/vendor/alephbet.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
 </head>
 <body>
 <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
@@ -168,15 +169,7 @@ TODO: testing removal of ng-include
         </section>
     </div>
 </div>
-<script type="text/javascript">
-    /*$('html').click(function(e){
-        debugger;
-        if(!$('.navbar-toggle').hasClass('collapsed')){
-            $('#bs-example-navbar-collapse-1').removeClass('in');
-            $('.navbar-toggle').attr("aria-expanded", "false");
-        }
-    });*/
-</script>
+
 <script type="text/javascript">
     angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
         var UAPageViewType = 'VirtualPageview';
@@ -255,5 +248,6 @@ TODO: testing removal of ng-include
     }
 </script>
 <!-- rising star -->
+
 </body>
 </html>

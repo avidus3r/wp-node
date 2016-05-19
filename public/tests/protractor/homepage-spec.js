@@ -36,7 +36,7 @@ describe('homepage', function() {
         });
     });
 
-    it('should have a functioning carousel', function(){
+    it('should have a functioning carousel', function() {
         browser.get('http://local.altdriver.com:3000');
 
         var hero = {
@@ -54,7 +54,7 @@ describe('homepage', function() {
             trendingNav = {
                 selector: element.all(by.css('.trending-nav a')),
                 minItems: 3,
-                properties:{
+                properties: {
                     name: 'ng-click',
                     type: 'string'
                 }
@@ -64,14 +64,14 @@ describe('homepage', function() {
             },
             feedItemsLinks = {
                 selector: element.all(by.css('.feed-item a')),
-                properties:{
+                properties: {
                     name: 'href',
                     type: 'string'
                 }
             },
             feedItemsImgs = {
                 selector: element.all(by.css('.feed-item img.featured-image')),
-                properties:{
+                properties: {
                     name: 'src',
                     type: 'string'
                 }
@@ -85,37 +85,33 @@ describe('homepage', function() {
 
 
         //Each article/post has an image and a link
-
-        feedItemsImgs.selector.each(function(item){
-            item.getAttribute(feedItemsImgs.properties.name).then(function(attr){
-                expect(typeof attr).toEqual(feedItemsImgs.properties.type, 'expected feed item image to be ' + feedItemsImgs.properties.type);
+        it('Each article/post has an image and a link', function() {
+            feedItemsImgs.selector.each(function (item) {
+                item.getAttribute(feedItemsImgs.properties.name).then(function (attr) {
+                    expect(typeof attr).toEqual(feedItemsImgs.properties.type, 'expected feed item image to be ' + feedItemsImgs.properties.type);
+                });
             });
         });
-
         /*feedItemsLinks.selector.each(function(item){
             item.getAttribute(feedItemsLinks.properties.name).then(function(attr){
                 expect(typeof attr).toEqual(feedItemsImgs.properties.type, 'expected feed item link to be ' + feedItemsImgs.properties.type);
             });
         });*/
-
+    });
         //The homepage has the trending navigation - hottest, latest, best
+    it('trending navigation - hottest, latest, best', function() {
+        var trendingNav = element.all(by.css('.nav-bar-trending'));
+        expect(element(by.css('.nav-bar-trending')).isPresent()).toBe(true);
 
-        expect(trendingNav.selector.count()).toEqual(trendingNav.minItems, 'trending menu should have ' + trendingNav.minItems + ' items');
+    });
 
-        trendingNav.selector.each(function(item){
-            item.getAttribute(trendingNav.properties.name).then(function(attr) {
-                expect(typeof attr).toEqual(trendingNav.properties.type, 'expected feed item image to be ' + trendingNav.properties.type);
-            });
-        });
+    it('should have 2 pubads', function() {
+            //There are two ads
+            expect(element.all(by.css('.pubad')).count()).toBeGreaterThan(2, 'At least 2 pubads are present');
+    });
 
-        //There are 2 ad units on the homepage
 
-        expect(adItems.selector.count()).toEqual(adItems.minItems, 'there should be ' + adItems.minItems + ' ad items');
-
-        element.all(by.css('.homepagead div div')).each(function(item){
-            expect(item.count()).toBeGreaterThan(0);
-        });
-
+    it('should have correct copyright and year', function() {
         //The copyright is the correct year
         var d = new Date();
         var year = d.getUTCFullYear();
@@ -147,6 +143,8 @@ describe('homepage', function() {
         var menuButton = element.all(by.css('.navbar-toggle'));
         var menuButtonClosed = element.all(by.css('.navbar-toggle.collapsed'));
         var menuButtonOpen = element.all(by.css('.navbar-toggle:not(.collapsed)'));
+
+
         var menuState = null;
 
         //nav should be closed
@@ -167,4 +165,10 @@ describe('homepage', function() {
         // menu should have at least 1 item
         expect(navItems.count()).toBeGreaterThan(0, 'menu was expected to contain more than 0 items');
     });
+
+    it('should have a partner post', function() {
+            expect(element(by.css('.partner-post-sidekick')).isPresent()).toBe(true);
+
+     });
+
 });

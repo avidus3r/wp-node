@@ -55,17 +55,17 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         TODO: homepage items need to be queried correctly (ex. hero gets latest fb rundates but not custom types. That index needs to be carried into the next call for lower posts
                     */
                     return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
+                        // config: FeedService.getData('/appdata/feed.conf.json').then(
+                        //  function (data) {
+                        //  return data;
+                        //  },
+                        //  function (error) {
 
-                         },
-                         function (notification) {
+                        //  },
+                        //  function (notification) {
 
-                         }
-                         ),*/
+                        //  }
+                        //  ),
                         config:null,
                         heroItems: FeedService.getHomePosts(1, sidekickConfig).then(
 
@@ -159,7 +159,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         config:null,
                         post: FeedService.getDBPost('partner-post', params.slug).then(
                             function(data){
-                                console.log(data);
+                                //console.debug(data);
                                 return data;
                             },
                             function(error){
@@ -180,7 +180,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             reloadOnSearch: false,
             resolve: {
                 data: function($q, $route) {
-                    console.log('stories');
+                    //console.debug('stories');
                     var params = {};
                     params.type = $route.current.params.type;
 
@@ -216,7 +216,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         config:null,
                         posts: FeedService.getPostType(params.type).then(
                             function(data){
-                                console.log(data);
+                                //console.debug(data);
                                 return data;
                             },
                             function(error){
@@ -570,7 +570,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         config:null,
                         posts: FeedService.search($route.current.params.query,5,1,0).then(
                             function(data){
-                                console.log(data);
+                                //console.debug(data);
                                 return data;
                             },
                             function(reason){
@@ -598,7 +598,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             resolve:{
                 data: function($q, $route) {
                     var params = {};
-                    console.log('app.route sponsor');
+                    //console.debug('app.route sponsor');
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {
@@ -633,7 +633,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                                 return data;
                             },
                             function(error){
-                                console.log('error', error);
+                                console.error('error', error);
                                 return 'error';
                             },
                             function(notification){
@@ -653,7 +653,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             resolve:{
                 data: function($q, $route) {
                     var params = {};
-                    console.log('app.route sponsor');
+                    //console.debug('app.route sponsor');
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {
@@ -804,7 +804,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     }*/
 
                     return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
+                        config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {
                          return data;
                          },
@@ -814,11 +814,11 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                          function (notification) {
 
                          }
-                         ),*/
-                        config:null,
+                         ),
+                        //config:null,
                         post: FeedService.getDBPost(params.category, params.slug).then(
                             function(data){
-                                console.log(data);
+                                //console.debug(data);
                                 return data;
                             },
                             function(error){
