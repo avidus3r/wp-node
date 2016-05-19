@@ -180,7 +180,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             reloadOnSearch: false,
             resolve: {
                 data: function($q, $route) {
-                    console.log('stories');
+                    //console.debug('stories');
                     var params = {};
                     params.type = $route.current.params.type;
 
@@ -598,7 +598,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             resolve: {
                 data: function($q, $route) {
                     var params = {};
-                    console.log('app.route sponsor');
+                    //console.debug('app.route sponsor');
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {
@@ -626,6 +626,19 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             function(notification) {
 
                             }
+                        ),
+                        sponsors: FeedService.sponsorPosts($route.current.params.sponsor).then(
+                            function(data){
+
+                                return data;
+                            },
+                            function(error){
+                                console.error('error', error);
+                                return 'error';
+                            },
+                            function(notification){
+
+                            }
                         )
 
                     });
@@ -640,7 +653,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
             resolve: {
                 data: function($q, $route) {
                     var params = {};
-                    console.log('app.route sponsor');
+                    //console.debug('app.route sponsor');
                     return $q.all({
                         /*config: FeedService.getData('/appdata/feed.conf.json').then(
                          function (data) {

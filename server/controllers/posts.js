@@ -21,7 +21,7 @@ var mockConfig = {
     }, {
         'type': 'gif'
     }]
-}
+};
 
 var PostsController = {
     updating: false,
@@ -120,6 +120,18 @@ var PostsController = {
 
          console.log(dbQuery.itcount());
          return results;*/
+
+        var query = Post.find({'title.rendered': reggie}).limit(Number(numberOfPosts)).skip(Number(skipItems));
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
+        });
+
         var query = Post.find({
             'title.rendered': reggie
         }).limit(Number(numberOfPosts)).skip(Number(skipItems));
@@ -142,6 +154,15 @@ var PostsController = {
          }
          });
          }*/
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
+        });
 
         return query.exec();
     },
@@ -170,16 +191,15 @@ var PostsController = {
             'date': -1
         });
 
-        if (!this._isMobile(req.headers['user-agent'])) {
-            query.$where(function() {
-                if (this.postmeta.hasOwnProperty('explicit')) {
-                    return this.postmeta.explicit[0] === '';
-                } else {
-                    return this;
-                }
-            });
-        }
-
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
+        });
         return query.exec();
     },
 
@@ -194,15 +214,17 @@ var PostsController = {
             'date': -1
         });
 
-        if (!this._isMobile(req.headers['user-agent'])) {
-            query.$where(function() {
-                if (this.postmeta.hasOwnProperty('explicit')) {
-                    return this.postmeta.explicit[0] === '';
-                } else {
-                    return this;
-                }
-            });
-        }
+
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
+        });
+
         query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
@@ -228,15 +250,15 @@ var PostsController = {
             'date': -1
         });
 
-        if (!this._isMobile(req.headers['user-agent'])) {
-            query.$where(function() {
-                if (this.postmeta.hasOwnProperty('explicit')) {
-                    return this.postmeta.explicit[0] === '';
-                } else {
-                    return this;
-                }
-            });
-        }
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
+        });
         //query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
@@ -296,15 +318,16 @@ var PostsController = {
             });
         }
 
-        if (!this._isMobile(req.headers['user-agent'])) {
-            q.$where(function() {
-                if (this.postmeta.hasOwnProperty('explicit')) {
-                    return this.postmeta.explicit[0] === '';
-                } else {
-                    return this;
-                }
-            });
-        }
+
+        q.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
+        });
 
         return q.exec();
     },
@@ -312,43 +335,44 @@ var PostsController = {
     listByCategory: function(req, numberOfPosts, pageNumber, skip, category) {
         /* TODO: remove type:post restriction and fix layout for gifs and partner post/other post types */
         var skipItems = Number(skip);
-        var query = Post.find({
-            'category.slug': category,
-            'type': 'post'
-        }).limit(numberOfPosts).skip(skipItems).sort({
-            date: 'desc'
+
+        var query = Post.find({'category.slug':category, 'type': 'post'}).limit(numberOfPosts).skip(skipItems).sort({date:'desc'});
+
+        query.$where(function(){
+            if(this.postmeta.hasOwnProperty('explicit')){
+                return this.postmeta.explicit[0] === '';
+            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                return this.postmeta.rw_check_synd[0] === '';
+            }else{
+                return this;
+            }
         });
-        if (!this._isMobile(req.headers['user-agent'])) {
-            query.$where(function() {
-                if (this.postmeta.hasOwnProperty('explicit')) {
-                    return this.postmeta.explicit[0] === '';
-                } else {
-                    return this;
-                }
-            });
-        }
+
         return query.exec();
     },
 
-    sponsor: function(name) {
-        var query = Post.find({
-            'sponsor.name': name
-        });
+
+    sponsor: function(name){
+        var query = Post.find({'type':'altdsc_sponsor', 'slug':name}).limit(1);
         return query.exec();
     },
 
-    sponsorList: function() {
-        var query = Post.find({
-            'type': 'altdsc_sponsor'
-        }).limit(10);
+    sponsorPosts: function(name){
+        var query = Post.find({ 'sponsor.name': name});
         return query.exec();
     },
 
-    campaignList: function() {
-        var query = Post.find({
-            'type': 'altdsc-campaign',
-            'campaign_active': true
-        });
+    sponsorList: function(name){
+        var query = Post.find({'type':'altdsc_sponsor', 'slug':name}).limit(1);
+        return query.exec();
+    },
+
+    getSponsorByID: function(id){
+
+    },
+
+    campaignList: function(){
+        var query = Post.find({'type':'altdsc-campaign', 'campaign_active':true});
         query.select('id');
         return query.exec();
     },
@@ -367,16 +391,21 @@ var PostsController = {
 
     postByType: function(type, slug) {
         var query = null;
-        if (slug) {
-            query = Post.findOne({
-                'type': type,
-                'slug': slug
-            });
-        } else {
-            query = Post.find({
-                'type': type
+        if(slug){
+            query = Post.findOne({ 'type': type, 'slug': slug});
+        }else{
+            query = Post.find({ 'type': type });
+            query.$where(function(){
+                if(this.postmeta.hasOwnProperty('explicit')){
+                    return this.postmeta.explicit[0] === '';
+                }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
+                    return this.postmeta.rw_check_synd[0] === '';
+                }else{
+                    return this;
+                }
             });
         }
+
         return query.exec();
     },
 

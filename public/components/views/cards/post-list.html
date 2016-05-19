@@ -3,11 +3,11 @@
     <p>
         <a ng-click="$root.goToPage($event,$index,{category: $root.getCategory(item.category, item.link).slug, slug: item.slug})">
             <img ng-if="item.featured_image !== 0" class="featured-image ga-featured-image"
-            src="http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true"
+            ng-src="{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=60&overlay=true"
              alt="{{ item.title.rendered }}"
-             ng-srcset="http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=1200&q=70&overlay=true 2x,
-             http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=800&q=55&overlay=true 900w,
-             http://assets.altdriver.com/img/{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=55&overlay=true 480w"
+             ng-srcset="{{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=1200&q=75&overlay=true 2x,
+             {{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=800&q=60&overlay=true 900w,
+             {{ $root.getFeaturedImage(item.featured_image_src, 'src') }}?w=320&q=60&overlay=true 480w"
              sizes="100vw"/>
             <!--<span ng-if="item.featured_image === 0" style="background:#000 url('/images/logo-{{ $root.getAppInfo('name') }}.png') repeat; min-height: 200px; background-position:-100px -50px; display: block; opacity: .35"></span>-->
         </a>

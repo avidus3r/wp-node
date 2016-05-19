@@ -204,38 +204,39 @@ TODO: testing removal of ng-include
     };
 </script>
 
-    <script type='text/javascript'>
-        //if (window.googletag && googletag.apiReady) {
-            var googletag = window.googletag || {};
-            googletag.cmd = window.googletag.cmd || [];
+<script type='text/javascript'>
+    //if (window.googletag && googletag.apiReady) {
+    var googletag = window.googletag || {};
+    googletag.cmd = window.googletag.cmd || [];
 
-            googletag.cmd.push(function () {
-                googletag.defineOutOfPageSlot('/110669458/AD_Mobile_Adhesion_320x50', 'div-gpt-ad-1461960210896-0').addService(googletag.pubads());
-                googletag.pubads().enableSingleRequest();
-                //googletag.pubads().enableSyncRendering();
-                googletag.enableServices();
-            });
-        //}
-    </script>
+    googletag.cmd.push(function () {
+        googletag.defineOutOfPageSlot('/110669458/AD_Mobile_Adhesion_320x50', 'div-gpt-ad-1461960210896-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        //googletag.pubads().enableSyncRendering();
+        googletag.enableServices();
+    });
+    //}
+</script>
 
-    <!-- /110669458/AD_Mobile_Adhesion_320x50 -->
-    <div id='div-gpt-ad-1461960210896-0'>
-    <script type='text/javascript'>
-        var googletag = window.googletag || {};
-        googletag.cmd = window.googletag.cmd || [];
-        if (window.googletag && window.googletag.apiReady) {
-            googletag.cmd.push(function () {
-                googletag.display('div-gpt-ad-1461960210896-0');
-            });
-        }
-    </script>
-    </div>
+<!-- /110669458/AD_Mobile_Adhesion_320x50 -->
+<div id='div-gpt-ad-1461960210896-0'>
+<script type='text/javascript'>
+    var googletag = window.googletag || {};
+    googletag.cmd = window.googletag.cmd || [];
+    if (window.googletag && window.googletag.apiReady) {
+        googletag.cmd.push(function () {
+            googletag.display('div-gpt-ad-1461960210896-0');
+        });
+    }
+</script>
+</div>
 
-    <script type="text/javascript">
+<script type="text/javascript">
+    if(adsEnabled){
+        var timerCount = 0;
         var timer = window.setInterval(function(){
             try{
-                console.log('int');
-                if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0){
+                if(angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0 || timerCount === 10){
                     var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
                     angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
                     window.clearInterval(timer);
@@ -243,10 +244,17 @@ TODO: testing removal of ng-include
             }catch(e){
                 console.debug('gpt iframe not loaded yet');
             }
-
+            timerCount++;
         }, 1000);
+<<<<<<< HEAD
     </script>
     <!-- rising star -->
     
+=======
+    }
+</script>
+<!-- rising star -->
+
+>>>>>>> fa3773d61f751b58d2e732ee358a3b17d420a1c5
 </body>
 </html>
