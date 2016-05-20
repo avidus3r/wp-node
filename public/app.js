@@ -255,8 +255,8 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return appName + '/';
     };
 
-    $rootScope.getPath = function() {
-        var uri = window.location.pathname;
+    $rootScope.getParams = function() {
+        var uri = window.location.search;
         console.log(uri);
         return uri;
     };
