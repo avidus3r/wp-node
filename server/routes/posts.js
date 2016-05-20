@@ -433,6 +433,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
 
 router.get('/apiV2/config/post-config', ConfigController.getConfig);
 router.put('/apiV2/config/post-config', ConfigController.updateCards);
+router.put('/apiV2/config/html', ConfigController.updateHtml);
 
 
 /*router.get('/posts/:perPage/:page', function(req, res) {

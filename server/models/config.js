@@ -13,7 +13,8 @@ var mongoose = require('mongoose'),
 var schema = {
     "type": String,
     "cardAmount": Number,
-    "cards": Array
+    "cards": Array,
+    "html": String
 };
 
 var ConfigSchema = new Schema(schema);

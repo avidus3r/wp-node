@@ -41,6 +41,25 @@ var ConfigController = {
             res.send(response);
         }
 
+    },
+
+    updateHtml: function(req, res) {
+        var html = req.body.html;
+        var response = {
+            success: null,
+            errMessage: null
+        };
+        var update = Config.update({
+            'type': 'post-config'
+        }, {
+            $set: {
+                html: html
+            }
+        });
+        update.exec().then(function(results, err) {
+            response.success = true;
+            res.send(response);
+        });
     }
 
 };
