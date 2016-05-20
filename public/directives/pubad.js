@@ -3,7 +3,11 @@
 var pubad = function() {
     return {
         restrict: 'EA',
+        scope:{
+            placementIndex: '='
+        },
         controller: function($scope, $element, $attrs, $rootScope, app) {
+
             //window.googletag = window.googletag || {};
             //window.googletag.cmd = window.googletag.cmd || [];
             //if(!$rootScope.adsEnabled) return;
@@ -12,6 +16,7 @@ var pubad = function() {
             $scope.isDesktop = false;
             $scope.placementIndex = null;
             $attrs.$observe('placementIndex',function(attr){
+
                 $scope.placementIndex = attr;
             });
             if(typeof $scope.$parent.item === 'undefined'){
@@ -28,6 +33,7 @@ var pubad = function() {
                 $scope.placementIndex = $scope.$parent.item.placementIndex;
                 $scope.currentPubad = ads[$scope.placementIndex];
                 if(!$rootScope.gptAdSlots[$scope.placementIndex]) {
+                    console.log($scope.currentPubad.slot);
                     window.googletag.cmd.push(function () {
                         $rootScope.gptAdSlots[$scope.placementIndex] = window.googletag.defineSlot($scope.currentPubad.slot, $scope.currentPubad.dimensions, $scope.currentPubad.tagID).addService(window.googletag.pubads());
                     });
