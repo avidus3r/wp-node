@@ -21,30 +21,75 @@
                     </div>
                     <div id="card-selector-container">
                     </div>
-                    <button class="btn btn-success pull-right" id="configUpdate" type="submit">Update</button>
-                    <button class="btn btn-danger pull-right" id="configRevert" type="submit">Revert</button>
+                    <button class="btn btn-success pull-right layout-button" id="cardsUpdate" type="submit">Update</button>
                 </div>
                 <div id="visual-cards-container" class="col-md-6">
                     
+                </div>
+            </div>
+            <div class="row injected-html">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="comment">Injected HTML:</label>
+                        <textarea class="form-control" rows="5" id="htmlText"></textarea>
+                        <button class="btn btn-success pull-right layout-button" id="htmlUpdate" type="submit">Update</button>
+                        <button class="btn btn-danger pull-right layout-button" id="htmlRevert" type="submit">Revert</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success layout-button" id="configUpdate" type="submit">Update All</button>
+        </div>
+        <!-- Trigger the modal with a button -->
+        <button type="button" id="showModal" class="btn btn-info btn-lg hidden-btn" data-toggle="modal" data-target="#modal">Open Modal</button>
+        <!-- Modal -->
+        <div id="modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </body>
     <script id="card-selector-template" type="text/x-handlebars-template">
     {{#each this}}
-    <h5>Card {{@index}}</h5>
-    <select class="form-control card-selector">
-        <option value="video">Video</option>
+    <h5 class="card-selector-label">Card {{@index}}</h5>
+    <select class="form-control card-selector" data-index="{{@index}}">
+        <option value="video">Article / video</option>
         <option value="ad">Ad</option>
         <option value="html">HTML</option>
         <option value="gif">Gif</option>
-        <option value="partner">Partner-post</option>
+        <option value="sponsor">Sponsor-post</option>
+        <option value="email-signup">Email Signup</option>
+        <option value="social link">Social Links</option>
     </select>
+    <div class="row">
+        <div class="col-xs-4 default-select clearfix">
+            <h5 class="card-selector-label">Default:</h5>
+            <select class="form-control default-selector" data-index="{{@index}}">
+                <option selected="selected" value="video">Article / video</option>
+                <option value="ad">Ad</option>
+                <option value="html">HTML</option>
+                <option value="gif">Gif</option>
+                <option value="email-signup">Email Signup</option>
+                <option value="social link">Social Links</option>
+            </select>
+        </div>
+    </div>
     {{/each}}
     </script>
     <script id="card-visual-template" type="text/x-handlebars-template">
     {{#each this}}
-        <div class="col-md-4 col-md-offset-3 card">{{this.type}}</div>
+    <div class="col-md-4 col-md-offset-3 card">{{this.type}}</div>
     {{/each}}
     </script>
 </html>

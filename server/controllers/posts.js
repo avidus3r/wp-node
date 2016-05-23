@@ -189,11 +189,16 @@ var PostsController = {
             type: 'gif',
             count: 0,
         }, {
-            type: 'partner',
+            type: 'sponsor',
             count: 0,
         }, {
             type: 'html',
             count: 0,
+        }, {
+            type: 'emailSignup',
+            count: 0
+        }, {
+            type: 'socialLinks'
         }];
         var skippedTypeCounts = [{
             type: 'video',
@@ -205,11 +210,16 @@ var PostsController = {
             type: 'gif',
             count: 0,
         }, {
-            type: 'partner',
+            type: 'sponsor',
             count: 0,
         }, {
             type: 'html',
             count: 0,
+        }, {
+            type: 'emailSignup',
+            count: 0
+        }, {
+            type: 'socialLinks'
         }];
         var offSetCounts = [{
             type: 'video',
@@ -221,11 +231,16 @@ var PostsController = {
             type: 'gif',
             count: 0,
         }, {
-            type: 'partner',
+            type: 'sponsor',
             count: 0,
         }, {
             type: 'html',
             count: 0,
+        }, {
+            type: 'emailSignup',
+            count: 0
+        }, {
+            type: 'socialLinks'
         }];
 
         async.series(
@@ -352,18 +367,26 @@ var PostsController = {
                                 });
                             },
                             ad: function(callback) {
-                                var query = appName === 'altdriver' ? Post.find({
-                                    // 'postmeta.run_dates_0_channel': 'Facebook Main'
-                                }).skip(offSetCounts[1].count).limit(typeCounts[1].count + skippedTypeCounts[1].count).sort({
-                                    'postmeta.run_dates_0_run_time': -1
-                                }) : Post.find().skip(offSetCounts[1].count).limit(typeCounts[1].count + skippedTypeCounts[1].count).sort({
-                                    'date': -1
-                                });
-                                query.$where('this.type === "ad"');
-                                query.exec().then(function(results) {
-                                    //console.log('ad ' + results.length);
-                                    callback(null, results);
-                                });
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[1].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'ad',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
                             },
                             gif: function(callback) {
                                 var query = appName === 'altdriver' ? Post.find({
@@ -380,32 +403,92 @@ var PostsController = {
                                 });
                             },
                             html: function(callback) {
-                                var query = appName === 'altdriver' ? Post.find({
-                                    // 'postmeta.run_dates_0_channel': 'Facebook Main'
-                                }).skip(offSetCounts[4].count).limit(typeCounts[4].count + skippedTypeCounts[4].count).sort({
-                                    'postmeta.run_dates_0_run_time': -1
-                                }) : Post.find().skip(offSetCounts[4].count).limit(typeCounts[4].count + skippedTypeCounts[4].count).sort({
-                                    'date': -1
-                                });
-                                query.$where('this.type === "html"');
-                                query.exec().then(function(results) {
-                                    //console.log('html ' + results.length);
-                                    callback(null, results);
-                                });
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[4].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'html',
+                                            content: {
+                                                rendered: postConfig.html
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
                             },
-                            partner: function(callback) {
-                                var query = appName === 'altdriver' ? Post.find({
-                                    'postmeta.run_dates_0_channel': 'Facebook Main'
-                                }).skip(offSetCounts[3].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
-                                    'postmeta.run_dates_0_run_time': -1
-                                }) : Post.find().skip(offSetCounts[3].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
-                                    'date': -1
-                                });
-                                query.$where('this.type === "partner-post"');
-                                query.exec().then(function(results) {
-                                    //console.log('partners ' + results.length);
-                                    callback(null, results);
-                                });
+                            sponsor: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[3].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'sponsor',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
+                            },
+                            emailSignup: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[5].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'email-signup',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
+                            },
+                            socialLinks: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[6].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'social-links',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
                             },
                         },
                         function(err, results) {

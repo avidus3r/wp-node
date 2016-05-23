@@ -31,3 +31,21 @@ body{
 .container {
     margin-top: 50px;
 }
+
+.injected-html {
+    margin-top: 20px;
+}
+
+.layout-button {
+    margin: 5px;
+}
+
+.hidden-btn {
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0;
+}
+
+.default-select {
+    display: none;
+}
