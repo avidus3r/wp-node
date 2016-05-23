@@ -310,6 +310,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         });
     }
 
+    if($routeParams.hasOwnProperty('sponsor')){
+        $scope.feedItemScrollAmount = $scope.sponsorItems.length;
+    }
 
     $scope.getParams = function(param, encode) {
         var val = null;
@@ -354,6 +357,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     var postmap = [];
 
     $scope.createFeedItem = function(item, index) {
+
         $scope.feedItems[$scope.feedItems.length] = item;
         if (index <= $scope.feedItemScrollAmount) {
             $scope.feedItemElements[index] = $scope.feedItems[index];
@@ -413,7 +417,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.onScroll = function() {
         //console.debug('onScroll');
-        if ($scope.currentView !== 'ads' && $scope.posts.length >= $scope.postsPerPage) {
+        var articles = $scope.posts || $scope.sponsorItems;
+        if ($scope.currentView !== 'ads' && articles.length >= $scope.postsPerPage) {
             var feedItemEl = angular.element('.feed-item:last');
 
             if ((window.innerHeight + window.scrollY) >= angular.element('.app-main').height() - 50) {
@@ -438,7 +443,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             if ($scope.sponsorPosts.length > 0) {
                 //$scope.trackSponsor();
             }
-        } else if ($scope.posts.length < $scope.postsPerPage) {
+        } else if (articles.length < $scope.postsPerPage) {
             angular.element('#loading-more').text('');
             angular.element('#loading-more')
                 .append(
@@ -766,7 +771,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
 
             if ($routeParams.page !== 'hottest' && $routeParams.page !== 'best' && $routeParams.page !== 'latest') {
-                if ($scope.currentView !== 'search') {
+
+                if ($scope.currentView !== 'search' && $scope.currentView !== 'sponsor') {
 
                     $scope.postParams = '?per_page=' + $scope.postsPerPage + '&page=' + $scope.paged + params + '&post__not_in=' + $scope.singlePostID;
 
@@ -907,13 +913,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         $scope.timerCount = 0;
         if($scope.adsEnabled) {
-            var timer = window.setInterval(function () {
+            $scope.timer = window.setInterval(function () {
                 try {
                     if (angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0 || $scope.timerCount === 10) {
 
                         var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
                         angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
-                        window.clearInterval(timer);
+                        window.clearInterval($scope.timer);
                     }
                 } catch (e) {
                     //console.debug('gpt iframe not loaded yet');
@@ -1022,18 +1028,18 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
         var item = null;
 
-        if ($scope.posts !== null || $scope.post !== null) {
+        /*if ($scope.posts !== null || $scope.post !== null) {
             if ($scope.sponsors !== null && $scope.sponsors.length > 0)
                 angular.forEach($scope.sponsors, function(item, index) {
-                    if (item.campaign_active === 'true') {
+                    //if (item.campaign_active === 'true') {
                         angular.forEach(item.campaigns.campaign_items, function(campaignItem, index) {
                             campaignItem.type = 'sponsor';
                             $scope.sponsorItems.push(campaignItem);
                         });
-                    }
+                    //}
                 });
             $scope.shuffle($scope.sponsorItems);
-        }
+        }*/
 
         if ($scope.currentView === 'list' || $scope.currentView === 'search' || $scope.currentView === 'category') {
 
@@ -1173,6 +1179,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                     if ($scope.sponsors !== null && $scope.sponsorItems.length > 0) {
                         if (index > 0 && index % 2 === 0) {
+                            console.log('pushing sponsor post: ', $scope.sponsorItems[$scope.sponsorCount]);
                             postmap.push($scope.sponsorItems[$scope.sponsorCount]);
                             $scope.sponsorCount++;
                             $scope.feedItemScrollAmount += 1;
@@ -1207,6 +1214,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 });
             }
         }
+
         if ($scope.currentView === 'post') {
             item = $scope.post;
             var itemId = item._id;
@@ -1253,6 +1261,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
 
             $scope.$on('$viewContentLoaded', function() {
+
                 // content is fully loaded !!
                 FeedService.getDBPosts(Number($scope.appConfig.per_page), $scope.paged, skip, $scope.notIn).then(
                     function(data) {
@@ -1340,13 +1349,11 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                             if ($scope.sponsors !== null && $scope.sponsorItems.length > 0) {
                                 if (index > 0 && index % 2 === 0) {
-                                    if ($scope.sponsorCount <= $scope.sponsorItems.length - 1) {
-                                        $scope.sponsorItems[$scope.sponsorCount].type = 'sponsor';
-                                        postmap.push($scope.sponsorItems[$scope.sponsorCount]);
-                                        $scope.sponsorCount++;
-                                        $scope.feedItemScrollAmount += 1;
-                                        pushedItems++;
-                                    }
+                                    console.log('pushing sponsor post: ', $scope.sponsorItems[$scope.sponsorCount]);
+                                    postmap.push($scope.sponsorItems[$scope.sponsorCount]);
+                                    $scope.sponsorCount++;
+                                    $scope.feedItemScrollAmount += 1;
+                                    pushedItems++;
                                 }
                             }
 
@@ -1568,7 +1575,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             window.removeEventListener('scroll', $scope.onScroll);
         }, 2500);
     }
-
+    window._scope = $scope;
     window.addEventListener('message', $scope.receiveMessage);
 
 };

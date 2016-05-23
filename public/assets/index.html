@@ -243,7 +243,8 @@ TODO: testing removal of ng-include
                     window.clearInterval(timer);
                 }
             } catch (e) {
-                console.debug('gpt iframe not loaded yet');
+                console.debug('gpt iframe not loaded yet', timerCount);
+                if(timerCount >= 10) window.clearInterval(timer);
             }
             timerCount++;
         }, 1000);
@@ -310,7 +311,7 @@ googletag.cmd.push(function() { googletag.display('div-gpt-ad-1463705861496-0');
 
     
 
-    <pubad ng-if="!_isMobile()" placementIndex="10"></pubad>
+    <pubad ng-if="_isMobile()" placementIndex="4"></pubad>
 
     <!-- ad test 5 -->
     <div>
