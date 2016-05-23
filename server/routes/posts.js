@@ -328,7 +328,7 @@ router.get('/api/heros/:perPage/:page/:skip', apicache('45 minutes'), function(r
 /*
  Feed Raw Query Items
  */
-router.get('/api/articles/:type', function(req,res){
+router.get('/api/articles/:type', apicache('45 minutes'), function(req,res){
     if(!req.query.format && req.params.type !== 'animated-gif'){
         req.query.format = 'video';
     }

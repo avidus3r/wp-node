@@ -135,7 +135,7 @@ googletag.enableServices();
             <!--<div class="pub-name">
                 <p><span class="light-grey">By</span> {{ item.postmeta.source_author[0] }} - Originally featured on <a class="pub-canonical-link" target="_blank" href="{{ item.postmeta.canonical_url[0] }}">{{ item.postmeta.source_publication_name[0] }}</a></p>
             </div>-->
-            <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
+            <img ng-if="item.featured_image !== 0" class="featured-image-thumbnail ga-featured-image" ng-src="{{ getFeaturedThumbnail(item.featured_image_src, 'src') }}" width="{{ getFeaturedThumbnail(item.featured_image_src, 'width') }}" height="{{ getFeaturedThumbnail(item.featured_image_src, 'height') }}" />
             <h2 class="excerpt-title" ng-bind-html="item.title.rendered"></h2>
             <span class="excerpt" ng-bind-html="$root.formatExcerpt(item.excerpt.rendered)"></span>
             <div class="author-meta">

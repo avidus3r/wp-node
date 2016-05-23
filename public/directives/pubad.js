@@ -4,7 +4,7 @@ var pubad = function() {
     return {
         restrict: 'EA',
         scope:{
-            placementIndex: '='
+            placementIndex: '=?placementIndex'
         },
         controller: function($scope, $element, $attrs, $rootScope, app) {
 
@@ -16,10 +16,9 @@ var pubad = function() {
             $scope.isDesktop = false;
             $scope.placementIndex = null;
             $attrs.$observe('placementIndex',function(attr){
-
                 $scope.placementIndex = attr;
             });
-            if(typeof $scope.$parent.item === 'undefined'){
+            if($scope.$parent && typeof $scope.$parent.item === 'undefined'){
                 $scope.isDesktop = true;
                 $scope.placementIndex = Number($element.attr('placementIndex'));
                 $scope.currentPubad = ads[$scope.placementIndex];
