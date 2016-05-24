@@ -313,24 +313,7 @@ googletag.cmd.push(function() { googletag.display('div-gpt-ad-1463705861496-0');
 
     <pubad ng-if="_isMobile()" placementIndex="4"></pubad>
 
-    <!-- ad test 5 -->
-    <div>
-    <script type='text/javascript'>
-    var uri = window.location.search;
-    if(uri == '?adtest5') {
-    googletag = googletag || window.googletag;
-    googletag.cmd = window.googletag.cmd || [];
-    googletag.cmd.push(function() {
-    googletag.defineSlot('/110669458/Cox_Undertone_1x1', [1, 1], 'div-gpt-ad-1463672102891-0').addService(googletag.pubads());
-    googletag.defineSlot('/110669458/Cox_Undertone_1x1_1A', [1, 1], 'div-gpt-ad-1463705861496-0').addService(googletag.pubads());
-    googletag.defineSlot('/110669458/Cox_undertone_1x1_Full', [1, 1], 'div-gpt-ad-1463706915069-0').addService(googletag.pubads());
-    googletag.defineSlot('/110669458/Cox_Undertone_970x250', [970, 250], 'div-gpt-ad-1463672102891-1').addService(googletag.pubads());
-    googletag.defineSlot('/110669458/Cox_undertone_1x1_Flex', [1, 1], 'div-gpt-ad-1463704242939-0').addService(googletag.pubads());
-    googletag.defineSlot('/110669458/Cox_undertone_1x1_Full_Latency', [1, 1], 'div-gpt-ad-1463704242939-1').addService(googletag.pubads());
-    googletag.enableServices();
-  });
-    }
-    </script>
+    <pubad ng-if="_isMobile() && window.location.search === '?adtest5'" placementIndex="4"></pubad>
 <!-- /110669458/Cox_undertone_1x1_Full_Latency -->
 <div ng-if="getParams() == '?adtest5'" id='div-gpt-ad-1463704242939-1' style='height:1px; width:1px;'>
 <script type='text/javascript'>
