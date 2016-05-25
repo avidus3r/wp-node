@@ -669,11 +669,26 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         config: null,
                         posts: null,
                         instagram: null,
-                        sponsors: FeedService.sponsor($route.current.params.sponsor).then(
+                        sponsor: FeedService.sponsor($route.current.params.sponsor).then(
                             function(data) {
+
                                 return data;
                             },
                             function(error) {
+                                console.log('error', error);
+                                return 'error';
+                            },
+                            function(notification) {
+
+                            }
+                        ),
+                        sponsors: FeedService.sponsorPosts($route.current.params.sponsor).then(
+                            function(data) {
+
+                                return data;
+                            },
+                            function(error) {
+                                console.error('error', error);
                                 return 'error';
                             },
                             function(notification) {
@@ -774,7 +789,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
 
-                    /*if(Number(appSponsors) > 0){
+                    if(Number(appSponsors) > 0){
                         sponsorResolve = FeedService.getCampaigns().then(
                             function(data){
                                 return data;
@@ -786,7 +801,7 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
                             }
                         )
-                    }*/
+                    }
 
                     return $q.all({
                         config: FeedService.getData('/appdata/feed.conf.json').then(
@@ -822,6 +837,32 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                             }
                         ),*/
                         instagram: null,
+                        /*sponsor: FeedService.sponsor($route.current.params.sponsor).then(
+                            function(data) {
+
+                                return data;
+                            },
+                            function(error) {
+                                console.log('error', error);
+                                return 'error';
+                            },
+                            function(notification) {
+
+                            }
+                        ),
+                        sponsors: FeedService.sponsorPosts($route.current.params.sponsor).then(
+                            function(data) {
+
+                                return data;
+                            },
+                            function(error) {
+                                console.error('error', error);
+                                return 'error';
+                            },
+                            function(notification) {
+
+                            }
+                        )*/
                         sponsors: sponsorResolve,
                         posts: null
                     });

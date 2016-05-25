@@ -32,14 +32,14 @@
           {"slot": "/110669458/AD_Home_Desktop_Leaderboard_01", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1455657666158-0"},
           {"slot": "/110669458/AD_Home_Desktop_Leaderboard_02", "dimensions": [[728, 90], [970, 90]], "tagID": "div-gpt-ad-1455657666158-1"},
           {"slot": "/110669458/AD_Home_Desktop_RR_01", "dimensions": [[300, 600], [300, 250]], "tagID": "div-gpt-ad-1455657666158-2"},
-          {"slot": "/110669458/Cox_Undertone_970x250", "dimensions": [970, 250], "tagID": "div-gpt-ad-1463672102891-1"},
-          {"slot": "/110669458/Cox_undertone_1x1_Flex", "dimensions": [1, 1], "tagID": "div-gpt-ad-1463704242939-0"}
+          {"slot": "/110669458/Cox_Undertone_970x250", "dimensions": [970, 250], "tagID": "div-gpt-ad-1463672102891-1"}
         ],
         "mobile":[
           {"slot": "/110669458/AD_Mobile_Companion_Flex", "dimensions": [320, 50], "tagID": "div-gpt-ad-1448906851482-6"},
           {"slot": "/110669458/AD_Mobile_Feed01_Flex", "dimensions": [[300, 250], [320, 50], [1, 1]], "tagID": "div-gpt-ad-1448906851482-7"},
           {"slot": "/110669458/AD_Mobile_Feed02_Flex", "dimensions": [[300, 250], [320, 50]], "tagID": "div-gpt-ad-1448906851482-8"},
-          {"slot": "/110669458/AD_Mobile_Feed03_Flex", "dimensions": [[300, 250], [320, 50]], "tagID": "div-gpt-ad-1448906851482-9"}
+          {"slot": "/110669458/AD_Mobile_Feed03_Flex", "dimensions": [[300, 250], [320, 50]], "tagID": "div-gpt-ad-1448906851482-9"},
+          {"slot": "/110669458/Cox_undertone_1x1_Flex", "dimensions": [1, 1], "tagID": "div-gpt-ad-1463704242939-0"}
         ]
       },
       "env": {

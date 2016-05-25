@@ -139,10 +139,9 @@
 
 // below here is the CSS for the read more box
 
-// THROWAY CSS #######################
-// set the height of the elements - this is throwaway
+//  CSS #######################
+// hide paragraphs
 .ad-post-companion + p {
-  //height: 3.85em;
   overflow: hidden;
   position: relative;
 
@@ -150,10 +149,19 @@
 .ad-post-companion + p ~ p {
   display: none;
 }
-// end throwaway CSS
-// #####################################
 
-// real CSS would be
+.expandable-text.reading {
+  & + p {
+    //height: 3.85em;
+    overflow: visible;
+    position: relative;
+
+  }
+  & ~ p {
+    display: block;
+  }
+}
+// #####################################
 
 // reusable class requires individual elements to have a height set
 .expandable-text {
