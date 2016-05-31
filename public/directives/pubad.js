@@ -79,7 +79,7 @@ var pubad = function() {
                         },1000);*/
 
                     }else{
-                        
+
                         window.googletag.pubads().refresh();
 
                         /*setTimeout(function(){
