@@ -2,40 +2,62 @@
   .app-rail {
     display: none;
   }
+  .carousel {
+    background-color: #e3e3e3;
+  }
   //  carousel controls
   .carousel-indicators {
     bottom: 10px;
   }
+
   .carousel-control {
-    background: transparent;
+    &.left .fa {
+      left: .25em;
+    }
+    &.right .fa {
+      right: .25em;
+    }
+    span.fa {
+      font-size: 2em;
+      position: absolute;
+      top: 45%;
+    }
   }
+
   //  new nav for homepage
   .trending-nav {
     max-width: 974px;
     margin: auto;
   }
 
+  .read-more {
+    margin-bottom: 1em;
+  }
+
   /* fix the padding on this page only */
   .feed-view .item-cat {
-    padding: .25em;
+    display: none;
   }
   .homeadwrapper {
     margin-top:.25em;
     margin-bottom:.25em;
 
     div{
+      padding-top: .25em;
+      padding-bottom: .25em;
       margin: 0em auto .25em;
       div {
         margin: 0;
       }
     }
     width: 728px;
+
     text-align: center;
   }
-  //  tighten up homepage a bit
-  // .latestposts .post-list {
-  //   margin: .5%;
-  // }
+  .homeadwrapper.first-unit {
+    margin-top: 0;
+    background-color: #e3e3e3;
+  }
 
   .post-article {
     width: 49%;
@@ -47,6 +69,13 @@
     margin-left: 2%;
   }
 
+  .category-header {
+    font-family: $font-headline;
+    border-bottom: 1px solid #e3e3e3;
+    padding: .5em 0 .25em;
+    margin: 0;
+    font-size: 2em;
+  }
 
   // space for smaller screens
   @media all and (max-width:800px) {
@@ -94,41 +123,6 @@
   //  end MAIN  homepage component
 }
 
-.category-header {
-  margin: 17px 0 5px 0;
-  color: #FFF;
-  padding: .5em;
-  margin-bottom: 0;
-  font-size: 18px;
-}
-.insane-stunts-header {
-  background-color: #a50063;
-}
-.crash-burn-header {
-  background-color: #EB423C;
-}
-.gaming-header {
-  background-color: #000;
-}
-.sports-car-header {
-  background-color: red;
-}
-.luxury-header {
-  background-color: #dbcc00;
-}
-.motorcycles-header {
-  background-color: #FAAF3A;
-}
-.classics-header {
-  background-color: #19232D;
-}
-.off-road-header {
-  background-color: #843d13;
-}
-
-//.post-content .item-cat {
-//  display: none;
-//}
 @media all and (max-width:800px) {
   // small screen footer tweaks
   .homehero .mega-footer {
@@ -171,19 +165,19 @@
 
 }
 
-.homehero.desktop {
-  //  change the nav to fit advert widths on DT only
-  .container-fluid {
-    padding-right: 15px;
-    max-width: 1006px;
-  }
-  .app-main {
-    float: none;
-    width: 90%;
-    max-width: 974px;
-    margin: 1em auto;
-  }
-}
+//.homehero.desktop {
+//  //  change the nav to fit advert widths on DT only
+//  .container-fluid {
+//    padding-right: 15px;
+//    max-width: 1006px;
+//  }
+//  .app-main {
+//    float: none;
+//    width: 94%;
+//    max-width: 1074px;
+//    margin: 1em auto;
+//  }
+//}
 
 @media all and (min-width: 1000px) {
   /* restyle homepage-carousel titles */
@@ -369,26 +363,7 @@ body.homehero .app-main .latestposts{
     padding-left: 0;
   }
 
-  // TEMP REFACTOR LATER
-  h3 {
 
-    @extend h4;
-
-    color: white;
-    padding:.5em;
-    margin-bottom: 0;
-    background-color: $color-ad-green; // default
-
-    //insane stunts
-    &.insane-stunts {background-color: $color-ad-purple;}
-
-    // crash and burn
-    &.crash-burn {background-color: $color-ad-red;}
-
-    // gaming
-    &.gaming {background-color: black;}
-
-  }
 
   .partner-post{
 
@@ -449,14 +424,20 @@ body.homehero .app-main .latestposts{
     height: auto;
   }
 
-  .post-content > p .read-more{
-    display:none;
+  .post-content  .read-more{
+    margin-bottom:0;
   }
 
 }
 
 .format-standard .post-content {
   //top: -19px;
+}
+
+.view-type-column .post-content {
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .mega-footer .header-search-txt{

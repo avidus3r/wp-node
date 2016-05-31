@@ -5,7 +5,7 @@ html, body{
 }
 // need something to wrap the .view container class
 .app-wrapper {
-  max-width: 1150px;
+  max-width: 1250px;
   height:100%;
   margin: 0 auto;
 }
@@ -26,7 +26,7 @@ html, body{
      float: left;
      width: 65%;
      width: calc(100% - 366px);
-     max-width: 755px;
+     max-width: 855px;
    }
 
    .desktop .container-fluid {
