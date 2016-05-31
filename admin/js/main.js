@@ -67,7 +67,7 @@ var pageLoad = {
                 console.log(ind);
                 var subIndex = ind + 1;
                 $('.card-selector:eq(' + ind + ') option[value=' + item.type + ']').attr('selected', 'selected');
-                $('.card-selector-label:eq(' + ind + ')').text('Card ' + subIndex);
+                //$('.card-selector-label:eq(' + ind + ')').text('Card ' + subIndex);
                 if (item.type == 'sponsor') {
                     $('.default-select:eq(' + ind + ')').show();
                 }

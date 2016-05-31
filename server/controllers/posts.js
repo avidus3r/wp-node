@@ -195,10 +195,11 @@ var PostsController = {
             type: 'html',
             count: 0,
         }, {
-            type: 'emailSignup',
+            type: 'email_signup',
             count: 0
         }, {
-            type: 'socialLinks'
+            type: 'social_link',
+            count: 0
         }];
         var skippedTypeCounts = [{
             type: 'video',
@@ -216,10 +217,11 @@ var PostsController = {
             type: 'html',
             count: 0,
         }, {
-            type: 'emailSignup',
+            type: 'email_signup',
             count: 0
         }, {
-            type: 'socialLinks'
+            type: 'social_link',
+            count: 0
         }];
         var offSetCounts = [{
             type: 'video',
@@ -237,10 +239,11 @@ var PostsController = {
             type: 'html',
             count: 0,
         }, {
-            type: 'emailSignup',
+            type: 'email_signup',
             count: 0
         }, {
-            type: 'socialLinks'
+            type: 'social_link',
+            count: 0
         }];
 
         async.series(
@@ -269,7 +272,8 @@ var PostsController = {
                 },
                 function(callback) {
                     // Get post skip items
-                    async.each(cards, function(item, callback) {
+                    console.log('computing type counts');
+                    async.each(postConfig.cards, function(item, callback) {
                         async.each(typeCounts, function(config, callback) {
                             if (config.type == item.type) {
                                 config.count += 1;
@@ -284,6 +288,7 @@ var PostsController = {
                 },
                 function(callback) {
                     // Get pre skip items
+                    console.log('computing skip');
                     async.each(skippedCards, function(item, callback) {
                         async.each(skippedTypeCounts, function(config, callback) {
                             if (config.type == item.type) {
@@ -299,6 +304,7 @@ var PostsController = {
                 },
                 function(callback) {
                     // determine offsets
+                    console.log('computing offset');
                     if (pageSkip > 0) {
                         //full page of items offset by pageSkip
                         async.each(offSetCounts, function(item, callback) {
@@ -351,6 +357,8 @@ var PostsController = {
                 },
                 function(callback) {
                     //make DB queries 
+                    console.log('gathering data');
+                    console.log(typeCounts);
                     async.parallel({
                             video: function(callback) {
                                 var query = appName === 'altdriver' ? Post.find({
@@ -446,7 +454,7 @@ var PostsController = {
                                     }
                                 );
                             },
-                            emailSignup: function(callback) {
+                            email_signup: function(callback) {
                                 var ind = 0;
                                 var results = [];
                                 async.whilst(
@@ -456,7 +464,7 @@ var PostsController = {
                                     function(callback) {
                                         ind++;
                                         results.push({
-                                            type: 'email-signup',
+                                            type: 'email_signup',
                                             content: {
                                                 rendered: ''
                                             }
@@ -468,7 +476,7 @@ var PostsController = {
                                     }
                                 );
                             },
-                            socialLinks: function(callback) {
+                            social_link: function(callback) {
                                 var ind = 0;
                                 var results = [];
                                 async.whilst(
@@ -478,7 +486,7 @@ var PostsController = {
                                     function(callback) {
                                         ind++;
                                         results.push({
-                                            type: 'social-links',
+                                            type: 'social_link',
                                             content: {
                                                 rendered: ''
                                             }
@@ -494,12 +502,16 @@ var PostsController = {
                         function(err, results) {
                             dbData = results;
                             callback(null);
+                            console.log(dbData);
                         }
                     );
                 },
                 function(callback) {
                     //arranging response post config
+                    //console.log(cards);
+                    console.log('arranging response post config');
                     async.forEachOf(cards, function(item, ind, callback) {
+                        //console.log(dbData[item.type]);
                         var unit = dbData[item.type].shift();
                         //console.log(item.type);
                         subResponse.push(unit);
@@ -510,10 +522,13 @@ var PostsController = {
                 },
                 function(callback) {
                     //arranging response pre config
+                    //console.log(skippedCards);
+                    console.log('arranging response pre config');
                     async.forEachOf(skippedCards, function(item, ind, callback) {
                         // console.log('----');
-                        // console.log(item.type);
+                        //console.log(item.type);
                         var unit = dbData[item.type].shift();
+                        console.log(unit);
                         subResponse.push(unit);
                         callback();
                     }, function(err) {
