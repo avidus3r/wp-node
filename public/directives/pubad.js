@@ -3,14 +3,15 @@
 var pubad = function() {
     return {
         restrict: 'EA',
-        scope:{
+        /*scope:{
             placementIndex: '=?placementIndex'
-        },
+        },*/
         controller: function($scope, $element, $attrs, $rootScope, app) {
 
             //window.googletag = window.googletag || {};
             //window.googletag.cmd = window.googletag.cmd || [];
             //if(!$rootScope.adsEnabled) return;
+
             var platform = $rootScope._isMobile() ? 'mobile' : 'desktop';
             var ads = app.pubads[platform];
             $scope.isDesktop = false;
@@ -78,7 +79,9 @@ var pubad = function() {
                         },1000);*/
 
                     }else{
+                        
                         window.googletag.pubads().refresh();
+
                         /*setTimeout(function(){
                             window.googletag.cmd.push(function() {
                                 window.googletag.cmd.push(function() { window.googletag.display(pubadID); });
