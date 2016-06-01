@@ -416,7 +416,21 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     };
 
     $scope.onScroll = function() {
-        //console.debug('onScroll');
+
+        //reposition sidebar
+        if(angular.element('.app-main').offset().top-window.scrollY <= 60){
+            angular.element('.app-rail .sidebar').css({
+                'position':'fixed',
+                'top':'60px'
+            });
+        }
+        if(angular.element('.app-main').offset().top-window.scrollY >= 60){
+            angular.element('.app-rail .sidebar').css({
+                'position':'relative',
+                'top':'0px'
+            });
+        }
+
         var articles = $scope.posts || $scope.sponsorItems;
         if ($scope.currentView !== 'ads' && articles.length >= $scope.postsPerPage) {
             var feedItemEl = angular.element('.feed-item:last');
