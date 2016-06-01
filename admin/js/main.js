@@ -67,7 +67,7 @@ var pageLoad = {
                 console.log(ind);
                 var subIndex = ind + 1;
                 $('.card-selector:eq(' + ind + ') option[value=' + item.type + ']').attr('selected', 'selected');
-                //$('.card-selector-label:eq(' + ind + ')').text('Card ' + subIndex);
+                $('.card-selector-label:eq(' + ind + ')').text('Card ' + subIndex);
                 // if (item.type == 'sponsor') {
                 //     $('.default-select:eq(' + ind + ')').show();
                 // }
@@ -86,6 +86,7 @@ var userInteractions = {
         this.updateHtml();
         this.revertHtml();
         this.updateConfig();
+        this.listnerHtmlTouch();
     },
     listenerCardAmount: function() {
         $('#card-amount').on('change', function() {
@@ -98,7 +99,7 @@ var userInteractions = {
             config.cards = [];
             $('.card-selector').each(function(ind, item) {
                 var value = $(item).val();
-                //var def = $('.default-selector:eq(' + ind + ')').val();
+                var def = $('.default-selector:eq(' + ind + ')').val();
                 console.log(def);
                 console.log(value);
                 config.cards.push({
@@ -161,7 +162,7 @@ var userInteractions = {
             config.cards = [];
             $('.card-selector').each(function(ind, item) {
                 var value = $(item).val();
-                //var def = $('.default-selector:eq(' + ind + ')').val();
+                var def = $('.default-selector:eq(' + ind + ')').val();
                 console.log(def);
                 console.log(value);
                 config.cards.push({
@@ -180,6 +181,11 @@ var userInteractions = {
 
             });
             utilities.showModal('Success', 'config has been updated');
+        });
+    },
+    listnerHtmlTouch: function() {
+        $('#htmlText').click(function(){
+            $('.html-button').show();
         });
     }
 };

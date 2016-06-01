@@ -567,7 +567,7 @@ var PostsController = {
                         // console.log('----');
                         //console.log(item.type);
                         var unit = dbData[item.type].shift();
-                        console.log(unit);
+                        //console.log(unit);
                         subResponse.push(unit);
                         callback();
                     }, function(err) {
@@ -577,8 +577,9 @@ var PostsController = {
             ],
             //callback 
             function(err) {
-                // results 
-                res.send(subResponse);
+                // results
+                res.set('Cache-Control','max-age=600');
+                res.json(subResponse);
             }
         );
     },

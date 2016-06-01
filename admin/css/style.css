@@ -49,3 +49,7 @@ body{
 .default-select {
     display: none;
 }
+
+.html-button {
+    display: none;
+}

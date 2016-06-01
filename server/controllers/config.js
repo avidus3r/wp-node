@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     Config = mongoose.model('Config'),
+    clientConfig = mongoose.model('clientConfig'),
     async = require('async');
 
 var ConfigController = {
