@@ -1,5 +1,5 @@
 <div class="wrapper single-post {{ currentView }}">
-    <div id="scroll-container">
+    <div id="scroll-container" ng-init="cat = 'insane-stunts'">
         <h3 ng-if="currentCategory=='insane-stunts'" class="category-header insane-stunts-header">Insane Stunts</h3>
         <h3 ng-if="currentCategory=='crash-burn'" class="category-header crash-burn-header">Crash & Burn</h3>
         <h3 ng-if="currentCategory=='gaming'" class="category-header gaming-header">Gaming</h3>
@@ -8,23 +8,91 @@
         <h3 ng-if="currentCategory=='motorcycles'" class="category-header motorcycles-header">Motorcycles</h3>
         <h3 ng-if="currentCategory=='classics'" class="category-header classics-header">Classics</h3>
         <h3 ng-if="currentCategory=='off-road'" class="category-header off-road-header">Off Road</h3>
-        <div ng-init="viewType = ($index === 0 || $index%5 === 0) ? 'view-type-column' : 'view-type-row'" ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="feed-item format-{{ item.format }} {{ item.type }} {{ viewType }} {{ viewType === 'view-type-column' ? 'no-shadow' : '' }}" id="feed-item-{{ $index }}" data-post-index="{{ item.type !== 'ad' ? item.post_index+1 : '' }}">
 
-            <div ng-if="currentView === 'sponsor' && $index === 0">
-                <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
-            </div>
+        <div ng-switch="currentCategory">
 
-            <card ng-init="showExcerpt = viewType === 'view-type-column' ? true : false" id="{{ item._id }}" class="" ng-if="item.type != 'instagram' && item.type != 'ad'" error="{{ item.noresults ? 'no-results' : '' }}" type="{{ item.type }}"></card>
-            <div ng-if="item.type === 'instagram'">
-                <instagram count="1"><card type="instagram"></card></instagram>
-            </div>
-
-            <div class="ad-placement" ng-if="item.type === 'ad'">
+            <div ng-switch-when="insane-stunts">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
                 <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="insane-stunts" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
             </div>
 
-            <div ng-if="$index !== 0 && $index%5===0"><span class="clearfix"></span></div>
-        </div><!-- /ng-repeat -->
+
+            <div ng-switch-when="crash-burn">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="crash-burn" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="crash-burn" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="crash-burn" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="gaming">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="gaming" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="gaming" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="gaming" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="sports-car">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="sports-car" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="sports-car" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="sports-car" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="luxury">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="luxury" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="luxury" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="luxury" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="motorcycles">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="motorcycles" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="motorcycles" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="motorcycles" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="classics">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="classics" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="classics" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="classics" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="off-road">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="off-road" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="off-road" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="off-road" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+
+            <div ng-switch-when="lmao">
+                <cardlist posttype="post" numposts="1" viewtype="column" viewtemplate="post-list" category="lmao" pagenum="1" skip="0" format="" excerpt="true" sharebar="false"></cardlist>
+                <pubad placementIndex="1"></pubad>
+                <cardlist posttype="post" numposts="8" viewtype="row" viewtemplate="post-list" category="lmao" pagenum="1" skip="1" format="" excerpt="false" sharebar="false"></cardlist>
+                <pubad placementIndex="2"></pubad>
+                <cardlist posttype="post" numposts="6" viewtype="row" viewtemplate="post-list" category="lmao" pagenum="1" skip="9" format="" excerpt="false" sharebar="false"></cardlist>
+            </div>
+
+        </div>
+
         <span class="clearfix"></span>
     </div>
 </div>

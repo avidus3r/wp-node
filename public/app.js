@@ -199,6 +199,10 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return location.href.indexOf('/category/') > -1;
     };
 
+    $rootScope.catName = function(){
+        return $routeParams.category;
+    };
+
     $rootScope.getCategory = function(categories, permalink) {
         var cat = null;
         var catParent = null;

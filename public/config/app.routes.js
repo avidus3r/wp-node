@@ -505,40 +505,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     appConfig.scroll_amount = 10;
 
                     return $q.all({
-                        /*config: FeedService.getData('/appdata/feed.conf.json').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
-
-                         },
-                         function (notification) {
-
-                         }
-                         ),*/
                         config: null,
-                        posts: FeedService.getDBCategoryPosts($route.current.params.category, appConfig.per_page, 1, 0).then(
-                            function(data) {
-                                return data;
-                            },
-                            function(error) {
-                                return 'error';
-                            },
-                            function(notification) {
-
-                            }
-                        ),
-                        /*instagram: InstagramService.get(10, 'nofilter').then(
-                         function (data) {
-                         return data;
-                         },
-                         function (error) {
-
-                         },
-                         function (notification) {
-
-                         }
-                         ),*/
+                        posts: null,
                         instagram: null,
                         sponsors: null,
                         categories: null
