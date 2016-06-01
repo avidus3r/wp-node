@@ -369,10 +369,15 @@ var PostsController = {
                                     'date': -1
                                 });
                                 query.$where('this.type === "post"');
-                                query.exec().then(function(results) {
-                                    //console.log('videos ' + results.length);
+                                if (typeCounts[0].count != 0) {
+                                    query.exec().then(function(results) {
+                                        console.log('videos ' + results.length);
+                                        callback(null, results);
+                                    });
+                                } else {
+                                    var results = [];
                                     callback(null, results);
-                                });
+                                }
                             },
                             ad: function(callback) {
                                 var ind = 0;
@@ -405,10 +410,15 @@ var PostsController = {
                                     'date': -1
                                 });
                                 query.$where('this.type === "animated-gif"');
-                                query.exec().then(function(results) {
-                                    //console.log('gifs ' + results.length);
+                                if (typeCounts[2].count != 0) {
+                                    query.exec().then(function(results) {
+                                        console.log('gifs ' + results.length);
+                                        callback(null, results);
+                                    });
+                                } else {
+                                    var results = [];
                                     callback(null, results);
-                                });
+                                }
                             },
                             html: function(callback) {
                                 var ind = 0;
@@ -502,7 +512,7 @@ var PostsController = {
                         function(err, results) {
                             dbData = results;
                             callback(null);
-                            console.log(dbData);
+                            //console.log(dbData);
                         }
                     );
                 },
