@@ -273,16 +273,7 @@ cardlist[viewtype="row"]{
   display: block;
   overflow: auto;
   .card-list{
-    width:49%;
-    float:left;
-    &:first-child{
-      margin: 0 2% 0 0;
-    }
 
-    &:nth-child(3n){
-      margin-top: 1em;
-      width:100%;
-    }
 
     font-size: 1em;
 
@@ -290,6 +281,24 @@ cardlist[viewtype="row"]{
       font-size: .75em;
     }
 
+  }
+}
+
+@media all and (min-width: 700px) {
+  cardlist[viewtype="row"]{
+    .card-list{
+      width:49%;
+      float:left;
+      &:first-child{
+        margin: 0 2% 0 0;
+      }
+
+      &:nth-child(3n){
+        margin-top: 1em;
+        width:100%;
+      }
+
+    }
   }
 }
 
