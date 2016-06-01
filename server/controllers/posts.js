@@ -445,24 +445,53 @@ var PostsController = {
                             sponsor: function(callback) {
                                 var ind = 0;
                                 var results = [];
-                                async.whilst(
-                                    function() {
-                                        return ind < typeCounts[3].count;
-                                    },
-                                    function(callback) {
-                                        ind++;
-                                        results.push({
-                                            type: 'sponsor',
-                                            content: {
-                                                rendered: ''
+                                var defaultQuery = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[0].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[3].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
+                                    'date': -1
+                                });
+                                defaultQuery.$where('this.type === "post"');
+                                if (typeCounts[3].count > 0) {
+                                    console.log('getting sponsor data');
+                                    var query = Post.find({
+                                        'type': 'altdsc-campaign',
+                                        'campaign_active': true
+                                    });
+                                    query.select('id');
+                                    query.exec().then(function(result) {
+                                        if (result.length != 0) {
+                                            var activeCampaigns = [];
+                                            for (var i = 0; i < result.length; i++) {
+                                                var postId = result[i].id;
+                                                activeCampaigns.push(postId.toString());
                                             }
-                                        });
-                                        callback(null, ind);
-                                    },
-                                    function(err, n) {
+                                            var sponsoredQuery = Post.find({
+                                                'postmeta._altdsc_campaign_id': {
+                                                    $in: activeCampaigns
+                                                }
+                                            });
+                                            sponsoredQuery.then(function(sponsorPosts) {
+                                                if (result.length === 0) {
+                                                    defaultQuery.exec().then(function(results) {
+                                                        callback(null, results);
+                                                    });
+                                                } else {
+                                                    callback(null, sponsorPosts);
+                                                }
+                                            });
+                                        } else {
+                                            defaultQuery.exec().then(function(results) {
+                                                callback(null, results);
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    defaultQuery.exec().then(function(results) {
                                         callback(null, results);
-                                    }
-                                );
+                                    });
+                                }
                             },
                             email_signup: function(callback) {
                                 var ind = 0;

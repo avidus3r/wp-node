@@ -68,9 +68,9 @@ var pageLoad = {
                 var subIndex = ind + 1;
                 $('.card-selector:eq(' + ind + ') option[value=' + item.type + ']').attr('selected', 'selected');
                 //$('.card-selector-label:eq(' + ind + ')').text('Card ' + subIndex);
-                if (item.type == 'sponsor') {
-                    $('.default-select:eq(' + ind + ')').show();
-                }
+                // if (item.type == 'sponsor') {
+                //     $('.default-select:eq(' + ind + ')').show();
+                // }
             });
             $('#htmlText').val(res.html);
         });
@@ -98,7 +98,7 @@ var userInteractions = {
             config.cards = [];
             $('.card-selector').each(function(ind, item) {
                 var value = $(item).val();
-                var def = $('.default-selector:eq(' + ind + ')').val();
+                //var def = $('.default-selector:eq(' + ind + ')').val();
                 console.log(def);
                 console.log(value);
                 config.cards.push({
@@ -131,11 +131,11 @@ var userInteractions = {
             var ind = $(this).data('index');
             var value = $(this).val();
             $('.card:eq(' + ind + ')').text(value);
-            if (value == 'sponsor') {
-                $('.default-select:eq(' + ind + ')').show();
-            } else {
-                $('.default-select:eq(' + ind + ')').hide();
-            }
+            // if (value == 'sponsor') {
+            //     $('.default-select:eq(' + ind + ')').show();
+            // } else {
+            //     $('.default-select:eq(' + ind + ')').hide();
+            // }
         });
     },
     updateHtml: function() {
@@ -161,7 +161,7 @@ var userInteractions = {
             config.cards = [];
             $('.card-selector').each(function(ind, item) {
                 var value = $(item).val();
-                var def = $('.default-selector:eq(' + ind + ')').val();
+                //var def = $('.default-selector:eq(' + ind + ')').val();
                 console.log(def);
                 console.log(value);
                 config.cards.push({
