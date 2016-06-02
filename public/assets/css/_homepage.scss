@@ -10,6 +10,10 @@
     bottom: 10px;
   }
 
+  .homepage-carousel .post-list {
+    margin-bottom: 0;
+  }
+
   .carousel-control {
     &.left .fa {
       left: .25em;
@@ -165,19 +169,19 @@
 
 }
 
-//.homehero.desktop {
-//  //  change the nav to fit advert widths on DT only
-//  .container-fluid {
-//    padding-right: 15px;
-//    max-width: 1006px;
-//  }
-//  .app-main {
-//    float: none;
-//    width: 94%;
-//    max-width: 1074px;
-//    margin: 1em auto;
-//  }
-//}
+.homehero.desktop {
+  //  change the nav to fit advert widths on DT only
+  .container-fluid {
+    padding-right: 15px;
+    max-width: 1206px;
+  }
+  .app-main {
+    float: none;
+    width: 94%;
+    max-width: 1174px;
+    margin: 1em auto;
+  }
+}
 
 @media all and (min-width: 1000px) {
   /* restyle homepage-carousel titles */
@@ -434,7 +438,7 @@ body.homehero .app-main .latestposts{
   //top: -19px;
 }
 
-.view-type-column .post-content {
+.latestposts .view-type-column .post-content {
   margin-bottom: 1em;
   padding-bottom: 1em;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
