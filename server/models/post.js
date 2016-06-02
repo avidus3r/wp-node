@@ -98,9 +98,6 @@ var schema = {
     votes: {
         type: Object
     },
-    tags: {
-        type: Array
-    },
     comment_count: {
         type: Object
     },
