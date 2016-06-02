@@ -434,6 +434,9 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
 router.get('/apiV2/config/post-config', ConfigController.getConfig);
 router.put('/apiV2/config/post-config', ConfigController.updateCards);
 router.put('/apiV2/config/html', ConfigController.updateHtml);
+router.post('/apiV2/config/client-config', ConfigController.createClientConfig);
+router.get('/apiV2/config/client-config', ConfigController.getClientConfig);
+router.put('/apiV2/config/client-config', ConfigController.updateClientConfig);
 
 
 /*router.get('/posts/:perPage/:page', function(req, res) {

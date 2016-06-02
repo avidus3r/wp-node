@@ -11,10 +11,30 @@ var mongoose = require('mongoose'),
  * Post Schema
  */
 var schema = {
-    "type": String,
-    "cardAmount": Number,
-    "cards": Array,
-    "html": String
+    "app": {
+      "name": String,
+      "title": String,
+      "description": String,
+      "url": String,
+      "per_page": String,
+      "prefetch_at": String,
+      "scroll_amount": String,
+      "avatar": String,
+      "loading_message":String,
+      "fb_sitename":String,
+      "fb_appid": String,
+      "fb_pages":String,
+      "fb_pixel_id": String,
+      "fb_url": String,
+      "feedPath": String,
+      "ga": String,
+      "gtm_id": String,
+      "adsPerPage": String,
+      "displayAds": String,
+      "sponsors": String,
+      "pubads": Object,
+      "env": Object
+    }
 };
 
 var ConfigSchema = new Schema(schema);

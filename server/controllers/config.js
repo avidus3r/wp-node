@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
     Config = mongoose.model('Config'),
-    clientConfig = mongoose.model('clientConfig'),
+    ClientConfig = mongoose.model('clientConfig'),
     async = require('async');
 
 var ConfigController = {
@@ -55,6 +55,47 @@ var ConfigController = {
         }, {
             $set: {
                 html: html
+            }
+        });
+        update.exec().then(function(results, err) {
+            response.success = true;
+            res.send(response);
+        });
+    },
+
+    getClientConfig: function(req, res) {
+        var query = ClientConfig.findOne({});
+        query.exec().then(function(results) {
+            res.json(results);
+        });
+    },
+
+    createClientConfig: function(req, res) {
+        var newConfig = new ClientConfig(req.body);
+        //console.log(req.body);
+        var response = {
+            success: null,
+            errMessage: null
+        };
+        newConfig.save(function(err) {
+            console.log(err);
+            response.success = true;
+            res.send(response);
+        });
+    },
+
+    updateClientConfig: function(req, res) {
+        var app = req.body.app;
+        console.log(app);
+        var response = {
+            success: null,
+            errMessage: null
+        };
+        var update = ClientConfig.update({
+            'name': app.name
+        }, {
+            $set: {
+                title: 'app.name'
             }
         });
         update.exec().then(function(results, err) {
