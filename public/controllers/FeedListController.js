@@ -422,13 +422,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
             angular.element('.app-rail .sidebar').css({
                 'position':'fixed',
-                'top':'60px'
+                'top':'60px',
+                'margin-left':'18px'
             });
         }
         if(angular.element('.app-main').offset().top-window.scrollY >= 60){
             angular.element('.app-rail .sidebar').css({
                 'position':'relative',
-                'top':'0px'
+                'top':'0px',
+                'margin-left':'0'
             });
         }
 
