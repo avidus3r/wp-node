@@ -71,7 +71,11 @@ var ConfigController = {
     },
 
     createClientConfig: function(req, res) {
-        var newConfig = new ClientConfig(req.body);
+        var subConfig = {
+            name:req.body.app.name,
+            app: req.body.app
+        };
+        var newConfig = new ClientConfig(subConfig);
         //console.log(req.body);
         var response = {
             success: null,
@@ -86,7 +90,7 @@ var ConfigController = {
 
     updateClientConfig: function(req, res) {
         var app = req.body.app;
-        console.log(app);
+        //console.log(app);
         var response = {
             success: null,
             errMessage: null
@@ -95,10 +99,11 @@ var ConfigController = {
             'name': app.name
         }, {
             $set: {
-                title: 'app.name'
+                app: app
             }
         });
         update.exec().then(function(results, err) {
+            console.log(results);
             response.success = true;
             res.send(response);
         });

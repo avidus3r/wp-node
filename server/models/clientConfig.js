@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
  * Post Schema
  */
 var schema = {
+    "name":String,
     "app": {
       "name": String,
       "title": String,
