@@ -21,7 +21,7 @@
                     </div>
                     <div id="card-selector-container">
                     </div>
-<!--                     <button class="btn btn-success pull-right layout-button" id="cardsUpdate" type="submit">Update</button> -->
+                    <!--                     <button class="btn btn-success pull-right layout-button" id="cardsUpdate" type="submit">Update</button> -->
                 </div>
                 <div id="visual-cards-container" class="col-md-6">
                     
@@ -39,6 +39,94 @@
             </div>
             <button class="btn btn-success layout-button" id="configUpdate" type="submit">Update All</button>
             <button class="btn btn-danger layout-button" id="appConfig" type="submit">App Config</button>
+        </div>
+        <div class="container app-config">
+            <div class="row">
+                <div id="client-config-inputs-one" class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" rows="5" id="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Url:</label>
+                        <input type="text" class="form-control" id="url">
+                    </div>
+                    <div class="form-group">
+                        <label for="per_page">Per page:</label>
+                        <input type="text" class="form-control" id="per_page">
+                    </div>
+                    <div class="form-group">
+                        <label for="prefetch_at">Pre fetch:</label>
+                        <input type="text" class="form-control" id="prefetch_at">
+                    </div>
+                    <div class="form-group">
+                        <label for="ga">Google analytics:</label>
+                        <input type="text" class="form-control" id="ga">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedPath">Feed Path:</label>
+                        <input type="text" class="form-control" id="feedPath">
+                    </div>
+                    <div class="form-group">
+                        <label for="adsPerPage">Ads per page:</label>
+                        <input type="text" class="form-control" id="adsPerPage">
+                    </div>
+                    <div class="form-group">
+                        <label for="sponsors">Sponsors:</label>
+                        <input type="text" class="form-control" id="sponsors">
+                    </div>
+                </div>
+                <div id="client-config-inputs-two" class="col-md-6">
+                    <div class="form-group">
+                        <label for="scroll_amount">Scroll amount:</label>
+                        <input type="text" class="form-control" id="scroll_amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar">Avatar:</label>
+                        <input type="text" class="form-control" id="avatar">
+                    </div>
+                    <div class="form-group">
+                        <label for="loading_message">Loading message:</label>
+                        <input type="text" class="form-control" id="loading_message">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_sitename">Fb site name:</label>
+                        <input type="text" class="form-control" id="fb_sitename">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_appid">Fb app id:</label>
+                        <input type="text" class="form-control" id="fb_appid">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_pages">Fb pages:</label>
+                        <input type="text" class="form-control" id="fb_pages">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_pixel_id">Fb pixel id:</label>
+                        <input type="text" class="form-control" id="fb_pixel_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_url">Fb url:</label>
+                        <input type="text" class="form-control" id="fb_url">
+                    </div>
+                    <div class="form-group">
+                        <label for="gtm_id">Google tag manager:</label>
+                        <input type="text" class="form-control" id="gtm_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="displayAds">Display Ads:</label>
+                        <input type="text" class="form-control" id="displayAds">
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Trigger the modal with a button -->
         <button type="button" id="showModal" class="btn btn-info btn-lg hidden-btn" data-toggle="modal" data-target="#modal">Open Modal</button>
@@ -93,4 +181,12 @@
     <div class="col-md-4 col-md-offset-3 card">{{this.type}}</div>
     {{/each}}
     </script>
+    <!--     <script id="client-config-template" type="text/x-handlebars-template">
+    {{#each this.app}}
+    <div class="form-group">
+        <label for="{{@key}}">{{@key}}:</label>
+        <input type="text" class="form-control" id="{{@key}}">
+    </div>
+    {{/each}}
+    </script> -->
 </html>

@@ -52,6 +52,7 @@ var utilities = {
 var pageLoad = {
     init: function() {
         this.getConfig();
+        this.getClientConfig();
     },
     getConfig: function() {
         var request = utilities.getData(baseUrl + '/apiV2/config/post-config');
@@ -75,6 +76,14 @@ var pageLoad = {
             $('#htmlText').val(res.html);
         });
     },
+    getClientConfig: function() {
+        var request = utilities.getData(baseUrl + '/apiV2/config/client-config');
+        request.done(function(res){
+            $.each(res.app, function(key, data){
+                $('#'+key).val(data);
+            });
+        });
+    }
 };
 
 var userInteractions = {
