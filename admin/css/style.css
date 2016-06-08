@@ -53,3 +53,7 @@ body{
 .html-button {
     display: none;
 }
+
+.app-config {
+    display: none;
+}

@@ -1,5 +1,6 @@
 var baseUrl = window.location.href.toString().replace('/admin', '');
 var config = {};
+var appConfig = {};
 
 var utilities = {
     getData: function(url) {
@@ -78,9 +79,10 @@ var pageLoad = {
     },
     getClientConfig: function() {
         var request = utilities.getData(baseUrl + '/apiV2/config/client-config');
-        request.done(function(res){
-            $.each(res.app, function(key, data){
-                $('#'+key).val(data);
+        request.done(function(res) {
+            appConfig = res;
+            $.each(res.app, function(key, data) {
+                $('#' + key).val(data);
             });
         });
     }
@@ -95,7 +97,9 @@ var userInteractions = {
         this.updateHtml();
         this.revertHtml();
         this.updateConfig();
+        this.appConfigUpdate();
         this.listnerHtmlTouch();
+        this.showAppConfig();
     },
     listenerCardAmount: function() {
         $('#card-amount').on('change', function() {
@@ -182,7 +186,7 @@ var userInteractions = {
             console.log(config);
             var request = utilities.updateData(baseUrl + '/apiV2/config/post-config', config);
             request.done(function(res) {
-                
+
             });
             config.html = $('#htmlText').val();
             var request = utilities.updateData(baseUrl + '/apiV2/config/html', config);
@@ -193,8 +197,35 @@ var userInteractions = {
         });
     },
     listnerHtmlTouch: function() {
-        $('#htmlText').click(function(){
+        $('#htmlText').click(function() {
             $('.html-button').show();
+        });
+    },
+    appConfigUpdate: function() {
+        $('#appConfigUpdate').click(function() {
+            var name = $('#name').val();
+            var newConfig = {
+                'name': name,
+                'app': {
+
+                }
+            };
+            newConfig.app.pubads = appConfig.app.pubads;
+            $('.app-config-input').each(function(ind, item) {
+                var key = $(item).attr('id');
+                var value = $(item).val();
+                newConfig.app[key] = value;
+            });
+            var request = utilities.updateData(baseUrl + '/apiV2/config/client-config', newConfig);
+            request.done(function(res) {
+
+            });
+            utilities.showModal('Success', 'app config has been updated');
+        });
+    },
+    showAppConfig: function() {
+        $('#appConfig').click(function(){
+            $('.app-config').show();
         });
     }
 };
