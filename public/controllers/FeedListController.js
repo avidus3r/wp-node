@@ -39,7 +39,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.feedItemElements = [];
     $scope.feedItemPosition = 0;
     $scope.lastScroll = window.scrollY;
-    $scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
+    //$scope.feedItemScrollAmount = Number($scope.appConfig.scroll_amount);
+    $scope.feedItemScrollAmount = 10;
     $scope.postPrefetchAt = Number($scope.appConfig.prefetch_at);
     $scope.postsPerPage = Number($scope.appConfig.per_page);
     $scope.pageNumber = 1;
@@ -644,7 +645,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         pushedItems++;
                     }*/
                 } else {
-                    if (index === 3) {
+                    /*if (index === 3) {
                         var siteInContentAdItem = {};
                         siteInContentAdItem.type = 'ad';
                         //siteInContentAdItem.type = 'site-in-content';
@@ -662,7 +663,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         pagedpostmap.push(mainLeaderboardAdItem);
                         $scope.feedItemScrollAmount += 1;
                         pushedItems++;
-                    }
+                    }*/
                 }
 
             }
@@ -1046,6 +1047,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 var pushedItems = 0;
 
                 angular.forEach($scope.posts, function(item, index) {
+
                     if (item.type !== 'animated-gif' && item.type !== 'partner-post') {
                         item.type = 'post-' + $scope.currentView;
                     }
@@ -1091,7 +1093,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                             }*/
                         } else {
-                            if (index === 3) {
+                            /*if (index === 3) {
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
                                 //siteInContentAdItem.type = 'site-in-content';
@@ -1109,7 +1111,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 postmap.push(mainLeaderboardAdItem);
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
-                            }
+                            }*/
                         }
 
                     }
@@ -1234,7 +1236,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         var postmap = [];
 
                         angular.forEach($scope.posts, function(item, index) {
-                            if (item.type !== 'animated-gif' && item.type !== 'partner-post') {
+
+                            if (item.type !== 'animated-gif' && item.type !== 'partner-post' && item.type !== 'email-signup' && item.type !== 'social-follow' && item.type !== 'ad') {
                                 item.type = 'post-list';
                             }
                             if (item.type === 'partner-post') {
@@ -1261,7 +1264,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 pushedItems++;
                             }*/
 
-                                if (index === 3) {
+                                /*if (index === 3) {
                                     var siteInContentAdItem = {};
                                     siteInContentAdItem.type = 'ad';
                                     //siteInContentAdItem.type = 'site-in-content';
@@ -1279,7 +1282,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                     postmap.push(mainLeaderboardAdItem);
                                     $scope.feedItemScrollAmount += 1;
                                     pushedItems++;
-                                }
+                                }*/
                             }
                             /*angular.forEach($scope.feedConfig.cards, function (cardItem, cardIndex) {
 

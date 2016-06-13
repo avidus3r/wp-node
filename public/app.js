@@ -198,9 +198,14 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
         return location.href.indexOf('/category/') > -1;
     };
 
-    $rootScope.getCategory = function(categories, permalink) {
+    $rootScope.getCategory = function(categories, permalink, item) {
         var cat = null;
         var catParent = null;
+
+        if(typeof categories === 'undefined'){
+            var categories = [];
+            categories[0] = {slug:item.type};
+        }
 
         /*angular.forEach(categories, function (category, index) {
          if(category.slug.replace('-','') === appName){

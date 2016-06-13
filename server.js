@@ -886,7 +886,7 @@ app.get('/auth', function(req, res){
     res.sendFile('login.html', { root: path.join(__dirname, './admin') });
 });
 
-app.get('/admin', function(req, res){
+app.get('/admin', function(req, res, next){
     if(app.get('auth')){
         var auth = JSON.parse(app.get('auth'));
         var now = Date.now();
@@ -895,13 +895,13 @@ app.get('/admin', function(req, res){
         if(diff < 59){
             res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
         }
-    }
-    if(!authorized){
-        res.redirect('/auth');
     }else{
-        res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
+        if(!authorized){
+            res.redirect('/auth');
+        }else{
+            res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
+        }
     }
-
 });
 
 app.post('/admin', function(req, res){

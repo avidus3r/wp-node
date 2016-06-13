@@ -382,12 +382,13 @@ var PostsController = {
                             ad: function(callback) {
                                 var ind = 0;
                                 var results = [];
-                                async.whilst(
+                                /*async.whilst(
                                     function() {
                                         return ind < typeCounts[1].count;
                                     },
                                     function(callback) {
                                         ind++;
+                                        console.log(arguments);
                                         results.push({
                                             type: 'ad',
                                             content: {
@@ -399,7 +400,27 @@ var PostsController = {
                                     function(err, n) {
                                         callback(null, results);
                                     }
-                                );
+                                );*/
+                                var count = 0;
+
+                                var cardlist = cards.concat(skippedCards);
+
+                                async.each(cardlist, function(item, callback){
+
+                                    if(item.type === 'ad'){
+                                        results.push({
+                                            type: 'ad',
+                                            content: {
+                                                rendered: ''
+                                            },
+                                            placementIndex: item.placementIndex
+                                        });
+                                    }
+                                    count++;
+                                });
+
+                                callback(null, results);
+
                             },
                             gif: function(callback) {
                                 var query = appName === 'altdriver' ? Post.find({
@@ -503,7 +524,7 @@ var PostsController = {
                                     function(callback) {
                                         ind++;
                                         results.push({
-                                            type: 'email_signup',
+                                            type: 'email-signup',
                                             content: {
                                                 rendered: ''
                                             }
@@ -525,7 +546,7 @@ var PostsController = {
                                     function(callback) {
                                         ind++;
                                         results.push({
-                                            type: 'social_link',
+                                            type: 'social-follow',
                                             content: {
                                                 rendered: ''
                                             }
