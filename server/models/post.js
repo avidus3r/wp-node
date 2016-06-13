@@ -95,6 +95,9 @@ var schema = {
     format: {
         type: String
     },
+    tags:{
+        type: Array  
+    },
     votes: {
         type: Object
     },
