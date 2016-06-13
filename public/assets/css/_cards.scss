@@ -322,6 +322,10 @@ cardlist[excerpt="true"] {
   }
 }
 
+.category-header {
+  font-family: $font-headline;
+}
+
 .wrapper.category .feed-item.view-type-column{
   float:left;
 
@@ -398,6 +402,10 @@ body.category cardlist[viewtype=row] .card-list:nth-child(3n+2){
 
 body.category pubad{
   margin: 1em auto;
+}
+
+body.category cardlist[excerpt=true] .post-content h2.post-title {
+  padding-left: 0;
 }
 
 // Sponsored posts styles
