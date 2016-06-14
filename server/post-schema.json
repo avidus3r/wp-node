@@ -77,6 +77,9 @@
   "format": {
     "type": "String"
   },
+  "tags":{
+    "type": "Array"
+  },
   "votes": {
     "type": "Object"
   },

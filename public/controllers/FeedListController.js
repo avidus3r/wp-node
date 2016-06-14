@@ -1251,6 +1251,19 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $rootScope.setTargeting('explicit', 'true', false);
                 }
             }
+
+            if(item.hasOwnProperty('tags')){
+                if(item.tags.length > 0){
+                    var tags = [];
+                    for(var i=0;i<item.tags.length;i++){
+                        tags.push(item.tags[i].name);
+                    }
+                    $rootScope.setTargeting('tags', tags, false);
+                }
+            }
+
+            $rootScope.setTargeting('url', location.href, false);
+
             $rootScope.setTargeting('category', item.category[0].name, true);
 
             $scope.singlePostID = item.id;

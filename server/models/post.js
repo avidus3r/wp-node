@@ -96,7 +96,7 @@ var schema = {
         type: String
     },
     tags:{
-        type: Array  
+        type: Array
     },
     votes: {
         type: Object
