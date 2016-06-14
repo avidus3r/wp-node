@@ -55,7 +55,7 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
  * Module Configuration
  */
 // Routes
-var Router = require('./config/app.routes.js');
+var Router = require('./config/app.routes.altdriver.js');
 
 // Constants
 NewsFeed.constant('env', env);

@@ -11,8 +11,8 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
 
     $routeProvider
         .when('/', {
-            controller: 'FeedListController',
-            templateUrl: '/views/post.html',
+            controller: 'HomeController',
+            templateUrl: '/views/home-hero-demo.html',
             redirectTo: false,
             reloadOnSearch: false,
             resolve: {
@@ -21,6 +21,19 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                     var feedPath = app.feedPath;
                     var appSponsors = Number(appConfig.sponsors);
                     var sponsorResolve = null;
+
+                    var sidekickConfig = {
+                        totalItems: 5,
+                        defaultType: 'post',
+                        defaultFormat: 'video',
+                        offset: 4,
+                        mixin: {
+                            type: 'partner-post',
+                            count: 4,
+                            format: 'standard',
+                            offset: 0
+                        }
+                    };
 
                     document.title = appConfig.title;
 
@@ -54,7 +67,16 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
                         //  }
                         //  ),
                         config: null,
-                        posts: FeedService.getDBPosts(10,1,0).then(
+                        heroItems: FeedService.getHomePosts(1, sidekickConfig).then(
+
+                            function(data) {
+                                return data;
+                            },
+                            function(error) {
+                                return 'error';
+                            }
+                        ),
+                        posts: FeedService.getHomePosts(2, sidekickConfig).then(
 
                             function(data) {
                                 return data;

@@ -4,6 +4,8 @@ var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
     Menu = mongoose.model('Menu');
 
+mongoose.Promise = Promise;
+
 var mockConfig = {
     'perPage': 7,
     'cards': [{
@@ -70,7 +72,6 @@ var PostsController = {
 
     insert: function(newPost, cb) {
         var post = new Post(newPost);
-
         post.save(function(err) {
             if (err) {
                 console.log(err);
@@ -99,9 +100,11 @@ var PostsController = {
     },
 
     exists: function(id) {
+        //mongoose.Promise = Promise;
         var query = Post.find({
             'id': id
         });
+
         return query.exec();
     },
 

@@ -376,6 +376,7 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
             break;
         default:
             host = restParent + '.local.altmedia.com';
+            host = restParent + '.altmedia.com';
             break;
     }
     var url = 'http://' + host + '/wp-json/wp/v2/' + restBase + '/' + postId;
@@ -395,17 +396,19 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
                     var post = JSON.parse(body);
 
                     PostController.exists(post.id).then(function (result) {
+                        console.log(result);
                         if (result.length === 0) {
-
+                            console.log('inserting post');
                             PostController.insert(post, function (success) {
                                 if (!success) res.sendStatus(500);
+
                                 //res.sendStatus(200);
                                 PostController.updating = false;
                             });
 
                         } else {
                             var updatePost = result[0];
-
+                            console.log('updating post: ', JSON.stringify(result));
                             PostController.update(updatePost._id, post, function (success) {
                                 if (!success) res.sendStatus(500);
                                 ApiCache.clear('/api/' + updatePost.slug);
