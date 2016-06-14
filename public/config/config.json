@@ -67,25 +67,25 @@
       }
     }
   },
-  "upshift": {
+  "beagreasemonkey": {
     "app": {
-      "name": "upshift",
-      "title": "Upshift",
-      "url": "upshift.com",
+      "name": "beagreasemonkey",
+      "title": "Be a Grease Monkey",
+      "url": "beagreasemonkey.com",
       "per_page": "12",
       "prefetch_at": "12",
       "scroll_amount": "12",
       "fb_sitename":"",
       "avatar":"",
-      "fb_url":"",
+      "fb_url":"https://www.facebook.com/BeAGreaseMonkey",
       "fb_pages":"",
-      "fb_pixel_id": "1515910288730494",
-      "fb_appid": "915136841905980",
+      "fb_pixel_id": "",
+      "fb_appid": "",
       "feedPath": "posts",
       "ga": "UA-69422901-1",
       "gtm_id": "GTM-M2Z5BM",
-      "displayAds": "true",
-      "adsPerPage": "3",
+      "displayAds": "",
+      "adsPerPage": "",
       "loading_message":"Getting More Car Stuff...",
       "sponsors": "0",
       "pubads": {
@@ -106,19 +106,19 @@
       },
       "env": {
         "prod": {
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://beagreasemonkey.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "preprod": {
-          "remoteUrl": "http://altdriver.staging.wpengine.com",
+          "remoteUrl": "http://beagreasemonkey.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "stage": {
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://beagreasemonkey.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         },
         "dev": {
-          "remoteUrl": "http://upshift.altdrivermedia.com",
+          "remoteUrl": "http://beagreasemonkey.altmedia.com",
           "basePath": "/wp-json/wp/v2/"
         }
       }
