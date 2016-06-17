@@ -1,6 +1,6 @@
 'use strict';
 
-var newrelic = require('newrelic');
+var newrelic = null;
 
 var express         = require('express'),
     http            = require('http'),
@@ -50,6 +50,15 @@ app.set('port', process.env.PORT || 3000);
 /*
  Server Routes
  */
+
+if(process.env.NODE_ENV === 'production' && process.env.appName === 'altdriver'){
+    newrelic = require('newrelic');
+}else{
+    newrelic = {};
+    newrelic.getBrowserTimingHeader = function(){
+        //return true;
+    };
+}
 
 
 app.get('/abc/123/', function(req,res, next){
