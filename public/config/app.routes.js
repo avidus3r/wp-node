@@ -10,6 +10,11 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
     var InstagramService = InstagramServiceProvider.$get();
 
     $routeProvider
+        .when('/config',{
+            controller:function(){
+
+            }
+        })
         .when('/', {
             controller: 'HomeController',
             templateUrl: '/views/home-hero-demo.html',

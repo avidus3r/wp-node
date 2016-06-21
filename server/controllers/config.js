@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
     Config = mongoose.model('Config'),
     ClientConfig = mongoose.model('clientConfig'),
-    async = require('async');
+    async = require('async'),
+    fs = require('fs');
 
 var ConfigController = {
 
@@ -95,6 +96,9 @@ var ConfigController = {
             success: null,
             errMessage: null
         };
+        var appName = app.name;
+        var cfg = {};
+        cfg[appName] = {'app' : app};
         var update = ClientConfig.update({
             'name': app.name
         }, {
@@ -103,8 +107,24 @@ var ConfigController = {
             }
         });
         update.exec().then(function(results, err) {
-            console.log(results);
+            console.log(arguments);
             response.success = true;
+
+            fs.realpath(process.cwd() + '/public/config', function(err, resolvedPath){
+                fs.readdir(resolvedPath, function(err, files){
+                    if (files.indexOf('config.json') > -1) {
+                        var file = files[files.indexOf('config.json')];
+
+                        fs.unlink(process.cwd() + '/public/config/'+ file, function(){
+                            fs.writeFile(process.cwd() + '/public/config/config.json', JSON.stringify(cfg), function(err){
+                                if(err) throw err;
+                            });
+                        });
+                    }
+                    if(err) throw err;
+                });
+            });
+
             res.send(response);
         });
     }

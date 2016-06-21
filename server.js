@@ -474,16 +474,44 @@ app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:
 app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
 
 var config = require('./public/config/config.json');
+//var config = null;
+
+/*function getConfig(){
+    var deferred = new Promise(function(fulfill, reject){
+        request('http://localhost:3000/apiV2/config/client-config', function (error, response, body) {
+            if(error) reject(JSON.stringify(error));
+            fulfill(body);
+        });
+    });
+    return deferred;
+}*/
+
 var appName = process.env.appname;
+var appConfig = '';
+
+/*getConfig().then(function(res){
+    config = res;
+
+    if(!appName) appName = 'altdriver';
+    appConfig = config[appName].app;
+    var env = 'prod';
+
+    if(!process.env.envhost){
+        process.env.envhost = 'www.altdriver.com';
+    }
+
+    feedConfig = appConfig.env[env];
+});*/
+
 if(!appName) appName = 'altdriver';
-var appConfig = config[appName].app;
+appConfig = config[appName].app;
 var env = 'prod';
 
 if(!process.env.envhost){
     process.env.envhost = 'www.altdriver.com';
 }
 
-feedConfig = appConfig.env[env];
+//feedConfig = appConfig.env[env];
 
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
@@ -530,6 +558,11 @@ function insertUser(uuid){
         api.UserController.create(uuid, {'headers':req.headers, 'rawHeaders':req.rawHeaders});
     }
 }
+
+app.get('/config', function(req,res,next){
+    console.log(appConfig);
+    res.send(JSON.stringify(appConfig));
+});
 
 app.get('/', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
@@ -1059,7 +1092,7 @@ app.post('/submit', function(req,res){
     }
 
 });
- 
+
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
@@ -1426,8 +1459,6 @@ app.get('*', function(req,res, next){
     });
     next();
 });
-
-
 /*
  create server
  */

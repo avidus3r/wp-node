@@ -7,7 +7,7 @@ var FeedService = function(app, appName, env, $http, $q){
     feed.navItems = [];
     feed.lastOffset = null;
     feed.singleId = null;
-
+    app.env = {'prod':{}};
     feed.endpoints = app.env[env];
 
     feed.get = function(url, type){
