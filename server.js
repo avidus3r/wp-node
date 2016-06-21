@@ -504,7 +504,12 @@ var appConfig = '';
 });*/
 
 if(!appName) appName = 'altdriver';
-appConfig = config[appName].app;
+if(!config.hasOwnProperty(appName)){
+    appConfig = null;
+}else{
+    appConfig = config[appName].app;
+}
+
 var env = 'prod';
 
 if(!process.env.envhost){
@@ -559,11 +564,6 @@ function insertUser(uuid){
     }
 }
 
-app.get('/config', function(req,res,next){
-    console.log(appConfig);
-    res.send(JSON.stringify(appConfig));
-});
-
 app.get('/', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
@@ -613,6 +613,11 @@ app.get('/', function(req,res,next){
             console.error(e);
         }
     }else{
+        if(appConfig === null){
+            res.redirect('/admin?app='+ appName);
+            res.end();
+            return false;
+        }
         var metatags = {
 
             robots: 'index, follow',
@@ -892,7 +897,10 @@ app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
     var creds = require('./public/config/creds.json');
-
+    var qs = '';
+    if(req.query.hasOwnProperty('app')){
+        var qs = '?app='+req.query.app;
+    }
     input.parse(req, function(err, fields, files) {
         var inputUname = md5(fields.uname.toString());
         var inputPwd = md5(fields.pwd.toString());
@@ -907,7 +915,8 @@ app.post('/auth', function(req, res){
                 d:Date.now()
             };
             app.set('auth', JSON.stringify(authed));
-            res.redirect('/admin');
+
+            res.redirect('/admin' + qs);
         }else{
             res.redirect('/auth');
         }
@@ -930,7 +939,11 @@ app.get('/admin', function(req, res, next){
         }
     }else{
         if(!authorized){
-            res.redirect('/auth');
+            var qs = '';
+            if(req.query.hasOwnProperty('app')){
+                var qs = '?app='+req.query.app;
+            }
+            res.redirect('/auth' + qs);
         }else{
             res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
         }
