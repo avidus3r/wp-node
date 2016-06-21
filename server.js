@@ -56,7 +56,7 @@ if(process.env.NODE_ENV === 'production' && process.env.appName === 'altdriver')
 }else{
     newrelic = {};
     newrelic.getBrowserTimingHeader = function(){
-        //return true;
+        return '';
     };
 }
 
