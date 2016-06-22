@@ -21,10 +21,10 @@ body{
 
 .card {
     background-color: #ccc;
-    height: 100px;
+    height: 140px;
     color: #767676;
     text-align: center;
-    line-height: 100px;
+    line-height: 140px;
     margin-bottom: 15px;
 }
 
