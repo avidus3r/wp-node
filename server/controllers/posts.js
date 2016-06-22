@@ -2,28 +2,11 @@
 
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
-    Menu = mongoose.model('Menu');
+    Menu = mongoose.model('Menu'),
+    Config = mongoose.model('Config'),
+    async = require('async');
 
 mongoose.Promise = Promise;
-
-var mockConfig = {
-    'perPage': 7,
-    'cards': [{
-        'type': 'video'
-    }, {
-        'type': 'ad'
-    }, {
-        'type': 'gif'
-    }, {
-        'type': 'partner'
-    }, {
-        'type': 'video'
-    }, {
-        'type': 'ad'
-    }, {
-        'type': 'gif'
-    }]
-};
 
 var PostsController = {
     updating: false,
@@ -72,6 +55,7 @@ var PostsController = {
 
     insert: function(newPost, cb) {
         var post = new Post(newPost);
+
         post.save(function(err) {
             if (err) {
                 console.log(err);
@@ -100,11 +84,9 @@ var PostsController = {
     },
 
     exists: function(id) {
-        //mongoose.Promise = Promise;
         var query = Post.find({
             'id': id
         });
-
         return query.exec();
     },
 
@@ -135,9 +117,6 @@ var PostsController = {
             }
         });
 
-        var query = Post.find({
-            'title.rendered': reggie
-        }).limit(Number(numberOfPosts)).skip(Number(skipItems));
         return query.exec();
     },
 
@@ -206,6 +185,444 @@ var PostsController = {
         return query.exec();
     },
 
+    listV2: function(req, res) {
+        //TODO
+        // check if FB run dates should be added to ads and html in DB 
+        var appName = process.env.appname;
+        var skipItems = parseInt(req.params.skip);
+        var skipRemainder = null;
+        var skippedCards = null;
+        var cards = null;
+        var pageSkip = null;
+        var dbData = null;
+        var subResponse = [];
+        var postConfig = null;
+        var typeCounts = [{
+            type: 'video',
+            count: 0
+        }, {
+            type: 'ad',
+            count: 0,
+        }, {
+            type: 'gif',
+            count: 0,
+        }, {
+            type: 'sponsor',
+            count: 0,
+        }, {
+            type: 'html',
+            count: 0,
+        }, {
+            type: 'email_signup',
+            count: 0
+        }, {
+            type: 'social_link',
+            count: 0
+        }];
+        var skippedTypeCounts = [{
+            type: 'video',
+            count: 0
+        }, {
+            type: 'ad',
+            count: 0,
+        }, {
+            type: 'gif',
+            count: 0,
+        }, {
+            type: 'sponsor',
+            count: 0,
+        }, {
+            type: 'html',
+            count: 0,
+        }, {
+            type: 'email_signup',
+            count: 0
+        }, {
+            type: 'social_link',
+            count: 0
+        }];
+        var offSetCounts = [{
+            type: 'video',
+            count: 0
+        }, {
+            type: 'ad',
+            count: 0,
+        }, {
+            type: 'gif',
+            count: 0,
+        }, {
+            type: 'sponsor',
+            count: 0,
+        }, {
+            type: 'html',
+            count: 0,
+        }, {
+            type: 'email_signup',
+            count: 0
+        }, {
+            type: 'social_link',
+            count: 0
+        }];
+
+        async.series(
+            [
+
+                function(callback) {
+                    // Get config
+                    console.log('retrieving config');
+                    var query = Config.findOne({
+                        'type': 'post-config'
+                    });
+                    query.exec().then(function(results) {
+                        postConfig = results;
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    // set variables 
+                    console.log('setting variables');
+                    skipRemainder = skipItems % postConfig.cards.length;
+                    skippedCards = postConfig.cards.slice(0, skipRemainder);
+                    cards = postConfig.cards.slice(skipRemainder, postConfig.cards.length);
+                    pageSkip = Math.floor(skipItems / postConfig.cards.length);
+                    subResponse = [];
+                    callback(null);
+                },
+                function(callback) {
+                    // Get post skip items
+                    console.log('computing type counts');
+                    async.each(postConfig.cards, function(item, callback) {
+                        async.each(typeCounts, function(config, callback) {
+                            if (config.type == item.type) {
+                                config.count += 1;
+                            }
+                            callback();
+                        });
+                        callback();
+                    }, function(err) {
+                        //console.log(typeCounts);
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    // Get pre skip items
+                    console.log('computing skip');
+                    async.each(skippedCards, function(item, callback) {
+                        async.each(skippedTypeCounts, function(config, callback) {
+                            if (config.type == item.type) {
+                                config.count += 1;
+                            }
+                            callback();
+                        });
+                        callback();
+                    }, function(err) {
+                        //console.log(skippedTypeCounts);
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    // determine offsets
+                    console.log('computing offset');
+                    if (pageSkip > 0) {
+                        //full page of items offset by pageSkip
+                        async.each(offSetCounts, function(item, callback) {
+                            async.each(postConfig.cards, function(config, callback) {
+                                if (config.type == item.type) {
+                                    item.count += pageSkip;
+                                }
+                                callback();
+                            });
+                            callback();
+                        }, function(err) {
+                            //console.log(offSetCounts);
+                            if (skipRemainder != 0) {
+                                async.each(offSetCounts, function(item, callback) {
+                                    async.each(skippedTypeCounts, function(config, callback) {
+                                        if (config.type == item.type) {
+                                            //console.log('increasing count');
+                                            item.count = item.count + config.count;
+                                        }
+                                        callback();
+                                    });
+                                    callback();
+                                }, function(err) {
+                                    //console.log(offSetCounts);
+                                    callback(null);
+                                });
+                            } else {
+                                callback(null);
+                            }
+                        });
+                    } else {
+                        // add the offset for a partial first page
+                        if (skipRemainder != 0) {
+                            async.each(offSetCounts, function(item, callback) {
+                                async.each(skippedTypeCounts, function(config, callback) {
+                                    if (config.type == item.type) {
+                                        item.count = item.count + config.count;
+                                    }
+                                    callback();
+                                });
+                                callback();
+                            }, function(err) {
+                                //console.log(offSetCounts);
+                                callback(null);
+                            });
+                        } else {
+                            callback(null);
+                        }
+                    }
+                },
+                function(callback) {
+                    //make DB queries 
+                    console.log('gathering data');
+                    console.log(typeCounts);
+                    async.parallel({
+                            video: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[0].count).limit(typeCounts[0].count + skippedTypeCounts[0].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[0].count).limit(typeCounts[0].count + skippedTypeCounts[0].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "post"');
+                                if (typeCounts[0].count != 0) {
+                                    query.exec().then(function(results) {
+                                        console.log('videos ' + results.length);
+                                        callback(null, results);
+                                    });
+                                } else {
+                                    var results = [];
+                                    callback(null, results);
+                                }
+                            },
+                            ad: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                /*async.whilst(
+                                    function() {
+                                        return ind < typeCounts[1].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        console.log(arguments);
+                                        results.push({
+                                            type: 'ad',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );*/
+                                var count = 0;
+
+                                var cardlist = cards.concat(skippedCards);
+
+                                async.each(cardlist, function(item, callback){
+
+                                    if(item.type === 'ad'){
+                                        results.push({
+                                            type: 'ad',
+                                            content: {
+                                                rendered: ''
+                                            },
+                                            placementIndex: item.placementIndex
+                                        });
+                                    }
+                                    count++;
+                                });
+
+                                callback(null, results);
+
+                            },
+                            gif: function(callback) {
+                                var query = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[2].count).limit(typeCounts[2].count + skippedTypeCounts[2].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[2].count).limit(typeCounts[2].count + skippedTypeCounts[2].count).sort({
+                                    'date': -1
+                                });
+                                query.$where('this.type === "animated-gif"');
+                                if (typeCounts[2].count != 0) {
+                                    query.exec().then(function(results) {
+                                        console.log('gifs ' + results.length);
+                                        callback(null, results);
+                                    });
+                                } else {
+                                    var results = [];
+                                    callback(null, results);
+                                }
+                            },
+                            html: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[4].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'html',
+                                            content: {
+                                                rendered: postConfig.html
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
+                            },
+                            sponsor: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                var defaultQuery = appName === 'altdriver' ? Post.find({
+                                    'postmeta.run_dates_0_channel': 'Facebook Main'
+                                }).skip(offSetCounts[0].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
+                                    'postmeta.run_dates_0_run_time': -1
+                                }) : Post.find().skip(offSetCounts[3].count).limit(typeCounts[3].count + skippedTypeCounts[3].count).sort({
+                                    'date': -1
+                                });
+                                defaultQuery.$where('this.type === "post"');
+                                if (typeCounts[3].count > 0) {
+                                    console.log('getting sponsor data');
+                                    var query = Post.find({
+                                        'type': 'altdsc-campaign',
+                                        'campaign_active': true
+                                    });
+                                    query.select('id');
+                                    query.exec().then(function(result) {
+                                        if (result.length != 0) {
+                                            var activeCampaigns = [];
+                                            for (var i = 0; i < result.length; i++) {
+                                                var postId = result[i].id;
+                                                activeCampaigns.push(postId.toString());
+                                            }
+                                            var sponsoredQuery = Post.find({
+                                                'postmeta._altdsc_campaign_id': {
+                                                    $in: activeCampaigns
+                                                }
+                                            });
+                                            sponsoredQuery.then(function(sponsorPosts) {
+                                                if (result.length === 0) {
+                                                    defaultQuery.exec().then(function(results) {
+                                                        callback(null, results);
+                                                    });
+                                                } else {
+                                                    callback(null, sponsorPosts);
+                                                }
+                                            });
+                                        } else {
+                                            defaultQuery.exec().then(function(results) {
+                                                callback(null, results);
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    defaultQuery.exec().then(function(results) {
+                                        callback(null, results);
+                                    });
+                                }
+                            },
+                            email_signup: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[5].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'email-signup',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
+                            },
+                            social_link: function(callback) {
+                                var ind = 0;
+                                var results = [];
+                                async.whilst(
+                                    function() {
+                                        return ind < typeCounts[6].count;
+                                    },
+                                    function(callback) {
+                                        ind++;
+                                        results.push({
+                                            type: 'social-follow',
+                                            content: {
+                                                rendered: ''
+                                            }
+                                        });
+                                        callback(null, ind);
+                                    },
+                                    function(err, n) {
+                                        callback(null, results);
+                                    }
+                                );
+                            },
+                        },
+                        function(err, results) {
+                            dbData = results;
+                            callback(null);
+                            //console.log(dbData);
+                        }
+                    );
+                },
+                function(callback) {
+                    //arranging response post config
+                    //console.log(cards);
+                    console.log('arranging response post config');
+                    async.forEachOf(cards, function(item, ind, callback) {
+                        //console.log(dbData[item.type]);
+                        var unit = dbData[item.type].shift();
+                        //console.log(item.type);
+                        subResponse.push(unit);
+                        callback();
+                    }, function(err) {
+                        callback(null);
+                    });
+                },
+                function(callback) {
+                    //arranging response pre config
+                    //console.log(skippedCards);
+                    console.log('arranging response pre config');
+                    async.forEachOf(skippedCards, function(item, ind, callback) {
+                        // console.log('----');
+                        //console.log(item.type);
+                        var unit = dbData[item.type].shift();
+                        //console.log(unit);
+                        subResponse.push(unit);
+                        callback();
+                    }, function(err) {
+                        callback(null);
+                    });
+                }
+            ],
+            //callback 
+            function(err) {
+                // results
+                res.set('Cache-Control','max-age=600');
+                res.json(subResponse);
+            }
+        );
+    },
+
     heroItems: function(req, numberOfPosts, pageNumber, skip) {
         var skipItems = Number(skip);
         var appName = process.env.appname;
@@ -216,7 +633,6 @@ var PostsController = {
         }) : Post.find().skip(skipItems).limit(numberOfPosts).sort({
             'date': -1
         });
-
 
         query.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){
@@ -262,6 +678,7 @@ var PostsController = {
                 return this;
             }
         });
+
         //query.$where('this.type === "post" && this.type !== "animated-gif" && this.type !== "partner-post"');
 
         return query.exec();
@@ -320,7 +737,6 @@ var PostsController = {
                 'date': -1
             });
         }
-
 
         q.$where(function(){
             if(this.postmeta.hasOwnProperty('explicit')){

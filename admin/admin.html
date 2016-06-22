@@ -1,154 +1,193 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="wrapper">
-        <form id="config" name="config" method="post" enctype="text/plain">
-            <div id="add" class="btn-group">
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Add New <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li class="generic-card" id="instagram">Instagram</li>
-                    <li class="generic-card" id="twitter">Twitter</li>
-                    <li id="sponsor">Sponsored Post</li>
-                    <li class="generic-card" id="social-follow">Social Follow</li>
-                    <li class="generic-card" id="email-signup">Email Signup</li>
-                    <li id="external-post-single">External Single Post</li>
-                    <li id="arbitrary-html">HTML</li>
-                    <li id="custom">Custom</li>
-                </ul>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <h1 class="text-center">Feed Admin</h1>
+        <div class="container">
+            <div class="row">
+                <div id="config-input-container" class="col-md-4">
+                    <div>
+                        <h5>Cards per page</h5>
+                        <input id="card-amount" class="form-control" type="number"></input>
+                    </div>
+                    <div id="card-selector-container">
+                    </div>
+                    <!--                     <button class="btn btn-success pull-right layout-button" id="cardsUpdate" type="submit">Update</button> -->
+                </div>
+                <div id="visual-cards-container" class="col-md-8">
+                    
+                </div>
             </div>
-
-            <section id="envConfig">
-                <!--<select name="env">
-                    <option selected value="dev">dev</option>
-                    <option value="stage">stage</option>
-                    <option value="prod">prod</option>
-                </select>
-                <p><label for="per_page">Posts Per Page</label><input id="per_page" type="number" name="per_page" value=""></p>
-                <p><label for="prefetch_at">Prefetch At</label><input id="prefetch_at" type="number" name="prefetch_at" value=""></p>
-                <p><label for="scroll_amount">Scroll Amount</label><input id="scroll_amount" type="number" name="scroll_amount" value=""></p>-->
-            </section>
-
-            <section id="formContent">
-
-            </section>
-
-            <button class="btn btn-success" id="save" type="button">Save</button>
-        </form>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="content">
-            <form id="newCard">
-
-            </form>
-            <button class="btn btn-primary" name="ok" type="button">OK</button>
+            <div class="row injected-html">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="comment">Injected HTML:</label>
+                        <textarea class="form-control" rows="5" id="htmlText"></textarea>
+                        <button class="btn btn-success pull-right layout-button html-button" id="htmlUpdate" type="submit">Update</button>
+                        <button class="btn btn-danger pull-right layout-button html-button" id="htmlRevert" type="submit">Revert</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success layout-button" id="configUpdate" type="submit">Update All</button>
+            <button class="btn btn-danger layout-button" id="appConfig" type="submit">App Config</button>
+        </div>
+        <div class="container app-config">
+            <div class="row">
+                <div id="client-config-inputs-one" class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="app-config-input form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="app-config-input form-control" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="app-config-input form-control" rows="5" id="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Url:</label>
+                        <input type="text" class="app-config-input form-control" id="url">
+                    </div>
+                    <div class="form-group">
+                        <label for="per_page">Per page:</label>
+                        <input type="text" class="app-config-input form-control" id="per_page">
+                    </div>
+                    <div class="form-group">
+                        <label for="prefetch_at">Pre fetch:</label>
+                        <input type="text" class="app-config-input form-control" id="prefetch_at">
+                    </div>
+                    <div class="form-group">
+                        <label for="ga">Google analytics:</label>
+                        <input type="text" class="app-config-input form-control" id="ga">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedPath">Feed Path:</label>
+                        <input type="text" class="app-config-input form-control" id="feedPath">
+                    </div>
+                    <div class="form-group">
+                        <label for="adsPerPage">Ads per page:</label>
+                        <input type="text" class="app-config-input form-control" id="adsPerPage">
+                    </div>
+                    <div class="form-group">
+                        <label for="sponsors">Sponsors:</label>
+                        <input type="text" class="app-config-input form-control" id="sponsors">
+                    </div>
+                </div>
+                <div id="client-config-inputs-two" class="col-md-6">
+                    <div class="form-group">
+                        <label for="scroll_amount">Scroll amount:</label>
+                        <input type="text" class="app-config-input form-control" id="scroll_amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar">Avatar:</label>
+                        <input type="text" class="app-config-input form-control" id="avatar">
+                    </div>
+                    <div class="form-group">
+                        <label for="loading_message">Loading message:</label>
+                        <input type="text" class="app-config-input form-control" id="loading_message">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_sitename">Fb site name:</label>
+                        <input type="text" class="app-config-input form-control" id="fb_sitename">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_appid">Fb app id:</label>
+                        <input type="text" class="app-config-input form-control" id="fb_appid">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_pages">Fb pages:</label>
+                        <input type="text" class="app-config-input form-control" id="fb_pages">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_pixel_id">Fb pixel id:</label>
+                        <input type="text" class="app-config-input form-control" id="fb_pixel_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb_url">Fb url:</label>
+                        <input type="text" class="app-config-input form-control" id="fb_url">
+                    </div>
+                    <div class="form-group">
+                        <label for="gtm_id">Google tag manager:</label>
+                        <input type="text" class="app-config-input form-control" id="gtm_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="displayAds">Display Ads:</label>
+                        <input type="text" class="app-config-input form-control" id="displayAds">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success layout-button" id="appConfigUpdate" type="submit">Update</button>
+        </div>
+        <!-- Trigger the modal with a button -->
+        <button type="button" id="showModal" class="btn btn-info btn-lg hidden-btn" data-toggle="modal" data-target="#modal">Open Modal</button>
+        <!-- Modal -->
+        <div id="modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script id="card-selector-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <h5 class="card-selector-label">Card {{@index}}</h5>
+    <select class="form-control card-selector" data-index="{{@index}}">
+        <option value="video">Article / video</option>
+        <option value="ad">Ad</option>
+        <option value="html">HTML</option>
+        <option value="gif">Gif</option>
+        <option value="sponsor">Sponsor-post</option>
+        <option value="email_signup">Email Signup</option>
+        <option value="social_link">Social Links</option>
+    </select>
+    <div class="row">
+        <div class="col-xs-4 default-select clearfix">
+            <h5 class="card-selector-label">Default:</h5>
+            <select class="form-control default-selector" data-index="{{@index}}">
+                <option selected="selected" value="video">Article / video</option>
+                <option value="ad">Ad</option>
+                <option value="html">HTML</option>
+                <option value="gif">Gif</option>
+                <option value="email-signup">Email Signup</option>
+                <option value="social-link">Social Links</option>
+            </select>
         </div>
     </div>
-
-    <div id="cardPlaceholder-generic" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-                <p class="perPage">
-                    <label for="perPage" style="text-transform: capitalize;">show every page</label>
-                    <input type="checkbox" name="perPage">
-                </p>
-            </fieldset>
-        </section>
+    {{/each}}
+    </script>
+    <script id="card-visual-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <div class="col-md-6 col-md-offset-3 card">{{this.type}}</div>
+    {{/each}}
+    </script>
+    <!--     <script id="client-config-template" type="text/x-handlebars-template">
+    {{#each this.app}}
+    <div class="form-group">
+        <label for="{{@key}}">{{@key}}:</label>
+        <input type="text" class="form-control" id="{{@key}}">
     </div>
-
-    <div id="cardPlaceholder-sponsor" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                    <input type="text" name="" value="sponsor" disabled>
-                    <input type="hidden" name="type" value="sponsor">
-                </p>
-                <p class="type">
-                    <label for="sponsor" style="text-transform: capitalize;">Sponsor Name</label>
-                    <input type="text" name="name" value="">
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-                <p class="perPage">
-                    <label for="perPage" style="text-transform: capitalize;">show every page</label>
-                    <input type="checkbox" name="perPage">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-    <div id="cardPlaceholder-external-post-single" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                    <input type="text" name="" value="external-post-single" disabled>
-                    <input type="hidden" name="type" value="external-post-single">
-                </p>
-                <p class="permalink">
-                    <label for="permalink" style="text-transform: capitalize;">permalink</label>
-                    <input type="text" name="permalink" value="">
-                </p>
-                <p class="count">
-                    <label for="count" style="text-transform: capitalize;">count</label>
-                    <input type="number" name="count" value="">
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-    <div id="cardPlaceholder-arbitrary-html" style="display: none;">
-        <section class="card">
-            <fieldset>
-                <legend>New Card</legend>
-                <p class="type">
-                    <label for="type" style="text-transform: capitalize;">type</label>
-                    <input type="text" name="" value="arbitrary-html" disabled>
-                    <input type="hidden" name="type" value="arbitrary-html">
-                </p>
-                <p class="html">
-                    <label for="html" style="text-transform: uppercase;">HTML</label>
-                    <textarea name="html"></textarea>
-                </p>
-                <p class="count">
-                    <label for="count" style="text-transform: capitalize;">count</label>
-                    <input type="number" name="count" value="">
-                </p>
-                <p class="position">
-                    <label for="position" style="text-transform: capitalize;">position</label>
-                    <input type="number" name="position" value="">
-                </p>
-            </fieldset>
-        </section>
-    </div>
-
-</body>
+    {{/each}}
+    </script> -->
 </html>

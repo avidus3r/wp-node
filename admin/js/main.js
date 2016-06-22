@@ -1,244 +1,250 @@
-$.fn.serializeObject = function() {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
-};
+var baseUrl = window.location.href.toString().replace('/admin', '');
+var config = {};
+var appConfig = {};
 
-var App = {
-    cards: [],
-    env: [],
-
-    init: function(){
-        var self = this;
-        var request = self.getData('/appdata/feed.conf.json');
-
-        request.done(function(res){
-            $(res.cards).each(function(index, item){
-                self.cards.push(item);
-            });
-
-            $(res.env).each(function(index, item){
-                self.env.push(item);
-            });
-
-            self.render();
-        });
-
-        var btnSave = $('#save');
-        var btnAdd = $('#add').find('li');
-        var formAddCard = $('#newCard');
-
-        btnSave.on('click', function(e){
-            e.preventDefault();
-            self.update();
-        });
-
-        btnAdd.on('click', function(e){
-            var cardType = $(e.currentTarget).attr('id');
-
-            if($(e.currentTarget).hasClass('generic-card')) cardType = 'generic';
-            var placeHolderCard = $('#cardPlaceholder-'+ cardType);
-            formAddCard.html(placeHolderCard.children());
-            if(cardType === 'generic'){
-                formAddCard.find('p.type').append($('<input />').attr({type:'text','value':$(e.currentTarget).attr('id'), 'disabled':'disabled'}));
-                formAddCard.append($('<input />').attr({'type':'hidden', name:'type', value:$(e.currentTarget).attr('id')}));
-            }
-
-            $('#modal').modal();
-
-            var btnOk = $('button[name="ok"]');
-
-            btnOk.on('click', function(e){
-                self.update();
-                $('#modal').modal('hide');
-            });
-
-            var textField = formAddCard.find('input[type="text"]');
-            var focusIndex = cardType === 'generic' ? 1 : 0;
-
-            /*textField.focus();
-
-            textField.on('keyup', function(e){
-                var keyCode = e.keyCode || e.which;
-                console.log(keyCode);
-                switch(keyCode){
-                    case 32:
-                        $(e.currentTarget).val($(e.currentTarget).val().replace(' ','-'));
-                        return false;
-                        break;
-                }
-            });
-
-            textField.on('blur', function(e){
-                $(e.currentTarget).val($(e.currentTarget).val().toLowerCase());
-            });*/
-
-        });
-    },
-
-    getData: function(url){
+var utilities = {
+    getData: function(url) {
         var dfd = new $.Deferred;
 
-        $.get(url, function(res){
+        $.get(url, function(res) {
             dfd.resolve(res);
         });
 
         return dfd.promise();
     },
-
-    render: function(){
-        var self = this;
-        var form = $('#formContent');
-        form.html('');
-        var envContainer = $('#envConfig');
-
-        self.env.forEach(function(item, index, collection) {
-            var envItem = item;
-            var row = $('<fieldset />')
-                .append(
-                $('<legend />').text('Env')
-            );
-
-            for (var prop in envItem) {
-                var fieldName = prop;
-                var fieldValue = envItem[prop];
-                var fieldType = null;
-                var input = null;
-
-                switch (prop) {
-                    case 'env':
-                        fieldType = 'text';
-                        input = $('<input />').attr({type: fieldType, name: fieldName}).val(fieldValue);
-                        break;
-                    case 'per_page':
-                    case 'prefetch_at':
-                    case 'scroll_amount':
-                        fieldType = 'number';
-                        input = $('<input />').attr({type: fieldType, name: fieldName, value: fieldValue});
-                        break;
-                }
-
-                var field = $('<p />')
-                    .attr('class', fieldName)
-                    .append(
-                    $('<label />')
-                        .attr('for', fieldName)
-                        .css({ 'display':'block' })
-                        .text(fieldName).css({'text-transform': 'capitalize'})
-                )
-                    .append(input)
-                    .appendTo(row);
-
-                row.append(field);
-            }
-            envContainer.html(row);
-        });
-
-        self.cards.forEach(function(item, index, collection){
-            var card = item.card;
-            var row = $('<fieldset />')
-                .append(
-                $('<legend />').text('Card: ' + card.type.toUpperCase())
-            );
-
-            for(var prop in card){
-                var fieldName = prop;
-                var fieldValue = card[prop];
-                var fieldType = null;
-                var input = null;
-
-                switch(prop){
-                    case 'perPage':
-                        fieldType = 'checkbox';
-                        input = $('<input />').attr({type: fieldType, name: fieldName, checked: 'checked'});
-                        break;
-                    case 'html':
-                        fieldType = 'textarea';
-                        input = $('<textarea />').attr({name: fieldType}).val(fieldValue);
-                        break;
-                    case 'count':
-                    case 'position':
-                        fieldType = 'number';
-                        input = $('<input />').attr({type: fieldType, name: fieldName, value: fieldValue});
-                        break;
-                    case 'type':
-                    case 'name':
-                    case 'permalink':
-                        fieldType = 'text';
-                        input = $('<input />').attr({type: fieldType, name: fieldName, value: fieldValue});
-                        break;
-                }
-
-                var field = $('<p />')
-                    .attr('class', fieldName)
-                    .append(
-                        $('<label />')
-                            .attr('for',fieldName)
-                            .text(fieldName).css({'text-transform': 'capitalize'})
-                    )
-                    .append(input)
-                    .appendTo(row);
-
-                row.append(field);
-            }
-
-            form.prepend($('<section />').attr('class','card').css({order:index}).append(row));
-
-        });
-    },
-
-    update: function() {
-        var self = this;
-
-        if($('#newCard').children().length > 0) {
-            var newCard = {
-                'card': $('#newCard').serializeObject()
-            };
-            self.cards.push(newCard);
-            self.render();
-        }
-        self.save();
-    },
-
-    save: function() {
-        var self = this;
-        var env = [];
-        var envItem = {};
-        $(self.env).each(function(index, item){
-             for(var prop in item){
-                 var input = $('input[name="' + prop + '"');
-                 var val = input.val();
-                 envItem[prop] = val;
-             }
-            env.push(envItem);
-            self.env = env;
-        });
-        var data = {'env':self.env,'cards':self.cards};
+    updateData: function(url, body) {
+        var dfd = new $.Deferred;
 
         $.ajax({
-            type: 'POST',
-            url: '/admin',
-            dataType:'json',
-            headers:{'Content-Type':'application/json'},
-            data: JSON.stringify(data),
-            success: function (res) {
-
-                self.render();
+            url: url,
+            data: body,
+            type: 'PUT',
+            success: function(res) {
+                dfd.resolve(res);
             }
+        });
+
+        return dfd.promise();
+    },
+    render: function(data, template, dest) {
+        var source = $('#' + template).html();
+        var compiledTemplate = Handlebars.compile(source);
+        var html = compiledTemplate(data);
+        $('#' + dest).empty();
+        $('#' + dest).append(html);
+    },
+    adjustCardSelectors: function(count) {
+        var phoneyCards = [];
+        for (var i = 0; i < count; i++) {
+            phoneyCards.push({
+                type: 'video'
+            });
+        }
+        utilities.render(phoneyCards, 'card-selector-template', 'card-selector-container');
+        utilities.render(phoneyCards, 'card-visual-template', 'visual-cards-container');
+    },
+    showModal: function(header, message) {
+        $('.modal-title').text(header);
+        $('.modal-body').text(message);
+        $('#showModal').trigger('click');
+    }
+};
+
+var pageLoad = {
+    init: function() {
+        this.getConfig();
+        this.getClientConfig();
+    },
+    getConfig: function() {
+        var request = utilities.getData(baseUrl + '/apiV2/config/post-config');
+        var html = null;
+        request.done(function(res) {
+            console.log(res);
+            config = res;
+            utilities.render(res.cards, 'card-selector-template', 'card-selector-container');
+            utilities.render(res.cards, 'card-visual-template', 'visual-cards-container');
+            $('#card-amount').val(res.cardAmount);
+            $.each(res.cards, function(ind, item) {
+                console.log(res.cards);
+                console.log(ind);
+                var subIndex = ind + 1;
+                $('.card-selector:eq(' + ind + ') option[value=' + item.type + ']').attr('selected', 'selected');
+                $('.card-selector-label:eq(' + ind + ')').text('Card ' + subIndex);
+                if (item.type == 'ad') {
+                    var adIndex = item.hasOwnProperty('placementIndex') ? item.placementIndex : '';
+                    $('.card-selector:eq(' + ind + ')')
+                        .after($('<div/>').css({'margin':'0 0 1em 2em'})
+                            .append($('<label/>').text('Placement Index').css({'display':'block'}))
+                            .append($('<input/>').attr({'type':'number','placeholder':'0','class':'placement-index','value': adIndex}).css({'padding':'.5em'}) )
+                        )
+                }
+            });
+            $('#htmlText').val(res.html);
+        });
+    },
+    getClientConfig: function() {
+        var request = utilities.getData(baseUrl + '/apiV2/config/client-config');
+        request.done(function(res) {
+            appConfig = res;
+            $.each(res.app, function(key, data) {
+                $('#' + key).val(data);
+            });
+        });
+    }
+};
+
+var userInteractions = {
+    init: function() {
+        this.listenerCardAmount();
+        this.updateCards();
+        this.revertCards();
+        this.listenerTypeChange();
+        this.updateHtml();
+        this.revertHtml();
+        this.updateConfig();
+        this.appConfigUpdate();
+        this.listnerHtmlTouch();
+        this.showAppConfig();
+    },
+    listenerCardAmount: function() {
+        $('#card-amount').on('change', function() {
+            config.cardAmount = $(this).val();
+            utilities.adjustCardSelectors(config.cardAmount);
+        });
+    },
+    updateCards: function() {
+        $('#cardsUpdate').on('click', function() {
+            config.cards = [];
+            $('.card-selector').each(function(ind, item) {
+                var value = $(item).val();
+                var def = $('.default-selector:eq(' + ind + ')').val();
+                console.log(def);
+                console.log(value);
+                config.cards.push({
+                    type: value,
+                    default: def
+                });
+            });
+            console.log(config);
+            var request = utilities.updateData(baseUrl + '/apiV2/config/post-config', config);
+            request.done(function(res) {
+                if (res.success == true) {
+                    utilities.showModal('Success', 'Cards have been updated');
+                } else {
+                    utilities.showModal('Error', res.errMessage);
+                }
+            });
+        });
+    },
+    revertCards: function() {
+        $('#cardsRevert').on('click', function() {
+            utilities.render(config.cards, 'card-visual-template', 'visual-cards-container');
+            $('#card-amount').val(config.cardAmount);
+            $.each(config.cards, function(ind, item) {
+                $('.card-selector:eq(' + ind + ') option[value=' + item.type + ']').attr('selected', 'selected');
+            });
+        });
+    },
+    listenerTypeChange: function() {
+        $(document).on('change', '.card-selector', function() {
+            var ind = $(this).data('index');
+            var value = $(this).val();
+            $('.card:eq(' + ind + ')').text(value);
+            // if (value == 'sponsor') {
+            //     $('.default-select:eq(' + ind + ')').show();
+            // } else {
+            //     $('.default-select:eq(' + ind + ')').hide();
+            // }
+        });
+    },
+    updateHtml: function() {
+        $('#htmlUpdate').on('click', function() {
+            config.html = $('#htmlText').val();
+            var request = utilities.updateData(baseUrl + '/apiV2/config/html', config);
+            request.done(function(res) {
+                if (res.success == true) {
+                    utilities.showModal('Success', 'HTML have been updated');
+                } else {
+                    utilities.showModal('Error', res.errMessage);
+                }
+            });
+        });
+    },
+    revertHtml: function() {
+        $('#htmlRevert').on('click', function() {
+            $('#htmlText').val(config.html);
+        });
+    },
+    updateConfig: function() {
+        $('#configUpdate').on('click', function() {
+            config.cards = [];
+            $('.card-selector').each(function(ind, item) {
+                var value = $(item).val();
+                var def = $('.default-selector:eq(' + ind + ')').val();
+                console.log(def);
+                console.log(value);
+                if(value === 'ad'){
+                    var placementIndex = $(item).next().find('.placement-index').val();
+                    config.cards.push({
+                        type: value,
+                        default: def,
+                        placementIndex: placementIndex
+                    });
+                }else{
+                    config.cards.push({
+                        type: value,
+                        default: def
+                    });
+                }
+            });
+            console.log(config);
+            var request = utilities.updateData(baseUrl + '/apiV2/config/post-config', config);
+            request.done(function(res) {
+
+            });
+            config.html = $('#htmlText').val();
+            var request = utilities.updateData(baseUrl + '/apiV2/config/html', config);
+            request.done(function(res) {
+
+            });
+            utilities.showModal('Success', 'config has been updated');
+        });
+    },
+    listnerHtmlTouch: function() {
+        $('#htmlText').click(function() {
+            $('.html-button').show();
+        });
+    },
+    appConfigUpdate: function() {
+        $('#appConfigUpdate').click(function() {
+            var name = $('#name').val();
+            var newConfig = {
+                'name': name,
+                'app': {
+
+                }
+            };
+            newConfig.app.pubads = appConfig.app.pubads;
+            $('.app-config-input').each(function(ind, item) {
+                var key = $(item).attr('id');
+                var value = $(item).val();
+                newConfig.app[key] = value;
+            });
+            var request = utilities.updateData(baseUrl + '/apiV2/config/client-config', newConfig);
+            request.done(function(res) {
+
+            });
+            utilities.showModal('Success', 'app config has been updated');
+        });
+    },
+    showAppConfig: function() {
+        $('#appConfig').click(function(){
+            $('.app-config').show();
         });
     }
 };
 
 $(function() {
-    App.init();
+    pageLoad.init();
+    userInteractions.init();
 });

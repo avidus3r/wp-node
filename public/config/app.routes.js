@@ -10,6 +10,11 @@ var Router = function($routeProvider, $resourceProvider, $locationProvider, Meta
     var InstagramService = InstagramServiceProvider.$get();
 
     $routeProvider
+        .when('/config',{
+            controller:function(){
+
+            }
+        })
         .when('/', {
             controller: 'FeedListController',
             templateUrl: '/views/post.html',

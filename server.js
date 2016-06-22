@@ -481,16 +481,49 @@ app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:
 app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
 
 var config = require('./public/config/config.json');
+//var config = null;
+
+/*function getConfig(){
+    var deferred = new Promise(function(fulfill, reject){
+        request('http://localhost:3000/apiV2/config/client-config', function (error, response, body) {
+            if(error) reject(JSON.stringify(error));
+            fulfill(body);
+        });
+    });
+    return deferred;
+}*/
+
 var appName = process.env.appname;
+var appConfig = '';
+
+/*getConfig().then(function(res){
+    config = res;
+
+    if(!appName) appName = 'altdriver';
+    appConfig = config[appName].app;
+    var env = 'prod';
+
+    if(!process.env.envhost){
+        process.env.envhost = 'www.altdriver.com';
+    }
+
+    feedConfig = appConfig.env[env];
+});*/
+
 if(!appName) appName = 'altdriver';
-var appConfig = config[appName].app;
+if(!config.hasOwnProperty(appName)){
+    appConfig = null;
+}else{
+    appConfig = config[appName].app;
+}
+
 var env = 'prod';
 
 if(!process.env.envhost){
     process.env.envhost = 'www.altdriver.com';
 }
 
-feedConfig = appConfig.env[env];
+//feedConfig = appConfig.env[env];
 
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
@@ -587,6 +620,11 @@ app.get('/', function(req,res,next){
             console.error(e);
         }
     }else{
+        if(appConfig === null){
+            res.redirect('/admin?app='+ appName);
+            res.end();
+            return false;
+        }
         var metatags = {
 
             robots: 'index, follow',
@@ -864,16 +902,16 @@ app.get('/trending/:page', function(req,res){
 
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
-
-/*
-TODO: move this to admin controller
-*/
-
+//TODO: move this to admin controller
 
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
     var creds = require('./public/config/creds.json');
 
+    var qs = '';
+    if(req.query.hasOwnProperty('app')){
+        var qs = '?app='+req.query.app;
+    }
     input.parse(req, function(err, fields, files) {
         var inputUname = md5(fields.uname.toString());
         var inputPwd = md5(fields.pwd.toString());
@@ -888,7 +926,8 @@ app.post('/auth', function(req, res){
                 d:Date.now()
             };
             app.set('auth', JSON.stringify(authed));
-            res.redirect('/admin');
+
+            res.redirect('/admin' + qs);
         }else{
             res.redirect('/auth');
         }
@@ -900,7 +939,7 @@ app.get('/auth', function(req, res){
     res.sendFile('login.html', { root: path.join(__dirname, './admin') });
 });
 
-app.get('/admin', function(req, res){
+app.get('/admin', function(req, res, next){
     if(app.get('auth')){
         var auth = JSON.parse(app.get('auth'));
         var now = Date.now();
@@ -909,13 +948,17 @@ app.get('/admin', function(req, res){
         if(diff < 59){
             res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
         }
-    }
-    if(!authorized){
-        res.redirect('/auth');
     }else{
-        res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
+        if(!authorized){
+            var qs = '';
+            if(req.query.hasOwnProperty('app')){
+                var qs = '?app='+req.query.app;
+            }
+            res.redirect('/auth' + qs);
+        }else{
+            res.sendFile('admin.html', { root: path.join(__dirname, './admin') });
+        }
     }
-
 });
 
 app.post('/admin', function(req, res){
@@ -932,10 +975,10 @@ app.post('/admin', function(req, res){
                         if(err) throw err;
                         data.cards.forEach(function(element, index, data){
                             var tpl = element.card.type + '.html';
-                            fs.realpath('./app/components/views/cards', function(err, resolvedPath) {
+                            fs.realpath('./public/components/views/cards', function(err, resolvedPath) {
                                 fs.readdir(resolvedPath, function (err, files) {
                                     if(files.indexOf(tpl) === -1){
-                                        fs.writeFile('./app/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
+                                        fs.writeFile('./public/components/views/cards/' + tpl, 'THIS CARD WAS AUTOMATICALLY GENERATED. PLEASE EDIT.', function(err){
 
                                         });
                                     }
@@ -951,11 +994,6 @@ app.post('/admin', function(req, res){
     res.writeHead(200);
     res.end();
 });
-
-/*
-TODO
- */
-
 
 app.post('/submit', function(req,res){
 
@@ -1075,7 +1113,7 @@ app.post('/submit', function(req,res){
     }
 
 });
- 
+
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
@@ -1450,8 +1488,6 @@ app.get('*', function(req,res, next){
     });
     next();
 });
-
-
 /*
  create server
  */

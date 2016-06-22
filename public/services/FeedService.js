@@ -7,7 +7,7 @@ var FeedService = function(app, appName, env, $http, $q){
     feed.navItems = [];
     feed.lastOffset = null;
     feed.singleId = null;
-
+    app.env = {'prod':{}};
     feed.endpoints = app.env[env];
 
     feed.get = function(url, type){
@@ -70,7 +70,7 @@ var FeedService = function(app, appName, env, $http, $q){
 
     feed.getDBPosts = function(numPosts, pageNum, skip, notIn){
         skip = skip || 0;
-        var url = '/api/posts/'+ numPosts + '/' + pageNum + '/' + skip;
+        var url = '/apiV2/posts/' + skip;
         return feed.get(url, 'get');
     };
 

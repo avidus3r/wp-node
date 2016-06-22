@@ -1,15 +1,16 @@
 'use strict';
 
-var express         = require('express'),
-    app             = express(),
-    router          = express.Router(),
-    request         = require('request'),
-    md5             = require('js-md5'),
-    multiparty      = require('multiparty'),
+var express          = require('express'),
+    app              = express(),
+    router           = express.Router(),
+    request          = require('request'),
+    md5              = require('js-md5'),
+    multiparty       = require('multiparty'),
 //extIP	        = require('external-ip'),
-    PostController  = require('../controllers/posts'),
-    ApiCache        = require('apicache'),
-    apicache        = ApiCache.options({ debug: true }).middleware;
+    PostController   = require('../controllers/posts'),
+    ConfigController = require('../controllers/config'),
+    ApiCache         = require('apicache'),
+    apicache         = ApiCache.options({ debug: true }).middleware;
 
 router.get('/api/cache/index', function(req, res, next) {
     res.send(ApiCache.getIndex());
@@ -308,6 +309,9 @@ router.get('/api/posts/:perPage/:page/:skip', apicache('45 minutes'), function(r
     });
 });
 
+//TODO need to add apicache('5 minutes') back in
+router.get('/apiV2/posts/:skip', PostController.listV2);
+
 
 /*
  Feed Hero Items
@@ -445,6 +449,14 @@ router.get('/update/:restParent/:restBase/:postId', function(req,res){
 
     //res.end();
 });
+
+router.get('/apiV2/config/post-config', ConfigController.getConfig);
+router.put('/apiV2/config/post-config', ConfigController.updateCards);
+router.put('/apiV2/config/html', ConfigController.updateHtml);
+router.post('/apiV2/config/client-config', ConfigController.createClientConfig);
+router.get('/apiV2/config/client-config', ConfigController.getClientConfig);
+router.put('/apiV2/config/client-config', ConfigController.updateClientConfig);
+
 
 /*router.get('/posts/:perPage/:page', function(req, res) {
  var post = require('./lib/post');
