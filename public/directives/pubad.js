@@ -3,9 +3,9 @@
 var pubad = function() {
     return {
         restrict: 'EA',
-        scope:{
+        /*scope:{
             placementIndex: '=?placementIndex'
-        },
+        },*/
         controller: function($scope, $element, $attrs, $rootScope, app) {
 
             //window.googletag = window.googletag || {};
