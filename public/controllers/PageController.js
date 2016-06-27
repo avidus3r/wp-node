@@ -2,7 +2,6 @@
 
 
 var PageController = function($rootScope, $scope, FeedService, $route, $routeParams, $location, $sce, app) {
-
     this.name = 'page';
     $scope.routeParams = $location.$$path.replace('/','');
     $scope.page = null;

@@ -7,7 +7,6 @@ TODO: consolidate ad display config
 //var gifyParse   = require('gify-parse');
 
 var FeedListController = function($rootScope, $scope, FeedService, InstagramService, $route, $routeParams, $location, data, app, appName, $sce, $q, ngMaterial) {
-
     this.name = 'list';
     this.$route = $route;
     this.$routeParams = $routeParams;
@@ -331,7 +330,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
         val = encode ? encodeURIComponent(val) : val;
         return val;
     };
-
     if ($scope.posts === null && $scope.post === null && $scope.sponsorItems !== null) $scope.currentView = 'sponsor';
     if ($routeParams.hasOwnProperty('query')) $scope.currentView = 'search';
 
@@ -349,7 +347,6 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             return FeedService.getDBPosts(perPage, pageNum, skip, notIn);
         }
     };
-
     $scope.getDBCategoryPosts = function(category, perPage, pageNum, skip) {
         return FeedService.getDBCategoryPosts(category, perPage, pageNum, skip);
     };
