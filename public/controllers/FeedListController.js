@@ -74,25 +74,21 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.vendorIndex = 0;
 
     $scope.bannerElementsRef = [{
-        vendor: 'altdriver',
-        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        ad: '/images/app_banner-320x50.jpg',
-        adSize: '320x50'
-    }, {
-        vendor: 'altdriver',
-        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        ad: '/images/app_banner-300x250.jpg',
-        adSize: '320x250'
-    }, {
-        vendor: 'altdriver',
-        actionLink: 'https://play.google.com/store/apps/details?id=com.altmedia.altdriver.android',
-        ad: '/images/app_banner-728x90.jpg',
-        adSize: '728x90'
-    }, {
         vendor: 'autoTrader',
         actionLink: 'http://www.autotrader.com/?&LNX=FYCALTDRIVER',
         ad: '/images/autoTrader320x50.jpg',
         adSize: '320x50'
+    },{
+        vendor: 'autoTrader',
+        actionLink: 'http://www.autotrader.com/?&LNX=FYCALTDRIVER',
+        ad: '/images/autotrader-300x250.jpg',
+        adSize: '300x250'
+    },
+    {
+        vendor: 'autoTrader',
+        actionLink: 'http://www.autotrader.com/?&LNX=FYCALTDRIVER',
+        ad: '/images/autotrader-728x90.jpg',
+        adSize: '728x90'
     }, {
         vendor: 'caffeineOctane',
         actionLink: 'http://bit.ly/1Y2lb10',
