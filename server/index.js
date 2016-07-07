@@ -26,6 +26,7 @@ exports.Menu = require('./models/menu');
 exports.User = require('./models/user');
 exports.Config = require('./models/config');
 exports.ClientConfig = require('./models/clientConfig');
+exports.ConfigController = require('./controllers/config');
 exports.PostController = require('./controllers/posts');
 exports.UserController = require('./controllers/users');
 exports.routes = require('./routes/posts');

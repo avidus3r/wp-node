@@ -6,7 +6,8 @@ var utilities = {
     getData: function(url) {
         var dfd = new $.Deferred;
 
-        $.get(url, function(res) {
+        $.get(url, function(res, err) {
+            if(err) dfd.reject(err);
             dfd.resolve(res);
         });
 
@@ -85,6 +86,7 @@ var pageLoad = {
     getClientConfig: function() {
         var request = utilities.getData(baseUrl + '/apiV2/config/client-config');
         request.done(function(res) {
+            console.log("resp:",res);
             appConfig = res;
             $.each(res.app, function(key, data) {
                 $('#' + key).val(data);

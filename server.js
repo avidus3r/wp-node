@@ -317,6 +317,8 @@ var api = require('./server/index');
 var apiRouter = api.routes;
 app.use(apiRouter);
 
+var appConfigController = api.ConfigController;
+
 app.get('/home', function(req, res, next){
     var locals = {};
     locals.title = 'home';
@@ -480,6 +482,8 @@ app.use(express.static(__dirname + './dist/favicons', {maxAge:600000, cache:true
 app.use(express.static(__dirname + './dist/favicons.ico', {maxAge:600000, cache:true} ));
 app.use(express.static(__dirname + './public/components/views/cards', {maxAge:600000, cache:true}));
 
+
+console.log('cfg: ', appConfigController.getClientConfig());
 var config = require('./public/config/config.json');
 //var config = null;
 
@@ -1493,7 +1497,7 @@ app.get('*', function(req,res, next){
  */
 http.createServer(app).listen(app.get('port'), function(){
     if(process.env.NODE_ENV !== 'local'){
-        snsSubscribe();
+        //snsSubscribe();
     }
     console.log('app listening on port ' + app.get('port'));
 });

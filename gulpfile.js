@@ -191,15 +191,21 @@ gulp.task('devServe', ['env:development'], function () {
     process.env.NODE_ENV = 'local';
     var currPath = __dirname.split('/');
     var appName = currPath[currPath.length-1];
-    //appName = 'beagreasemonkey';
+    appName = 'beagreasemonkey';
     process.env.appname = appName;
     process.env.mdbname = appName;
+
+
+    /* Mongo connections */
     //local
     //process.env.mdbhost = 'localhost:27017';
+
     //staging
     process.env.mdbhost = 'staging-altdriver-0.altdriver.5600.mongodbdns.com:27000';
+
     //prod
     //process.env.mdbhost = 'altdriver-0.altdriver.5600.mongodbdns.com:27000';
+    /* Mongo connections */
 
     process.env.mdbuser = 'admin';
     process.env.mdbpass = appName === 'driversenvy' ? '_@ltM3d1@_' : '@ltDr1v3r!';
