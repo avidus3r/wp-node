@@ -1302,15 +1302,15 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                             if (Number($scope.appConfig.adsPerPage) > 0) {
 
-                                /*if (index === 5) {
-                                var adItem = {};
-                                adItem.type = 'ad';
-                                //adItem.type = 'post-half-page';
-                                adItem.placementIndex = 3;
-                                postmap.push(adItem);
-                                $scope.feedItemScrollAmount += 1;
-                                pushedItems++;
-                            }*/
+                                if (index === 4 && !$rootScope._isMobile()) {
+                                    var adItem = {};
+                                    adItem.type = 'ad';
+                                    //adItem.type = 'post-half-page';
+                                    adItem.placementIndex = 9;
+                                    postmap.push(adItem);
+                                    $scope.feedItemScrollAmount += 1;
+                                    pushedItems++;
+                                }
 
                                 if (index === 3) {
                                     var siteInContentAdItem = {};
