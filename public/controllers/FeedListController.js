@@ -418,7 +418,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
     $scope.onScroll = function() {
 
         //reposition sidebar
-        if(angular.element('.app-main').offset().top-window.scrollY <= 60){
+        /*if(angular.element('.app-main').offset().top-window.scrollY <= 60){
 
             angular.element('.app-rail .sidebar').css({
                 'position':'fixed',
@@ -430,7 +430,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 'position':'relative',
                 'top':'0px'
             });
-        }
+        }*/
 
         var articles = $scope.posts || $scope.sponsorItems;
         if ($scope.currentView !== 'ads' && articles.length >= $scope.postsPerPage) {
