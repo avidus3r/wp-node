@@ -679,8 +679,17 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     if(index === 2){
                         var tbAdItem = {};
                         tbAdItem.type = 'taboolaAd';
-                        tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged;
+                        tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged+'-a';
                         pagedpostmap.push(tbAdItem);
+                        $scope.feedItemScrollAmount += 1;
+                        pushedItems++;
+                    }
+
+                    if(index === 4){
+                        var tbAdItemB = {};
+                        tbAdItemB.type = 'taboolaAd';
+                        tbAdItemB.tbAdId = 'taboola-below-article-'+ $scope.paged+'-b';
+                        pagedpostmap.push(tbAdItemB);
                         $scope.feedItemScrollAmount += 1;
                         pushedItems++;
                     }
@@ -761,9 +770,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     $scope.createTaboolaContainer = function(pageNum){
 
-        var taboola_container_id = 'taboola-below-article-' + pageNum;
+        var taboola_container_id_a = 'taboola-below-article-' + pageNum + '-a';
+        var taboola_container_id_b = 'taboola-below-article-' + pageNum + '-b';
         window._taboola = window._taboola || [];
-        _taboola.push({mode:'thumbnails-a', container: taboola_container_id, placement: 'Below Article Thumbnails', target_type: 'mix'});
+        _taboola.push({mode:'thumbnails-a', container: taboola_container_id_a, placement: 'Below Article Thumbnails', target_type: 'mix'});
+        _taboola.push({article:'auto', url:location.href});
+
+        _taboola.push({mode:'thumbnails-a', container: taboola_container_id_b, placement: 'Below Article Thumbnails', target_type: 'mix'});
         _taboola.push({article:'auto', url:location.href});
     };
 
@@ -1325,11 +1338,20 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                             if (Number($scope.appConfig.adsPerPage) > 0) {
 
-                                if(index === 2){
+                                if(index === 0){
                                     var tbAdItem = {};
                                     tbAdItem.type = 'taboolaAd';
-                                    tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged;
+                                    tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged+'-a';
                                     postmap.push(tbAdItem);
+                                    $scope.feedItemScrollAmount += 1;
+                                    pushedItems++;
+                                }
+
+                                if(index === 2){
+                                    var tbAdItemB = {};
+                                    tbAdItemB.type = 'taboolaAd';
+                                    tbAdItemB.tbAdId = 'taboola-below-article-'+ $scope.paged+'-b';
+                                    postmap.push(tbAdItemB);
                                     $scope.feedItemScrollAmount += 1;
                                     pushedItems++;
                                 }
