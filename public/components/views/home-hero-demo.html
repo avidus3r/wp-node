@@ -87,6 +87,14 @@ googletag.enableServices();
     <div>
         <ng-include src="'/views/partials/trending-nav.html'"></ng-include>
     </div>
+    <div id="taboola-below-main-column0"></div>
+
+    <script type="text/javascript">
+        window._taboola = window._taboola || [];
+        _taboola.push({mode:'thumbnails-a', container: 'taboola-below-main-column0', placement: 'Below Article Thumbnails', target_type: 'mix'});
+        _taboola.push({article:'auto', url:location.href});
+    </script>
+
 </div>
 <div ng-if="_isMobile() && adsEnabled" class="homeadwrapper clearfix cf clear" style="width: 100%; clear: both;">
     <!--<div ng-if="_isMobile()" id="div-gpt-ad-1448906851482-7">

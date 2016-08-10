@@ -13,6 +13,8 @@
                 <instagram count="1"><card type="instagram"></card></instagram>
             </div>
 
+            <div ng-if="$index === 3" id="taboola-below-article-{{paged}}"></div>
+
             <div class="ad-placement" ng-if="item.type === 'ad'">
                 <pubad placementIndex="{{ item.placementIndex }}"></pubad>
             </div>
