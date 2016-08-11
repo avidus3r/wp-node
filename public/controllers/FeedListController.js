@@ -676,25 +676,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     }*/
                 } else {
 
-                    if(index === 2){
-                        var tbAdItem = {};
-                        tbAdItem.type = 'taboolaAd';
-                        tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged+'-a';
-                        pagedpostmap.push(tbAdItem);
-                        $scope.feedItemScrollAmount += 1;
-                        pushedItems++;
-                    }
-
-                    if(index === 4){
-                        var tbAdItemB = {};
-                        tbAdItemB.type = 'taboolaAd';
-                        tbAdItemB.tbAdId = 'taboola-below-article-'+ $scope.paged+'-b';
-                        pagedpostmap.push(tbAdItemB);
-                        $scope.feedItemScrollAmount += 1;
-                        pushedItems++;
-                    }
-
-                    if (index === 3) {
+                    if (index === 4) {
                         var siteInContentAdItem = {};
                         siteInContentAdItem.type = 'ad';
                         //siteInContentAdItem.type = 'site-in-content';
@@ -704,7 +686,17 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         pushedItems++;
                     }
 
-                    if (index === 1) {
+                    if(index === 3){
+                        var tbAdItemB = {};
+                        tbAdItemB.type = 'taboolaAd';
+                        tbAdItemB.tbAdId = 'taboola-below-article-'+ $scope.paged+'-b';
+                        pagedpostmap.push(tbAdItemB);
+                        $scope.feedItemScrollAmount += 1;
+                        pushedItems++;
+                        $scope.createTaboolaContainer($scope.paged,'b');
+                    }
+
+                    if (index === 2) {
                         var mainLeaderboardAdItem = {};
                         mainLeaderboardAdItem.type = 'ad';
                         //mainLeaderboardAdItem.type = 'main-leaderboard';
@@ -712,6 +704,16 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                         pagedpostmap.push(mainLeaderboardAdItem);
                         $scope.feedItemScrollAmount += 1;
                         pushedItems++;
+                    }
+
+                    if(index === 1){
+                        var tbAdItem = {};
+                        tbAdItem.type = 'taboolaAd';
+                        tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged+'-a';
+                        pagedpostmap.push(tbAdItem);
+                        $scope.feedItemScrollAmount += 1;
+                        pushedItems++;
+                        $scope.createTaboolaContainer($scope.paged,'a');
                     }
                 }
 
@@ -768,16 +770,56 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
     };
 
-    $scope.createTaboolaContainer = function(pageNum){
+    $scope.createTaboolaContainer = function(pageNum, item){
 
-        var taboola_container_id_a = 'taboola-below-article-' + pageNum + '-a';
-        var taboola_container_id_b = 'taboola-below-article-' + pageNum + '-b';
         window._taboola = window._taboola || [];
-        _taboola.push({mode:'thumbnails-a', container: taboola_container_id_a, placement: 'Below Article Thumbnails', target_type: 'mix'});
-        _taboola.push({article:'auto', url:location.href});
 
-        _taboola.push({mode:'thumbnails-a', container: taboola_container_id_b, placement: 'Below Article Thumbnails', target_type: 'mix'});
-        _taboola.push({article:'auto', url:location.href});
+        var issue = false;
+
+        if(!issue) {
+            if (item === 'a') {
+                var taboola_container_id_a = 'taboola-below-article-' + pageNum + '-a';
+                _taboola.push({
+                    mode: 'thumbnails-a',
+                    container: taboola_container_id_a,
+                    placement: 'Below Article Thumbnails 1',
+                    target_type: 'mix'
+                });
+                _taboola.push({article: 'auto', url: location.href});
+            } else {
+                var taboola_container_id_b = 'taboola-below-article-' + pageNum + '-b';
+                _taboola.push({
+                    mode: 'thumbnails-a',
+                    container: taboola_container_id_b,
+                    placement: 'Below Article Thumbnails 2',
+                    target_type: 'mix'
+                });
+                _taboola.push({article: 'auto', url: location.href});
+            }
+        }else{
+
+            var taboola_container_id_a = 'taboola-below-article-' + pageNum + '-a';
+            var taboola_container_id_b = 'taboola-below-article-' + pageNum + '-b';
+
+            _taboola.push({
+                mode: 'thumbnails-a',
+                container: taboola_container_id_a,
+                placement: 'Below Article Thumbnails',
+                target_type: 'mix'
+            });
+            _taboola.push({article: 'auto', url: location.href});
+
+            setTimeout(function(){
+
+                _taboola.push({
+                    mode: 'thumbnails-a',
+                    container: taboola_container_id_b,
+                    placement: 'Below Article Thumbnails',
+                    target_type: 'mix'
+                });
+                _taboola.push({article: 'auto', url: location.href});
+            },1000);
+        }
     };
 
     $scope.getNext = function(params) {
@@ -992,7 +1034,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             $scope.add(item, $scope.feedItems.length - 1);
         });
-        $scope.createTaboolaContainer($scope.paged);
+        //$scope.createTaboolaContainer($scope.paged);
         //$scope.orderElements('.feed-item.animated-gif', 3);
     });
 
@@ -1172,7 +1214,8 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
 
                             }*/
                         } else {
-                            if (index === 3) {
+
+                            if (index === 4) {
                                 var siteInContentAdItem = {};
                                 siteInContentAdItem.type = 'ad';
                                 //siteInContentAdItem.type = 'site-in-content';
@@ -1182,7 +1225,17 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 postmap.push(siteInContentAdItem);
                             }
 
-                            if (index === 1) {
+                            if(index === 3){
+                                var tbAdItemB = {};
+                                tbAdItemB.type = 'taboolaAd';
+                                tbAdItemB.tbAdId = 'taboola-below-article-'+ $scope.paged+'-b';
+                                postmap.push(tbAdItemB);
+                                $scope.feedItemScrollAmount += 1;
+                                pushedItems++;
+                                $scope.createTaboolaContainer($scope.paged,'b');
+                            }
+
+                            if (index === 2) {
                                 var mainLeaderboardAdItem = {};
                                 mainLeaderboardAdItem.type = 'ad';
                                 //mainLeaderboardAdItem.type = 'main-leaderboard';
@@ -1191,6 +1244,17 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                 $scope.feedItemScrollAmount += 1;
                                 pushedItems++;
                             }
+
+                            if(index === 1){
+                                var tbAdItem = {};
+                                tbAdItem.type = 'taboolaAd';
+                                tbAdItem.tbAdId = 'taboola-below-article-'+ $scope.paged+'-a';
+                                postmap.push(tbAdItem);
+                                $scope.feedItemScrollAmount += 1;
+                                pushedItems++;
+                                $scope.createTaboolaContainer($scope.paged,'a');
+                            }
+
                         }
 
                     }
@@ -1238,6 +1302,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     postmap.push(item);
 
                 });
+
             }
 
             angular.forEach(postmap, function(item, index) {
@@ -1249,6 +1314,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     $scope.createFeedItem(item, $scope.feedItems.length);
                 }
             });
+
         }
         if ($scope.currentView === 'sponsor' && $scope.sponsors !== null) {
 
@@ -1345,6 +1411,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                     postmap.push(tbAdItem);
                                     $scope.feedItemScrollAmount += 1;
                                     pushedItems++;
+                                    $scope.createTaboolaContainer($scope.paged,'a');
                                 }
 
                                 if(index === 2){
@@ -1354,6 +1421,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                                     postmap.push(tbAdItemB);
                                     $scope.feedItemScrollAmount += 1;
                                     pushedItems++;
+                                    $scope.createTaboolaContainer($scope.paged,'b');
                                 }
 
                                 if (index === 4 && !$rootScope._isMobile()) {
@@ -1437,7 +1505,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                             }
                             $scope.createFeedItem(item, $scope.feedItems.length);
                         });
-                        $scope.createTaboolaContainer($scope.paged);
+                        //$scope.createTaboolaContainer($scope.paged);
                     },
                     function(error) {
 
@@ -1447,7 +1515,9 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     }
                 );
             });
+
         }
+
     };
 
     $scope.countLines = function(el) {
