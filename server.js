@@ -1379,7 +1379,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 });
 
 app.get('/:page', function(req,res, next){
-    console.log(req.params.page);
+    console.log(req.params.page, req);
     var metatags = {
 
         robots: 'index, follow',
