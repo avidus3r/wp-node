@@ -1,31 +1,10 @@
 <div class="wrapper single-post {{ currentView }}">
     <div id="scroll-container">
         <div ng-repeat="item in feedItemElements track by $index" data-url="/{{ getCategory(item.category, item.link).slug }}/{{ item.slug }}/" class="feed-item format-{{ item.format }} {{ item.type }}" id="feed-item-{{ $index }}" data-post-index="{{ item.type !== 'ad' ? item.post_index+1 : '' }}">
-            <div ng-if="currentView === 'sponsor' && $index === 0">
-                <ng-include src="'/views/partials/sponsor-header-page.html'"></ng-include>
-            </div>
-<!--             <div ng-if="$index === 4">
-                <div id="taboola-below-article-thumbnails"></div>
-                <script type="text/javascript">
-                window._taboola = window._taboola || [];
-                _taboola.push({
-                mode: 'thumbnails-a-DEMO',
-                container: 'taboola-below-article-thumbnails',
-                placement: 'Below Article Thumbnails',
-                target_type: 'mix'
-                });
-                </script>
-                <script type="text/javascript">
-                window._taboola = window._taboola || [];
-                _taboola.push({flush: true});
-                </script>
-            </div> -->
             <card id="{{ item._id }}" ng-if="item.type != 'instagram' && item.type != 'ad'" error="{{ item.noresults ? 'no-results' : '' }}" type="{{ item.type }}"></card>
             <div ng-if="item.type === 'instagram'">
                 <instagram count="1"><card type="instagram"></card></instagram>
             </div>
-            <div class="ad-placement" ng-if="item.type === 'ad'">
-            <pubad placementIndex="{{ item.placementIndex }}"></pubad>
         </div>
         </div><!-- /ng-repeat -->
     </div>

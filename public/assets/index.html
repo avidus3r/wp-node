@@ -37,35 +37,12 @@
     <link rel="canonical" href="{{ metatags.canonical_url }}">
     {% endif %}
     <!-- START Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-    <meta name="msapplication-TileColor" content="#36c600">
-    <link rel="manifest" href="/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="/favicons/mstile-70x70.png" sizes="70x70">
-    <meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png" sizes="144x144">
-    <meta name="msapplication-TileImage" content="/favicons/mstile-150x150.png" sizes="150x150">
-    <meta name="msapplication-TileImage" content="/favicons/mstile-310x150.png" sizes="310x150">
-    <meta name="msapplication-TileImage" content="/favicons/mstile-310x310.png" sizes="310x310">
+
 
     <!-- END Favicons -->
     <script type="text/javascript">
-        var adsEnabled = true;
-        if(location.pathname === '/articles' && location.pathname !== '/adtest'){
-            adsEnabled = false;
-        }else{
-            adsEnabled = true;
-        }
-        //adsEnabled = false;
+        var adsEnabled = false;
+
         function _isMobile(){
             var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
             var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
@@ -77,6 +54,7 @@
                 return true;
             }
         }
+
         function isMobile(){
             var mobileUAStr = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
             var desktopUAStr = /Chrome|Safari|iPad|Firefox|MSIE|Opera/i;
@@ -96,27 +74,16 @@
 
     <script src="/js/vendor/alephbet.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<!--       <script type="text/javascript">
-  window._taboola = window._taboola || [];
-  _taboola.push({article:'auto'});
-  !function (e, f, u) {
-    e.async = 1;
-    e.src = u;
-    f.parentNode.insertBefore(e, f);
-  }(document.createElement('script'),
-  document.getElementsByTagName('script')[0],
-  'http://cdn.taboola.com/libtrc/cox-altdriver/loader.js');
-</script> -->
 </head>
 <body>
 <div id="fb-px-id" style="display: none;">{{ appConfig.fb_pixel_id }}</div>
 <div id="fb-app-id" style="display: none;">{{ appConfig.fb_appid }}</div>
 <div id="gtm-id" style="display: none;">{{ appConfig.gtm_id }}</div>
-<script type="text/javascript" ng-init="initGpt()"></script>
+<!--<script type="text/javascript" ng-init="initGpt()"></script>-->
 <!-- GTM -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ getAppInfo('gtm_id') }}"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>
+<!--<noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ getAppInfo('gtm_id') }}"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>-->
+<!--<script>
     setTimeout(function() {
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -133,10 +100,10 @@
         var googletag = {};
         googletag.cmd = [];
     },500);
-</script>
+</script>-->
 <!-- End GTM -->
 <!-- Facebook Pixel Code -->
-<script>
+<!--<script>
     var fbPixID = document.getElementById('fb-px-id').innerText;
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -145,8 +112,9 @@
             document,'script','//connect.facebook.net/en_US/fbevents.js');
     fbq('init', fbPixID);
     fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=344487495675681&ev=PageView&noscript=1"/></noscript>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=344487495675681&ev=PageView&noscript=1"/></noscript>-->
 <!-- End Facebook Pixel Code -->
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/vendor/jquery.viewport.min.js"></script>
@@ -160,7 +128,7 @@ TODO: testing removal of ng-include
 -->
 <ng-include src="'/views/partials/header.html'"></ng-include>
 <div class="app-wrapper">
-<pubad ng-if="!_isMobile()" placementIndex="9" style="padding-top: 60px; display: block;"></pubad>
+<!--<pubad ng-if="!_isMobile()" placementIndex="9" style="padding-top: 60px; display: block;"></pubad>-->
     <div class="app-main">
         <section class="view-container ng-view"></section>
         <p id="loading-more" class="center alert alert-info hidden">{{ appConfig.loading_message }}</p>
@@ -170,11 +138,11 @@ TODO: testing removal of ng-include
         <section class="sidebar ng-hide">
             <!-- <ng-include src="'/views/cards/email-signup.html'"></ng-include> -->
             <div ng-if="(!_isMobile() && isMobile().indexOf('ipad') === -1) && adsEnabled && !isHome()" class="dt-ad dt-ad-post-half-page">
-                <pubad ng-init="placementIndex=4" placementIndex="4"></pubad>
+                <!--<pubad ng-init="placementIndex=4" placementIndex="4"></pubad>-->
             </div>
             <div ng-if="browserHeight > 900" class="dt-ad">
                 <div ng-if="!_isMobile()">
-                    <pubad placementIndex="5"></pubad>
+                    <!--<pubad placementIndex="5"></pubad>-->
                 </div>
             </div>
             <!-- Add a trending card for 5 most popular posts -->
@@ -184,7 +152,7 @@ TODO: testing removal of ng-include
 
 <script type="text/javascript">
     angular.module('NewsFeed').trackPageView = function(pageNum,pageTitle){
-        var UAPageViewType = 'VirtualPageview';
+        /*var UAPageViewType = 'VirtualPageview';
         var path = location.pathname === '/' ? '' : location.pathname;
         if(location.hostname.indexOf('app') === 0){
             UAPageViewType = 'Native App Virtual PageView';
@@ -209,179 +177,12 @@ TODO: testing removal of ng-include
                     'virtualPageTitle': pageTitle
                 });
             },550);
-        }
+        }*/
     };
     angular.module('NewsFeed').trackEvent = function(eventCategory, eventAction, eventLabel, eventValue, fieldsObject){
     };
 </script>
+<!--<pubad ng-if="!_isMobile()" placementIndex="10"></pubad>-->
 
-<!-- /110669458/AD_Mobile_Adhesion_320x50 -->
-<!--
-<script type='text/javascript'>
-    //if (window.googletag && googletag.apiReady) {
-    var googletag = window.googletag || {};
-    googletag.cmd = window.googletag.cmd || [];
-
-    googletag.cmd.push(function () {
-        googletag.defineOutOfPageSlot('/110669458/AD_Mobile_Adhesion_320x50', 'div-gpt-ad-1461960210896-0').addService(googletag.pubads());
-        googletag.pubads().enableSingleRequest();
-        //googletag.pubads().enableSyncRendering();
-        googletag.enableServices();
-    });
-    //}
-</script>
-
-
-<div id='div-gpt-ad-1461960210896-0'>
-    <script type='text/javascript'>
-        var googletag = window.googletag || {};
-        googletag.cmd = window.googletag.cmd || [];
-        if (window.googletag && window.googletag.apiReady) {
-            googletag.cmd.push(function () {
-                googletag.display('div-gpt-ad-1461960210896-0');
-            });
-        }
-    </script>
-</div>
-
-<script type="text/javascript">
-    if(adsEnabled) {
-        var timerCount = 0;
-        var timer = window.setInterval(function () {
-            try {
-                if (angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body')[0].childElementCount > 0 || timerCount === 10) {
-                    var frameHTML = angular.element('#div-gpt-ad-1461960210896-0').find('iframe').contents().find('body').html();
-                    angular.element('#div-gpt-ad-1461960210896-0').html(frameHTML);
-                    window.clearInterval(timer);
-                }
-            } catch (e) {
-                console.debug('gpt iframe not loaded yet', timerCount);
-                if(timerCount >= 10) window.clearInterval(timer);
-            }
-            timerCount++;
-        }, 1000);
-    }
-
-</script>
--->
-<!-- /110669458/AD_Mobile_Adhesion_320x50 -->
-
-<!-- ad test 1 -->
-<!--
-<div>
-    <script type='text/javascript'>
-        var uri = window.location.search;
-        if(uri == '?adtest1') {
-            googletag = googletag || window.googletag;
-            googletag.cmd = window.googletag.cmd || [];
-            googletag.cmd.push(function() {
-                googletag.defineSlot('/110669458/Cox_Undertone_1x1', [1, 1], 'div-gpt-ad-1463672102891-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_Undertone_1x1_1A', [1, 1], 'div-gpt-ad-1463705861496-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Full', [1, 1], 'div-gpt-ad-1463706915069-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_Undertone_970x250', [970, 250], 'div-gpt-ad-1463672102891-1').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Flex', [1, 1], 'div-gpt-ad-1463704242939-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Full_Latency', [1, 1], 'div-gpt-ad-1463704242939-1').addService(googletag.pubads());
-                googletag.enableServices();
-            });
-        }
-    </script>
-
-    <div ng-if="getParams() == '?adtest1'" id='div-gpt-ad-1463672102891-0' style='height:1px; width:1px;'>
-        <script type='text/javascript'>
-            if(uri == '?adtest1') {
-                googletag.cmd.push(function() { googletag.display('div-gpt-ad-1463672102891-0'); });
-            }
-        </script>
-    </div>
-</div>
--->
-<!-- ad test 1 -->
-
-
-<!-- ad test 2 -->
-<!--
-<div>
-
-    <script type='text/javascript'>
-        var uri = window.location.search;
-        if(uri == '?adtest2') {
-            googletag = googletag || window.googletag;
-            googletag.cmd = window.googletag.cmd || [];
-            googletag.cmd.push(function() {
-                googletag.defineSlot('/110669458/Cox_Undertone_1x1', [1, 1], 'div-gpt-ad-1463672102891-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_Undertone_1x1_1A', [1, 1], 'div-gpt-ad-1463705861496-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Full', [1, 1], 'div-gpt-ad-1463706915069-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_Undertone_970x250', [970, 250], 'div-gpt-ad-1463672102891-1').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Flex', [1, 1], 'div-gpt-ad-1463704242939-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Full_Latency', [1, 1], 'div-gpt-ad-1463704242939-1').addService(googletag.pubads());
-                googletag.enableServices();
-            });
-        }
-    </script>
-
-    <div ng-if="getParams() == '?adtest2'" id='div-gpt-ad-1463705861496-0' style='height:1px; width:1px;'>
-        <script type='text/javascript'>
-            var uri = window.location.search;
-            if(uri == '?adtest2') {
-                googletag.cmd.push(function() { googletag.display('div-gpt-ad-1463705861496-0'); });
-            }
-        </script>
-    </div>
-</div>
--->
-<!-- ad test 2 -->
-
-    
-<pubad ng-if="_isMobile()" placementIndex="4"></pubad>
-
-<pubad ng-if="!_isMobile()" placementIndex="10"></pubad>
-
-<!-- ad test 5 -->
-
-<!-- ad test 6 -->
-<!--
-<div>
-    <script type='text/javascript'>
-        var uri = window.location.search;
-        if(uri == '?adtest6') {
-            googletag = googletag || window.googletag;
-            googletag.cmd = window.googletag.cmd || [];
-            googletag.cmd.push(function() {
-                googletag.defineSlot('/110669458/Cox_Undertone_1x1', [1, 1], 'div-gpt-ad-1463672102891-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_Undertone_1x1_1A', [1, 1], 'div-gpt-ad-1463705861496-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Full', [1, 1], 'div-gpt-ad-1463706915069-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_Undertone_970x250', [970, 250], 'div-gpt-ad-1463672102891-1').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Flex', [1, 1], 'div-gpt-ad-1463704242939-0').addService(googletag.pubads());
-                googletag.defineSlot('/110669458/Cox_undertone_1x1_Full_Latency', [1, 1], 'div-gpt-ad-1463704242939-1').addService(googletag.pubads());
-                googletag.enableServices();
-            });
-        }
-    </script>
-
-    <div ng-if="getParams() == '?adtest6'" id='div-gpt-ad-1463706915069-0' style='height:1px; width:1px;'>
-        <script type='text/javascript'>
-            var uri = window.location.search;
-            if(uri == '?adtest6') {
-                googletag.cmd.push(function() { googletag.display('div-gpt-ad-1463706915069-0'); });
-            }
-        </script>
-    </div>
-</div>
--->
-<!-- ad test 6 -->
-<!--<script type="text/javascript">
-  window._taboola = window._taboola || [];
-  _taboola.push({
-    mode: 'thumbnails-a-DEMO',
-    container: 'taboola-below-article-thumbnails',
-    placement: 'Below Article Thumbnails',
-    target_type: 'mix'
-  });
-</script>-->
-
-<!--<script type="text/javascript">
-  window._taboola = window._taboola || [];
-  _taboola.push({flush: true});
-</script>-->
 </body>
 </html>

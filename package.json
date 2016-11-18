@@ -26,6 +26,7 @@
     "coupon-code": "^0.4.3",
     "cron": "^1.1.0",
     "del": "^2.2.0",
+    "dotenv": "^2.0.0",
     "event-stream": "^3.3.1",
     "express": "latest",
     "external-ip": "^0.2.4",
@@ -78,5 +79,7 @@
     "vinyl-paths": "^2.1.0",
     "vinyl-source-stream": "^1.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }

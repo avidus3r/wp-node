@@ -1,6 +1,7 @@
 'use strict';
 
 var newrelic = null;
+require('dotenv').config();
 
 var express         = require('express'),
     http            = require('http'),
@@ -59,38 +60,6 @@ if(process.env.NODE_ENV === 'production' && process.env.appName === 'altdriver')
         return '';
     };
 }
-
-app.get('/abc/123/', function(req,res, next){
-    var metatags = {
-        robots: 'index, follow',
-        title: appConfig.title,
-        description: appConfig.description,
-        // Facebook
-        fb_title: appConfig.title,
-        fb_site_name: appConfig.fb_sitename,
-        fb_url: appConfig.url,
-        fb_description: appConfig.description,
-        fb_type: 'website',
-        fb_image: appConfig.avatar,
-        fb_appid: appConfig.fb_appid,
-        canonical_url: '',
-        // Twitter
-        tw_card: '',
-        tw_description: '',
-        tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
-    };
-
-    /*var template = swig.compileFile('./dist/index.html');
-     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-     res.send(output);*/
-
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000});
-});
 
 function execQueue(queueData, message){
     //console.debug('initQueue');
@@ -198,7 +167,7 @@ function snsSubscribe(){
 
 var cronEnabled = false;
 
-if(process.env.NODE_ENV !== 'local'){
+if(process.env.NODE_ENV !== 'local' && process.env.appName === 'altdriver'){
 
     //start polling SQS for wordpress updates
     setInterval(function(){
@@ -317,61 +286,12 @@ var api = require('./server/index');
 var apiRouter = api.routes;
 app.use(apiRouter);
 
-app.get('/home', function(req, res, next){
-    var locals = {};
-    locals.title = 'home';
-    var data = api.PostController.posts(req, 10, 1, 0);
-    data.then(function(result){
-        if(result.length === 0){
-            res.sendStatus(404);
-        }else{
-            locals.data = result;
-            var template = swig.compileFile('./dist/default.html');
-            var output = template({data:locals.data, title: locals.title});
-            res.status(200).send(output);
-        }
-    });
-});
-
 /*
 app.get('*', function(req,res,next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
     next();
 });
 */
-
-app.get('/subscribe', function(req, res){
-    res.redirect('/subscribe-hub');
-});
-
-app.get('/adtest', function(req,res){
-    var metatags = {
-
-        robots: 'index, follow',
-        title: appConfig.title,
-        description: appConfig.description,
-        // Facebook
-        fb_title: appConfig.title,
-        fb_site_name: appConfig.fb_sitename,
-        fb_url: appConfig.url,
-        fb_description: appConfig.description,
-        fb_type: 'website',
-        fb_image: appConfig.avatar,
-        fb_appid: appConfig.fb_appid,
-        canonical_url: '',
-        // Twitter
-        tw_card: '',
-        tw_description: '',
-        tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
-    };
-
-    res.render('index',{metatags:metatags, appConfig:appConfig});
-});
 
 app.get('/api/articles/:perPage/:page/:skip', function(req,res){
     var itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
@@ -387,39 +307,6 @@ app.get('/api/articles/:perPage/:page/:skip', function(req,res){
             }
         });
     }
-});
-
-app.get('/sponsor/:name', function(req,res){
-    var metatags = {
-
-        robots: 'index, follow',
-        title: appConfig.title,
-        description: appConfig.description,
-        // Facebook
-        fb_title: appConfig.title,
-        fb_site_name: appConfig.fb_sitename,
-        fb_url: appConfig.url,
-        fb_description: appConfig.description,
-        fb_type: 'website',
-        fb_image: appConfig.avatar,
-        fb_appid: appConfig.fb_appid,
-        canonical_url: '',
-        // Twitter
-        tw_card: '',
-        tw_description: '',
-        tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
-    };
-
-    /*var template = swig.compileFile('./dist/index.html');
-    var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
-    res.send(output);*/
-
-    res.render('index',{newrelic:newrelic, metatags:metatags, appConfig:appConfig});
 });
 
 app.get('/server', function(req,res){
@@ -438,30 +325,30 @@ app.get('/wp/api/:path?', function(req,res){
             fb_site_name: appConfig.fb_sitename,
             fb_url: appConfig.url,
             fb_description: appConfig.description,
-            canonical_url: '',
-            fb_appid:appConfig.fb_appid,
             fb_type: 'website',
             fb_image: appConfig.avatar,
+            fb_appid: appConfig.fb_appid,
+            canonical_url: '',
             // Twitter
             tw_card: '',
             tw_description: '',
             tw_title: '',
-            tw_site: '@altdriver',
-            tw_domain: 'alt_driver',
-            tw_creator: '@altdriver',
-            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-            url: 'http://admin.altdriver.com'
+            tw_site: '',
+            tw_domain: '',
+            tw_creator: '',
+            tw_image: '',
+            url: 'http://media.freshtracksdaily.com'
         };
 
         var posts = JSON.parse([response.body][0]);
-        res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+        res.render('index', {metatags: metatags, appConfig:appConfig});
     });
 });
 
 app.get('/feed/:feedname/', function(req,res){
     var feedName = req.params.feedname;
-    request('http://altdriver.altmedia.com/'+feedName, function (error, response, body) {
-        var result = body.replace(/altdriver.altmedia./g,'www.altdriver.');
+    request('http://media.freshtracksdaily.com/'+feedName, function (error, response, body) {
+        var result = body.replace(/media.freshtracksdaily./g,'www.freshtracksdaily.');
 
         res.set('Content-Type', 'text/xml; charset=UTF-8');
         res.send(result);
@@ -482,12 +369,12 @@ app.use(express.static(__dirname + './public/components/views/cards', {maxAge:60
 
 var config = require('./public/config/config.json');
 var appName = process.env.appname;
-if(!appName) appName = 'altdriver';
+if(!appName) appName = 'freshtracksdaily';
 var appConfig = config[appName].app;
 var env = 'prod';
 
 if(!process.env.envhost){
-    process.env.envhost = 'www.altdriver.com';
+    process.env.envhost = 'www.freshtracksdaily.com';
 }
 
 feedConfig = appConfig.env[env];
@@ -511,9 +398,9 @@ function setUserCookie(req, itsABot){
 
             try {
                 if(typeof req.headers.cookie !== 'undefined') {
-                    if (req.headers.cookie.indexOf('altduuid') === -1) {
+                    if (req.headers.cookie.indexOf('ftduuid') === -1) {
                         userIsNew = true;
-                        res.cookie('altduuid', uuid, {
+                        res.cookie('ftduuid', uuid, {
                             expires: new Date('Fri, 31 Dec 9999 23:59:59 GMT'),
                             httpOnly: true
                         });
@@ -558,20 +445,19 @@ app.get('/', function(req,res,next){
                         fb_site_name: appConfig.fb_sitename,
                         fb_url: appConfig.url,
                         fb_description: appConfig.description,
-                        canonical_url: '',
-                        fb_pages:appConfig.fb_pages,
-                        fb_appid:appConfig.fb_appid,
                         fb_type: 'website',
                         fb_image: appConfig.avatar,
+                        fb_appid: appConfig.fb_appid,
+                        canonical_url: '',
                         // Twitter
                         tw_card: '',
                         tw_description: '',
                         tw_title: '',
-                        tw_site: '@altdriver',
-                        tw_domain: 'alt_driver',
-                        tw_creator: '@altdriver',
-                        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-                        url: 'http://admin.altdriver.com'
+                        tw_site: '',
+                        tw_domain: '',
+                        tw_creator: '',
+                        tw_image: '',
+                        url: 'http://media.freshtracksdaily.com'
                     };
 
                     var posts = JSON.parse([response.body][0]);
@@ -588,7 +474,6 @@ app.get('/', function(req,res,next){
         }
     }else{
         var metatags = {
-
             robots: 'index, follow',
             title: appConfig.title,
             description: appConfig.description,
@@ -597,19 +482,19 @@ app.get('/', function(req,res,next){
             fb_site_name: appConfig.fb_sitename,
             fb_url: appConfig.url,
             fb_description: appConfig.description,
-            canonical_url: '',
             fb_type: 'website',
             fb_image: appConfig.avatar,
             fb_appid: appConfig.fb_appid,
+            canonical_url: '',
             // Twitter
             tw_card: '',
             tw_description: '',
             tw_title: '',
-            tw_site: '@altdriver',
-            tw_domain: 'alt_driver',
-            tw_creator: '@altdriver',
-            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-            url: 'http://admin.altdriver.com'
+            tw_site: '',
+            tw_domain: '',
+            tw_creator: '',
+            tw_image: '',
+            url: 'http://media.freshtracksdaily.com'
         };
 
         res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
@@ -619,256 +504,12 @@ app.get('/', function(req,res,next){
     }
 });
 
-app.get('/partner-post/(:slug|:slug/)', function(req,res, next){
-
-    itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
-
-    var newUser = setUserCookie(req, itsABot);
-    //insertUser();
-
-    var rawUrl = req.url.substr(0,req.url.length-1);
-
-    rawUrl = rawUrl.split('/');
-
-    var originalUrl = rawUrl[rawUrl.length-1];
-    var fbAppId = appConfig.fb_appid;
-    var fbUrl = appConfig.fb_url;
-    var postName = null;
-
-    try{
-        postName = req.params.slug;
-    }catch(e){
-
-    }
-
-    if(postName === undefined || postName === null){
-        //console.debug('no params present... trying raw url');
-        postName = originalUrl;
-    }
-
-    var endpoint = 'http://' + req.headers.host + '/api/' + postName;
-    var siteUrl = 'http://'+ appConfig.url;
-    var appUrl = 'http://admin.altdriver.com';
-
-    var AWSSSLImgUrl = 'https://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
-    var AWSImgUrl = 'http://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
-    var imgUrl = 'http://assets.altdriver.com/img/';
-    var imgUrlFailover = 'http://media.altdriver.com/uploads/sites/2/';
-
-    if(itsABot) {
-        try {
-            request(endpoint, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var metatags = {};
-                    var post = null;
-
-                    try{
-                        post = JSON.parse(body);
-                    }catch(e){
-                        console.error(JSON.stringify(e));
-                    }
-
-                    if(typeof post !== 'undefined' && post !== null) {
-                        metatags.published = post.date;
-                        metatags.modified = post.modified;
-                        metatags.category = post.category[0].name;
-                        metatags.canonical_url = '';
-
-                        metatags.title = '';
-                        metatags.description = '';
-
-                        var imgSrc = post.featured_image_src.original_wp[0].replace(AWSImgUrl, imgUrlFailover).replace(AWSSSLImgUrl, imgUrlFailover) + '?overlay=false';
-
-                        try{
-                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title') && post.postmeta['_yoast_wpseo_opengraph-title'].length > 0){
-                                metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                            }
-
-                            if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description') && post.postmeta['_yoast_wpseo_opengraph-description'].length > 0){
-                                metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                            }
-                        }catch(e){
-                            console.error(JSON.stringify(e));
-                        }
-
-                        // Facebook meta
-
-                        metatags.fb_appid = fbAppId;
-                        metatags.fb_publisher = fbUrl;
-                        metatags.fb_type = 'article';
-                        metatags.fb_site_name = appConfig.fb_sitename;
-                        metatags.fb_title = metatags.title;
-                        metatags.fb_url = siteUrl + req.url;
-                        metatags.fb_description = metatags.description;
-                        metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                        metatags.fb_image = imgSrc;
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
-
-
-                        var template = swig.compileFile('./dist/bots.html');
-                        var output = template({metatags: metatags, app: appName, posts:post});
-
-                        res.send(output);
-                    }else{
-                        console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-                        console.log('headers:\n ', req.headers);
-                        console.log('\n\nparams:\n', req.params);
-                        console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-                        console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-                    }
-                }
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    }else{
-
-        try {
-            api.PostController.postByType('partner-post', postName).then(function(result){
-
-                var metatags = {};
-                var post = null;
-
-                if(result.length === 0){
-                    console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-                    console.log('headers:\n ', req.headers);
-                    console.log('\n\nparams:\n', req.params);
-                    console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-                    console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-
-                    console.log(req._parsedOriginalUrl);
-                    res.sendStatus(404);
-                }else{
-
-                    post = result;
-
-                    var canonicalURL = post.postmeta.canonical_url[0];
-                    metatags.canonical_url = canonicalURL;
-                    metatags.published = post.date;
-                    metatags.modified = post.modified;
-                    metatags.category = post.category[0].name;
-                    metatags.title = '';
-                    metatags.description = '';
-
-                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-description')){
-                        metatags.description = post.postmeta['_yoast_wpseo_opengraph-description'][0];
-                    }else{
-                        metatags.description = '';
-                    }
-
-                    if(post.postmeta.hasOwnProperty('_yoast_wpseo_opengraph-title')) {
-                        metatags.title = post.postmeta['_yoast_wpseo_opengraph-title'][0];
-                    }else{
-                        metatags.title = post.title.rendered;
-                    }
-
-                    // Facebook meta
-
-                    metatags.fb_appid = fbAppId;
-                    metatags.fb_publisher = fbUrl;
-                    metatags.fb_type = 'article';
-                    metatags.fb_site_name = appConfig.fb_sitename;
-                    metatags.fb_title = metatags.title;
-                    metatags.fb_url = siteUrl + req.url;
-                    metatags.fb_description = metatags.description;
-                    metatags.url = appUrl + '/' + req.params.category + '/' + req.params.slug;
-                    if(post.featured_image_src.hasOwnProperty('original_wp') && post.featured_image_src.original_wp.length > 0) {
-                        metatags.fb_image = post.featured_image_src.original_wp[0];
-                        metatags.fb_image_width = post.featured_image_src.original_wp[1];
-                        metatags.fb_image_height = post.featured_image_src.original_wp[2];
-                    }
-
-                    res.status(200).render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
-                        res.set('Content-Type', 'text/html');
-                        res.send(html);
-                    });
-                }
-
-            });
-        } catch (e) {
-            console.error(e);
-            console.log('post could not be retrieved...  ' + originalUrl + '\n\n');
-            console.log('headers:\n ', req.headers);
-            console.log('\n\nparams:\n', req.params);
-            console.log('\n\nrawHeaders:\n ',req.rawHeaders);
-            console.log('\n\n_parsedOriginalUrl:\n ', req._parsedOriginalUrl);
-            res.end();
-        }
-    }
-});
-
-app.get('/stories/:type', function(req,res){
-    var metatags = {
-
-        robots: 'index, follow',
-        title: appConfig.title,
-        description: appConfig.description,
-        // Facebook
-        fb_title: appConfig.title,
-        fb_site_name: appConfig.fb_sitename,
-        fb_url: appConfig.url,
-        fb_description: appConfig.description,
-        fb_type: 'website',
-        fb_image: appConfig.avatar,
-        fb_appid: appConfig.fb_appid,
-        canonical_url: '',
-        // Twitter
-        tw_card: '',
-        tw_description: '',
-        tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
-    };
-
-    res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
-        res.set('Content-Type', 'text/html');
-        res.send(html);
-    });
-});
-
-app.get('/trending/:page', function(req,res){
-    var metatags = {
-
-        robots: 'index, follow',
-        title: appConfig.title,
-        description: appConfig.description,
-        // Facebook
-        fb_title: appConfig.title,
-        fb_site_name: appConfig.fb_sitename,
-        fb_url: appConfig.url,
-        fb_description: appConfig.description,
-        fb_type: 'website',
-        fb_image: appConfig.avatar,
-        fb_appid: appConfig.fb_appid,
-        canonical_url: '',
-        // Twitter
-        tw_card: '',
-        tw_description: '',
-        tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
-    };
-
-    res.render('index', {newrelic:newrelic, metatags: metatags, appConfig:appConfig, cache:true, maxAge:600000}, function(err, html){
-        res.set('Content-Type', 'text/html');
-        res.send(html);
-    });
-});
-
 app.use(express.static(EXPRESS_ROOT, {maxAge:600000, cache:true}));
 
 
 /*
 TODO: move this to admin controller
 */
-
 
 app.post('/auth', function(req, res){
     var input = new multiparty.Form();
@@ -957,29 +598,24 @@ TODO
  */
 
 
-app.post('/submit', function(req,res){
-
+/*app.post('/submit', function(req,res){
     if(req.headers.origin !== 'http://' + req.headers.host){
         res.status(403).end();
         return false;
     }
     var form = new multiparty.Form();
-
     var AWS = require('aws-sdk');
     AWS.config.update({region:'us-west-2'});
     var ses = new AWS.SES({apiVersion: '2010-12-01'});
-
     // send to list
     //var to = ['dev@altdriver.com'];
     if(!process.env.SES_USER_CONTENT_EMAIL){
         process.env.SES_USER_CONTENT_EMAIL = 'dev@altdriver.com';
     }
     var to = [process.env.SES_USER_CONTENT_EMAIL];
-
     // this must relate to a verified SES account
     //var from = 'dev@altdriver.com';
     var from = process.env.SES_USER_CONTENT_EMAIL;
-
     var bucket = 'user-content.altdriver';
     var fileName = '';
     var s3Client = new AWS.S3({params: {Bucket: bucket, Key: 'AKIAINNUHXXUND27LA4A'}});
@@ -993,27 +629,21 @@ app.post('/submit', function(req,res){
 
     var ua = req.headers['user-agent'];
     var cookie = req.headers.cookie;
-
     var status = 200;
 
     form.parse(req, function(err, fields, files) {
-
         if(typeof fields === 'undefined' || (fields.name[0].length === 0 && fields.email[0].length === 0) || typeof files === 'undefined'){
             status = 403;
             return false;
         }
-
         if(fields.linkUrl === undefined || fields.name === undefined || fields.email === undefined){
             status = 403;
             return false;
         }
-
         var message = '';
         if(files.hasOwnProperty('fileUpload') && files.fileUpload[0].size > 0){
             fileName = fields.name + '-' + files.fileUpload[0].originalFilename;
-
             var file = fs.createReadStream(files.fileUpload[0].path);
-
             return s3Client.putObject({
                 Bucket: bucket,
                 Key: fileName,
@@ -1045,7 +675,6 @@ app.post('/submit', function(req,res){
                     });
             });
         }else{
-
             message += '\n\nMessage:\n' + fields.messageContent + '\n\nEmail:\n' + fields.email + '\n\nLink:\n' + fields.linkUrl + '\n\nName:\n' + fields.name;
             message += '\n\nApp URL:\n' + 'http://' + req.headers.host + '\n\nSession Info:\n' + '\nUser Agent:\n' + ua + '\n\nSession Cookie:\n' + cookie;
             return ses.sendEmail( {
@@ -1074,12 +703,12 @@ app.post('/submit', function(req,res){
         res.redirect('/thanks');
     }
 
-});
+});*/
  
 app.get('/search/(:query/|:query)', function(req,res, next){
     itsABot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit|facebook|twitterbot/i.test(req.headers['user-agent']);
 
-    var newUser = setUserCookie(req, itsABot);
+    setUserCookie(req, itsABot);
 
     if(itsABot){
         res.send();
@@ -1101,13 +730,13 @@ app.get('/search/(:query/|:query)', function(req,res, next){
             tw_card: '',
             tw_description: '',
             tw_title: '',
-            tw_site: '@altdriver',
-            tw_domain: 'alt_driver',
-            tw_creator: '@altdriver',
-            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-            url: 'http://admin.altdriver.com'
+            tw_site: '',
+            tw_domain: '',
+            tw_creator: '',
+            tw_image: '',
+            url: 'http://media.freshtracksdaily.com'
         };
-        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+        res.render('index',{appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
             res.set('Content-Type', 'text/html');
             res.send(html);
         });
@@ -1119,7 +748,7 @@ app.get('/category/(:category|:category/)', function(req,res){
     var newUser = setUserCookie(req, itsABot);
     var catName = req.params.category;
     var endpoint = 'http://' + req.headers.host + '/api/category/' + catName + '/5/1/0';
-    var appUrl = 'http://admin.altdriver.com/category';
+    var appUrl = 'http://media.freshtracksdaily.com/category';
 
     if(itsABot) {
         try {
@@ -1176,18 +805,18 @@ app.get('/category/(:category|:category/)', function(req,res){
             tw_card: '',
             tw_description: '',
             tw_title: '',
-            tw_site: '@altdriver',
-            tw_domain: 'alt_driver',
-            tw_creator: '@altdriver',
-            tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-            url: 'http://admin.altdriver.com'
+            tw_site: '',
+            tw_domain: '',
+            tw_creator: '',
+            tw_image: '',
+            url: 'http://media.freshtracksdaily.com'
         };
 
         /*var template = swig.compileFile('./dist/index.html');
-         var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
+         var output = template({metatags: metatags, appConfig:appConfig});
          res.send(output);*/
 
-        res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+        res.render('index',{appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
             res.set('Content-Type', 'text/html');
             res.send(html);
         });
@@ -1223,12 +852,12 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 
     var endpoint = 'http://' + req.headers.host + '/api/' + postName;
     var siteUrl = 'http://'+ appConfig.url;
-    var appUrl = 'http://admin.altdriver.com';
+    var appUrl = 'http://media.freshtracksdaily.com';
 
-    var AWSImgUrl = 'http://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
-    var AWSSSLImgUrl = 'https://s3-us-west-2.amazonaws.com/assets.altdriver/uploads/sites/2/';
-    var imgUrl = 'http://assets.altdriver.com/img/';
-    var imgUrlFailover = 'http://media.altdriver.com/uploads/sites/2/';
+    var imgUrlFailover = 'http://media.freshtracksdaily.com/uploads/';
+    var AWSImgUrl = imgUrlFailover;
+    var AWSSSLImgUrl = imgUrlFailover;
+
 
     if(itsABot) {
         try {
@@ -1357,7 +986,7 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
                     }
 
 
-                    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+                    res.render('index',{appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
                         res.set('Content-Type', 'text/html');
                         res.send(html);
                     });
@@ -1380,7 +1009,6 @@ app.get('/:category/(:slug|:slug/)', function(req,res, next){
 app.get('/:page', function(req,res, next){
     console.log(req.params.page);
     var metatags = {
-
         robots: 'index, follow',
         title: appConfig.title,
         description: appConfig.description,
@@ -1392,24 +1020,23 @@ app.get('/:page', function(req,res, next){
         fb_type: 'website',
         fb_image: appConfig.avatar,
         fb_appid: appConfig.fb_appid,
-        canonical_url:'',
+        canonical_url: '',
         // Twitter
         tw_card: '',
         tw_description: '',
         tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
+        tw_site: '',
+        tw_domain: '',
+        tw_creator: '',
+        tw_image: '',
+        url: 'http://media.freshtracksdaily.com'
     };
 
     /*var template = swig.compileFile('./dist/index.html');
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
     res.send(output);*/
     //res.set('Content-Type', 'text/html');
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
-
+    res.render('index',{appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
         res.send(html);
         res.end();
     });
@@ -1433,18 +1060,18 @@ app.get('*', function(req,res, next){
         tw_card: '',
         tw_description: '',
         tw_title: '',
-        tw_site: '@altdriver',
-        tw_domain: 'alt_driver',
-        tw_creator: '@altdriver',
-        tw_image: 'http://www.altdriver.com/wp-content/uploads/avatar_alt_driver_500x500.png',
-        url: 'http://admin.altdriver.com'
+        tw_site: '',
+        tw_domain: '',
+        tw_creator: '',
+        tw_image: '',
+        url: 'http://media.freshtracksdaily.com'
     };
 
     /*var template = swig.compileFile('./dist/index.html');
     var output = template({newrelic:newrelic, metatags: metatags, appConfig:appConfig});
     res.send(output);*/
 
-    res.render('index',{newrelic:newrelic, appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
+    res.render('index',{appConfig: appConfig, metatags:metatags, cache:true, maxAge:600000}, function(err, html){
         res.set('Content-Type', 'text/html');
         res.send(html);
     });

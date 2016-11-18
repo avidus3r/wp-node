@@ -19,17 +19,6 @@ var schema = {
         type: Date,
         required: true
     },
-    facebook_rundate:{
-        type:Date
-    },
-    campaign_active:{
-        type: Boolean,
-        default: null
-    },
-    sponsor: {
-        type: Object,
-        default: null
-    },
     parent: {
         type: Number,
         required: true,

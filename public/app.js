@@ -55,12 +55,8 @@ var NewsFeed = angular.module('NewsFeed', [require('angular-route'), require('an
  */
 // Routes
 
-var Router = null;
-if(location.hostname.indexOf('altdriver') > -1){
-    Router = require('./config/app.routes.altdriver.js');
-}else{
-    Router = require('./config/app.routes.js');
-}
+var Router = require('./config/app.routes.js');
+
 
 // Constants
 NewsFeed.constant('env', env);
@@ -315,7 +311,7 @@ NewsFeed.run(function(MetaTags, $rootScope, FeedService, $routeParams, $sce, app
     };
 
     $rootScope.formatExcerpt = function(excerpt) {
-        return excerpt.replace('http://altdriver.altmedia.com', 'http://www.altdriver.com').replace('http://altdriver.staging.altmedia.com', 'http://staging.altdriver.com');
+        return excerpt.replace('http://media.freshtracksdaily.com', 'http://www.freshtracksdaily.com');
     };
 
     $rootScope.loadGif = function(item, $event) {

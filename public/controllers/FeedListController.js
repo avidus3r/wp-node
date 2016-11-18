@@ -1062,7 +1062,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                 'value': 'home'
             });
 
-            $rootScope.setTargeting(target.key, target.value, true);
+            //$rootScope.setTargeting(target.key, target.value, true);
 
             if ($scope.posts.length === 0) {
                 //$scope.feedConfig = null;
@@ -1241,7 +1241,7 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
             }
             if (item.postmeta.hasOwnProperty('explicit')) {
                 if (item.postmeta.explicit[0] !== '') {
-                    $rootScope.setTargeting('explicit', 'true', false);
+                    //$rootScope.setTargeting('explicit', 'true', false);
                 }
             }
 
@@ -1251,13 +1251,13 @@ var FeedListController = function($rootScope, $scope, FeedService, InstagramServ
                     for(var i=0;i<item.tags.length;i++){
                         tags.push(item.tags[i].name);
                     }
-                    $rootScope.setTargeting('tags', tags, false);
+                    //$rootScope.setTargeting('tags', tags, false);
                 }
             }
 
-            $rootScope.setTargeting('url', location.href, false);
+            //$rootScope.setTargeting('url', location.href, false);
 
-            $rootScope.setTargeting('category', item.category[0].name, true);
+            //$rootScope.setTargeting('category', item.category[0].name, true);
 
             $scope.singlePostID = item.id;
             if (item.type === 'animated-gif') item.format = 'animated-gif';

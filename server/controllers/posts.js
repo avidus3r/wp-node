@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
     Menu = mongoose.model('Menu');
@@ -173,12 +173,14 @@ var PostsController = {
     list: function(req, numberOfPosts, pageNumber, skip, notIn) {
         var skipItems = Number(skip);
         var appName = process.env.appname;
-        var currentPath = req.headers.referer.replace('http://' + req.headers.host + '/', '');
-        var currentItem = currentPath.replace(currentPath.split('/').shift(), '');
-        currentItem = currentItem.replace(new RegExp('/', 'g'), '');
+        if(req.headers.hasOwnProperty('referrer')){
+            var currentPath = req.headers.referrer.replace('http://' + req.headers.host + '/', '');
+            var currentItem = currentPath.replace(currentPath.split('/').shift(), '');
+            currentItem = currentItem.replace(new RegExp('/', 'g'), '');
 
-        if (currentItem.indexOf('?') !== -1) {
-            currentItem = currentItem.replace(currentItem.substring(currentItem.indexOf('?'), currentItem.length), '');
+            if (currentItem.indexOf('?') !== -1) {
+                currentItem = currentItem.replace(currentItem.substring(currentItem.indexOf('?'), currentItem.length), '');
+            }
         }
 
         /*var query = appName === 'altdriver' ? Post.find({'postmeta.run_dates_0_channel':'Facebook Main', '_id': { $nin:notIn } }).skip(skipItems).limit(numberOfPosts).sort({'postmeta.run_dates_0_run_time':-1}) : Post.find().skip(skipItems).limit(numberOfPosts).sort({'date':-1});*/
@@ -194,15 +196,6 @@ var PostsController = {
             'date': -1
         });
 
-        query.$where(function(){
-            if(this.postmeta.hasOwnProperty('explicit')){
-                return this.postmeta.explicit[0] === '';
-            }else if(this.postmeta.hasOwnProperty('rw_check_synd')){
-                return this.postmeta.rw_check_synd[0] === '';
-            }else{
-                return this;
-            }
-        });
         return query.exec();
     },
 
